@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using VavilichevGD.Architecture.Settings;
 using VavilichevGD.Tools;
 
 namespace VavilichevGD.Architecture {
@@ -24,9 +25,9 @@ namespace VavilichevGD.Architecture {
         public static State state { get; private set; }
         public static bool isInitialized => state == State.Initialized;
         public static ISceneManager sceneManager { get; private set; }
+        public static IGameSettings gameSettings { get; private set; }
 
        
-
         // TODO: You should write your own Game*name* script and past something like that:
 //        public static void Run() {
 //            // Create instance.
@@ -43,10 +44,19 @@ namespace VavilichevGD.Architecture {
             Logging.Log("GAME START INITIALIZING");
             state = State.Initializing;
 
+            this.InitGameSettings();        // It is necessary to initialize Game Settings at first.
+            this.InitSceneManager();
+            this.LoadFirstScene(this.OnSceneLoadCompleted);
+        }
+
+        private void InitGameSettings() {
+            gameSettings = new GameSettings();
+            gameSettings.Load();
+        }
+
+        private void InitSceneManager() {
             sceneManager = this.CreateSceneManager();
             Logging.Log("GAME: Scene manager created: {0}", sceneManager.GetType().Name);
-            
-            this.LoadFirstScene(this.OnSceneLoadCompleted);
         }
 
         protected abstract SceneManagerBase CreateSceneManager();
