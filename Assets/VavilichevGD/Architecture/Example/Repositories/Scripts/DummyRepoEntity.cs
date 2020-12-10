@@ -1,8 +1,9 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.Serialization;
+using VavilichevGD.Architecture.StorageSystem;
 
-namespace VavilichevGD.Architecture.StorageSystem.Example {
+namespace VavilichevGD.Architecture.Example {
 	[Serializable]
 	public sealed class DummyRepoEntity : IRepoEntity {
 

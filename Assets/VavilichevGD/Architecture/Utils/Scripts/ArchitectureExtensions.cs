@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 namespace VavilichevGD.Architecture.Extentions {
-    public static class ArchitectureExtentions {
+    public static class ArchitectureExtensions {
 
         public static T GetInteractor<T>(this MonoBehaviour mono) where T : Interactor {
             return Game.GetInteractor<T>();

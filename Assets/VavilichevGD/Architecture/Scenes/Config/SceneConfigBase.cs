@@ -8,7 +8,6 @@ namespace VavilichevGD.Architecture {
 
         public abstract Dictionary<Type, IRepository> CreateAllRepositories();
         public abstract Dictionary<Type, IInteractor> CreateAllInteractors();
-        //public abstract Dictionary<Type, IUIElement> CreateAllUIElements(UIController uiController);
 
         protected T CreateRepository<T>(Dictionary<Type, IRepository> repositoriesMap) where T : IRepository, new() {
             var createdRepository = new T();

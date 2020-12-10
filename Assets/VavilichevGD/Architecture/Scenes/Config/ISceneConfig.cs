@@ -9,6 +9,5 @@ namespace VavilichevGD.Architecture {
 		
 		Dictionary<Type, IRepository> CreateAllRepositories();
 		Dictionary<Type, IInteractor> CreateAllInteractors();
-		//Dictionary<Type, IUIElement> CreateAllUIElements(UIController uiController);
 	}
 }

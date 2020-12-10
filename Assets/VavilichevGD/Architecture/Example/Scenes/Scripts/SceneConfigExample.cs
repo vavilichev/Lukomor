@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using VavilichevGD.Architecture.Example;
-using VavilichevGD.Architecture.StorageSystem.Example;
 
 namespace VavilichevGD.Architecture.Scenes {
     public sealed class SceneConfigExample : SceneConfigBase {
@@ -33,11 +32,6 @@ namespace VavilichevGD.Architecture.Scenes {
             
             return createdInteractors;
         }
-
-        // public override Dictionary<Type, IUIElement> CreateAllUIElements(UIController uiController) {
-        //     //TODO: Make a list of repositories by
-        //     throw new NotImplementedException();
-        // }
 
     }
 }
