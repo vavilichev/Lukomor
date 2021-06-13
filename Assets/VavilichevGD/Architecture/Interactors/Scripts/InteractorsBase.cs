@@ -8,13 +8,6 @@ using VavilichevGD.Tools;
 namespace VavilichevGD.Architecture {
     public class InteractorsBase {
 
-        #region DELEGATES
-
-        public delegate void InteractorBaseHandler(string statusText);
-        public event InteractorBaseHandler OnInteractorBaseStatusChangedEvent;
-
-        #endregion
-        
         private Dictionary<Type, IInteractor> interactorsMap;
         private ISceneConfig sceneConfig;
 
@@ -37,13 +30,10 @@ namespace VavilichevGD.Architecture {
         }
 
         private IEnumerator InitializeAllInteractorsRoutine() {
-            IInteractor[] allInteractors = this.interactorsMap.Values.ToArray();
+            var allInteractors = this.interactorsMap.Values.ToArray();
             foreach (IInteractor interactor in allInteractors) {
-                if (!interactor.isInitialized) {
-                    this.OnInteractorBaseStatusChangedEvent?.Invoke(interactor.GetStatusStartInitializing());
-                    yield return interactor.InitializeAsync();
-                    this.OnInteractorBaseStatusChangedEvent?.Invoke(interactor.GetStatusCompleteInitializing());
-                }
+                if (!interactor.isInitialized)
+                    yield return interactor.InitializeWithRoutine();
             }
         }
 
@@ -55,10 +45,8 @@ namespace VavilichevGD.Architecture {
 
         public void StartAllInteractors() {
             IInteractor[] allInteractors = this.interactorsMap.Values.ToArray();
-            foreach (IInteractor interactor in allInteractors) {
-                interactor.Start();
-                this.OnInteractorBaseStatusChangedEvent?.Invoke(interactor.GetStatusStart());
-            }
+            foreach (IInteractor interactor in allInteractors) 
+                interactor.OnStarted();
         } 
 
         #endregion

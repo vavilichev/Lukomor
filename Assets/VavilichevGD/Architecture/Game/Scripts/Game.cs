@@ -70,12 +70,12 @@ namespace VavilichevGD.Architecture {
 
         private void BuildUI() {
             uiController = GameUI.CreateUIContollerInstance();
-            uiController.OnUIBuiltEvent += this.OnUIBuilt;
-            uiController.BuildUI();
+            uiController.OnBuiltEvent += this.Built;
+            // uiController.BuildUI();
         }
 
-        private void OnUIBuilt() {
-            uiController.OnUIBuiltEvent -= this.OnUIBuilt;
+        private void Built() {
+            uiController.OnBuiltEvent -= this.Built;
             
             state = State.Initialized;
             OnGameInitializedEvent?.Invoke();
@@ -85,7 +85,7 @@ namespace VavilichevGD.Architecture {
         #endregion
         
         
-        public static T GetInteractor<T>() where T : Interactor {
+        public static T GetInteractor<T>() where T : IInteractor {
             return sceneManager.sceneActual.GetInteractor<T>();
         }
 
@@ -93,7 +93,7 @@ namespace VavilichevGD.Architecture {
             return sceneManager.sceneActual.GetInteractors<T>();
         }
 
-        public static T GetRepository<T>() where T : Repository {
+        public static T GetRepository<T>() where T : IRepository {
             return sceneManager.sceneActual.GetRepository<T>();
         }
         
@@ -103,12 +103,13 @@ namespace VavilichevGD.Architecture {
 
         public static void SaveGame() {
             Logging.Log("GAME SAVE INSTANTLY");
-            sceneManager.sceneActual.Save();
+            // sceneManager.sceneActual.Save();
         }
 
         public static Coroutine SaveGameAsync(UnityAction callback) {
             Logging.Log("GAME SAVE ASYNC");
-            return sceneManager.sceneActual.SaveAsync(callback);
+            return null;
+            // return sceneManager.sceneActual.SaveAsync(callback);
         }
 
     }

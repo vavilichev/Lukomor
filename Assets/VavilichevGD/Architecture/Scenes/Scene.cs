@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using VavilichevGD.Architecture.StorageSystem;
+using VavilichevGD.Architecture.UI;
 using VavilichevGD.Tools;
 
 namespace VavilichevGD.Architecture {
@@ -10,6 +11,8 @@ namespace VavilichevGD.Architecture {
         public ISceneConfig sceneConfig { get; }
         public RepositoriesBase repositoriesBase { get; }
         public InteractorsBase interactorsBase { get; }
+
+        public UIController uiController { get; }
         //public UIController uiController { get; }
 
         public Scene(ISceneConfig config) {
@@ -44,7 +47,7 @@ namespace VavilichevGD.Architecture {
         }
 
         private IEnumerator InitializeAsyncRoutine() {
-            yield return Storage.LoadAsync(this);
+            Storage.instance.Load();
             yield return this.repositoriesBase.InitializeAllRepositories();
             yield return this.interactorsBase.InitializeAllInteractors();
         }
@@ -62,19 +65,6 @@ namespace VavilichevGD.Architecture {
         #endregion
 
 
-        #region SAVE
-
-        public void Save() {
-            Storage.SaveAllRepositories(this);
-        }
-
-        public Coroutine SaveAsync(UnityAction callback = null) {
-            return Storage.SaveAllRepositoriesAsync(this, callback);
-        }
-
-        #endregion
-
-        
         public T GetRepository<T>() where T : IRepository {
             return this.repositoriesBase.GetRepository<T>();
         }

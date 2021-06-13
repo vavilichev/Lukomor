@@ -39,11 +39,8 @@ namespace VavilichevGD.Architecture {
         private IEnumerator InitializeAllRepositoriesRoutine() {
             IRepository[] allRepositories = repositoriesMap.Values.ToArray();
             foreach (IRepository repository in allRepositories) {
-                if (!repository.isInitialized) {
-                    this.OnRepositoriesBaseStatusChangedEvent?.Invoke(repository.GetStatusStartInitializing());
-                    yield return repository.InitializeAsync();
-                    this.OnRepositoriesBaseStatusChangedEvent?.Invoke(repository.GetStatusCompleteInitializing());
-                }
+                if (!repository.isInitialized)
+                    yield return repository.InitializeWithRoutine();
             }
         }
 
@@ -56,8 +53,7 @@ namespace VavilichevGD.Architecture {
         public void StartAllRepositories() {
             IRepository[] allRepositories = repositoriesMap.Values.ToArray();
             foreach (IRepository repository in allRepositories) {
-                repository.Start();
-                this.OnRepositoriesBaseStatusChangedEvent?.Invoke(repository.GetStatusStart());
+                repository.OnStarted();
             }
         } 
 

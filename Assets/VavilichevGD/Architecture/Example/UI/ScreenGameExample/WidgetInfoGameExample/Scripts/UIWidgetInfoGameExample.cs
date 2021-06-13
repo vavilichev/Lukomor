@@ -26,8 +26,8 @@ namespace VavilichevGD.Architecture.UI.Example {
         }
 
         private void UpdateLoadedString() {
-            var loadedText = this.dummyRepository.repoEntity.exampleString;
-            this.textLoaded.text = loadedText;
+            // var loadedText = this.dummyRepository.repoEntity.exampleString;
+            // this.textLoaded.text = loadedText;
         }
 
 
@@ -35,8 +35,8 @@ namespace VavilichevGD.Architecture.UI.Example {
 
         private void OnSaveButtonClick() {
             var newText = this.inputField.text;
-            var repoEntity = this.dummyRepository.repoEntity;
-            repoEntity.exampleString = newText;
+            // var repoEntity = this.dummyRepository.repoEntity;
+            // repoEntity.exampleString = newText;
 
             Game.SaveGame();
             this.UpdateLoadedString();

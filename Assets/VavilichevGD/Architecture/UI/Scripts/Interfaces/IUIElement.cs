@@ -8,6 +8,7 @@ namespace VavilichevGD.Architecture.UI {
 		event Action<IUIElement> OnElementHideStartedEvent;
 		event Action<IUIElement> OnElementHiddenCompletelyEvent;
 		event Action<IUIElement> OnElementShownEvent;
+		event Action<IUIElement> OnElementDestroyedEvent; 
 
 		#endregion
 		

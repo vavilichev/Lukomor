@@ -1,137 +1,137 @@
 ﻿using System;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace VavilichevGD.Architecture.StorageSystem {
-	public delegate void StorageHandler();
-	
-	public static class Storage {
+	public sealed class Storage {
 
-		#region DELEGATES
+		#region EVENTS
 
-		public static event StorageHandler OnStorageLoadedEvent;
+		public event Action OnStorageLoadedEvent;
+		public event Action OnStorageSaveStartedEvent;
+		public event Action OnStorageSaveCompleteEvent;
 
 		#endregion
 
-		public static bool isInitialized => behavior != null && behavior.isInitialized;
 
-		private static IStorageBehavior behavior;
+		#region STATIC VARIABLES
+
+		public static BinaryFormatter formatter {
+			get {
+				if (_formatter == null)
+					_formatter = CreateBinaryFormatter();
+				return _formatter;
+			}
+		}
+		private static BinaryFormatter _formatter;
+		
+		public static Storage instance {
+			get {
+				if (_instance == null)
+					_instance = new Storage(StorageType.FileStorage);
+				return _instance;
+			}
+		}
+		private static Storage _instance;
+		
+		public static bool isInitialized => instance.data != null;
+
+		#endregion
+		
+		
+		private GameData data { get; set; }
+		
+		
+		private IStorageBehavior storageBehavior;
 
 		
-		public static void Load(Scene scene) {
-			if (behavior == null)
-				behavior = new StorageBehaviorPlayerPrefs();
-
-			void OnStorageLoaded() {
-				behavior.OnStorageLoadedEvent -= OnStorageLoaded;
-				OnStorageLoadedEvent?.Invoke();
+		private Storage(StorageType type) {
+			switch (type) {
+				case StorageType.CloudStorage:
+					throw new NotSupportedException("Cloud storage doesn't supported yet");
+				default:
+					this.storageBehavior = new FileStorageBehavior();
+					break;
 			}
+		}
+		
+		private static BinaryFormatter CreateBinaryFormatter() {
+			var createdFormatter = new BinaryFormatter();
+			var selector = new SurrogateSelector();
+			
+			var vector3Surrogate = new Vector3SerializationSurrogate();
+			var vector2Surrogate = new Vector2SerializationSurrogate();
+			var quaternionSurrogate = new QuaternionSerializationSurrogate();
+			
+			selector.AddSurrogate(typeof(Vector3), new StreamingContext(StreamingContextStates.All), vector3Surrogate);
+			selector.AddSurrogate(typeof(Vector2), new StreamingContext(StreamingContextStates.All), vector2Surrogate);
+			selector.AddSurrogate(typeof(Quaternion), new StreamingContext(StreamingContextStates.All), quaternionSurrogate);
+			
+			createdFormatter.SurrogateSelector = selector;
 
-			behavior.OnStorageLoadedEvent += OnStorageLoaded; 
-			behavior.Load(scene);
+			return createdFormatter;
 		}
 
-		public static Coroutine LoadAsync(Scene scene) {
-			if (behavior == null)
-				behavior = new StorageBehaviorPlayerPrefs();
+		
+		
+		public void Save() {
+			this.OnStorageSaveStartedEvent?.Invoke();
+			this.storageBehavior.Save(data);
+			this.OnStorageSaveCompleteEvent?.Invoke();
+		}
 
-			void OnStorageLoaded() {
-				behavior.OnStorageLoadedEvent -= OnStorageLoaded;
-				OnStorageLoadedEvent?.Invoke();
-			}
+		public void SaveAsync(Action callback = null) {
+			this.OnStorageSaveStartedEvent?.Invoke();
+			this.storageBehavior.SaveAsync(this.data, callback);
+			this.OnStorageSaveCompleteEvent?.Invoke();
+		}
 
-			behavior.OnStorageLoadedEvent += OnStorageLoaded; 
-			return behavior.LoadAsync(scene);
+		public Coroutine SaveWithRoutine(Action callback = null) {
+			this.OnStorageSaveStartedEvent?.Invoke();
+			return this.storageBehavior.SaveWithRoutine(this.data, () => {
+				callback?.Invoke();
+				this.OnStorageSaveStartedEvent?.Invoke();
+			});
 		}
 		
+		public void Load() {
+			this.data = (GameData) storageBehavior.Load(new GameData());
+			this.OnStorageLoadedEvent?.Invoke();
+		}
+
+		public void LoadAsync(Action callback) {
+			this.storageBehavior.LoadAsync(new GameData(), 
+				gameData => {
+					this.data = (GameData) gameData;
+					callback?.Invoke();
+					this.OnStorageLoadedEvent?.Invoke();
+				});
+		}
 		
+		public Coroutine LoadWithRoutine(Action callback = null) {
+			return this.storageBehavior.LoadWithRoutine(new GameData(), loadedData => {
+				this.data = (GameData) loadedData;
+				callback?.Invoke();
+				this.OnStorageLoadedEvent?.Invoke();
+			});
+		}
 		
-        public static bool HasObject(string key) {
-	        return behavior.HasObject(key);
-        }
 
-        public static void ClearKey(string key) {
-	        behavior.ClearKey(key);
-        }
-
-        public static void ClearAll() {
-	        behavior.ClearAll();
-        }
-
-        public static void SaveAllRepositories(Scene scene) {
-	        behavior.SaveAllRepositories(scene);
-        }
-
-        public static Coroutine SaveAllRepositoriesAsync(Scene scene, UnityAction callback) {
-	        return behavior.SaveAllRepositoriesAsync(scene, callback);
-        }
-
-
-        #region SET
-
-        public static void SetFloat(string key, float value) {
-	        behavior.SetFloat(key, value);
-        }
-
-        public static void SetInteger(string key, int value) {
-	        behavior.SetInteger(key, value);
-        }
-
-        public static void SetBool(string key, bool value) {
-	        behavior.SetBool(key, value);
-        }
-
-        public static void SetString(string key, string value) {
-	        behavior.SetString(key, value);
-        }
-
-        public static void SetEnum(string key, Enum value) {
-	        behavior.SetEnum(key, value);
-        }
-
-        public static void SetCustom<T>(string key, T value) {
-	        behavior.SetCustom(key, value);
-        }
-
-        public static void SetRepoData(string key, RepoData value) {
-	        behavior.SetRepoData(key, value);
-        }
-
-        #endregion
-
-        
-        #region GET
-
-        public static float GetFloat(string key, float defaultValue = 0) {
-	        return behavior.GetFloat(key, defaultValue);
-        }
-
-        public static int GetInteger(string key, int defaultValue = 0) {
-	        return behavior.GetInteger(key, defaultValue);
-        }
-
-        public static bool GetBool(string key, bool defaultValue = false) {
-	        return behavior.GetBool(key, defaultValue);
-        }
-
-        public static string GetString(string key, string defaultValue = "") {
-	        return behavior.GetString(key, defaultValue);
-        }
-
-        public static T GetEnum<T>(string key, T defaultValue) where T : Enum {
-	        return behavior.GetEnum(key, defaultValue);
-        }
-
-        public static T GetCustom<T>(string key, T defaultValue = default) {
-	        return behavior.GetCustom(key, defaultValue);
-        }
-
-        public static RepoData GetRepoData(string key, RepoData defaultValue) {
-	        return behavior.GetRepoData(key, defaultValue);
-        }
-
-        #endregion
-
+		public T Get<T>(string key) {
+			return this.data.Get<T>(key);
+		}
 		
+		public T Get<T>(string key, T valueByDefault) {
+			return this.data.Get(key, valueByDefault);
+		}
+
+		public void Set<T>(string key, T value) {
+			this.data.Set(key, value);
+		}
+
+		public override string ToString() {
+			return this.data.ToString();
+		}
 	}
 }

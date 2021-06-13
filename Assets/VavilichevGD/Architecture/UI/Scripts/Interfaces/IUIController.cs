@@ -5,18 +5,10 @@ namespace VavilichevGD.Architecture.UI {
 
 		#region EVENTS
 
-		event Action OnUIBuiltEvent;
+		event Action OnBuiltEvent;
 
 		#endregion
 		
-		bool isUIBuilt { get; }
-		
-		UIElement[] GetAllCreatedUIElements();
-		T GetUIElement<T>() where T : UIElement;
-		T ShowUIElement<T>() where T : UIElement, IUIElementOnLayer;
-
-		void BuildUI();
-		void DestroyAll();
-
+		IUIContainer container { get; set; }
 	}
 }
