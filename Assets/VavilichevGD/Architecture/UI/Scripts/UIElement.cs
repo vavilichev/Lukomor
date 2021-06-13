@@ -9,18 +9,19 @@ namespace VavilichevGD.Architecture.UI {
 		public event Action<IUIElement> OnElementHideStartedEvent;
 		public event Action<IUIElement> OnElementHiddenCompletelyEvent;
 		public event Action<IUIElement> OnElementShownEvent;
+		public event Action<IUIElement> OnElementDestroyedEvent;
 
 		#endregion
 
-		private IUIController m_uiController;
+		private static IUIController m_uiController;
 
 		public bool isActive { get; protected set; } = true;
 		
-		protected IUIController uiController {
+		protected static IUIController uiController {
 			get {
-				if (this.m_uiController == null)
-					this.m_uiController = Game.uiController;
-				return this.m_uiController;
+				if (m_uiController == null)
+					m_uiController = Game.uiController;
+				return m_uiController;
 			}
 		}
 

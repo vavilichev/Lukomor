@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Users\Вилла у моря\AppData\Local\JetBrains\Rider2020.1\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\Вилла у моря\AppData\Local\JetBrains\Rider2020.1\resharper-host\Local\Transient\ReSharperHost\v201\SolutionCaches\_Architecture.497115555.00" t="ExcludeRecursive" />
+    <e p="D:\UnityProjects\Architecture" t="IncludeRecursive">
+      <e p="Architecture.sln" t="IncludeFlat" />
+      <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
+      <e p="Assets" t="Include">
+        <e p="TextMesh Pro" t="Include">
+          <e p="Fonts" t="Include">
+            <e p="LiberationSans - OFL.txt" t="Include" />
+          </e>
+          <e p="Resources" t="Include">
+            <e p="LineBreaking Following Characters.txt" t="Include" />
+            <e p="LineBreaking Leading Characters.txt" t="Include" />
+            <e p="Shaders" t="Include">
+              <e p="TMP_Bitmap-Custom-Atlas.shader" t="Include" />
+              <e p="TMP_Bitmap-Mobile.shader" t="Include" />
+              <e p="TMP_Bitmap.shader" t="Include" />
+              <e p="TMP_SDF Overlay.shader" t="Include" />
+              <e p="TMP_SDF-Mobile Masking.shader" t="Include" />
+              <e p="TMP_SDF-Mobile Overlay.shader" t="Include" />
+              <e p="TMP_SDF-Mobile.shader" t="Include" />
+              <e p="TMP_SDF-Surface-Mobile.shader" t="Include" />
+              <e p="TMP_SDF-Surface.shader" t="Include" />
+              <e p="TMP_SDF.shader" t="Include" />
+              <e p="TMP_Sprite.shader" t="Include" />
+              <e p="TMPro.cginc" t="Include" />
+              <e p="TMPro_Properties.cginc" t="Include" />
+              <e p="TMPro_Surface.cginc" t="Include" />
+            </e>
+          </e>
+          <e p="Sprites" t="Include">
+            <e p="EmojiOne Attribution.txt" t="Include" />
+          </e>
+        </e>
+        <e p="VavilichevGD" t="Include">
+          <e p="Architecture" t="Include">
+            <e p="ArchitectureComponent.cs" t="Include" />
+            <e p="Example" t="Include">
+              <e p="Game" t="Include">
+                <e p="Scripts" t="Include">
+                  <e p="GameExample.cs" t="Include" />
+                  <e p="GameManagerExample.cs" t="Include" />
+                </e>
+              </e>
+              <e p="Interactors" t="Include">
+                <e p="Scripts" t="Include">
+                  <e p="DummyInteractor.cs" t="Include" />
+                </e>
+              </e>
+              <e p="Repositories" t="Include">
+                <e p="Scripts" t="Include">
+                  <e p="DummyRepoEntity.cs" t="Include" />
+                  <e p="DummyRepository.cs" t="Include" />
+                </e>
+              </e>
+              <e p="Scenes" t="Include">
+                <e p="Scripts" t="Include">
+                  <e p="SceneConfigExample.cs" t="Include" />
+                  <e p="SceneManagerExample.cs" t="Include" />
+                </e>
+              </e>
+              <e p="UI" t="Include">
+                <e p="PopupExample" t="Include">
+                  <e p="Scripts" t="Include">
+                    <e p="UIPopupExitExample.cs" t="Include" />
+                  </e>
+                </e>
+                <e p="ScreenGameExample" t="Include">
+                  <e p="Scripts" t="Include">
+                    <e p="UIScreenGameExample.cs" t="Include" />
+                  </e>
+                  <e p="WidgetInfoGameExample" t="Include">
+                    <e p="Scripts" t="Include">
+                      <e p="UIWidgetInfoGameExample.cs" t="Include" />
+                    </e>
+                  </e>
+                </e>
+              </e>
+            </e>
+            <e p="Game" t="Include">
+              <e p="GameSettings" t="Include">
+                <e p="AudioSettings" t="Include">
+                  <e p="AudioSettings.cs" t="Include" />
+                  <e p="AudioSettingsProperties.cs" t="Include" />
+                  <e p="IAudioSettings.cs" t="Include" />
+                </e>
+                <e p="Scripts" t="Include">
+                  <e p="GameSettings.cs" t="Include" />
+                  <e p="IGameSettings.cs" t="Include" />
+                  <e p="ISettings.cs" t="Include" />
+                </e>
+                <e p="VibroSettings" t="Include">
+                  <e p="IVibroSettings.cs" t="Include" />
+                  <e p="VibroSettings.cs" t="Include" />
+                </e>
+              </e>
+              <e p="Scripts" t="Include">
+                <e p="Game.cs" t="Include" />
+                <e p="GameManager.cs" t="Include" />
+              </e>
+            </e>
+            <e p="IArchitectureCaptureEvents.cs" t="Include" />
+            <e p="IArchitectureComponent.cs" t="Include" />
+            <e p="Interactors" t="Include">
+              <e p="Scripts" t="Include">
+                <e p="IInteractor.cs" t="Include" />
+                <e p="Interactor.cs" t="Include" />
+                <e p="InteractorsBase.cs" t="Include" />
+              </e>
+            </e>
+            <e p="README.txt" t="Include" />
+            <e p="Repository" t="Include">
+              <e p="Scripts" t="Include">
+                <e p="IRepoDataAdapter.cs" t="Include" />
+                <e p="IRepoEntity.cs" t="Include" />
+                <e p="IRepository.cs" t="Include" />
+                <e p="RepoData.cs" t="Include" />
+                <e p="RepoDataList.cs" t="Include" />
+                <e p="RepositoriesBase.cs" t="Include" />
+                <e p="Repository.cs" t="Include" />
+              </e>
+            </e>
+            <e p="Scenes" t="Include">
+              <e p="Config" t="Include">
+                <e p="ISceneConfig.cs" t="Include" />
+                <e p="SceneConfigBase.cs" t="Include" />
+              </e>
+              <e p="IScene.cs" t="Include" />
+              <e p="ISceneManager.cs" t="Include" />
+              <e p="Scene.cs" t="Include" />
+              <e p="SceneManagerBase.cs" t="Include" />
+            </e>
+            <e p="Storage" t="Include">
+              <e p="Example" t="Include">
+                <e p="Scripts" t="Include">
+                  <e p="StorageExample.cs" t="Include" />
+                </e>
+              </e>
+              <e p="Scripts" t="Include">
+                <e p="Behavior" t="Include">
+                  <e p="CloudStorageBehavior.cs" t="Include" />
+                  <e p="FileStorageBehavior.cs" t="Include" />
+                  <e p="IStorageBehavior.cs" t="Include" />
+                </e>
+                <e p="GameData.cs" t="Include" />
+                <e p="Storage.cs" t="Include" />
+                <e p="StorageType.cs" t="Include" />
+                <e p="Surrogates" t="Include">
+                  <e p="QuaternionSerializationSurrogate.cs" t="Include" />
+                  <e p="Vector2SerializationSurrogate.cs" t="Include" />
+                  <e p="Vector3SerializationSurrogate.cs" t="Include" />
+                </e>
+              </e>
+            </e>
+            <e p="Test.cs" t="Include" />
+            <e p="TestInteractor.cs" t="Include" />
+            <e p="UI" t="Include">
+              <e p="Loading" t="Include">
+                <e p="Scripts" t="Include">
+                  <e p="LoadingScreen.cs" t="Include" />
+                  <e p="LoadingScreenVisualBase.cs" t="Include" />
+                  <e p="LoadingScreenVisualDefault.cs" t="Include" />
+                </e>
+              </e>
+              <e p="Scripts" t="Include">
+                <e p="GameUI.cs" t="Include" />
+                <e p="Interfaces" t="Include">
+                  <e p="IUIBuilder.cs" t="Include" />
+                  <e p="IUIConfig.cs" t="Include" />
+                  <e p="IUIContainer.cs" t="Include" />
+                  <e p="IUIContainerConfig.cs" t="Include" />
+                  <e p="IUIController.cs" t="Include" />
+                  <e p="IUIElement.cs" t="Include" />
+                  <e p="IUIElementOnLayer.cs" t="Include" />
+                  <e p="IUIPopup.cs" t="Include" />
+                  <e p="IUIScreen.cs" t="Include" />
+                  <e p="IUIWidget.cs" t="Include" />
+                  <e p="UIComponent.cs" t="Include" />
+                </e>
+                <e p="UIController.cs" t="Include" />
+                <e p="UIElement.cs" t="Include" />
+                <e p="UIElementAnim.cs" t="Include" />
+                <e p="UILayer.cs" t="Include" />
+                <e p="UILayerType.cs" t="Include" />
+                <e p="UIPopup.cs" t="Include" />
+                <e p="UIPopupAnim.cs" t="Include" />
+                <e p="UIScreen.cs" t="Include" />
+                <e p="UIScreenAnim.cs" t="Include" />
+                <e p="UIWidget.cs" t="Include" />
+                <e p="UIWidgetAnim.cs" t="Include" />
+                <e p="Utils" t="Include">
+                  <e p="UIExtensions.cs" t="Include" />
+                </e>
+              </e>
+            </e>
+            <e p="Utils" t="Include">
+              <e p="Property" t="Include">
+                <e p="EditorList.cs" t="Include" />
+                <e p="InteractorNameAttribute.cs" t="Include" />
+              </e>
+              <e p="Scripts" t="Include">
+                <e p="ArchitectureExtensions.cs" t="Include" />
+              </e>
+            </e>
+          </e>
+          <e p="Tools" t="Include">
+            <e p="Coroutines" t="Include">
+              <e p="Scripts" t="Include">
+                <e p="Coroutines.cs" t="Include" />
+              </e>
+            </e>
+            <e p="Logging" t="Include">
+              <e p="Scripts" t="Include">
+                <e p="Logging.cs" t="Include" />
+              </e>
+            </e>
+          </e>
+        </e>
+      </e>
+      <e p="obj" t="ExcludeRecursive" />
+      <e p="Packages" t="ExcludeRecursive" />
+      <e p="Temp\bin" t="ExcludeRecursive" />
+    </e>
+  </component>
+</project>

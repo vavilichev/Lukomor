@@ -16,7 +16,8 @@ namespace VavilichevGD.Architecture.UI {
 
 		#region EVENTS
 
-		public event Action OnUIBuiltEvent;
+		public event Action OnBuiltEvent;
+		public IUIContainer container { get; set; }
 
 		#endregion
 
@@ -31,6 +32,7 @@ namespace VavilichevGD.Architecture.UI {
 		private Dictionary<Type, UIElement> createdUIElementsMap;
 		private Dictionary<Type, UIPopup> cachedPopupsMap;
 		private Dictionary<Type, string> uiPrefabsPathsMap;
+		private List<IArchitectureCaptureEvents> elementsForArchitectureEvents;
 		
 		
 		public UIElement[] GetAllCreatedUIElements() {
@@ -46,6 +48,7 @@ namespace VavilichevGD.Architecture.UI {
 		
 		private void Awake() {
 			if (instance == null) {
+				this.elementsForArchitectureEvents = new List<IArchitectureCaptureEvents>();
 				instance = this;
 				DontDestroyOnLoad(this.gameObject);
 			}
@@ -53,6 +56,32 @@ namespace VavilichevGD.Architecture.UI {
 				Destroy(this.gameObject);
 			}
 		}
+
+
+		public void SendEventOnCreate() {
+			this.CleanElementsForArchitectureEvents();
+			foreach (var element in this.elementsForArchitectureEvents) 
+				element.OnCreate();
+		}
+
+		public void SendEventOnInitialized() {
+			this.CleanElementsForArchitectureEvents();
+			foreach (var element in this.elementsForArchitectureEvents) 
+				element.OnInitialized();
+		}
+
+		public void SendEventOnStarted() {
+			this.CleanElementsForArchitectureEvents();
+			foreach (var element in this.elementsForArchitectureEvents) 
+				element.OnStarted();
+		}
+
+		private void CleanElementsForArchitectureEvents() {
+			var nullElements = this.elementsForArchitectureEvents.Where(element => element == null);
+			foreach (var element in nullElements) 
+				this.elementsForArchitectureEvents.Remove(element);
+		}
+		
 		
 		
 		#region SHOW
@@ -127,7 +156,7 @@ namespace VavilichevGD.Architecture.UI {
 			            $"pre cached popups: {this.cachedPopupsMap.Count}");
 
 			Resources.UnloadUnusedAssets();
-			this.OnUIBuiltEvent?.Invoke();
+			this.OnBuiltEvent?.Invoke();
 		}
 
 		private void CreateCachedPopup(UIPopup popupPref) {

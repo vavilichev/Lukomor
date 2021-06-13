@@ -9,5 +9,16 @@ namespace VavilichevGD.Architecture.UI {
 		public UILayerType layer => this.m_layer;
 		public bool showByDefault => this.m_showByDefault;
 
+		public void OnCreate() {
+			throw new System.NotImplementedException();
+		}
+
+		public void OnInitialized() {
+			throw new System.NotImplementedException();
+		}
+
+		public void OnStarted() {
+			throw new System.NotImplementedException();
+		}
 	}
 }

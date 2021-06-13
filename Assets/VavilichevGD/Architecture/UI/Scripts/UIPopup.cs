@@ -105,5 +105,17 @@ namespace VavilichevGD.Architecture.UI {
         }
 
         #endregion
-	}
+
+        public void OnCreate() {
+            throw new System.NotImplementedException();
+        }
+
+        public void OnInitialized() {
+            throw new System.NotImplementedException();
+        }
+
+        public void OnStarted() {
+            throw new System.NotImplementedException();
+        }
+    }
 }
