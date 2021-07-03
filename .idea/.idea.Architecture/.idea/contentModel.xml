@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ContentModelStore">
-    <e p="C:\Users\Вилла у моря\AppData\Local\JetBrains\Rider2020.1\extResources" t="IncludeRecursive" />
-    <e p="C:\Users\Вилла у моря\AppData\Local\JetBrains\Rider2020.1\resharper-host\Local\Transient\ReSharperHost\v201\SolutionCaches\_Architecture.497115555.00" t="ExcludeRecursive" />
+    <e p="C:\Users\vaand\AppData\Local\JetBrains\Rider2020.1\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\vaand\AppData\Local\JetBrains\Rider2020.1\resharper-host\Local\Transient\ReSharperHost\v201\SolutionCaches\_Architecture.497115555.00" t="ExcludeRecursive" />
     <e p="D:\UnityProjects\Architecture" t="IncludeRecursive">
       <e p="Architecture.sln" t="IncludeFlat" />
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
@@ -38,6 +38,7 @@
         <e p="VavilichevGD" t="Include">
           <e p="Architecture" t="Include">
             <e p="ArchitectureComponent.cs" t="Include" />
+            <e p="ComponentsBase.cs" t="Include" />
             <e p="Example" t="Include">
               <e p="Game" t="Include">
                 <e p="Scripts" t="Include">
@@ -52,14 +53,7 @@
               </e>
               <e p="Repositories" t="Include">
                 <e p="Scripts" t="Include">
-                  <e p="DummyRepoEntity.cs" t="Include" />
                   <e p="DummyRepository.cs" t="Include" />
-                </e>
-              </e>
-              <e p="Scenes" t="Include">
-                <e p="Scripts" t="Include">
-                  <e p="SceneConfigExample.cs" t="Include" />
-                  <e p="SceneManagerExample.cs" t="Include" />
                 </e>
               </e>
               <e p="UI" t="Include">
@@ -108,30 +102,23 @@
               <e p="Scripts" t="Include">
                 <e p="IInteractor.cs" t="Include" />
                 <e p="Interactor.cs" t="Include" />
-                <e p="InteractorsBase.cs" t="Include" />
               </e>
             </e>
             <e p="README.txt" t="Include" />
             <e p="Repository" t="Include">
               <e p="Scripts" t="Include">
-                <e p="IRepoDataAdapter.cs" t="Include" />
-                <e p="IRepoEntity.cs" t="Include" />
                 <e p="IRepository.cs" t="Include" />
-                <e p="RepoData.cs" t="Include" />
-                <e p="RepoDataList.cs" t="Include" />
-                <e p="RepositoriesBase.cs" t="Include" />
                 <e p="Repository.cs" t="Include" />
               </e>
             </e>
             <e p="Scenes" t="Include">
               <e p="Config" t="Include">
-                <e p="ISceneConfig.cs" t="Include" />
-                <e p="SceneConfigBase.cs" t="Include" />
+                <e p="SceneConfig.cs" t="Include" />
               </e>
               <e p="IScene.cs" t="Include" />
               <e p="ISceneManager.cs" t="Include" />
               <e p="Scene.cs" t="Include" />
-              <e p="SceneManagerBase.cs" t="Include" />
+              <e p="SceneManager.cs" t="Include" />
             </e>
             <e p="Storage" t="Include">
               <e p="Example" t="Include">
@@ -155,8 +142,6 @@
                 </e>
               </e>
             </e>
-            <e p="Test.cs" t="Include" />
-            <e p="TestInteractor.cs" t="Include" />
             <e p="UI" t="Include">
               <e p="Loading" t="Include">
                 <e p="Scripts" t="Include">
@@ -197,9 +182,9 @@
               </e>
             </e>
             <e p="Utils" t="Include">
-              <e p="Property" t="Include">
-                <e p="EditorList.cs" t="Include" />
-                <e p="InteractorNameAttribute.cs" t="Include" />
+              <e p="Attributes" t="Include">
+                <e p="ClassReferenceAttribute.cs" t="Include" />
+                <e p="SceneNameAttribute.cs" t="Include" />
               </e>
               <e p="Scripts" t="Include">
                 <e p="ArchitectureExtensions.cs" t="Include" />

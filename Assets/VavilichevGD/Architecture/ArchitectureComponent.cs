@@ -62,11 +62,11 @@ namespace VavilichevGD.Architecture {
 			yield break;
 		}
 
-		public virtual void OnInitialized() { }
+		public virtual void OnInitialize() { }
 
 		#endregion
 
 
-		public virtual void OnStarted() { }
+		public virtual void OnStart() { }
 	}
 }

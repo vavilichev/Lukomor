@@ -67,13 +67,13 @@ namespace VavilichevGD.Architecture.UI {
 		public void SendEventOnInitialized() {
 			this.CleanElementsForArchitectureEvents();
 			foreach (var element in this.elementsForArchitectureEvents) 
-				element.OnInitialized();
+				element.OnInitialize();
 		}
 
 		public void SendEventOnStarted() {
 			this.CleanElementsForArchitectureEvents();
 			foreach (var element in this.elementsForArchitectureEvents) 
-				element.OnStarted();
+				element.OnStart();
 		}
 
 		private void CleanElementsForArchitectureEvents() {

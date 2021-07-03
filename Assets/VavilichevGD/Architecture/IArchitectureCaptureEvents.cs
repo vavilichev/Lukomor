@@ -8,10 +8,10 @@
 		/// <summary>
 		/// Called when all repositories and interactors initialized;
 		/// </summary>
-		void OnInitialized();
+		void OnInitialize();
 		/// <summary>
 		/// Called when all repositories and interactors started;
 		/// </summary>
-		void OnStarted();
+		void OnStart();
 	}
 }
