@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 namespace VavilichevGD.Architecture {
-    public delegate void SceneManagerHandler(ISceneConfig config);
+    public delegate void SceneManagerHandler(SceneConfig config);
     
     public interface ISceneManager {
 
@@ -15,9 +15,9 @@ namespace VavilichevGD.Architecture {
         #endregion
 
         IScene sceneActual { get; }
-        Dictionary<string, ISceneConfig> scenesConfigMap { get; }
+        Dictionary<string, SceneConfig> scenesConfigMap { get; }
 
-        Coroutine LoadScene(string sceneName, UnityAction<ISceneConfig> sceneLoadedCallback = null);
-        Coroutine InitializeCurrentScene(UnityAction<ISceneConfig> sceneLoadedCallback = null);
+        Coroutine LoadScene(string sceneName, UnityAction<SceneConfig> sceneLoadedCallback = null);
+        Coroutine InitializeCurrentScene(UnityAction<SceneConfig> sceneLoadedCallback = null);
     }
 }

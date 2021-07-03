@@ -1,45 +1,37 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 using VavilichevGD.Architecture.StorageSystem;
 using VavilichevGD.Architecture.UI;
 using VavilichevGD.Tools;
 
 namespace VavilichevGD.Architecture {
     public sealed class Scene : IScene {
-        public ISceneConfig sceneConfig { get; }
-        public RepositoriesBase repositoriesBase { get; }
-        public InteractorsBase interactorsBase { get; }
+        public SceneConfig sceneConfig { get; }
+        public ComponentsBase<IRepository> repositoriesBase { get; }
+        public ComponentsBase<IInteractor> interactorsBase { get; }
 
         public UIController uiController { get; }
         //public UIController uiController { get; }
 
-        public Scene(ISceneConfig config) {
+        public Scene(SceneConfig config) {
             this.sceneConfig = config;
-            this.repositoriesBase = new RepositoriesBase(config);
-            this.interactorsBase = new InteractorsBase(config);
+            this.repositoriesBase = new ComponentsBase<IRepository>(config.repositoriesReferences);
+            this.interactorsBase = new ComponentsBase<IInteractor>(config.interactorsReferences);
         }
 
-        
-        #region CREATE INSTANCES
 
-        public void CreateInstances() {
-            this.CreateAllRepositories();
-            this.CreateAllInteractors();
-        }
-        
-        private void CreateAllRepositories() {
-            this.repositoriesBase.CreateAllRepositories();
-        }
 
-        private void CreateAllInteractors() {
-            this.interactorsBase.CreateAllInteractors();
+        #region ONCREATE
+
+        public void SendMessageOnCreate() {
+            this.repositoriesBase.SendMessageOnCreate();
+            this.repositoriesBase.SendMessageOnCreate();
         }
 
         #endregion
 
-
+        
         #region INITIALIZE
 
         public Coroutine InitializeAsync() {
@@ -48,8 +40,11 @@ namespace VavilichevGD.Architecture {
 
         private IEnumerator InitializeAsyncRoutine() {
             Storage.instance.Load();
-            yield return this.repositoriesBase.InitializeAllRepositories();
-            yield return this.interactorsBase.InitializeAllInteractors();
+            yield return this.repositoriesBase.InitializeAllComponents();
+            yield return this.interactorsBase.InitializeAllComponents();
+            
+            this.repositoriesBase.SendMessageOnInitialize();
+            this.interactorsBase.SendMessageOnInitialize();
         }
 
         #endregion
@@ -58,27 +53,27 @@ namespace VavilichevGD.Architecture {
         #region START
 
         public void Start() {
-            this.repositoriesBase.StartAllRepositories();
-            this.interactorsBase.StartAllInteractors();
+            this.repositoriesBase.SendMessageOnStart();
+            this.interactorsBase.SendMessageOnStart();
         }
 
         #endregion
 
 
         public T GetRepository<T>() where T : IRepository {
-            return this.repositoriesBase.GetRepository<T>();
+            return this.repositoriesBase.GetComponent<T>();
         }
 
         public IEnumerable<T> GetRepositories<T>() where T : IRepository {
-            return this.repositoriesBase.GetRepositories<T>();
+            return this.repositoriesBase.GetComponents<T>();
         }
 
         public T GetInteractor<T>() where T : IInteractor {
-            return this.interactorsBase.GetInteractor<T>();
+            return this.interactorsBase.GetComponent<T>();
         }
         
         public IEnumerable<T> GetInteractors<T>() where T : IInteractor {
-            return this.interactorsBase.GetInteractors<T>();
+            return this.interactorsBase.GetComponents<T>();
         }
 
     }

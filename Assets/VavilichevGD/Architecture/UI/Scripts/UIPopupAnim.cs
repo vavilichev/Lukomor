@@ -111,11 +111,11 @@ namespace VavilichevGD.Architecture.UI {
             throw new System.NotImplementedException();
         }
 
-        public void OnInitialized() {
+        public void OnInitialize() {
             throw new System.NotImplementedException();
         }
 
-        public void OnStarted() {
+        public void OnStart() {
             throw new System.NotImplementedException();
         }
     }

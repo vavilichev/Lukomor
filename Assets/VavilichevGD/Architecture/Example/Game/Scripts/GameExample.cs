@@ -1,4 +1,5 @@
-﻿using UnityEngine.Events;
+﻿using UnityEngine;
+using UnityEngine.Events;
 using VavilichevGD.Core.Loadging;
 
 namespace VavilichevGD.Architecture.Example {
@@ -29,11 +30,11 @@ namespace VavilichevGD.Architecture.Example {
 
 		#endregion
 
-		protected override SceneManagerBase CreateSceneManager() {
-			return new SceneManagerExample();
+		protected override SceneManager CreateSceneManager() {
+			return new SceneManager();
 		}
 
-		protected override void LoadFirstScene(UnityAction<ISceneConfig> callback) {
+		protected override void LoadFirstScene(UnityAction<SceneConfig> callback) {
 			LoadingScreen.Show();
 			sceneManager.InitializeCurrentScene(callback);
 		}

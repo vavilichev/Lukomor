@@ -6,7 +6,13 @@ using UnityEngine.Events;
 using VavilichevGD.Tools;
 
 namespace VavilichevGD.Architecture {
-    public abstract class SceneManagerBase : ISceneManager{
+    public class SceneManager : ISceneManager{
+
+        #region CONSTANTS
+
+        private const string CONFIG_FOLDER = "SceneConfigs";
+
+        #endregion
 
         #region DELEGATES
 
@@ -15,33 +21,36 @@ namespace VavilichevGD.Architecture {
 
         #endregion
 
-        public Dictionary<string, ISceneConfig> scenesConfigMap { get; }
+        public Dictionary<string, SceneConfig> scenesConfigMap { get; }
         public IScene sceneActual { get; private set; }
         public bool isLoading { get; private set; }
 
-        public SceneManagerBase() {
-            this.scenesConfigMap = new Dictionary<string, ISceneConfig>();
-            // ReSharper disable once VirtualMemberCallInConstructor
+        public SceneManager() {
+            this.scenesConfigMap = new Dictionary<string, SceneConfig>();
             this.InitializeSceneConfigs();
         }
 
-        protected abstract void InitializeSceneConfigs();
+        private void InitializeSceneConfigs() {
+            var allSceneConfigs = Resources.LoadAll<SceneConfig>(CONFIG_FOLDER);
+            foreach (var sceneConfig in allSceneConfigs) 
+                this.scenesConfigMap[sceneConfig.sceneName] = sceneConfig;
+        }
 
         
         
-        public Coroutine LoadScene(string sceneName, UnityAction<ISceneConfig> sceneLoadedCallback = null) {
+        public Coroutine LoadScene(string sceneName, UnityAction<SceneConfig> sceneLoadedCallback = null) {
             return this.LoadAndInitializeScene(sceneName, sceneLoadedCallback, true);
         }
         
-        public Coroutine InitializeCurrentScene(UnityAction<ISceneConfig> sceneLoadedCallback = null) {
+        public Coroutine InitializeCurrentScene(UnityAction<SceneConfig> sceneLoadedCallback = null) {
             var sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
             return this.LoadAndInitializeScene(sceneName, sceneLoadedCallback, false);
         }
 
         
-        protected Coroutine LoadAndInitializeScene(string sceneName, UnityAction<ISceneConfig> sceneLoadedCallback,
+        protected Coroutine LoadAndInitializeScene(string sceneName, UnityAction<SceneConfig> sceneLoadedCallback,
             bool loadNewScene) {
-            this.scenesConfigMap.TryGetValue(sceneName, out ISceneConfig config);
+            this.scenesConfigMap.TryGetValue(sceneName, out SceneConfig config);
             
             if (config == null)
                 throw new NullReferenceException($"There is no scene ({sceneName}) in the scenes list. The name is wrong or you forget to add it o the list.");
@@ -50,7 +59,7 @@ namespace VavilichevGD.Architecture {
         }
 
 
-        protected virtual IEnumerator LoadSceneRoutine(ISceneConfig config, UnityAction<ISceneConfig> sceneLoadedCallback, bool loadNewScene = true) {
+        protected virtual IEnumerator LoadSceneRoutine(SceneConfig config, UnityAction<SceneConfig> sceneLoadedCallback, bool loadNewScene = true) {
             this.isLoading = true;
             this.OnSceneLoadStartedEvent?.Invoke(config);
             
@@ -63,7 +72,7 @@ namespace VavilichevGD.Architecture {
             sceneLoadedCallback?.Invoke(config);
         }
 
-        protected IEnumerator LoadSceneAsyncRoutine(ISceneConfig config) {
+        protected IEnumerator LoadSceneAsyncRoutine(SceneConfig config) {
             var asyncOperation = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(config.sceneName);
             asyncOperation.allowSceneActivation = false;
 
@@ -78,11 +87,14 @@ namespace VavilichevGD.Architecture {
             asyncOperation.allowSceneActivation = true;
         }
 
-        protected virtual IEnumerator InitializeSceneRoutine(ISceneConfig config, UnityAction<ISceneConfig> sceneLoadedCallback) {
+        protected virtual IEnumerator InitializeSceneRoutine(SceneConfig config, UnityAction<SceneConfig> sceneLoadedCallback) {
 
             this.sceneActual = new Scene(config);
-            this.sceneActual.CreateInstances();
+            yield return null;
 
+            this.sceneActual.SendMessageOnCreate();
+            yield return null;
+            
             yield return this.sceneActual.InitializeAsync();
 
             this.sceneActual.Start();

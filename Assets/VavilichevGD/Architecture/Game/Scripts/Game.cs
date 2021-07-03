@@ -61,10 +61,10 @@ namespace VavilichevGD.Architecture {
             Logging.Log("GAME: Scene manager created: {0}", sceneManager.GetType().Name);
         }
 
-        protected abstract SceneManagerBase CreateSceneManager();
-        protected abstract void LoadFirstScene(UnityAction<ISceneConfig> callback);
+        protected abstract SceneManager CreateSceneManager();
+        protected abstract void LoadFirstScene(UnityAction<SceneConfig> callback);
 
-        private void OnSceneLoadCompleted(ISceneConfig config) {
+        private void OnSceneLoadCompleted(SceneConfig config) {
             this.BuildUI();
         }
 
