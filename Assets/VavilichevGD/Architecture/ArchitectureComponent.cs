@@ -68,5 +68,10 @@ namespace VavilichevGD.Architecture {
 
 
 		public virtual void OnStart() { }
+
+		protected void Log(string text) {
+			if (this.isLoggingEnabled)
+				Debug.Log(text);
+		}
 	}
 }

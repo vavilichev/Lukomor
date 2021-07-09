@@ -1,11 +1,10 @@
 ﻿using UnityEngine.UI;
 
-namespace VavilichevGD.Architecture.UI {
+namespace VavilichevGD.Architecture.UserInterface {
 	public interface IUIPopup : IUIElementOnLayer {
-		
+
 		bool isPreCached { get; }
-		Button buttonClose { get; }
-		Button buttonCloseAlt { get; }
-		
+		Button[] buttonsClose { get; }
+
 	}
 }

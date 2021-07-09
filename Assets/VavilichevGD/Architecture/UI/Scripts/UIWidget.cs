@@ -1,3 +1,3 @@
-﻿namespace VavilichevGD.Architecture.UI {
+﻿namespace VavilichevGD.Architecture.UserInterface {
 	public abstract class UIWidget : UIElement, IUIWidget { }
 }

@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using VavilichevGD.Architecture.Utils;
+using VavilichevGD.Utils.Attributes;
 
 namespace VavilichevGD.Architecture {
     [CreateAssetMenu(fileName = "SceneConfig", menuName = "Architecture/Scenes/New SceneConfig")]

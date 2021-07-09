@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using VavilichevGD.Architecture.StorageSystem;
-using VavilichevGD.Architecture.UI;
+using VavilichevGD.Architecture.UserInterface;
 using VavilichevGD.Tools;
 
 namespace VavilichevGD.Architecture {
@@ -20,6 +20,10 @@ namespace VavilichevGD.Architecture {
             this.interactorsBase = new ComponentsBase<IInteractor>(config.interactorsReferences);
         }
 
+        public void BuildUI() {
+            UI.Build(this.sceneConfig.sceneName);
+        }
+
 
 
         #region ONCREATE
@@ -27,6 +31,7 @@ namespace VavilichevGD.Architecture {
         public void SendMessageOnCreate() {
             this.repositoriesBase.SendMessageOnCreate();
             this.repositoriesBase.SendMessageOnCreate();
+            UI.controller.SendMessageOnCreate();
         }
 
         #endregion
@@ -45,6 +50,7 @@ namespace VavilichevGD.Architecture {
             
             this.repositoriesBase.SendMessageOnInitialize();
             this.interactorsBase.SendMessageOnInitialize();
+            UI.controller.SendMessageOnInitialize();
         }
 
         #endregion
@@ -55,6 +61,7 @@ namespace VavilichevGD.Architecture {
         public void Start() {
             this.repositoriesBase.SendMessageOnStart();
             this.interactorsBase.SendMessageOnStart();
+            UI.controller.SendEventOnStart();
         }
 
         #endregion

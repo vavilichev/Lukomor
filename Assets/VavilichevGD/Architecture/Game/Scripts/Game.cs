@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 using VavilichevGD.Architecture.Settings;
-using VavilichevGD.Architecture.UI;
+using VavilichevGD.Architecture.UserInterface;
 using VavilichevGD.Tools;
 
 namespace VavilichevGD.Architecture {
@@ -27,7 +27,6 @@ namespace VavilichevGD.Architecture {
         public static bool isInitialized => state == State.Initialized;
         public static ISceneManager sceneManager { get; private set; }
         public static IGameSettings gameSettings { get; private set; }
-        public static IUIController uiController { get; private set; }
 
        
         // TODO: You should write your own Game*name* script and past something like that:
@@ -65,18 +64,10 @@ namespace VavilichevGD.Architecture {
         protected abstract void LoadFirstScene(UnityAction<SceneConfig> callback);
 
         private void OnSceneLoadCompleted(SceneConfig config) {
-            this.BuildUI();
-        }
-
-        private void BuildUI() {
-            uiController = GameUI.CreateUIContollerInstance();
-            uiController.OnBuiltEvent += this.Built;
-            // uiController.BuildUI();
+            // UI.Build(config.sceneName);
         }
 
         private void Built() {
-            uiController.OnBuiltEvent -= this.Built;
-            
             state = State.Initialized;
             OnGameInitializedEvent?.Invoke();
             Logging.Log("GAME FULLY INITIALIZED");

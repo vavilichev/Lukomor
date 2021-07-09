@@ -4,115 +4,115 @@ using System.Linq;
 using UnityEngine;
 using VavilichevGD.Tools;
 
-namespace VavilichevGD.Architecture.UI {
-	public class UIController : MonoBehaviour, IUIController {
-
-		#region CONSTANTS
-
-		private const string PATH_PREFABS = "UIElements";
-		private static UIController instance;
-
-		#endregion
+namespace VavilichevGD.Architecture.UserInterface {
+	public class UIController : MonoBehaviour {
 
 		#region EVENTS
 
-		public event Action OnBuiltEvent;
-		public IUIContainer container { get; set; }
+		public event Action OnUIBuiltEvent;
 
 		#endregion
 
-		[SerializeField] private Camera m_uiCamera;
-		[SerializeField] private UILayer[] layers;
+		[SerializeField] private Camera _uiCamera;
+		[SerializeField] private UILayer[] _layers;
 
 
-		public Camera uiCamera => this.m_uiCamera;
+		public Camera uiCamera => _uiCamera;
 		public bool isUIBuilt { get; private set; }
 
 
-		private Dictionary<Type, UIElement> createdUIElementsMap;
+		private Dictionary<Type, IUIElementOnLayer> createdUIElementsMap;
 		private Dictionary<Type, UIPopup> cachedPopupsMap;
-		private Dictionary<Type, string> uiPrefabsPathsMap;
-		private List<IArchitectureCaptureEvents> elementsForArchitectureEvents;
-		
-		
-		public UIElement[] GetAllCreatedUIElements() {
-			return this.createdUIElementsMap.Values.ToArray();
+		private List<Type> uiDynamicPrefabTypes;
+		private UISceneConfig uiSceneConfig;
+
+
+
+		private void Awake() {
+			createdUIElementsMap = new Dictionary<Type, IUIElementOnLayer>();
+			uiDynamicPrefabTypes = new List<Type>();
+			cachedPopupsMap = new Dictionary<Type, UIPopup>();
+
+			DontDestroyOnLoad(gameObject);
+		}
+
+
+
+		#region MESSAGES
+
+		/// <summary>
+		/// Called when all repositories and interactors are created.
+		/// </summary>
+		public void SendMessageOnCreate() {
+			var allCreatedElements = createdUIElementsMap.Values.ToArray();
+			foreach (var element in allCreatedElements)
+				element.OnCreate();
+		}
+
+		/// <summary>
+		/// Called when all repositories and interactors are initialized.
+		/// </summary>
+		public void SendMessageOnInitialize() {
+			var allCreatedElements = createdUIElementsMap.Values.ToArray();
+			foreach (var element in allCreatedElements)
+				element.OnInitialize();
+		}
+
+		/// <summary>
+		/// Called when all repositories and interactors are started.
+		/// </summary>
+		public void SendEventOnStart() {
+			var allCreatedElements = createdUIElementsMap.Values.ToArray();
+			foreach (var element in allCreatedElements)
+				element.OnStart();
+		}
+
+		#endregion
+
+
+
+		public IUIElementOnLayer[] GetAllCreatedUIElements() {
+			return createdUIElementsMap.Values.ToArray();
 		}
 
 		public T GetUIElement<T>() where T : UIElement {
 			var type = typeof(T);
-			this.createdUIElementsMap.TryGetValue(type, out var uiElement);
+			createdUIElementsMap.TryGetValue(type, out var uiElement);
 			return (T) uiElement;
 		}
 
-		
-		private void Awake() {
-			if (instance == null) {
-				this.elementsForArchitectureEvents = new List<IArchitectureCaptureEvents>();
-				instance = this;
-				DontDestroyOnLoad(this.gameObject);
-			}
-			else {
-				Destroy(this.gameObject);
-			}
-		}
 
 
-		public void SendEventOnCreate() {
-			this.CleanElementsForArchitectureEvents();
-			foreach (var element in this.elementsForArchitectureEvents) 
-				element.OnCreate();
-		}
 
-		public void SendEventOnInitialized() {
-			this.CleanElementsForArchitectureEvents();
-			foreach (var element in this.elementsForArchitectureEvents) 
-				element.OnInitialize();
-		}
 
-		public void SendEventOnStarted() {
-			this.CleanElementsForArchitectureEvents();
-			foreach (var element in this.elementsForArchitectureEvents) 
-				element.OnStart();
-		}
-
-		private void CleanElementsForArchitectureEvents() {
-			var nullElements = this.elementsForArchitectureEvents.Where(element => element == null);
-			foreach (var element in nullElements) 
-				this.elementsForArchitectureEvents.Remove(element);
-		}
-		
-		
-		
 		#region SHOW
 
 		public T ShowUIElement<T>() where T : UIElement, IUIElementOnLayer {
 			var type = typeof(T);
 
-			this.cachedPopupsMap.TryGetValue(type, out var cachedPopup);
+			if (createdUIElementsMap.TryGetValue(type, out var foundElement) && foundElement.isActive)
+				return (T) foundElement;
+
+			cachedPopupsMap.TryGetValue(type, out var cachedPopup);
 			if (cachedPopup != null) {
 				cachedPopup.Show();
 				return cachedPopup as T;
 			}
 
-			this.uiPrefabsPathsMap.TryGetValue(type, out var prefName);
-			if (!string.IsNullOrEmpty(prefName))
-				return this.CreateAndShowElement<T>(prefName);
-
-			throw new Exception($"There is no UIElements with type {type} registered");
+			var prefab = uiSceneConfig.GetPrefab(type);
+			return CreateAndShowElement<T>(prefab);
 		}
 
-		private T CreateAndShowElement<T>(string prefName) where T : UIElement, IUIElementOnLayer {
-			var path = $"{PATH_PREFABS}/{prefName}";
-			var uiElementPref = Resources.Load<T>(path);
-			var container = this.GetContainer(uiElementPref.layer);
-			var createdElement = Instantiate(uiElementPref, container);
-			createdElement.name = uiElementPref.name;
-			var type = createdElement.GetType();
-			
-			this.createdUIElementsMap[type] = createdElement;
+		private T CreateAndShowElement<T>(IUIElementOnLayer prefab) where T : UIElement, IUIElementOnLayer {
+			var container = GetContainer(prefab.layer);
+			var createdElementGo = Instantiate(prefab.gameObject, container);
+			createdElementGo.name = prefab.name;
+			var createdElement = createdElementGo.GetComponent<T>();
+			var type = typeof(T);
+
+			createdUIElementsMap[type] = createdElement;
 			createdElement.Show();
-			createdElement.OnElementHiddenCompletelyEvent += this.OnElementHiddenCompletely;
+			createdElement.OnElementHiddenCompletelyEvent += OnElementHiddenCompletely;
 			return createdElement;
 		}
 
@@ -121,94 +121,97 @@ namespace VavilichevGD.Architecture.UI {
 				return;
 
 			var type = uiElement.GetType();
-			uiElement.OnElementHiddenCompletelyEvent -= this.OnElementHiddenCompletely;
-			this.createdUIElementsMap.Remove(type);
+			uiElement.OnElementHiddenCompletelyEvent -= OnElementHiddenCompletely;
+			createdUIElementsMap.Remove(type);
 		}
 
 		#endregion
 
-		
+
 
 		#region BUILD
 
-		public void BuildUI() {
-			this.createdUIElementsMap = new Dictionary<Type, UIElement>();
-			this.uiPrefabsPathsMap = new Dictionary<Type, string>();
-			this.cachedPopupsMap = new Dictionary<Type, UIPopup>();
-			
-			var allPrefabs = Resources.LoadAll<UIElement>(PATH_PREFABS);
-			foreach (var uiElementPref in allPrefabs) {
+		public void BuildUI(UISceneConfig uiSceneConfig) {
+			this.uiSceneConfig = uiSceneConfig;
+
+			var prefabs = uiSceneConfig.GetPrefabs();
+			foreach (var uiElementPref in prefabs) {
 				if (uiElementPref is UIScreen uiScreenPref && uiScreenPref.showByDefault) {
-					this.CreateAndShowScreen(uiScreenPref);
+					CreateAndShowScreen(uiScreenPref);
 					continue;
 				}
-				
-				if (uiElementPref is UIPopup popupPref && popupPref.isPreCached) 
-					this.CreateCachedPopup(popupPref);
+
+				if (uiElementPref is UIPopup popupPref && popupPref.isPreCached)
+					CreateCachedPopup(popupPref);
 				else
-					this.RememberPath(uiElementPref);
+					RememberTypeForLaterCreation(uiElementPref);
 			}
 
-			this.isUIBuilt = true;
+			isUIBuilt = true;
 			Logging.Log($"INTERFACE CREATED SUCCESSFULLY: " +
-			            $"total elements: {allPrefabs.Length}, " +
-			            $"created: {this.createdUIElementsMap.Count}, " +
-			            $"pre cached popups: {this.cachedPopupsMap.Count}");
+			            $"total elements: {prefabs.Length}, " +
+			            $"created: {createdUIElementsMap.Count}, " +
+			            $"pre cached popups: {cachedPopupsMap.Count}");
 
 			Resources.UnloadUnusedAssets();
-			this.OnBuiltEvent?.Invoke();
+			OnUIBuiltEvent?.Invoke();
 		}
 
 		private void CreateCachedPopup(UIPopup popupPref) {
-			var container = this.GetContainer(popupPref.layer);
+			var container = GetContainer(popupPref.layer);
 			var createdCachedPopup = Instantiate(popupPref, container);
 			createdCachedPopup.name = popupPref.name;
 			var type = createdCachedPopup.GetType();
-			
-			this.cachedPopupsMap[type] = createdCachedPopup;
-			this.createdUIElementsMap[type] = createdCachedPopup;
-			
+
+			cachedPopupsMap[type] = createdCachedPopup;
+			createdUIElementsMap[type] = createdCachedPopup;
+
 			createdCachedPopup.HideInstantly();
 		}
 
 		private void CreateAndShowScreen(UIScreen uiScreenPref) {
-			var container = this.GetContainer(uiScreenPref.layer);
+			var container = GetContainer(uiScreenPref.layer);
 			var createdUIScreen = Instantiate(uiScreenPref, container);
 			createdUIScreen.name = uiScreenPref.name;
 			var type = createdUIScreen.GetType();
-			this.createdUIElementsMap[type] = createdUIScreen;
+			createdUIElementsMap[type] = createdUIScreen;
 			createdUIScreen.Show();
 		}
 
 		private Transform GetContainer(UILayerType layer) {
-			foreach (var uiLayer in this.layers) {
-				if (uiLayer.layer == layer)
-					return uiLayer.transform;
-			}
-			
-			throw new Exception($"There is no layer ({layer}) in uiController");
+			return _layers.First(layerObject => layerObject.layer == layer).transform;
 		}
-		
-		private void RememberPath(UIElement uiElementPref) {
-			var path = uiElementPref.name;
+
+		private void RememberTypeForLaterCreation(IUIElement uiElementPref) {
 			var type = uiElementPref.GetType();
-			this.uiPrefabsPathsMap[type] = path;
+			uiDynamicPrefabTypes.Add(type);
 		}
 
 		#endregion
 
-		
-		public void DestroyAll() {
-			var allCreatedUIElements = this.createdUIElementsMap.Values.ToArray();
-			foreach (var uiElement in allCreatedUIElements) {
-				var type = uiElement.GetType();
-				this.createdUIElementsMap.Remove(type);
 
-				if (uiElement is UIPopup uiPopup)
-					this.cachedPopupsMap.Remove(type);
-				
+		public void Clear() {
+			if (createdUIElementsMap == null)
+				return;
+
+			var allCreatedUIElements = createdUIElementsMap.Values.ToArray();
+			foreach (var uiElement in allCreatedUIElements)
 				Destroy(uiElement.gameObject);
-			}
+
+			createdUIElementsMap.Clear();
+			cachedPopupsMap.Clear();
+			uiDynamicPrefabTypes.Clear();
 		}
+
+
+#if UNITY_EDITOR
+		private void Reset() {
+			if (_uiCamera == null)
+				_uiCamera = GetComponentInChildren<Camera>();
+
+			_layers = GetComponentsInChildren<UILayer>();
+		}
+#endif
+		
 	}
 }

@@ -1,4 +1,4 @@
-﻿namespace VavilichevGD.Architecture.UI {
+﻿namespace VavilichevGD.Architecture.UserInterface {
 	public enum UILayerType {
 		Screen,
 		FX_UnderPopups,

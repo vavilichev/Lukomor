@@ -1,5 +1,3 @@
-﻿namespace VavilichevGD.Architecture.UI {
-	public interface IUIWidget : IUIElement {
-		
-	}
+﻿namespace VavilichevGD.Architecture.UserInterface {
+	public interface IUIWidget : IUIElement { }
 }

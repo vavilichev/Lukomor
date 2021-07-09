@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using VavilichevGD.Architecture.Example;
 using VavilichevGD.Architecture.Extentions;
 
-namespace VavilichevGD.Architecture.UI.Example {
+namespace VavilichevGD.Architecture.UserInterface.Example {
     public class UIWidgetInfoGameExample : UIWidget {
         
         [SerializeField] private Text textLoaded;
