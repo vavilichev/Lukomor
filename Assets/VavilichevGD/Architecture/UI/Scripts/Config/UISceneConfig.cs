@@ -10,7 +10,8 @@ namespace VavilichevGD.Architecture.UserInterface {
 
 		[SerializeField, SceneName] private string _sceneName;
 
-		[SerializeField] [GameObjectOfType(typeof(IUIElementOnLayer))]
+		[SerializeField] 
+		[GameObjectOfType(typeof(IUIElementOnLayer))]
 		private List<GameObject> _prefabs;
 
 
@@ -28,8 +29,8 @@ namespace VavilichevGD.Architecture.UserInterface {
 		}
 
 		public IUIElementOnLayer GetPrefab(Type type) {
-			var allPrefs = prefabs;
-			return allPrefs.First(pref => pref.GetType() == type);
+			var allPrefab = prefabs;
+			return allPrefab.First(pref => pref.GetType() == type);
 		}
 	}
 }

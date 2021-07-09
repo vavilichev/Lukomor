@@ -152,6 +152,9 @@
                 </e>
               </e>
               <e p="Scripts" t="Include">
+                <e p="Config" t="Include">
+                  <e p="UISceneConfig.cs" t="Include" />
+                </e>
                 <e p="Interfaces" t="Include">
                   <e p="IUIElement.cs" t="Include" />
                   <e p="IUIElementOnLayer.cs" t="Include" />
@@ -165,7 +168,6 @@
                 <e p="UILayer.cs" t="Include" />
                 <e p="UILayerType.cs" t="Include" />
                 <e p="UIPopup.cs" t="Include" />
-                <e p="UISceneConfig.cs" t="Include" />
                 <e p="UIScreen.cs" t="Include" />
                 <e p="UIWidget.cs" t="Include" />
                 <e p="Utils" t="Include">

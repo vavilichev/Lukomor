@@ -20,25 +20,25 @@ namespace VavilichevGD.Architecture.UserInterface {
 
 
         #region AWAKE AND INITIALIZATION
-
+        
         private void Awake() {
             if (isPreCached)
                 InitPreCachedPopup();
-
+        
             OnAwake();
         }
-
+        
         private void InitPreCachedPopup() {
             InitCanvas();
             InitRaycaster();
         }
-
+        
         private void InitCanvas() {
             canvas = gameObject.GetComponent<Canvas>();
             if (!canvas)
                 canvas = gameObject.AddComponent<Canvas>();
         }
-
+        
         private void InitRaycaster() {
             var raycaster = gameObject.GetComponent<GraphicRaycaster>();
             if (!raycaster)
@@ -46,9 +46,12 @@ namespace VavilichevGD.Architecture.UserInterface {
         }
 
         protected virtual void OnAwake() { }
-
+        
         #endregion
 
+        
+
+        #region SHOW
 
         public sealed override void Show() {
             if (isActive)
@@ -73,10 +76,11 @@ namespace VavilichevGD.Architecture.UserInterface {
                 button.AddListener(OnCloseButtonClick);
         }
 
-        private void UnsubscribeFromCloseEvents() {
-            foreach (var button in buttonsClose)
-                button.RemoveListener(OnCloseButtonClick);
-        }
+        #endregion
+
+
+
+        #region HIDE
 
         public sealed override void HideInstantly() {
             if (!isActive)
@@ -94,7 +98,15 @@ namespace VavilichevGD.Architecture.UserInterface {
             isActive = false;
             OnPostHide();
         }
+        
+        private void UnsubscribeFromCloseEvents() {
+            foreach (var button in buttonsClose)
+                button.RemoveListener(OnCloseButtonClick);
+        }
 
+        #endregion
+
+       
 
         #region EVENTS
 

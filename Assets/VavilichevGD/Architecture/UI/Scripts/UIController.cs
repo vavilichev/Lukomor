@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using VavilichevGD.Tools;
 
 namespace VavilichevGD.Architecture.UserInterface {
 	public class UIController : MonoBehaviour {
@@ -19,6 +18,7 @@ namespace VavilichevGD.Architecture.UserInterface {
 
 		public Camera uiCamera => _uiCamera;
 		public bool isUIBuilt { get; private set; }
+		public bool isLoggingEnabled { get; set; }
 
 
 		private Dictionary<Type, IUIElementOnLayer> createdUIElementsMap;
@@ -68,20 +68,6 @@ namespace VavilichevGD.Architecture.UserInterface {
 		}
 
 		#endregion
-
-
-
-		public IUIElementOnLayer[] GetAllCreatedUIElements() {
-			return createdUIElementsMap.Values.ToArray();
-		}
-
-		public T GetUIElement<T>() where T : UIElement {
-			var type = typeof(T);
-			createdUIElementsMap.TryGetValue(type, out var uiElement);
-			return (T) uiElement;
-		}
-
-
 
 
 
@@ -148,10 +134,13 @@ namespace VavilichevGD.Architecture.UserInterface {
 			}
 
 			isUIBuilt = true;
-			Logging.Log($"INTERFACE CREATED SUCCESSFULLY: " +
-			            $"total elements: {prefabs.Length}, " +
-			            $"created: {createdUIElementsMap.Count}, " +
-			            $"pre cached popups: {cachedPopupsMap.Count}");
+			
+			if (this.isLoggingEnabled) {
+				Debug.Log($"INTERFACE CREATED SUCCESSFULLY: " +
+				          $"total elements: {prefabs.Length}, " +
+				          $"created: {createdUIElementsMap.Count}, " +
+				          $"pre cached popups: {cachedPopupsMap.Count}");
+			}
 
 			Resources.UnloadUnusedAssets();
 			OnUIBuiltEvent?.Invoke();
@@ -189,6 +178,18 @@ namespace VavilichevGD.Architecture.UserInterface {
 
 		#endregion
 
+		
+		
+		public IUIElementOnLayer[] GetAllCreatedUIElements() {
+			return createdUIElementsMap.Values.ToArray();
+		}
+
+		public T GetUIElement<T>() where T : UIElement {
+			var type = typeof(T);
+			createdUIElementsMap.TryGetValue(type, out var uiElement);
+			return (T) uiElement;
+		}
+		
 
 		public void Clear() {
 			if (createdUIElementsMap == null)

@@ -6,6 +6,9 @@ namespace VavilichevGD.Architecture.UserInterface {
 
 		#region CONSTANTS
 
+		/// <summary>
+		/// Use this trigger name for Hide animation.
+		/// </summary>
 		private static readonly int triggerHide = Animator.StringToHash("hide");
 
 		#endregion
@@ -22,7 +25,7 @@ namespace VavilichevGD.Architecture.UserInterface {
 		[SerializeField] protected Animator _animator;
 
 		public bool isActive { get; protected set; } = true;
-		public UIController uiCOntroller => UI.controller;
+		public UIController uiController => UI.controller;
 
 
 
@@ -49,6 +52,7 @@ namespace VavilichevGD.Architecture.UserInterface {
 		#endregion
 
 
+		
 		#region HIDE
 
 		public virtual void Hide() {
@@ -87,9 +91,11 @@ namespace VavilichevGD.Architecture.UserInterface {
 
 
 
-
 		#region CALLBACKS
 
+		/// <summary>
+		/// Use this handle for triggering end of Hide animation.
+		/// </summary>
 		protected virtual void Handle_AnimationOutOver() {
 			HideInstantly();
 		}
