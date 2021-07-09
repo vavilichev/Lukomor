@@ -5,6 +5,7 @@
     <e p="C:\Users\vaand\AppData\Local\JetBrains\Rider2020.1\resharper-host\Local\Transient\ReSharperHost\v201\SolutionCaches\_Architecture.497115555.00" t="ExcludeRecursive" />
     <e p="D:\UnityProjects\Architecture" t="IncludeRecursive">
       <e p="Architecture.sln" t="IncludeFlat" />
+      <e p="Assembly-CSharp-Editor.csproj" t="IncludeRecursive" />
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
         <e p="TextMesh Pro" t="Include">
@@ -151,31 +152,22 @@
                 </e>
               </e>
               <e p="Scripts" t="Include">
-                <e p="GameUI.cs" t="Include" />
                 <e p="Interfaces" t="Include">
-                  <e p="IUIBuilder.cs" t="Include" />
-                  <e p="IUIConfig.cs" t="Include" />
-                  <e p="IUIContainer.cs" t="Include" />
-                  <e p="IUIContainerConfig.cs" t="Include" />
-                  <e p="IUIController.cs" t="Include" />
                   <e p="IUIElement.cs" t="Include" />
                   <e p="IUIElementOnLayer.cs" t="Include" />
                   <e p="IUIPopup.cs" t="Include" />
                   <e p="IUIScreen.cs" t="Include" />
                   <e p="IUIWidget.cs" t="Include" />
-                  <e p="UIComponent.cs" t="Include" />
                 </e>
+                <e p="UI.cs" t="Include" />
                 <e p="UIController.cs" t="Include" />
                 <e p="UIElement.cs" t="Include" />
-                <e p="UIElementAnim.cs" t="Include" />
                 <e p="UILayer.cs" t="Include" />
                 <e p="UILayerType.cs" t="Include" />
                 <e p="UIPopup.cs" t="Include" />
-                <e p="UIPopupAnim.cs" t="Include" />
+                <e p="UISceneConfig.cs" t="Include" />
                 <e p="UIScreen.cs" t="Include" />
-                <e p="UIScreenAnim.cs" t="Include" />
                 <e p="UIWidget.cs" t="Include" />
-                <e p="UIWidgetAnim.cs" t="Include" />
                 <e p="Utils" t="Include">
                   <e p="UIExtensions.cs" t="Include" />
                 </e>
@@ -183,11 +175,30 @@
             </e>
             <e p="Utils" t="Include">
               <e p="Attributes" t="Include">
-                <e p="ClassReferenceAttribute.cs" t="Include" />
-                <e p="SceneNameAttribute.cs" t="Include" />
+                <e p="ClassReferenceAttribute" t="Include">
+                  <e p="ClassReferenceAttribute.cs" t="Include" />
+                  <e p="Editor" t="Include">
+                    <e p="ClassReferenceAttributeDrawer.cs" t="Include" />
+                  </e>
+                </e>
+                <e p="GameObjectOfType" t="Include">
+                  <e p="Editor" t="Include">
+                    <e p="GameObjectOfTypeDrawer.cs" t="Include" />
+                  </e>
+                  <e p="GameObjectOfTypeAttribute.cs" t="Include" />
+                </e>
+                <e p="SceneNameAttribute" t="Include">
+                  <e p="Editor" t="Include">
+                    <e p="SceneNameAttributeDrawer.cs" t="Include" />
+                  </e>
+                  <e p="SceneNameAttribute.cs" t="Include" />
+                </e>
               </e>
               <e p="Scripts" t="Include">
                 <e p="ArchitectureExtensions.cs" t="Include" />
+                <e p="Editor" t="Include">
+                  <e p="UIEditorExtensions.cs" t="Include" />
+                </e>
               </e>
             </e>
           </e>

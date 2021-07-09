@@ -1,24 +1,16 @@
 ﻿using UnityEngine;
 
-namespace VavilichevGD.Architecture.UI {
+namespace VavilichevGD.Architecture.UserInterface {
 	public abstract class UIScreen : UIElement, IUIScreen {
 
-		[SerializeField] protected UILayerType m_layer;
-		[SerializeField] protected bool m_showByDefault;
+		[SerializeField] protected UILayerType _layer;
+		[SerializeField] protected bool _showByDefault;
 
-		public UILayerType layer => this.m_layer;
-		public bool showByDefault => this.m_showByDefault;
+		public UILayerType layer => _layer;
+		public bool showByDefault => _showByDefault;
 
-		public void OnCreate() {
-			throw new System.NotImplementedException();
-		}
-
-		public void OnInitialize() {
-			throw new System.NotImplementedException();
-		}
-
-		public void OnStart() {
-			throw new System.NotImplementedException();
-		}
+		public virtual void OnCreate() { }
+		public virtual void OnInitialize() { }
+		public virtual void OnStart() { }
 	}
 }

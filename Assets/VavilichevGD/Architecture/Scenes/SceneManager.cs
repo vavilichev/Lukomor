@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using VavilichevGD.Architecture.UserInterface;
 using VavilichevGD.Tools;
 
 namespace VavilichevGD.Architecture {
@@ -90,6 +91,9 @@ namespace VavilichevGD.Architecture {
         protected virtual IEnumerator InitializeSceneRoutine(SceneConfig config, UnityAction<SceneConfig> sceneLoadedCallback) {
 
             this.sceneActual = new Scene(config);
+            yield return null;
+
+            this.sceneActual.BuildUI();
             yield return null;
 
             this.sceneActual.SendMessageOnCreate();

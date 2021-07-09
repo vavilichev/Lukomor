@@ -129,8 +129,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cb4329d44cffc74a804fdd3404e7ffc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_layer: 0
-  m_showByDefault: 1
+  _animator: {fileID: 0}
+  _layer: 0
+  _showByDefault: 1
   buttonExit: {fileID: 5960208511628645860}
 --- !u!1 &3082821973029119810
 GameObject:

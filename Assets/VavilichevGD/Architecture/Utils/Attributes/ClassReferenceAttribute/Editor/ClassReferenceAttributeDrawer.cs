@@ -5,16 +5,7 @@ using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 
-namespace VavilichevGD.Architecture.Utils {
-	[Serializable]
-	public class ClassReferenceAttribute : PropertyAttribute {
-		public Type type;
-
-		public ClassReferenceAttribute(Type type) {
-			this.type = type;
-		}
-	}
-
+namespace VavilichevGD.Utils.Attributes {
 	[CustomPropertyDrawer(typeof(ClassReferenceAttribute))]
 	public class ClassReferenceAttributeDrawer : PropertyDrawer {
 

@@ -1,7 +1,7 @@
 ﻿using UnityEngine.Events;
 using UnityEngine.UI;
 
-namespace VavilichevGD.Architecture.UI.Utils {
+namespace VavilichevGD.Architecture.UserInterface.Utils {
 	public static class UIExtensions {
 
 		public static void AddListener(this Button button, UnityAction callback) {

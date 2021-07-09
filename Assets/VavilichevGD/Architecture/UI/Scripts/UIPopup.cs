@@ -1,121 +1,111 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using VavilichevGD.Architecture.UI.Utils;
+using VavilichevGD.Architecture.UserInterface.Utils;
 
-namespace VavilichevGD.Architecture.UI {
-	public abstract class UIPopup : UIElement, IUIPopup {
-
-
-		[SerializeField] protected UILayerType m_layer;
-		[SerializeField] protected bool m_isPreCached;
-		[Space]
-		[SerializeField] protected Button m_buttonClose;
-		[SerializeField] protected Button m_buttonCloseAlt;
+namespace VavilichevGD.Architecture.UserInterface {
+    public abstract class UIPopup : UIElement, IUIPopup {
 
 
-		public UILayerType layer => this.m_layer;
-		public bool isPreCached => this.m_isPreCached;
-		public Button buttonClose => this.m_buttonClose;
-		public Button buttonCloseAlt => this.m_buttonCloseAlt;
-		
-		private Canvas canvas { get; set; }
+        [SerializeField] protected UILayerType _layer;
+        [SerializeField] protected bool _isPreCached;
+        [Space] [SerializeField] protected Button[] _buttonsClose;
 
-        
+
+        public UILayerType layer => _layer;
+        public bool isPreCached => _isPreCached;
+        public Button[] buttonsClose => _buttonsClose;
+
+        private Canvas canvas { get; set; }
+
+
+
+        #region AWAKE AND INITIALIZATION
+
         private void Awake() {
-            if (this.isPreCached) 
-                this.InitPreCachedPopup();
+            if (isPreCached)
+                InitPreCachedPopup();
 
-            this.OnAwake();
+            OnAwake();
         }
 
         private void InitPreCachedPopup() {
-            this.InitCanvas();
-            this.InitRaycaster();
+            InitCanvas();
+            InitRaycaster();
         }
 
         private void InitCanvas() {
-            this.canvas = this.gameObject.GetComponent<Canvas>();
-            if (!this.canvas) 
-                this.canvas = this.gameObject.AddComponent<Canvas>();
+            canvas = gameObject.GetComponent<Canvas>();
+            if (!canvas)
+                canvas = gameObject.AddComponent<Canvas>();
         }
 
         private void InitRaycaster() {
-            var raycaster = this.gameObject.GetComponent<GraphicRaycaster>();
-            if (!raycaster) 
-                this.gameObject.AddComponent<GraphicRaycaster>();
+            var raycaster = gameObject.GetComponent<GraphicRaycaster>();
+            if (!raycaster)
+                gameObject.AddComponent<GraphicRaycaster>();
         }
-        
+
         protected virtual void OnAwake() { }
 
+        #endregion
 
-        
+
         public sealed override void Show() {
-            if (this.isActive)
+            if (isActive)
                 return;
 
-            this.OnPreShow();
-            this.SubscribeOnCloseEvents();
-            
-            if (this.isPreCached) {
-                this.transform.SetAsLastSibling();
-                this.canvas.enabled = true;
+            OnPreShow();
+            SubscribeOnCloseEvents();
+
+            if (isPreCached) {
+                transform.SetAsLastSibling();
+                canvas.enabled = true;
             }
 
-            this.isActive = true;
-            this.gameObject.SetActive(true);
-            this.OnPostShow();
+            isActive = true;
+            gameObject.SetActive(true);
+            OnPostShow();
+            NotifyAboutShown();
         }
 
         private void SubscribeOnCloseEvents() {
-            if (this.buttonClose != null)
-                this.buttonClose.AddListener(this.OnCloseButtonClick);
-            if (this.buttonCloseAlt != null)
-                this.buttonCloseAlt.AddListener(this.OnCloseButtonClick);
+            foreach (var button in buttonsClose)
+                button.AddListener(OnCloseButtonClick);
         }
 
         private void UnsubscribeFromCloseEvents() {
-            if (this.buttonClose != null)
-                this.buttonClose.RemoveListener(this.OnCloseButtonClick);
-            if (this.buttonCloseAlt != null)
-                this.buttonCloseAlt.RemoveListener(this.OnCloseButtonClick);
+            foreach (var button in buttonsClose)
+                button.RemoveListener(OnCloseButtonClick);
         }
 
         public sealed override void HideInstantly() {
-            if (!this.isActive)
+            if (!isActive)
                 return;
 
-            this.UnsubscribeFromCloseEvents();
+            UnsubscribeFromCloseEvents();
 
-            if (this.isPreCached) {
-                this.canvas.enabled = false;
-                this.gameObject.SetActive(false);
+            if (isPreCached) {
+                canvas.enabled = false;
+                gameObject.SetActive(false);
             }
             else
-                Destroy(this.gameObject);
+                Destroy(gameObject);
 
-            this.isActive = false;
-            this.OnPostHide();
+            isActive = false;
+            OnPostHide();
         }
 
-        
+
         #region EVENTS
 
         private void OnCloseButtonClick() {
-            this.Hide();
+            Hide();
         }
 
         #endregion
 
-        public void OnCreate() {
-            throw new System.NotImplementedException();
-        }
-
-        public void OnInitialize() {
-            throw new System.NotImplementedException();
-        }
-
-        public void OnStart() {
-            throw new System.NotImplementedException();
-        }
+        public virtual void OnCreate() { }
+        public virtual void OnInitialize() { }
+        public virtual void OnStart() { }
     }
 }

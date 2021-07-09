@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using VavilichevGD.Architecture.UI.Utils;
+using VavilichevGD.Architecture.UserInterface.Utils;
 
-namespace VavilichevGD.Architecture.UI.Example {
+namespace VavilichevGD.Architecture.UserInterface.Example {
 	public class UIScreenGameExample : UIScreen {
 
 		[SerializeField] private Button buttonExit;
@@ -18,7 +18,7 @@ namespace VavilichevGD.Architecture.UI.Example {
 		#region EVENTS
 
 		private void OnExamplePopupButtonClick() {
-			// this.uiController.ShowUIElement<UIPopupExitExample>();
+			this.uiCOntroller.ShowUIElement<UIPopupExitExample>();
 		}
 
 		#endregion

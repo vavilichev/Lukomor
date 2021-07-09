@@ -1,8 +1,14 @@
 ﻿using System;
 using UnityEngine;
 
-namespace VavilichevGD.Architecture.UI {
+namespace VavilichevGD.Architecture.UserInterface {
 	public abstract class UIElement : MonoBehaviour, IUIElement {
+
+		#region CONSTANTS
+
+		private static readonly int triggerHide = Animator.StringToHash("hide");
+
+		#endregion
 
 		#region EVENTS
 
@@ -13,57 +19,90 @@ namespace VavilichevGD.Architecture.UI {
 
 		#endregion
 
-		private static IUIController m_uiController;
+		[SerializeField] protected Animator _animator;
 
 		public bool isActive { get; protected set; } = true;
-		
-		protected static IUIController uiController {
-			get {
-				if (m_uiController == null)
-					m_uiController = Game.uiController;
-				return m_uiController;
-			}
-		}
+		public UIController uiCOntroller => UI.controller;
+
+
+
+		#region SHOW
 
 		public virtual void Show() {
-			if (this.isActive)
+			if (isActive)
 				return;
-			
-			this.OnPreShow();
-			this.gameObject.SetActive(true);
-			this.isActive = true;
-			this.OnPostShow();
-			this.OnElementShownEvent?.Invoke(this);
+
+			OnPreShow();
+			gameObject.SetActive(true);
+			isActive = true;
+			OnPostShow();
+			NotifyAboutShown();
 		}
 
 		protected virtual void OnPreShow() { }
 		protected virtual void OnPostShow() { }
-		
+
+		protected void NotifyAboutShown() {
+			OnElementShownEvent?.Invoke(this);
+		}
+
+		#endregion
+
+
+		#region HIDE
 
 		public virtual void Hide() {
-			if (this.isActive) {
-				this.NotifyAboutHideStarted();
-				this.HideInstantly();
+			if (!isActive)
+				return;
+
+			NotifyAboutHideStarted();
+
+			if (_animator != null) {
+				_animator.SetTrigger(triggerHide);
+				return;
 			}
+
+			HideInstantly();
 		}
 
 		protected void NotifyAboutHideStarted() {
-			this.OnElementHideStartedEvent?.Invoke(this);
+			OnPreHide();
+			OnElementHideStartedEvent?.Invoke(this);
 		}
 
 		public virtual void HideInstantly() {
-			if (!this.isActive)
+			if (!isActive)
 				return;
-			
-			this.OnPreHide();
-			this.isActive = false;
-			this.gameObject.SetActive(false);
-			this.OnPostHide();
-			this.OnElementHiddenCompletelyEvent?.Invoke(this);
+
+			isActive = false;
+			gameObject.SetActive(false);
+			OnPostHide();
+			OnElementHiddenCompletelyEvent?.Invoke(this);
 		}
-		
+
 		protected virtual void OnPreHide() { }
 		protected virtual void OnPostHide() { }
-		
+
+		#endregion
+
+
+
+
+		#region CALLBACKS
+
+		protected virtual void Handle_AnimationOutOver() {
+			HideInstantly();
+		}
+
+		#endregion
+
+
+#if UNITY_EDITOR
+		protected virtual void Reset() {
+			if (_animator == null)
+				_animator = GetComponent<Animator>();
+		}
+#endif
+
 	}
 }

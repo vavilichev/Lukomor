@@ -6,10 +6,9 @@ using UnityEngine;
 using VavilichevGD.Tools;
 
 namespace VavilichevGD.Architecture {
-	public class ComponentsBase<T> where T : IArchitectureComponent {
+	public sealed class ComponentsBase<T> where T : IArchitectureComponent {
         
         private Dictionary<Type, T> componentsMap;
-        
         
         
         public ComponentsBase(string[] classReferences) {

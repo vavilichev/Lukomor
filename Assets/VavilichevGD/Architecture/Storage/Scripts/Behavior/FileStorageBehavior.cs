@@ -21,7 +21,7 @@ namespace VavilichevGD.Architecture.StorageSystem {
 			if (!Directory.Exists(savesDirectory)) 
 				Directory.CreateDirectory(savesDirectory);
 			this.filePath =  $"{savesDirectory}/{SAVE_FILE_NAME}";
-			Debug.Log($"FilePath: {filePath}");
+			//Debug.Log($"FilePath: {filePath}");
 		}
 
 		#region SAVE

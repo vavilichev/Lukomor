@@ -226,7 +226,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51f930a698284d5a9f7feab86f945846, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_layer: 2
+  _animator: {fileID: 0}
+  _layer: 2
 --- !u!223 &1493005375
 Canvas:
   m_ObjectHideFlags: 0
@@ -314,7 +315,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51f930a698284d5a9f7feab86f945846, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_layer: 3
+  _animator: {fileID: 0}
+  _layer: 3
 --- !u!223 &1673304146
 Canvas:
   m_ObjectHideFlags: 0
@@ -382,9 +384,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 617ace2a9b2949d19d33265f4d33e608, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_uiCamera: {fileID: 26625116579301566}
-  layers:
+  _uiCamera: {fileID: 26625116579301566}
+  _layers:
   - {fileID: 26625118319148423}
+  - {fileID: 4265405465874165957}
   - {fileID: 26625116918612673}
   - {fileID: 26625117107285676}
 --- !u!1 &26625118319148425
@@ -437,7 +440,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51f930a698284d5a9f7feab86f945846, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_layer: 0
+  _animator: {fileID: 0}
+  _layer: 0
 --- !u!223 &729222009
 Canvas:
   m_ObjectHideFlags: 0
@@ -591,7 +595,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51f930a698284d5a9f7feab86f945846, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_layer: 1
+  _animator: {fileID: 0}
+  _layer: 1
 --- !u!223 &8443084125735515798
 Canvas:
   m_ObjectHideFlags: 0

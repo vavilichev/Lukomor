@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 
-namespace VavilichevGD.Architecture.Utils {
-	[Serializable]
-	public class SceneNameAttribute : PropertyAttribute {
-	}
-
+namespace VavilichevGD.Utils.Attributes {
 	[CustomPropertyDrawer(typeof(SceneNameAttribute))]
 	public class SceneNameAttributeDrawer : PropertyDrawer {
 

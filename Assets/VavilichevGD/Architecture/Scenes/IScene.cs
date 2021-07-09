@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using VavilichevGD.Architecture.UI;
+using VavilichevGD.Architecture.UserInterface;
 
 namespace VavilichevGD.Architecture {
     public interface IScene {
@@ -11,6 +11,7 @@ namespace VavilichevGD.Architecture {
         UIController uiController { get; }
 
 
+        void BuildUI();
         void SendMessageOnCreate();
         Coroutine InitializeAsync();
         void Start();
