@@ -27,10 +27,10 @@ namespace VavilichevGD.Architecture.UserInterface {
 
 		private static UIController CreateUIController() {
 			var pref = Resources.Load<UIController>(PATH_UI_CONTROLLER_PREFAB);
-			var createdUIController = Object.Instantiate(pref);
-			createdUIController.name = pref.name;
+			var createdController = Object.Instantiate(pref);
+			createdController.name = pref.name;
 			Resources.UnloadUnusedAssets();
-			return createdUIController;
+			return createdController;
 		}
 
 	}

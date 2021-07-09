@@ -18,7 +18,7 @@ namespace VavilichevGD.Architecture.UserInterface.Example {
 		#region EVENTS
 
 		private void OnExamplePopupButtonClick() {
-			this.uiCOntroller.ShowUIElement<UIPopupExitExample>();
+			this.uiController.ShowUIElement<UIPopupExitExample>();
 		}
 
 		#endregion
