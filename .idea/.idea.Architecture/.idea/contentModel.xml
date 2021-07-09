@@ -43,7 +43,6 @@
             <e p="Example" t="Include">
               <e p="Game" t="Include">
                 <e p="Scripts" t="Include">
-                  <e p="GameExample.cs" t="Include" />
                   <e p="GameManagerExample.cs" t="Include" />
                 </e>
               </e>

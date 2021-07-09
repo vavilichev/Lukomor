@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using VavilichevGD.Architecture.UserInterface;
+using VavilichevGD.Core.Loadging;
 using VavilichevGD.Tools;
 
 namespace VavilichevGD.Architecture {
@@ -61,16 +62,21 @@ namespace VavilichevGD.Architecture {
 
 
         protected virtual IEnumerator LoadSceneRoutine(SceneConfig config, UnityAction<SceneConfig> sceneLoadedCallback, bool loadNewScene = true) {
+            LoadingScreen.instance.Show(this);
+                
             this.isLoading = true;
             this.OnSceneLoadStartedEvent?.Invoke(config);
             
             if (loadNewScene)
                 yield return Coroutines.StartRoutine(this.LoadSceneAsyncRoutine(config));
             yield return Coroutines.StartRoutine(this.InitializeSceneRoutine(config, sceneLoadedCallback));
-            
+
+            yield return new WaitForSecondsRealtime(1f);
             this.isLoading = false;
             this.OnSceneLoadCompletedEvent?.Invoke(config);
             sceneLoadedCallback?.Invoke(config);
+            
+            LoadingScreen.instance.Hide(this);
         }
 
         protected IEnumerator LoadSceneAsyncRoutine(SceneConfig config) {
