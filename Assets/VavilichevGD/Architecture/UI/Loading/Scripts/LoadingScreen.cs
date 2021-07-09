@@ -3,7 +3,7 @@ using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace VavilichevGD.Core.Loadging {
-    public static class LoadingScreen {
+    public class LoadingScreen : MonoBehaviour{
 
         #region CONSTANTS
 
@@ -12,74 +12,66 @@ namespace VavilichevGD.Core.Loadging {
         #endregion
 
         
-        #region DELEGATES
+        #region EVENTS
 
-        public delegate void LoadingScreenHandler();
 
-        public static event LoadingScreenHandler OnLoadingScreenShownEvent;
-        public static event LoadingScreenHandler OnLoadingScreenHideStartEvent;
-        public static event LoadingScreenHandler OnLoadingScreenHiddenCompletelyEvent;
+        public event Action<object, LoadingScreen> OnLoadingScreenShownEvent;
+        public event Action<object, LoadingScreen> OnLoadingScreenHideStartEvent;
+        public event Action<object, LoadingScreen> OnLoadingScreenHiddenCompletelyEvent;
 
         #endregion
 
+        public static LoadingScreen instance {
+            get {
+                if (_instance == null) {
+                    var prefab = Resources.Load<LoadingScreen>(PREF_PATH);
+                    _instance = Instantiate(prefab);
+                    DontDestroyOnLoad(_instance.gameObject);
+                }
 
+                return _instance;
+            }
+        }
+
+        private static LoadingScreen _instance;
+
+        
+        
+        
+        
         public static bool isActive => visual != null && visual.isActive;
 
         private static LoadingScreenVisualBase visual;
         
         
-        private static void CreateVisual() {
-            // Change to custom visual if needed
-            var pref = Resources.Load<LoadingScreenVisualDefault>(PREF_PATH);
-            var createdLoadingScreen = Object.Instantiate(pref);
-            Resources.UnloadUnusedAssets();
-
-            visual = createdLoadingScreen;
-            visual.OnShownEvent += OnShown;
-            visual.OnHideStartEvent += OnHideStart;
-            visual.OnHiddenCompletelyEvent += OnHiddenCompletely;
+        public void Show(object sender) {
+            // if (visual == null)
+            //     CreateVisual();
+            //
+            // visual.Show();
+            //
+            gameObject.SetActive(true);
+            OnLoadingScreenShownEvent?.Invoke(sender, this);
         }
         
-        
-        
-        public static  void Show() {
-            if (visual == null)
-                CreateVisual();
+        public void Hide(object sender) {
+            // if (visual == null)
+            //     throw new Exception("You cant hide loading screen before creating");
+            //
+            // visual.Hide();
             
-            visual.Show();
+            gameObject.SetActive(false);
+            OnLoadingScreenHideStartEvent?.Invoke(sender, this);
         }
         
-        public static void Hide() {
-            if (visual == null)
-                throw new Exception("You cant hide loading screen before creating");
-            
-            visual.Hide();
+        public void HideInstantly(object sender) {
+            // if (visual == null)
+            //     throw new Exception("You cant hide loading screen before creating");
+            //
+            // visual.HideInstantly();
+            gameObject.SetActive(false);
+            OnLoadingScreenHiddenCompletelyEvent?.Invoke(sender, this);
         }
-        
-        public static void HideInstantly() {
-            if (visual == null)
-                throw new Exception("You cant hide loading screen before creating");
-            
-            visual.HideInstantly();
-        }
-        
-
-        
-        #region Events
-
-        private static void OnHiddenCompletely(LoadingScreenVisualBase visualbase) {
-            OnLoadingScreenHiddenCompletelyEvent?.Invoke();
-        }
-
-        private static void OnHideStart(LoadingScreenVisualBase visualbase) {
-            OnLoadingScreenHideStartEvent?.Invoke();
-        }
-
-        private static void OnShown(LoadingScreenVisualBase visualbase) {
-            OnLoadingScreenShownEvent?.Invoke();
-        }
-        
-        #endregion
         
     }
 }

@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using VavilichevGD.Architecture.Settings;
@@ -15,65 +17,58 @@ namespace VavilichevGD.Architecture {
     
     public abstract class Game {
 
-        #region DELEGATES
+        #region EVENTS
 
-        public delegate void GameHandler();
-        public static event GameHandler OnGameInitializedEvent;
+        public static event Action OnGameInitializedEvent;
 
         #endregion
-        
-        protected static Game instance;
-        public static State state { get; private set; }
+
+
+        public static State state { get; private set; } = State.NotInitialized;
         public static bool isInitialized => state == State.Initialized;
         public static ISceneManager sceneManager { get; private set; }
         public static IGameSettings gameSettings { get; private set; }
 
-       
-        // TODO: You should write your own Game*name* script and past something like that:
-//        public static void Run() {
-//            // Create instance.
-//            // Initialize instance.
-//        }
 
-        #region Initializing
 
-        public Game() {
-            state = State.NotInitialized;
+        public static void Run(object sender = null) {
+            Coroutines.StartRoutine(RunGameRoutine());
         }
 
-        public void Initialize() {
-            Logging.Log("GAME START INITIALIZING");
+
+        private static IEnumerator RunGameRoutine() {
             state = State.Initializing;
 
-            this.InitGameSettings();        // It is necessary to initialize Game Settings at first.
-            this.InitSceneManager();
-            this.LoadFirstScene(this.OnSceneLoadCompleted);
+            InitGameSettings();
+            yield return null;
+            
+            InitSceneManager();
+            yield return null;
+
+            yield return sceneManager.InitializeCurrentScene();
+
+            state = State.Initialized;
+            OnGameInitializedEvent?.Invoke();
         }
 
-        private void InitGameSettings() {
+
+
+        private static void InitGameSettings() {
             gameSettings = new GameSettings();
             gameSettings.Load();
         }
 
-        private void InitSceneManager() {
-            sceneManager = this.CreateSceneManager();
+        private static void InitSceneManager() {
+            sceneManager = new SceneManager();;
             Logging.Log("GAME: Scene manager created: {0}", sceneManager.GetType().Name);
         }
 
-        protected abstract SceneManager CreateSceneManager();
-        protected abstract void LoadFirstScene(UnityAction<SceneConfig> callback);
-
-        private void OnSceneLoadCompleted(SceneConfig config) {
-            // UI.Build(config.sceneName);
-        }
-
-        private void Built() {
-            state = State.Initialized;
-            OnGameInitializedEvent?.Invoke();
-            Logging.Log("GAME FULLY INITIALIZED");
-        }
-
-        #endregion
+        
+        
+        
+        
+        
+        
         
         
         public static T GetInteractor<T>() where T : IInteractor {
