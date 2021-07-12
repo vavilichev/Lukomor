@@ -23,7 +23,11 @@ namespace VavilichevGD.Architecture.UserInterface.Example {
         #region EVENTS
 
         private void OnYesButtonClick() {
+#if UNITY_EDITOR
             EditorApplication.isPlaying = false;
+#else
+            Application.Quit();
+#endif
         }
 
         private void OnNoButtonClick() {

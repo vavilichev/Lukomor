@@ -10,7 +10,7 @@ namespace VavilichevGD.Architecture {
 
 		#endregion
         
-		State state { get; }
+		ArchitectureComponentState state { get; }
 		bool isInitialized { get; }
 		bool isLoggingEnabled { get; set; }
 

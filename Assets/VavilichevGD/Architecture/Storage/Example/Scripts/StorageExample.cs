@@ -16,38 +16,42 @@ namespace VavilichevGD.Architecture.StorageSystem.Example {
 
 		#endregion
 		
-		[SerializeField] private Button buttonSaveAsync;
-		[SerializeField] private Button buttonLoadInstantly;
-		[SerializeField] private Button buttonLoadWithRoutine;
-		[SerializeField] private Text textLog;
+		[SerializeField] private Button _buttonSaveAsync;
+		[SerializeField] private Button _buttonLoadInstantly;
+		[SerializeField] private Button _buttonLoadWithRoutine;
+		[SerializeField] private Text _textLog;
 
-		private bool savingComplete;
+		[SerializeField] private string _storageFileName = "GameState.save";
+		
+		private bool _savingComplete;
+		private Storage _storage;
 
 
 		#region LIFECYCLE
 
 		private void Start() {
-			Storage.instance.Load();
-			this.PrintData("loaded instantly at start", false);
+			_storage = new FileStorage(_storageFileName);
+			_storage.Load();
+			PrintData("loaded instantly at start", false);
 			
-			var loadedVersion = Storage.instance.Get<int>(KEY_VERSION);
+			var loadedVersion = _storage.Get<int>(KEY_VERSION);
 			if (loadedVersion < 2) {
-				Storage.instance.Set(KEY_VERSION, 2);
-				Storage.instance.Set(KEY_SPEED, 100);
+				_storage.Set(KEY_VERSION, 2);
+				_storage.Set(KEY_SPEED, 100);
 				Debug.Log("New version. Speed changed to 100");
 			}
 		}
 
 		private void OnEnable() {
-			this.buttonSaveAsync.onClick.AddListener(this.OnSaveAsyncButtonClick);
-			this.buttonLoadInstantly.onClick.AddListener(this.OnLoadInstantlyButtonClick);
-			this.buttonLoadWithRoutine.onClick.AddListener(this.OnLoadWithRoutineButtonClick);
+			_buttonSaveAsync.onClick.AddListener(OnSaveAsyncButtonClick);
+			_buttonLoadInstantly.onClick.AddListener(OnLoadInstantlyButtonClick);
+			_buttonLoadWithRoutine.onClick.AddListener(OnLoadWithRoutineButtonClick);
 		}
 
 		private void OnDisable() {
-			this.buttonSaveAsync.onClick.RemoveListener(this.OnSaveAsyncButtonClick);
-			this.buttonLoadInstantly.onClick.RemoveListener(this.OnLoadInstantlyButtonClick);
-			this.buttonLoadWithRoutine.onClick.RemoveListener(this.OnLoadWithRoutineButtonClick);
+			_buttonSaveAsync.onClick.RemoveListener(OnSaveAsyncButtonClick);
+			_buttonLoadInstantly.onClick.RemoveListener(OnLoadInstantlyButtonClick);
+			_buttonLoadWithRoutine.onClick.RemoveListener(OnLoadWithRoutineButtonClick);
 		}
 
 		#endregion
@@ -55,38 +59,38 @@ namespace VavilichevGD.Architecture.StorageSystem.Example {
 	
 		
 		private void Update() {
-			if (this.savingComplete) {
-				this.PrintData("saved async", true);
-				this.Log($"Saving complete at: {Time.time}", true);
-				this.savingComplete = false;
+			if (_savingComplete) {
+				PrintData("saved async", true);
+				Log($"Saving complete at: {Time.time}", true);
+				_savingComplete = false;
 			}
 		}
 
 		#region CALLBACKS
 
 		private void OnSaveAsyncButtonClick() {
-			this.Log($"Saving started: {Time.time}", false);
+			Log($"Saving started: {Time.time}", false);
 				
-			Storage.instance.Set(KEY_INT, Random.Range(0, 10));
-			Storage.instance.Set(KEY_FLOAT, Random.Range(0f, 10f));
-			Storage.instance.Set(KEY_VECTOR3, Vector3.left);
-			Storage.instance.Set(KEY_VECTOR2, Vector2.up);
-			Storage.instance.Set(KEY_VERSION, 2);
+			_storage.Set(KEY_INT, Random.Range(0, 10));
+			_storage.Set(KEY_FLOAT, Random.Range(0f, 10f));
+			_storage.Set(KEY_VECTOR3, Vector3.left);
+			_storage.Set(KEY_VECTOR2, Vector2.up);
+			_storage.Set(KEY_VERSION, 2);
 				
-			Storage.instance.SaveAsync(() => {
+			_storage.SaveAsync(() => {
 				// We cannot get Time.time (for logging the end of saving process)
 				// because Unity doesn't support to do this in the side thread. That is why we use a simple flag.
-				this.savingComplete = true;
+				_savingComplete = true;
 			});
 		}
 
 		private void OnLoadInstantlyButtonClick() {
-			Storage.instance.Load();
-			this.PrintData("loaded instantly", false);
+			_storage.Load();
+			PrintData("loaded instantly", false);
 		}
 		
 		private void OnLoadWithRoutineButtonClick() {
-			Storage.instance.LoadWithRoutine(() => this.PrintData("loaded with routine", false));
+			_storage.LoadWithRoutine(loadedData => PrintData("loaded with routine", false));
 		}
 
 		#endregion
@@ -96,15 +100,15 @@ namespace VavilichevGD.Architecture.StorageSystem.Example {
 		#region LOGGING
 
 		private void PrintData(string process, bool append) {
-			var loadedInt = Storage.instance.Get<int>(KEY_INT);
-			var loadedSpeed = Storage.instance.Get<int>(KEY_SPEED);
-			var loadedFloat = Storage.instance.Get<float>(KEY_FLOAT);
-			var loadedVector3 = Storage.instance.Get<Vector3>(KEY_VECTOR3);
-			var loadedVector2 = Storage.instance.Get<Vector2>(KEY_VECTOR2);
-			var loadedVersion = Storage.instance.Get<int>(KEY_VERSION);
+			var loadedInt = _storage.Get<int>(KEY_INT);
+			var loadedSpeed = _storage.Get<int>(KEY_SPEED);
+			var loadedFloat = _storage.Get<float>(KEY_FLOAT);
+			var loadedVector3 = _storage.Get<Vector3>(KEY_VECTOR3);
+			var loadedVector2 = _storage.Get<Vector2>(KEY_VECTOR2);
+			var loadedVersion = _storage.Get<int>(KEY_VERSION);
 			
 			
-			this.Log($"GameData {process}:\n" +
+			Log($"GameData {process}:\n" +
 			         $"int = {loadedInt},\n" +
 			         $"speed = {loadedSpeed},\n" +
 			         $"float = {loadedFloat},\n" +
@@ -114,8 +118,8 @@ namespace VavilichevGD.Architecture.StorageSystem.Example {
 		}
 		
 		private void Log(string text, bool append) {
-			var logText = append ? this.textLog.text + "\n" + text : text;
-			this.textLog.text = logText;
+			var logText = append ? _textLog.text + "\n" + text : text;
+			_textLog.text = logText;
 		}
 
 		#endregion

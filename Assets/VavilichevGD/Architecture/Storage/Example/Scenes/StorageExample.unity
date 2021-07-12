@@ -228,10 +228,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca1d40c061554b448a20c68c9bf021c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonSaveAsync: {fileID: 1825157289}
-  buttonLoadInstantly: {fileID: 2087198540}
-  buttonLoadWithRoutine: {fileID: 809167696}
-  textLog: {fileID: 2104568099}
+  _buttonSaveAsync: {fileID: 1825157289}
+  _buttonLoadInstantly: {fileID: 2087198540}
+  _buttonLoadWithRoutine: {fileID: 809167696}
+  _textLog: {fileID: 2104568099}
+  _storageFileName: GameState
 --- !u!4 &215808772
 Transform:
   m_ObjectHideFlags: 0

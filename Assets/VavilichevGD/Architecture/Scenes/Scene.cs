@@ -44,7 +44,7 @@ namespace VavilichevGD.Architecture {
         }
 
         private IEnumerator InitializeAsyncRoutine() {
-            Storage.instance.Load();
+            // Storage.instance.Load();
             yield return this.repositoriesBase.InitializeAllComponents();
             yield return this.interactorsBase.InitializeAllComponents();
             

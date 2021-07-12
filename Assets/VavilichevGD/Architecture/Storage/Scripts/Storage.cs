@@ -4,19 +4,17 @@ using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 
 namespace VavilichevGD.Architecture.StorageSystem {
-	public sealed class Storage {
+	public abstract class Storage {
 
 		#region EVENTS
 
-		public event Action OnStorageLoadedEvent;
 		public event Action OnStorageSaveStartedEvent;
 		public event Action OnStorageSaveCompleteEvent;
+		public event Action<GameData> OnStorageLoadedEvent;
 
 		#endregion
-
-
-		#region STATIC VARIABLES
-
+		
+		
 		public static BinaryFormatter formatter {
 			get {
 				if (_formatter == null)
@@ -25,36 +23,10 @@ namespace VavilichevGD.Architecture.StorageSystem {
 			}
 		}
 		private static BinaryFormatter _formatter;
-		
-		public static Storage instance {
-			get {
-				if (_instance == null)
-					_instance = new Storage(StorageType.FileStorage);
-				return _instance;
-			}
-		}
-		private static Storage _instance;
-		
-		public static bool isInitialized => instance.data != null;
 
-		#endregion
+		public GameData data { get; protected set; }
 		
 		
-		private GameData data { get; set; }
-		
-		
-		private IStorageBehavior storageBehavior;
-
-		
-		private Storage(StorageType type) {
-			switch (type) {
-				case StorageType.CloudStorage:
-					throw new NotSupportedException("Cloud storage doesn't supported yet");
-				default:
-					this.storageBehavior = new FileStorageBehavior();
-					break;
-			}
-		}
 		
 		private static BinaryFormatter CreateBinaryFormatter() {
 			var createdFormatter = new BinaryFormatter();
@@ -73,57 +45,77 @@ namespace VavilichevGD.Architecture.StorageSystem {
 			return createdFormatter;
 		}
 
-		
-		
+
+		#region SAVE
+
 		public void Save() {
-			this.OnStorageSaveStartedEvent?.Invoke();
-			this.storageBehavior.Save(data);
-			this.OnStorageSaveCompleteEvent?.Invoke();
+			OnStorageSaveStartedEvent?.Invoke();
+			SaveInternal();
+			OnStorageSaveCompleteEvent?.Invoke();
 		}
+
+		protected abstract void SaveInternal();
 
 		public void SaveAsync(Action callback = null) {
-			this.OnStorageSaveStartedEvent?.Invoke();
-			this.storageBehavior.SaveAsync(this.data, callback);
-			this.OnStorageSaveCompleteEvent?.Invoke();
+			OnStorageSaveStartedEvent?.Invoke();
+			SaveAsyncInternal(callback);
+			OnStorageSaveCompleteEvent?.Invoke();
 		}
+
+		protected abstract void SaveAsyncInternal(Action callback = null);
 
 		public Coroutine SaveWithRoutine(Action callback = null) {
-			this.OnStorageSaveStartedEvent?.Invoke();
-			return this.storageBehavior.SaveWithRoutine(this.data, () => {
+			OnStorageSaveStartedEvent?.Invoke();
+			return SaveWithRoutineInternal(() => {
 				callback?.Invoke();
-				this.OnStorageSaveStartedEvent?.Invoke();
+				OnStorageSaveCompleteEvent?.Invoke();
 			});
-		}
-		
-		public void Load() {
-			this.data = (GameData) storageBehavior.Load(new GameData());
-			this.OnStorageLoadedEvent?.Invoke();
 		}
 
-		public void LoadAsync(Action callback) {
-			this.storageBehavior.LoadAsync(new GameData(), 
-				gameData => {
-					this.data = (GameData) gameData;
-					callback?.Invoke();
-					this.OnStorageLoadedEvent?.Invoke();
-				});
+		protected abstract Coroutine SaveWithRoutineInternal(Action callback = null);
+
+		#endregion
+
+
+
+		#region LOAD
+
+		public void Load() {
+			LoadInternal();
+			OnStorageLoadedEvent?.Invoke(data);
 		}
-		
-		public Coroutine LoadWithRoutine(Action callback = null) {
-			return this.storageBehavior.LoadWithRoutine(new GameData(), loadedData => {
-				this.data = (GameData) loadedData;
-				callback?.Invoke();
-				this.OnStorageLoadedEvent?.Invoke();
+
+		protected abstract void LoadInternal();
+
+		public void LoadAsync(Action<GameData> callback = null) {
+			LoadAsyncInternal(loadedData => {
+				callback?.Invoke(data);
+				OnStorageLoadedEvent?.Invoke(data);
 			});
 		}
+
+		protected abstract void LoadAsyncInternal(Action<GameData> callback = null);
+		
+		public Coroutine LoadWithRoutine(Action<GameData> callback = null) {
+			return LoadWithRoutineInternal(loadedData => {
+				callback?.Invoke(data);
+				OnStorageLoadedEvent?.Invoke(data);
+			});
+		}
+
+		protected abstract Coroutine LoadWithRoutineInternal(Action<GameData> callback = null);
+
+		#endregion
+		
+		
 		
 
 		public T Get<T>(string key) {
-			return this.data.Get<T>(key);
+			return data.Get<T>(key);
 		}
 		
 		public T Get<T>(string key, T valueByDefault) {
-			return this.data.Get(key, valueByDefault);
+			return data.Get(key, valueByDefault);
 		}
 
 		public void Set<T>(string key, T value) {
@@ -133,5 +125,6 @@ namespace VavilichevGD.Architecture.StorageSystem {
 		public override string ToString() {
 			return this.data.ToString();
 		}
+		
 	}
 }
