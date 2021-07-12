@@ -92,6 +92,7 @@
                 </e>
               </e>
               <e p="Scripts" t="Include">
+                <e p="ArchitectureComponentState.cs" t="Include" />
                 <e p="Game.cs" t="Include" />
                 <e p="GameManager.cs" t="Include" />
               </e>
@@ -127,14 +128,10 @@
                 </e>
               </e>
               <e p="Scripts" t="Include">
-                <e p="Behavior" t="Include">
-                  <e p="CloudStorageBehavior.cs" t="Include" />
-                  <e p="FileStorageBehavior.cs" t="Include" />
-                  <e p="IStorageBehavior.cs" t="Include" />
-                </e>
+                <e p="CloudStorage.cs" t="Include" />
+                <e p="FileStorage.cs" t="Include" />
                 <e p="GameData.cs" t="Include" />
                 <e p="Storage.cs" t="Include" />
-                <e p="StorageType.cs" t="Include" />
                 <e p="Surrogates" t="Include">
                   <e p="QuaternionSerializationSurrogate.cs" t="Include" />
                   <e p="Vector2SerializationSurrogate.cs" t="Include" />

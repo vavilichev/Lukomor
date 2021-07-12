@@ -13,13 +13,13 @@ namespace VavilichevGD.Architecture {
 		#endregion
         
 
-		public State state { get; private set; }
-		public bool isInitialized => this.state == State.Initialized;
+		public ArchitectureComponentState state { get; private set; }
+		public bool isInitialized => this.state == ArchitectureComponentState.Initialized;
 		public bool isLoggingEnabled { get; set; }
 
 
 		public ArchitectureComponent() {
-			this.state = State.NotInitialized;
+			this.state = ArchitectureComponentState.NotInitialized;
 		}
 
 		public virtual void OnCreate() { }
@@ -32,7 +32,7 @@ namespace VavilichevGD.Architecture {
 			if (this.isInitialized)
 				throw new Exception($"Component {this.GetType().Name} is already initialized");
 
-			if (state == State.Initializing)
+			if (state == ArchitectureComponentState.Initializing)
 				throw new Exception($"Component {this.GetType().Name} is initializing now");
 
 			return Coroutines.StartRoutine(InitializeRoutineInternal());
@@ -40,11 +40,11 @@ namespace VavilichevGD.Architecture {
 
 
 		private IEnumerator InitializeRoutineInternal() {
-			this.state = State.Initializing;
+			this.state = ArchitectureComponentState.Initializing;
 			yield return Coroutines.StartRoutine(this.InitializeRoutine());
 			this.Initialize();
 
-			this.state = State.Initialized;
+			this.state = ArchitectureComponentState.Initialized;
 			this.OnInitializedEvent?.Invoke();
 		}
 

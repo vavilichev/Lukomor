@@ -19,61 +19,61 @@ namespace VavilichevGD.Architecture.Settings {
 
 		
 		public bool isEnabled {
-			get => this.isSFXEnabled && this.isMusicEnabled;
+			get => isSFXEnabled && isMusicEnabled;
 			set {
-				this.isSFXEnabled = value;
-				this.isMusicEnabled = value;
-				this.Save();
+				isSFXEnabled = value;
+				isMusicEnabled = value;
+				Save();
 			}
 		}
 
 		public bool isSFXEnabled {
-			get => this.m_isSFXEnabled;
+			get => _isSFXEnabled;
 			set {
-				this.m_isSFXEnabled = value;
-				this.OnVolumeSFXChangedEvent?.Invoke();
+				_isSFXEnabled = value;
+				OnVolumeSFXChangedEvent?.Invoke();
 			}
 		}
 
 		public bool isMusicEnabled {
-			get => this.m_isMusicEnabled;
+			get => _isMusicEnabled;
 			set {
-				this.m_isMusicEnabled = value;
-				this.OnVolumeMusicChangedEvent?.Invoke();
+				_isMusicEnabled = value;
+				OnVolumeMusicChangedEvent?.Invoke();
 			}
 		}
 
 		
 		public float volumeSFX {
-			get => this.m_volumeSFX;
+			get => _volumeSFX;
 			set {
-				this.m_volumeSFX = value;
-				this.OnVolumeSFXChangedEvent?.Invoke();
+				_volumeSFX = value;
+				OnVolumeSFXChangedEvent?.Invoke();
 			}
 		}
 		
 		public float volumeMusic {
-			get => this.m_volumeMusic;
+			get => _volumeMusic;
 			set {
-				this.m_volumeMusic = value;
-				this.OnVolumeMusicChangedEvent?.Invoke();
+				_volumeMusic = value;
+				OnVolumeMusicChangedEvent?.Invoke();
 			}
 		}
 
 
-		private bool m_isSFXEnabled;
-		private bool m_isMusicEnabled;
+		private bool _isSFXEnabled;
+		private bool _isMusicEnabled;
 
-		private float m_volumeSFX;
-		private float m_volumeMusic;
+		private float _volumeSFX;
+		private float _volumeMusic;
 		
 
 		public AudioSettings() {
 			var propertiesDefault = new AudioSettingsProperties();
-			this.m_isSFXEnabled = propertiesDefault.isSFXEnabled;
-			this.m_isMusicEnabled = propertiesDefault.isMusicEnabled;
-			this.m_volumeSFX = propertiesDefault.volumeSFX;
-			this.m_volumeMusic = propertiesDefault.volumeMusic;
+			_isSFXEnabled = propertiesDefault.isSFXEnabled;
+			_isMusicEnabled = propertiesDefault.isMusicEnabled;
+			_volumeSFX = propertiesDefault.volumeSFX;
+			_volumeMusic = propertiesDefault.volumeMusic;
 		}
 		
 		public void Load() {
@@ -82,12 +82,12 @@ namespace VavilichevGD.Architecture.Settings {
 			var propsLoadedJson = PlayerPrefs.GetString(KEY_AUDIO_SETTING, propsDefaultJson);
 			var loadedProperties = JsonUtility.FromJson<AudioSettingsProperties>(propsLoadedJson);
 
-			this.isSFXEnabled = loadedProperties.isSFXEnabled;
-			this.volumeSFX = loadedProperties.volumeSFX;
-			this.OnVolumeSFXChangedEvent?.Invoke();
+			isSFXEnabled = loadedProperties.isSFXEnabled;
+			volumeSFX = loadedProperties.volumeSFX;
+			OnVolumeSFXChangedEvent?.Invoke();
 
-			this.isMusicEnabled = loadedProperties.isMusicEnabled;
-			this.volumeMusic = loadedProperties.volumeMusic;
+			isMusicEnabled = loadedProperties.isMusicEnabled;
+			volumeMusic = loadedProperties.volumeMusic;
 		}
 
 		public void Save() {
@@ -98,8 +98,8 @@ namespace VavilichevGD.Architecture.Settings {
 
 		public override string ToString() {
 			var line =
-				$"SFX: is enabled = {this.isSFXEnabled}, volume = {this.volumeSFX}\n" +
-				$"Music: is enabled = {this.isMusicEnabled}, volume = {this.volumeMusic}";
+				$"SFX: is enabled = {isSFXEnabled}, volume = {volumeSFX}\n" +
+				$"Music: is enabled = {isMusicEnabled}, volume = {volumeMusic}";
 			return line;
 		}
 	}

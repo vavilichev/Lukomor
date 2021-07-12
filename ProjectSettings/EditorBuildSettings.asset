@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/VavilichevGD/Architecture/Example/Scenes/GameArchitectureExample.unity
-    guid: 09fececf8fbe81e4ab13a1c145667643
+    path: Assets/VavilichevGD/Architecture/Storage/Example/Scenes/StorageExample.unity
+    guid: 64342abbc1a0d1a4a9e727190db95e11
   m_configObjects: {}
