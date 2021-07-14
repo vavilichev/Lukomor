@@ -17,3 +17,5 @@ MonoBehaviour:
   - VavilichevGD.Architecture.Example.DummyRepository
   _interactorsReferences:
   - VavilichevGD.Architecture.Example.DummyInteractor
+  _saveDataForThisScene: 1
+  _saveName: example.data

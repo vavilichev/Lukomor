@@ -28,52 +28,52 @@ namespace VavilichevGD.Architecture {
         public bool isLoading { get; private set; }
 
         public SceneManager() {
-            this.scenesConfigMap = new Dictionary<string, SceneConfig>();
-            this.InitializeSceneConfigs();
+            scenesConfigMap = new Dictionary<string, SceneConfig>();
+            InitializeSceneConfigs();
         }
 
         private void InitializeSceneConfigs() {
             var allSceneConfigs = Resources.LoadAll<SceneConfig>(CONFIG_FOLDER);
             foreach (var sceneConfig in allSceneConfigs) 
-                this.scenesConfigMap[sceneConfig.sceneName] = sceneConfig;
+                scenesConfigMap[sceneConfig.sceneName] = sceneConfig;
         }
 
         
         
         public Coroutine LoadScene(string sceneName, UnityAction<SceneConfig> sceneLoadedCallback = null) {
-            return this.LoadAndInitializeScene(sceneName, sceneLoadedCallback, true);
+            return LoadAndInitializeScene(sceneName, sceneLoadedCallback, true);
         }
         
         public Coroutine InitializeCurrentScene(UnityAction<SceneConfig> sceneLoadedCallback = null) {
             var sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
-            return this.LoadAndInitializeScene(sceneName, sceneLoadedCallback, false);
+            return LoadAndInitializeScene(sceneName, sceneLoadedCallback, false);
         }
 
         
         protected Coroutine LoadAndInitializeScene(string sceneName, UnityAction<SceneConfig> sceneLoadedCallback,
             bool loadNewScene) {
-            this.scenesConfigMap.TryGetValue(sceneName, out SceneConfig config);
+            scenesConfigMap.TryGetValue(sceneName, out SceneConfig config);
             
             if (config == null)
                 throw new NullReferenceException($"There is no scene ({sceneName}) in the scenes list. The name is wrong or you forget to add it o the list.");
 
-            return Coroutines.StartRoutine(this.LoadSceneRoutine(config, sceneLoadedCallback, loadNewScene));
+            return Coroutines.StartRoutine(LoadSceneRoutine(config, sceneLoadedCallback, loadNewScene));
         }
 
 
         protected virtual IEnumerator LoadSceneRoutine(SceneConfig config, UnityAction<SceneConfig> sceneLoadedCallback, bool loadNewScene = true) {
             LoadingScreen.instance.Show(this);
                 
-            this.isLoading = true;
-            this.OnSceneLoadStartedEvent?.Invoke(config);
+            isLoading = true;
+            OnSceneLoadStartedEvent?.Invoke(config);
             
             if (loadNewScene)
-                yield return Coroutines.StartRoutine(this.LoadSceneAsyncRoutine(config));
-            yield return Coroutines.StartRoutine(this.InitializeSceneRoutine(config, sceneLoadedCallback));
+                yield return Coroutines.StartRoutine(LoadSceneAsyncRoutine(config));
+            yield return Coroutines.StartRoutine(InitializeSceneRoutine(config, sceneLoadedCallback));
 
             yield return new WaitForSecondsRealtime(1f);
-            this.isLoading = false;
-            this.OnSceneLoadCompletedEvent?.Invoke(config);
+            isLoading = false;
+            OnSceneLoadCompletedEvent?.Invoke(config);
             sceneLoadedCallback?.Invoke(config);
             
             LoadingScreen.instance.Hide(this);
@@ -96,18 +96,18 @@ namespace VavilichevGD.Architecture {
 
         protected virtual IEnumerator InitializeSceneRoutine(SceneConfig config, UnityAction<SceneConfig> sceneLoadedCallback) {
 
-            this.sceneActual = new Scene(config);
+            sceneActual = new Scene(config);
             yield return null;
 
-            this.sceneActual.BuildUI();
+            sceneActual.BuildUI();
             yield return null;
 
-            this.sceneActual.SendMessageOnCreate();
+            sceneActual.SendMessageOnCreate();
             yield return null;
             
-            yield return this.sceneActual.InitializeAsync();
+            yield return sceneActual.InitializeAsync();
 
-            this.sceneActual.Start();
+            sceneActual.Start();
         }
 
     }

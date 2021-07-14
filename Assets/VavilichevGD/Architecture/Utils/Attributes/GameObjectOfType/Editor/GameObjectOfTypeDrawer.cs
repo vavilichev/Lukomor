@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using UnityEngine;
 using UnityEditor;
 using VavilichevGD.Architecture.UserInterface.Extensions;

@@ -33,28 +33,28 @@ namespace VavilichevGD.Architecture.StorageSystem {
 		
 
 		public T Get<T>(string key) {
-			this.dataMap.TryGetValue(key, out var foundValue);
+			dataMap.TryGetValue(key, out var foundValue);
 			if (foundValue != null)
 				return (T) foundValue;
 			return default;
 		}
 		
 		public T Get<T>(string key, T valueByDefault) {
-			this.dataMap.TryGetValue(key, out var value);
+			dataMap.TryGetValue(key, out var value);
 			if (value != null)
 				return (T) value;
 
-			this.Set(key, valueByDefault);
+			Set(key, valueByDefault);
 			return valueByDefault;
 		}
 
 		public void Set<T>(string key, T newValue) {
-			this.dataMap[key] = newValue;
+			dataMap[key] = newValue;
 		}
 
 		public override string ToString() {
 			var line = "";
-			foreach (var pair in this.dataMap) 
+			foreach (var pair in dataMap) 
 				line += $"Pair: {pair.Key} - {pair.Value}\n";
 			return line;
 		}

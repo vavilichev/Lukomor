@@ -1,6 +1,5 @@
 ﻿using System;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace VavilichevGD.Core.Loadging {
     public class LoadingScreen : MonoBehaviour{
@@ -26,6 +25,7 @@ namespace VavilichevGD.Core.Loadging {
                 if (_instance == null) {
                     var prefab = Resources.Load<LoadingScreen>(PREF_PATH);
                     _instance = Instantiate(prefab);
+                    Resources.UnloadUnusedAssets();
                     DontDestroyOnLoad(_instance.gameObject);
                 }
 
@@ -33,42 +33,24 @@ namespace VavilichevGD.Core.Loadging {
             }
         }
 
+        public static bool isActive => _instance.gameObject.activeInHierarchy;
+
+        
         private static LoadingScreen _instance;
 
         
         
-        
-        
-        public static bool isActive => visual != null && visual.isActive;
-
-        private static LoadingScreenVisualBase visual;
-        
-        
         public void Show(object sender) {
-            // if (visual == null)
-            //     CreateVisual();
-            //
-            // visual.Show();
-            //
             gameObject.SetActive(true);
             OnLoadingScreenShownEvent?.Invoke(sender, this);
         }
         
         public void Hide(object sender) {
-            // if (visual == null)
-            //     throw new Exception("You cant hide loading screen before creating");
-            //
-            // visual.Hide();
-            
-            gameObject.SetActive(false);
             OnLoadingScreenHideStartEvent?.Invoke(sender, this);
+            HideInstantly(sender);
         }
         
         public void HideInstantly(object sender) {
-            // if (visual == null)
-            //     throw new Exception("You cant hide loading screen before creating");
-            //
-            // visual.HideInstantly();
             gameObject.SetActive(false);
             OnLoadingScreenHiddenCompletelyEvent?.Invoke(sender, this);
         }

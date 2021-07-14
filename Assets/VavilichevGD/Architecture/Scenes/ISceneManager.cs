@@ -7,7 +7,7 @@ namespace VavilichevGD.Architecture {
     
     public interface ISceneManager {
 
-        #region DELEGATES
+        #region EVENTS
 
         event SceneManagerHandler OnSceneLoadStartedEvent;
         event SceneManagerHandler OnSceneLoadCompletedEvent;
