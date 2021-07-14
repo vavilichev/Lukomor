@@ -13,9 +13,14 @@ namespace VavilichevGD.Architecture {
         [SerializeField, ClassReference(typeof(Interactor))]
         private string[] _interactorsReferences;
 
-        public string sceneName => this._sceneName;
+        [Space, SerializeField] private bool _saveDataForThisScene;
+        [SerializeField] private string _saveName;
+
+        public string sceneName => _sceneName;
         public string[] repositoriesReferences => _repositoryReferences;
         public string[] interactorsReferences => _interactorsReferences;
+        public bool saveDataForThisScene => _saveDataForThisScene;
+        public string saveName => _saveName;
 
     }
 }

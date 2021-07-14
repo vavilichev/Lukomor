@@ -6,19 +6,24 @@ namespace VavilichevGD.Architecture.UserInterface.Example {
 	public class UIScreenGameExample : UIScreen {
 
 		[SerializeField] private Button buttonExit;
+		[SerializeField] private UIWidgetInfoGameExample widget;
 		
 		private void OnEnable() {
-			this.buttonExit.AddListener(this.OnExamplePopupButtonClick);
+			buttonExit.AddListener(OnExamplePopupButtonClick);
 		}
 
 		private void OnDisable() {
-			this.buttonExit.RemoveListener(this.OnExamplePopupButtonClick);
+			buttonExit.RemoveListener(OnExamplePopupButtonClick);
 		}
 
 		#region EVENTS
 
 		private void OnExamplePopupButtonClick() {
-			this.uiController.ShowUIElement<UIPopupExitExample>();
+			uiController.ShowUIElement<UIPopupExitExample>();
+		}
+
+		public override void OnStart() {
+			widget.OnStart();
 		}
 
 		#endregion

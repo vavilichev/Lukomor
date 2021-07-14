@@ -11,13 +11,13 @@ namespace VavilichevGD.Architecture.UserInterface.Example {
         [SerializeField] private Button buttonNo;
 
         private void OnEnable() {
-            this.buttonYes.AddListener(this.OnYesButtonClick);    
-            this.buttonNo.AddListener(this.OnNoButtonClick);
+            buttonYes.AddListener(OnYesButtonClick);    
+            buttonNo.AddListener(OnNoButtonClick);
         }
 
         private void OnDisable() {
-            this.buttonYes.RemoveListener(this.OnYesButtonClick);
-            this.buttonNo.RemoveListener(this.OnNoButtonClick);
+            buttonYes.RemoveListener(OnYesButtonClick);
+            buttonNo.RemoveListener(OnNoButtonClick);
         }
 
         #region EVENTS
@@ -31,7 +31,7 @@ namespace VavilichevGD.Architecture.UserInterface.Example {
         }
 
         private void OnNoButtonClick() {
-            this.Hide();
+            Hide();
         }
 
         #endregion

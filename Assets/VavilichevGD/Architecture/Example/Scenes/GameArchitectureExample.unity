@@ -147,12 +147,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1601610017}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78592447304b4068a9f135576b6effed, type: 3}
+  m_Script: {fileID: 11500000, guid: 7d82109ac2b28784c9e17c270ff7b526, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   saveOnPause: 0
-  saveOnUnfocus: 1
-  saveOnExit: 1
+  saveOnUnfocus: 0
+  saveOnExit: 0
+  isLoggingEnabled: 1
 --- !u!4 &1601610019
 Transform:
   m_ObjectHideFlags: 0

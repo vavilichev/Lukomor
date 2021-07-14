@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Events;
 using VavilichevGD.Architecture.Settings;
 using VavilichevGD.Tools;
 
@@ -49,7 +47,6 @@ namespace VavilichevGD.Architecture {
 
         private static void InitGameSettings() {
             gameSettings = new GameSettings();
-            gameSettings.Load();
         }
 
         private static void InitSceneManager() {
@@ -88,15 +85,17 @@ namespace VavilichevGD.Architecture {
         
         
         public static void SaveGame() {
-            Logging.Log("GAME SAVE INSTANTLY");
-            // sceneManager.sceneActual.Save();
+            sceneManager.sceneActual.fileStorage.Save();;
         }
 
-        public static Coroutine SaveGameAsync(UnityAction callback) {
-            Logging.Log("GAME SAVE ASYNC");
-            return null;
-            // return sceneManager.sceneActual.SaveAsync(callback);
+        public static void SaveGameAsync(Action callback) {
+            sceneManager.sceneActual.fileStorage.SaveAsync(callback);
         }
+
+        public static IEnumerator SaveWithRoutine(Action callback) {
+            yield return sceneManager.sceneActual.fileStorage.SaveWithRoutine();
+        }
+
 
     }
 }

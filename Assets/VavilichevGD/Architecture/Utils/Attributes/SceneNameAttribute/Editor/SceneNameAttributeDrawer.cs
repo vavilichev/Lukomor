@@ -10,10 +10,10 @@ namespace VavilichevGD.Utils.Attributes {
 	public class SceneNameAttributeDrawer : PropertyDrawer {
 
 		public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {
-			this.DrawPrefix(position, property);
-			this.DrawPopup(position, property);
-			this.DrawWarning(position);
-			this.DrawButtonForAddingScene(position);
+			DrawPrefix(position, property);
+			DrawPopup(position, property);
+			DrawWarning(position);
+			DrawButtonForAddingScene(position);
 		}
 
 		private void DrawPrefix(Rect position, SerializedProperty property) {

@@ -1,101 +1,82 @@
-﻿using UnityEngine;
-using VavilichevGD.Tools;
+﻿using System;
+using UnityEngine;
 
 namespace VavilichevGD.Architecture {
     public class GameManager : MonoBehaviour
     {
-        #region DELEGATES
+        #region EVENTS
         
-        public delegate void GameManagerHandler();
-
-        public static event GameManagerHandler OnApplicationPausedEvent;
-        public static event GameManagerHandler OnApplicationUnpausedEvent;
-        public static event GameManagerHandler OnApplicationFocusedEvent;
-        public static event GameManagerHandler OnApplicationUnfocusedEvent;
-        public static event GameManagerHandler OnApplicationQuitEvent;
+        public static event Action OnApplicationPausedEvent;
+        public static event Action OnApplicationUnpausedEvent;
+        public static event Action OnApplicationFocusedEvent;
+        public static event Action OnApplicationUnfocusedEvent;
+        public static event Action OnApplicationQuitEvent;
 
         #endregion
         
-        [SerializeField] protected bool saveOnPause;
-        [SerializeField] protected bool saveOnUnfocus = true;
-        [SerializeField] protected bool saveOnExit = true;
+        [SerializeField] private bool saveOnPause;
+        [SerializeField] private bool saveOnUnfocus = true;
+        [SerializeField] private bool saveOnExit = true;
+        [Space, SerializeField] private bool isLoggingEnabled;
 
         
-        #region Start
-
         private void Start() {
             DontDestroyOnLoad(this.gameObject);
             
-            Logging.Log("GAME LAUNCHED {0}", Application.productName);
+            Game.Run();
             
-            this.OnGameLaunched();
+            if (isLoggingEnabled)
+                Debug.Log($"GAME MANAGER: Game launched: {Application.productName}");
         }
 
-        protected virtual void OnGameLaunched(){ }
         
-        #endregion
-        
-        #region Pause/Unpause
-
         private void OnApplicationPause(bool pauseStatus) {
             if (pauseStatus) {
-                Logging.Log("GAME PAUSED");
+                if (isLoggingEnabled)
+                    Debug.Log("GAME MANAGER: Paused");
                 
                 if (this.saveOnPause)
                     Game.SaveGame();
-                this.OnApplicationPaused();  
+                
                 OnApplicationPausedEvent?.Invoke();
             }
             else {
-                Logging.Log("GAME UNPAUSED");
-                this.OnApplicationUnpaused();
+                if (isLoggingEnabled)
+                    Debug.Log("GAME MANAGER: Game unpaused");
+                
                 OnApplicationUnpausedEvent?.Invoke();
             }
         }
 
-        protected virtual void OnApplicationPaused() { }
-        protected virtual void OnApplicationUnpaused() { }
-
-        #endregion
-
-
-        #region Focuse/Unfocuse
 
         private void OnApplicationFocus(bool hasFocus) {
             if (!hasFocus) {
-                Logging.Log("GAME UNFOCUSED");
+                if (isLoggingEnabled)
+                    Debug.Log("GAME MANAGER: Game focused");
                 
                 if (this.saveOnUnfocus)
                     Game.SaveGame();
-                this.OnApplicationUnfocused();    
+                
                 OnApplicationUnfocusedEvent?.Invoke();
             }
             else {
-                Logging.Log("GAME FOCUSED");
-                this.OnApplicationFocused();
+                if (isLoggingEnabled)
+                    Debug.Log("GAME MANAGER: Game unfocused");
+                
                 OnApplicationFocusedEvent?.Invoke();
             }
         }
         
-        protected virtual void OnApplicationFocused() { }
-        protected virtual void OnApplicationUnfocused() { }
-
-        #endregion
-
-
-        #region Quit
 
         private void OnApplicationQuit() {
-            Logging.Log("GAME EXITTED");
+            if (isLoggingEnabled)
+                Debug.Log("GAME MANAGER: Game exited");
+            
             if (this.saveOnExit)
                 Game.SaveGame();
-            this.OnApplicationQuitted();
+            
             OnApplicationQuitEvent?.Invoke();
         }
 
-        protected virtual void OnApplicationQuitted() { }
-
-        #endregion
-        
     }
 }

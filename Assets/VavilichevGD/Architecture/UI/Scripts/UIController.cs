@@ -61,7 +61,7 @@ namespace VavilichevGD.Architecture.UserInterface {
 		/// <summary>
 		/// Called when all repositories and interactors are started.
 		/// </summary>
-		public void SendEventOnStart() {
+		public void SendMessageOnStart() {
 			var allCreatedElements = createdUIElementsMap.Values.ToArray();
 			foreach (var element in allCreatedElements)
 				element.OnStart();
@@ -135,7 +135,7 @@ namespace VavilichevGD.Architecture.UserInterface {
 
 			isUIBuilt = true;
 			
-			if (this.isLoggingEnabled) {
+			if (isLoggingEnabled) {
 				Debug.Log($"INTERFACE CREATED SUCCESSFULLY: " +
 				          $"total elements: {prefabs.Length}, " +
 				          $"created: {createdUIElementsMap.Count}, " +

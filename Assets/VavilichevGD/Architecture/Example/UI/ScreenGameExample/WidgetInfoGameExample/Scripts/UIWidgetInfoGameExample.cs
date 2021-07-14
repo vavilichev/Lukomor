@@ -10,15 +10,14 @@ namespace VavilichevGD.Architecture.UserInterface.Example {
         [SerializeField] private InputField inputField;
         [SerializeField] private Button buttonSave;
 
-        private DummyRepository dummyRepository;
+        private DummyRepository _dummyRepository;
 
         private void Awake() {
-            this.dummyRepository = this.GetRepository<DummyRepository>();
+            this._dummyRepository = this.GetRepository<DummyRepository>();
         }
 
         private void OnEnable() {
             this.buttonSave.onClick.AddListener(this.OnSaveButtonClick);
-            this.UpdateLoadedString();
         }
 
         private void OnDisable() {
@@ -26,8 +25,11 @@ namespace VavilichevGD.Architecture.UserInterface.Example {
         }
 
         private void UpdateLoadedString() {
-            // var loadedText = this.dummyRepository.repoEntity.exampleString;
-            // this.textLoaded.text = loadedText;
+            textLoaded.text = _dummyRepository.text;
+        }
+
+        public void OnStart() {
+            this.UpdateLoadedString();
         }
 
 
@@ -35,8 +37,7 @@ namespace VavilichevGD.Architecture.UserInterface.Example {
 
         private void OnSaveButtonClick() {
             var newText = this.inputField.text;
-            // var repoEntity = this.dummyRepository.repoEntity;
-            // repoEntity.exampleString = newText;
+            _dummyRepository.text = newText;
 
             Game.SaveGame();
             this.UpdateLoadedString();

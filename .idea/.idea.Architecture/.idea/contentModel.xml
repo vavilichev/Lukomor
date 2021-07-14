@@ -39,13 +39,9 @@
         <e p="VavilichevGD" t="Include">
           <e p="Architecture" t="Include">
             <e p="ArchitectureComponent.cs" t="Include" />
+            <e p="ArchitectureComponentState.cs" t="Include" />
             <e p="ComponentsBase.cs" t="Include" />
             <e p="Example" t="Include">
-              <e p="Game" t="Include">
-                <e p="Scripts" t="Include">
-                  <e p="GameManagerExample.cs" t="Include" />
-                </e>
-              </e>
               <e p="Interactors" t="Include">
                 <e p="Scripts" t="Include">
                   <e p="DummyInteractor.cs" t="Include" />
@@ -66,6 +62,7 @@
                   <e p="Scripts" t="Include">
                     <e p="UIScreenGameExample.cs" t="Include" />
                   </e>
+                  <e p="UIScreenGameExample.prefab" t="Include" />
                   <e p="WidgetInfoGameExample" t="Include">
                     <e p="Scripts" t="Include">
                       <e p="UIWidgetInfoGameExample.cs" t="Include" />
@@ -75,26 +72,36 @@
               </e>
             </e>
             <e p="Game" t="Include">
-              <e p="GameSettings" t="Include">
-                <e p="AudioSettings" t="Include">
-                  <e p="AudioSettings.cs" t="Include" />
-                  <e p="AudioSettingsProperties.cs" t="Include" />
-                  <e p="IAudioSettings.cs" t="Include" />
-                </e>
+              <e p="Scripts" t="Include">
+                <e p="Game.cs" t="Include" />
+                <e p="GameManager.cs" t="Include" />
+              </e>
+            </e>
+            <e p="GameSettings" t="Include">
+              <e p="AudioSettings" t="Include">
+                <e p="AudioSettings.cs" t="Include" />
+                <e p="AudioSettingsData.cs" t="Include" />
+                <e p="IAudioSettings.cs" t="Include" />
+              </e>
+              <e p="Example" t="Include">
                 <e p="Scripts" t="Include">
-                  <e p="GameSettings.cs" t="Include" />
-                  <e p="IGameSettings.cs" t="Include" />
-                  <e p="ISettings.cs" t="Include" />
-                </e>
-                <e p="VibroSettings" t="Include">
-                  <e p="IVibroSettings.cs" t="Include" />
-                  <e p="VibroSettings.cs" t="Include" />
+                  <e p="GameSettingsExample.cs" t="Include" />
+                  <e p="WidgetAudioSetting.cs" t="Include" />
+                  <e p="WidgetSetting.cs" t="Include" />
+                  <e p="WidgetSettingMusic.cs" t="Include" />
+                  <e p="WidgetSettingSFX.cs" t="Include" />
+                  <e p="WidgetSettingVibro.cs" t="Include" />
                 </e>
               </e>
               <e p="Scripts" t="Include">
-                <e p="ArchitectureComponentState.cs" t="Include" />
-                <e p="Game.cs" t="Include" />
-                <e p="GameManager.cs" t="Include" />
+                <e p="GameSettings.cs" t="Include" />
+                <e p="IGameSettings.cs" t="Include" />
+                <e p="ISettings.cs" t="Include" />
+              </e>
+              <e p="VibroSettings" t="Include">
+                <e p="IVibroSettings.cs" t="Include" />
+                <e p="VibroSettings.cs" t="Include" />
+                <e p="VibroSettingsData.cs" t="Include" />
               </e>
             </e>
             <e p="IArchitectureCaptureEvents.cs" t="Include" />
@@ -143,8 +150,6 @@
               <e p="Loading" t="Include">
                 <e p="Scripts" t="Include">
                   <e p="LoadingScreen.cs" t="Include" />
-                  <e p="LoadingScreenVisualBase.cs" t="Include" />
-                  <e p="LoadingScreenVisualDefault.cs" t="Include" />
                 </e>
               </e>
               <e p="Scripts" t="Include">

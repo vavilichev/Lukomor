@@ -16,7 +16,7 @@ namespace VavilichevGD.Architecture.UserInterface {
 
 
 		public string sceneName => _sceneName;
-		public IUIElementOnLayer[] prefabs => this.GetPrefabs();
+		public IUIElementOnLayer[] prefabs => GetPrefabs();
 
 		public IUIElementOnLayer[] GetPrefabs() {
 			var uiPrefabs = new List<IUIElementOnLayer>();
