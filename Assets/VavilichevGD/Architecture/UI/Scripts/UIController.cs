@@ -24,7 +24,7 @@ namespace VavilichevGD.Architecture.UserInterface {
 		private Dictionary<Type, IUIElementOnLayer> createdUIElementsMap;
 		private Dictionary<Type, UIPopup> cachedPopupsMap;
 		private List<Type> uiDynamicPrefabTypes;
-		private UISceneConfig uiSceneConfig;
+		private SceneConfig sceneConfig;
 
 
 
@@ -85,7 +85,7 @@ namespace VavilichevGD.Architecture.UserInterface {
 				return cachedPopup as T;
 			}
 
-			var prefab = uiSceneConfig.GetPrefab(type);
+			var prefab = sceneConfig.GetPrefab(type);
 			return CreateAndShowElement<T>(prefab);
 		}
 
@@ -117,10 +117,10 @@ namespace VavilichevGD.Architecture.UserInterface {
 
 		#region BUILD
 
-		public void BuildUI(UISceneConfig uiSceneConfig) {
-			this.uiSceneConfig = uiSceneConfig;
+		public void BuildUI(SceneConfig sceneConfig) {
+			this.sceneConfig = sceneConfig;
 
-			var prefabs = uiSceneConfig.GetPrefabs();
+			var prefabs = this.sceneConfig.GetUIPrefabs();
 			foreach (var uiElementPref in prefabs) {
 				if (uiElementPref is UIScreen uiScreenPref && uiScreenPref.showByDefault) {
 					CreateAndShowScreen(uiScreenPref);

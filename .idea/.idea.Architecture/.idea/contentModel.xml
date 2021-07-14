@@ -8,34 +8,6 @@
       <e p="Assembly-CSharp-Editor.csproj" t="IncludeRecursive" />
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
-        <e p="TextMesh Pro" t="Include">
-          <e p="Fonts" t="Include">
-            <e p="LiberationSans - OFL.txt" t="Include" />
-          </e>
-          <e p="Resources" t="Include">
-            <e p="LineBreaking Following Characters.txt" t="Include" />
-            <e p="LineBreaking Leading Characters.txt" t="Include" />
-            <e p="Shaders" t="Include">
-              <e p="TMP_Bitmap-Custom-Atlas.shader" t="Include" />
-              <e p="TMP_Bitmap-Mobile.shader" t="Include" />
-              <e p="TMP_Bitmap.shader" t="Include" />
-              <e p="TMP_SDF Overlay.shader" t="Include" />
-              <e p="TMP_SDF-Mobile Masking.shader" t="Include" />
-              <e p="TMP_SDF-Mobile Overlay.shader" t="Include" />
-              <e p="TMP_SDF-Mobile.shader" t="Include" />
-              <e p="TMP_SDF-Surface-Mobile.shader" t="Include" />
-              <e p="TMP_SDF-Surface.shader" t="Include" />
-              <e p="TMP_SDF.shader" t="Include" />
-              <e p="TMP_Sprite.shader" t="Include" />
-              <e p="TMPro.cginc" t="Include" />
-              <e p="TMPro_Properties.cginc" t="Include" />
-              <e p="TMPro_Surface.cginc" t="Include" />
-            </e>
-          </e>
-          <e p="Sprites" t="Include">
-            <e p="EmojiOne Attribution.txt" t="Include" />
-          </e>
-        </e>
         <e p="VavilichevGD" t="Include">
           <e p="Architecture" t="Include">
             <e p="ArchitectureComponent.cs" t="Include" />
@@ -62,7 +34,6 @@
                   <e p="Scripts" t="Include">
                     <e p="UIScreenGameExample.cs" t="Include" />
                   </e>
-                  <e p="UIScreenGameExample.prefab" t="Include" />
                   <e p="WidgetInfoGameExample" t="Include">
                     <e p="Scripts" t="Include">
                       <e p="UIWidgetInfoGameExample.cs" t="Include" />
@@ -112,7 +83,6 @@
                 <e p="Interactor.cs" t="Include" />
               </e>
             </e>
-            <e p="README.txt" t="Include" />
             <e p="Repository" t="Include">
               <e p="Scripts" t="Include">
                 <e p="IRepository.cs" t="Include" />
@@ -153,9 +123,6 @@
                 </e>
               </e>
               <e p="Scripts" t="Include">
-                <e p="Config" t="Include">
-                  <e p="UISceneConfig.cs" t="Include" />
-                </e>
                 <e p="Interfaces" t="Include">
                   <e p="IUIElement.cs" t="Include" />
                   <e p="IUIElementOnLayer.cs" t="Include" />
@@ -209,11 +176,6 @@
             <e p="Coroutines" t="Include">
               <e p="Scripts" t="Include">
                 <e p="Coroutines.cs" t="Include" />
-              </e>
-            </e>
-            <e p="Logging" t="Include">
-              <e p="Scripts" t="Include">
-                <e p="Logging.cs" t="Include" />
               </e>
             </e>
           </e>

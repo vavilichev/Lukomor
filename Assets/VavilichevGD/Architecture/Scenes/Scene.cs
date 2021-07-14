@@ -21,7 +21,7 @@ namespace VavilichevGD.Architecture {
         }
 
         public void BuildUI() {
-            UI.Build(sceneConfig.sceneName);
+            UI.Build(sceneConfig);
         }
 
 
