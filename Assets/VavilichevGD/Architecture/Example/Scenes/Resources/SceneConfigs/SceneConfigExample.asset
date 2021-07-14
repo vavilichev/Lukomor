@@ -17,5 +17,8 @@ MonoBehaviour:
   - VavilichevGD.Architecture.Example.DummyRepository
   _interactorsReferences:
   - VavilichevGD.Architecture.Example.DummyInteractor
+  _uiPrefabs:
+  - {fileID: 8358193083829977085, guid: 42698a467e46d654d9c6b09431e11810, type: 3}
+  - {fileID: 3082821972105030127, guid: 6e62e1cf09ef4881a7052326e60ffbfa, type: 3}
   _saveDataForThisScene: 1
   _saveName: example.data
