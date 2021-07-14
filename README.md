@@ -4,4 +4,13 @@ This asset created for any Unity project. It's a basis. This code allow you to m
 **[Serf Wiki for details.](https://github.com/vavilichev/UnityGameArchitecturePreset/wiki)**
 
 ## Structure
-![](https://sun9-41.userapi.com/impg/kikdZpCy9b3KPTe76h-EcDNp5Vhg7s-mcoUhsg/IsMvAgyJ4uQ.jpg?size=761x631&quality=96&proxy=1&sign=5c70983f31084c065b5785b89edc726f)
+<p align="center">
+<img src="https://raw.githubusercontent.com/vavilichev/UnityGameArchitecturePreset/dev/Architecture.MainStructure.jpg">
+</p>
+<br>
+<br>
+
+## UI Structure
+<p align="center">
+<img src="https://raw.githubusercontent.com/vavilichev/UnityGameArchitecturePreset/dev/Architecture.UIStructure.jpg">
+</p>
