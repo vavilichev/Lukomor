@@ -57,14 +57,6 @@ namespace VavilichevGD.Architecture {
         
         
 
-        
-        
-        
-        
-        
-        
-        
-        
         public static T GetInteractor<T>() where T : IInteractor {
             return sceneManager.sceneActual.GetInteractor<T>();
         }
