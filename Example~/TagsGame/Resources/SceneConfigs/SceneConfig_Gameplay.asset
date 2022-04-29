@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cdb6970989c04f53b21c56e334397ee6, type: 3}
+  m_Script: {fileID: 11500000, guid: 9e701e7db3c47bc41a5f127d202fc939, type: 3}
   m_Name: SceneConfig_Gameplay
   m_EditorClassIdentifier: 
   _sceneName: GameplayScene
   _sceneWindowPrefabs:
-  - {fileID: 1920921128503862753, guid: 98f7065b8510a94419883cc17782e6cc, type: 3}
+  - {fileID: 1920921128503862753, guid: 82ca712a6b2c79c4393659814cc8b625, type: 3}

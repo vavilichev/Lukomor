@@ -88,5 +88,18 @@ namespace Lukomor.Example.Presentation.Cell
 		{
 			Model.MoveCell.Execute(Model.Data.Value);
 		}
+
+		private void Reset()
+		{
+			if (_button == null)
+			{
+				_button = GetComponentInChildren<Button>();
+			}
+
+			if (_textNumber == null)
+			{
+				_textNumber = GetComponentInChildren<Text>();
+			}
+		}
 	}
 }
