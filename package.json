@@ -21,7 +21,7 @@
   "license": "See LICENSE.md file",
   "samples": [
     {
-      "displayName": "Tags game as an example",
+      "displayName": "Tags Game",
       "description": "Simple game without wining or losing, but it fully implemented with the Lukomor",
       "path": "Example~/TagsGame"
     }
