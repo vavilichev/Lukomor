@@ -22,7 +22,8 @@
   "samples": [
     {
       "displayName": "Tags game as an example",
-      "description": "Simple game without wining or losing, but it fully implemented with the Lukomor"
+      "description": "Simple game without wining or losing, but it fully implemented with the Lukomor",
+      "path": "Example"
     }
   ]
 }
