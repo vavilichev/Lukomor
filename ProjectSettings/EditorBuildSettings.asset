@@ -6,9 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/VavilichevGD/Architecture/Example/Scenes/GameArchitectureExample.unity
+    path: Assets/Lukomor/Example/Scenes/Bootstrap.unity
     guid: 09fececf8fbe81e4ab13a1c145667643
-  - enabled: 0
-    path: Assets/VavilichevGD/Architecture/Storage/Example/Scenes/StorageExample.unity
-    guid: 64342abbc1a0d1a4a9e727190db95e11
+  - enabled: 1
+    path: Assets/Lukomor/Example/Scenes/GameplayScene.unity
+    guid: 938240a2616c60b4a990374f94b38008
+  - enabled: 1
+    path: Assets/Lukomor/Example/Scenes/SecondScene.unity
+    guid: 599ac01270068474c9051790b5931fb0
   m_configObjects: {}

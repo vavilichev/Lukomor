@@ -1,182 +1,180 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ContentModelStore">
-    <e p="C:\Users\vaand\AppData\Local\JetBrains\Rider2020.1\extResources" t="IncludeRecursive" />
-    <e p="C:\Users\vaand\AppData\Local\JetBrains\Rider2020.1\resharper-host\Local\Transient\ReSharperHost\v201\SolutionCaches\_Architecture.497115555.00" t="ExcludeRecursive" />
+    <e p="C:\Users\Вилла у моря\AppData\Local\JetBrains\Rider2020.1\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\Вилла у моря\AppData\Local\JetBrains\Rider2020.1\resharper-host\Local\Transient\ReSharperHost\v201\SolutionCaches\_Architecture.497115555.00" t="ExcludeRecursive" />
     <e p="D:\UnityProjects\Architecture" t="IncludeRecursive">
       <e p="Architecture.sln" t="IncludeFlat" />
-      <e p="Assembly-CSharp-Editor.csproj" t="IncludeRecursive" />
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
-        <e p="VavilichevGD" t="Include">
-          <e p="Architecture" t="Include">
-            <e p="ArchitectureComponent.cs" t="Include" />
-            <e p="ArchitectureComponentState.cs" t="Include" />
-            <e p="ComponentsBase.cs" t="Include" />
-            <e p="Example" t="Include">
-              <e p="Interactors" t="Include">
-                <e p="Scripts" t="Include">
-                  <e p="DummyInteractor.cs" t="Include" />
-                </e>
-              </e>
-              <e p="Repositories" t="Include">
-                <e p="Scripts" t="Include">
-                  <e p="DummyRepository.cs" t="Include" />
-                </e>
-              </e>
-              <e p="UI" t="Include">
-                <e p="PopupExample" t="Include">
-                  <e p="Scripts" t="Include">
-                    <e p="UIPopupExitExample.cs" t="Include" />
+        <e p="Lukomor" t="Include">
+          <e p="Example" t="Include">
+            <e p="Scripts" t="Include">
+              <e p="Application" t="Include">
+                <e p="TagsGameContextMain.cs" t="Include" />
+                <e p="TagsGrid" t="Include">
+                  <e p="Signals" t="Include">
+                    <e p="CellMovedSignal.cs" t="Include" />
+                    <e p="ICellMovedSignalObserver.cs" t="Include" />
+                    <e p="ITagsGridRebuildStartSignalObserver.cs" t="Include" />
+                    <e p="ITagsGridRebuiltSignalObserver.cs" t="Include" />
+                    <e p="TagsGridRebuildStartSignal.cs" t="Include" />
+                    <e p="TagsGridRebuiltSignal.cs" t="Include" />
                   </e>
+                  <e p="TagsGridFeatureInstaller.cs" t="Include" />
                 </e>
-                <e p="ScreenGameExample" t="Include">
-                  <e p="Scripts" t="Include">
-                    <e p="UIScreenGameExample.cs" t="Include" />
+              </e>
+              <e p="Domain" t="Include">
+                <e p="TagsGame.cs" t="Include" />
+                <e p="TagsGrid" t="Include">
+                  <e p="Interactors" t="Include">
+                    <e p="GetTagsGridDataInteractor.cs" t="Include" />
+                    <e p="IGetTagsGridDataInteractor.cs" t="Include" />
+                    <e p="IMoveCellInteractor.cs" t="Include" />
+                    <e p="IReloadTagsFeatureInteractor.cs" t="Include" />
+                    <e p="MoveCellInteractor.cs" t="Include" />
+                    <e p="ReloadTagsFeatureInteractor.cs" t="Include" />
                   </e>
-                  <e p="WidgetInfoGameExample" t="Include">
-                    <e p="Scripts" t="Include">
-                      <e p="UIWidgetInfoGameExample.cs" t="Include" />
-                    </e>
-                  </e>
+                  <e p="TagsCell.cs" t="Include" />
+                  <e p="TagsGrid.cs" t="Include" />
+                  <e p="TagsGridFeature.cs" t="Include" />
+                  <e p="TagsGridFeatureModel.cs" t="Include" />
                 </e>
               </e>
-            </e>
-            <e p="Game" t="Include">
-              <e p="Scripts" t="Include">
-                <e p="Game.cs" t="Include" />
-                <e p="GameManager.cs" t="Include" />
-              </e>
-            </e>
-            <e p="GameSettings" t="Include">
-              <e p="AudioSettings" t="Include">
-                <e p="AudioSettings.cs" t="Include" />
-                <e p="AudioSettingsData.cs" t="Include" />
-                <e p="IAudioSettings.cs" t="Include" />
-              </e>
-              <e p="Example" t="Include">
-                <e p="Scripts" t="Include">
-                  <e p="GameSettingsExample.cs" t="Include" />
-                  <e p="WidgetAudioSetting.cs" t="Include" />
-                  <e p="WidgetSetting.cs" t="Include" />
-                  <e p="WidgetSettingMusic.cs" t="Include" />
-                  <e p="WidgetSettingSFX.cs" t="Include" />
-                  <e p="WidgetSettingVibro.cs" t="Include" />
+              <e p="ExampleBoot.cs" t="Include" />
+              <e p="Presentation" t="Include">
+                <e p="Cell" t="Include">
+                  <e p="TagsCellController.cs" t="Include" />
+                  <e p="TagsCellModel.cs" t="Include" />
+                  <e p="TagsCellWidget.cs" t="Include" />
                 </e>
-              </e>
-              <e p="Scripts" t="Include">
-                <e p="GameSettings.cs" t="Include" />
-                <e p="IGameSettings.cs" t="Include" />
-                <e p="ISettings.cs" t="Include" />
-              </e>
-              <e p="VibroSettings" t="Include">
-                <e p="IVibroSettings.cs" t="Include" />
-                <e p="VibroSettings.cs" t="Include" />
-                <e p="VibroSettingsData.cs" t="Include" />
-              </e>
-            </e>
-            <e p="IArchitectureCaptureEvents.cs" t="Include" />
-            <e p="IArchitectureComponent.cs" t="Include" />
-            <e p="Interactors" t="Include">
-              <e p="Scripts" t="Include">
-                <e p="IInteractor.cs" t="Include" />
-                <e p="Interactor.cs" t="Include" />
-              </e>
-            </e>
-            <e p="Repository" t="Include">
-              <e p="Scripts" t="Include">
-                <e p="IRepository.cs" t="Include" />
-                <e p="Repository.cs" t="Include" />
-              </e>
-            </e>
-            <e p="Scenes" t="Include">
-              <e p="Config" t="Include">
-                <e p="SceneConfig.cs" t="Include" />
-              </e>
-              <e p="IScene.cs" t="Include" />
-              <e p="ISceneManager.cs" t="Include" />
-              <e p="Scene.cs" t="Include" />
-              <e p="SceneManager.cs" t="Include" />
-            </e>
-            <e p="Storage" t="Include">
-              <e p="Example" t="Include">
-                <e p="Scripts" t="Include">
-                  <e p="StorageExample.cs" t="Include" />
+                <e p="Gameplay" t="Include">
+                  <e p="GameplayWindow.cs" t="Include" />
+                  <e p="GameplayWindowController.cs" t="Include" />
+                  <e p="GameplayWindowModel.cs" t="Include" />
                 </e>
-              </e>
-              <e p="Scripts" t="Include">
-                <e p="CloudStorage.cs" t="Include" />
-                <e p="FileStorage.cs" t="Include" />
-                <e p="GameData.cs" t="Include" />
-                <e p="Storage.cs" t="Include" />
-                <e p="Surrogates" t="Include">
-                  <e p="QuaternionSerializationSurrogate.cs" t="Include" />
-                  <e p="Vector2SerializationSurrogate.cs" t="Include" />
-                  <e p="Vector3SerializationSurrogate.cs" t="Include" />
+                <e p="Grid" t="Include">
+                  <e p="TagsGridController.cs" t="Include" />
+                  <e p="TagsGridModel.cs" t="Include" />
+                  <e p="TagsGridWidget.cs" t="Include" />
                 </e>
-              </e>
-            </e>
-            <e p="UI" t="Include">
-              <e p="Loading" t="Include">
-                <e p="Scripts" t="Include">
-                  <e p="LoadingScreen.cs" t="Include" />
-                </e>
-              </e>
-              <e p="Scripts" t="Include">
-                <e p="Interfaces" t="Include">
-                  <e p="IUIElement.cs" t="Include" />
-                  <e p="IUIElementOnLayer.cs" t="Include" />
-                  <e p="IUIPopup.cs" t="Include" />
-                  <e p="IUIScreen.cs" t="Include" />
-                  <e p="IUIWidget.cs" t="Include" />
-                </e>
-                <e p="UI.cs" t="Include" />
-                <e p="UIController.cs" t="Include" />
-                <e p="UIElement.cs" t="Include" />
-                <e p="UILayer.cs" t="Include" />
-                <e p="UILayerType.cs" t="Include" />
-                <e p="UIPopup.cs" t="Include" />
-                <e p="UIScreen.cs" t="Include" />
-                <e p="UIWidget.cs" t="Include" />
-                <e p="Utils" t="Include">
-                  <e p="UIExtensions.cs" t="Include" />
-                </e>
-              </e>
-            </e>
-            <e p="Utils" t="Include">
-              <e p="Attributes" t="Include">
-                <e p="ClassReferenceAttribute" t="Include">
-                  <e p="ClassReferenceAttribute.cs" t="Include" />
-                  <e p="Editor" t="Include">
-                    <e p="ClassReferenceAttributeDrawer.cs" t="Include" />
-                  </e>
-                </e>
-                <e p="GameObjectOfType" t="Include">
-                  <e p="Editor" t="Include">
-                    <e p="GameObjectOfTypeDrawer.cs" t="Include" />
-                  </e>
-                  <e p="GameObjectOfTypeAttribute.cs" t="Include" />
-                </e>
-                <e p="SceneNameAttribute" t="Include">
-                  <e p="Editor" t="Include">
-                    <e p="SceneNameAttributeDrawer.cs" t="Include" />
-                  </e>
-                  <e p="SceneNameAttribute.cs" t="Include" />
-                </e>
-              </e>
-              <e p="Scripts" t="Include">
-                <e p="ArchitectureExtensions.cs" t="Include" />
-                <e p="Editor" t="Include">
-                  <e p="UIEditorExtensions.cs" t="Include" />
+                <e p="Loading" t="Include">
+                  <e p="LoadingScreenExample.cs" t="Include" />
+                  <e p="ReloadingFeatureScreen.cs" t="Include" />
                 </e>
               </e>
             </e>
           </e>
-          <e p="Tools" t="Include">
-            <e p="Coroutines" t="Include">
-              <e p="Scripts" t="Include">
-                <e p="Coroutines.cs" t="Include" />
+          <e p="Scripts" t="Include">
+            <e p="Application" t="Include">
+              <e p="Contexts" t="Include">
+                <e p="ContextBase.cs" t="Include" />
+                <e p="IContext.cs" t="Include" />
               </e>
+              <e p="Features" t="Include">
+                <e p="Feature.cs" t="Include" />
+                <e p="IFeature.cs" t="Include" />
+              </e>
+              <e p="Services" t="Include">
+                <e p="IService.cs" t="Include" />
+                <e p="Service.cs" t="Include" />
+              </e>
+              <e p="Signals" t="Include">
+                <e p="ISignal.cs" t="Include" />
+                <e p="ISignalObserver.cs" t="Include" />
+                <e p="ISignalTower.cs" t="Include" />
+                <e p="SignalTower.cs" t="Include" />
+              </e>
+            </e>
+            <e p="Common" t="Include">
+              <e p="Constants.cs" t="Include" />
+              <e p="IStoredObject.cs" t="Include" />
+              <e p="Payload.cs" t="Include" />
+              <e p="Scenes" t="Include">
+                <e p="ISceneConfig.cs" t="Include" />
+                <e p="SceneConfig.cs" t="Include" />
+                <e p="ScenesLibrary.cs" t="Include" />
+              </e>
+              <e p="ServiceLocator.cs" t="Include" />
+            </e>
+            <e p="DIContainer" t="Include">
+              <e p="DI.cs" t="Include" />
+              <e p="DIArray.cs" t="Include" />
+              <e p="DIVar.cs" t="Include" />
+            </e>
+            <e p="Domain" t="Include">
+              <e p="Scenes" t="Include">
+                <e p="ISceneLoader.cs" t="Include" />
+                <e p="ISceneManager.cs" t="Include" />
+                <e p="SceneLoader.cs" t="Include" />
+                <e p="SceneManager.cs" t="Include" />
+              </e>
+            </e>
+            <e p="Presentation" t="Include">
+              <e p="Common" t="Include">
+                <e p="Transition.cs" t="Include" />
+                <e p="UILayer.cs" t="Include" />
+                <e p="UILayerContainer.cs" t="Include" />
+              </e>
+              <e p="Controllers" t="Include">
+                <e p="Controller.cs" t="Include" />
+              </e>
+              <e p="Models" t="Include">
+                <e p="Model.cs" t="Include" />
+              </e>
+              <e p="UserInterface.cs" t="Include" />
+              <e p="Views" t="Include">
+                <e p="IView.cs" t="Include" />
+                <e p="View.cs" t="Include" />
+                <e p="Widgets" t="Include">
+                  <e p="Widget.cs" t="Include" />
+                </e>
+                <e p="Windows" t="Include">
+                  <e p="DialogWindow.cs" t="Include" />
+                  <e p="Extensions" t="Include">
+                    <e p="WindowExtensions.cs" t="Include" />
+                  </e>
+                  <e p="HomeWindow.cs" t="Include" />
+                  <e p="IWindow.cs" t="Include" />
+                  <e p="Window.cs" t="Include" />
+                  <e p="WindowInteractionBlocker.cs" t="Include" />
+                  <e p="WindowsStack.cs" t="Include" />
+                </e>
+              </e>
+            </e>
+          </e>
+        </e>
+        <e p="VavilichevGD" t="Include">
+          <e p="Extensions" t="Include">
+            <e p="ArrayExtensions.cs" t="Include" />
+          </e>
+          <e p="Tools" t="Include">
+            <e p="Async" t="Include">
+              <e p="TaskExtensions.cs" t="Include" />
+              <e p="UnityAwaiters.cs" t="Include" />
+            </e>
+            <e p="Coroutines" t="Include">
+              <e p="Coroutines.cs" t="Include" />
+            </e>
+            <e p="Logging" t="Include">
+              <e p="Log.cs" t="Include" />
+            </e>
+          </e>
+          <e p="Utils" t="Include">
+            <e p="Attributes" t="Include">
+              <e p="ObjectsOfType" t="Include">
+                <e p="GameObjectOfTypeAttribute.cs" t="Include" />
+                <e p="GameObjectOfTypeDrawer.cs" t="Include" />
+                <e p="ObjectOfTypeAttributeBase.cs" t="Include" />
+                <e p="ObjectOfTypeDrawerBase.cs" t="Include" />
+                <e p="ScriptableObjectOfTypeAttribute.cs" t="Include" />
+                <e p="ScriptableObjectOfTypeDrawer.cs" t="Include" />
+              </e>
+            </e>
+            <e p="Observables" t="Include">
+              <e p="ObservableCommand.cs" t="Include" />
+              <e p="ObservableEvent.cs" t="Include" />
+              <e p="ObservableVariable.cs" t="Include" />
             </e>
           </e>
         </e>

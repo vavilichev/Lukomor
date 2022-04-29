@@ -20,7 +20,240 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3d2d5fb1-4eaf-4f19-93cb-6532f01bacbd" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Game/Scripts/Game.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Game/Scripts/Game.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/VavilichevGD/Extensions/ArrayExtensions.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/VavilichevGD/Tools/Async/TaskExtensions.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/VavilichevGD/Tools/Async/UnityAwaiters.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/VavilichevGD/Tools/Logging/Log.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/VavilichevGD/Utils/Attributes/ObjectsOfType/GameObjectOfTypeAttribute.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/VavilichevGD/Utils/Attributes/ObjectsOfType/GameObjectOfTypeDrawer.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/VavilichevGD/Utils/Attributes/ObjectsOfType/ObjectOfTypeAttributeBase.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/VavilichevGD/Utils/Attributes/ObjectsOfType/ObjectOfTypeDrawerBase.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/VavilichevGD/Utils/Attributes/ObjectsOfType/ScriptableObjectOfTypeAttribute.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/VavilichevGD/Utils/Attributes/ObjectsOfType/ScriptableObjectOfTypeDrawer.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/VavilichevGD/Utils/Observables/ObservableCommand.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/VavilichevGD/Utils/Observables/ObservableEvent.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/VavilichevGD/Utils/Observables/ObservableVariable.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Architecture/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Architecture/.idea/contentModel.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Architecture/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Architecture/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/ArchitectureComponent.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/ArchitectureComponent.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/ArchitectureComponentState.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/ArchitectureComponentState.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/ComponentsBase.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/ComponentsBase.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Example.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Example/Interactors.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Example/Interactors/Scripts.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Example/Interactors/Scripts/DummyInteractor.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Example/Interactors/Scripts/DummyInteractor.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Example/Repositories.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Example/Repositories/Scripts.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Example/Repositories/Scripts/DummyRepository.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Example/Repositories/Scripts/DummyRepository.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Example/Scenes.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Example/Scenes/GameArchitectureExample.unity" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Example/Scenes/GameArchitectureExample.unity.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Example/Scenes/Resources.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Example/Scenes/Resources/SceneConfigs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Example/Scenes/Resources/SceneConfigs/SceneConfigExample.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Example/Scenes/Resources/SceneConfigs/SceneConfigExample.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Example/UI.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Example/UI/PopupExample.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Example/UI/PopupExample/Scripts.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Example/UI/PopupExample/Scripts/UIPopupExitExample.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Example/UI/PopupExample/Scripts/UIPopupExitExample.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Example/UI/PopupExample/UIPopupExample.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Example/UI/PopupExample/UIPopupExample.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Example/UI/ScreenGameExample.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Example/UI/ScreenGameExample/Scripts.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Example/UI/ScreenGameExample/Scripts/UIScreenGameExample.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Example/UI/ScreenGameExample/Scripts/UIScreenGameExample.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Example/UI/ScreenGameExample/UIScreenGameExample.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Example/UI/ScreenGameExample/WidgetInfoGameExample.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Example/UI/ScreenGameExample/WidgetInfoGameExample/Scripts.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Example/UI/ScreenGameExample/WidgetInfoGameExample/Scripts/UIWidgetInfoGameExample.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Example/UI/ScreenGameExample/WidgetInfoGameExample/Scripts/UIWidgetInfoGameExample.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Example/UI/ScreenGameExample/WidgetInfoGameExample/WidgetInfoGameExample.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Example/UI/ScreenGameExample/WidgetInfoGameExample/WidgetInfoGameExample.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Game.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Game/Scripts.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Game/Scripts/Game.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Game/Scripts/Game.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Game/Scripts/GameManager.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Game/Scripts/GameManager.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/GameSettings.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/GameSettings/AudioSettings.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/GameSettings/AudioSettings/AudioSettings.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/GameSettings/AudioSettings/AudioSettings.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/GameSettings/AudioSettings/AudioSettingsData.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/GameSettings/AudioSettings/AudioSettingsData.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/GameSettings/AudioSettings/IAudioSettings.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/GameSettings/AudioSettings/IAudioSettings.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/GameSettings/Example.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/GameSettings/Example/Prefabs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/GameSettings/Example/Prefabs/WidgetSettingMusic.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/GameSettings/Example/Prefabs/WidgetSettingMusic.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/GameSettings/Example/Prefabs/WidgetSettingSFX.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/GameSettings/Example/Prefabs/WidgetSettingSFX.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/GameSettings/Example/Prefabs/WidgetSettingVibro.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/GameSettings/Example/Prefabs/WidgetSettingVibro.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/GameSettings/Example/Scenes.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/GameSettings/Example/Scenes/ExampleGameSettings.unity" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/GameSettings/Example/Scenes/ExampleGameSettings.unity.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/GameSettings/Example/Scripts.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/GameSettings/Example/Scripts/GameSettingsExample.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/GameSettings/Example/Scripts/GameSettingsExample.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/GameSettings/Example/Scripts/WidgetAudioSetting.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/GameSettings/Example/Scripts/WidgetAudioSetting.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/GameSettings/Example/Scripts/WidgetSetting.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/GameSettings/Example/Scripts/WidgetSetting.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/GameSettings/Example/Scripts/WidgetSettingMusic.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/GameSettings/Example/Scripts/WidgetSettingMusic.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/GameSettings/Example/Scripts/WidgetSettingSFX.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/GameSettings/Example/Scripts/WidgetSettingSFX.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/GameSettings/Example/Scripts/WidgetSettingVibro.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/GameSettings/Example/Scripts/WidgetSettingVibro.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/GameSettings/Scripts.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/GameSettings/Scripts/GameSettings.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/GameSettings/Scripts/GameSettings.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/GameSettings/Scripts/IGameSettings.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/GameSettings/Scripts/IGameSettings.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/GameSettings/Scripts/ISettings.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/GameSettings/Scripts/ISettings.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/GameSettings/VibroSettings.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/GameSettings/VibroSettings/IVibroSettings.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/GameSettings/VibroSettings/IVibroSettings.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/GameSettings/VibroSettings/VibroSettings.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/GameSettings/VibroSettings/VibroSettings.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/GameSettings/VibroSettings/VibroSettingsData.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/GameSettings/VibroSettings/VibroSettingsData.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/IArchitectureCaptureEvents.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/IArchitectureCaptureEvents.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/IArchitectureComponent.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/IArchitectureComponent.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Interactors.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Interactors/Scripts.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Interactors/Scripts/IInteractor.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Interactors/Scripts/IInteractor.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Interactors/Scripts/Interactor.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Interactors/Scripts/Interactor.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Repository.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Repository/Scripts.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Repository/Scripts/IRepository.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Repository/Scripts/IRepository.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Repository/Scripts/Repository.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Repository/Scripts/Repository.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Scenes.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Scenes/Config.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Scenes/Config/SceneConfig.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Scenes/Config/SceneConfig.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Scenes/IScene.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Scenes/IScene.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Scenes/ISceneManager.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Scenes/ISceneManager.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Scenes/Scene.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Scenes/Scene.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Scenes/SceneManager.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Scenes/SceneManager.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Storage.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Storage/Example.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Storage/Example/Scenes.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Storage/Example/Scenes/StorageExample.unity" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Storage/Example/Scenes/StorageExample.unity.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Storage/Example/Scripts.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Storage/Example/Scripts/StorageExample.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Storage/Example/Scripts/StorageExample.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Storage/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Storage/README.md.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Storage/Scripts.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Storage/Scripts/CloudStorage.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Storage/Scripts/CloudStorage.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Storage/Scripts/FileStorage.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Storage/Scripts/FileStorage.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Storage/Scripts/GameData.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Storage/Scripts/GameData.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Storage/Scripts/Storage.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Storage/Scripts/Storage.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Storage/Scripts/Surrogates.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Storage/Scripts/Surrogates/QuaternionSerializationSurrogate.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Storage/Scripts/Surrogates/QuaternionSerializationSurrogate.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Storage/Scripts/Surrogates/Vector2SerializationSurrogate.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Storage/Scripts/Surrogates/Vector2SerializationSurrogate.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Storage/Scripts/Surrogates/Vector3SerializationSurrogate.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Storage/Scripts/Surrogates/Vector3SerializationSurrogate.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/UI.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/UI/Loading.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/UI/Loading/Resources.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/UI/Loading/Resources/[LOADING_SCREEN].prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/UI/Loading/Resources/[LOADING_SCREEN].prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/UI/Loading/Scripts.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/UI/Loading/Scripts/LoadingScreen.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/UI/Loading/Scripts/LoadingScreen.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/UI/Resources.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/UI/Resources/[INTERFACE].prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/UI/Resources/[INTERFACE].prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/UI/Scripts.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/UI/Scripts/Interfaces.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/UI/Scripts/Interfaces/IUIElement.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/UI/Scripts/Interfaces/IUIElement.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/UI/Scripts/Interfaces/IUIElementOnLayer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/UI/Scripts/Interfaces/IUIElementOnLayer.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/UI/Scripts/Interfaces/IUIPopup.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/UI/Scripts/Interfaces/IUIPopup.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/UI/Scripts/Interfaces/IUIScreen.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/UI/Scripts/Interfaces/IUIScreen.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/UI/Scripts/Interfaces/IUIWidget.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/UI/Scripts/Interfaces/IUIWidget.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/UI/Scripts/UI.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/UI/Scripts/UI.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/UI/Scripts/UIController.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/UI/Scripts/UIController.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/UI/Scripts/UIElement.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/UI/Scripts/UIElement.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/UI/Scripts/UILayer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/UI/Scripts/UILayer.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/UI/Scripts/UILayerType.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/UI/Scripts/UILayerType.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/UI/Scripts/UIPopup.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/UI/Scripts/UIPopup.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/UI/Scripts/UIScreen.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/UI/Scripts/UIScreen.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/UI/Scripts/UIWidget.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/UI/Scripts/UIWidget.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/UI/Scripts/Utils.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/UI/Scripts/Utils/UIExtensions.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/UI/Scripts/Utils/UIExtensions.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Utils.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Utils/Attributes.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Utils/Attributes/ClassReferenceAttribute.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Utils/Attributes/ClassReferenceAttribute/ClassReferenceAttribute.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Utils/Attributes/ClassReferenceAttribute/ClassReferenceAttribute.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Utils/Attributes/ClassReferenceAttribute/Editor.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Utils/Attributes/ClassReferenceAttribute/Editor/ClassReferenceAttributeDrawer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Utils/Attributes/ClassReferenceAttribute/Editor/ClassReferenceAttributeDrawer.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Utils/Attributes/GameObjectOfType.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Utils/Attributes/GameObjectOfType/Editor.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Utils/Attributes/GameObjectOfType/Editor/GameObjectOfTypeDrawer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Utils/Attributes/GameObjectOfType/Editor/GameObjectOfTypeDrawer.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Utils/Attributes/GameObjectOfType/GameObjectOfTypeAttribute.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Utils/Attributes/GameObjectOfType/GameObjectOfTypeAttribute.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Utils/Attributes/SceneNameAttribute.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Utils/Attributes/SceneNameAttribute/Editor.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Utils/Attributes/SceneNameAttribute/Editor/SceneNameAttributeDrawer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Utils/Attributes/SceneNameAttribute/Editor/SceneNameAttributeDrawer.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Utils/Attributes/SceneNameAttribute/SceneNameAttribute.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Utils/Attributes/SceneNameAttribute/SceneNameAttribute.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Utils/Scripts.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Utils/Scripts/ArchitectureExtensions.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Utils/Scripts/ArchitectureExtensions.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Utils/Scripts/Editor.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Utils/Scripts/Editor/UIEditorExtensions.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Utils/Scripts/Editor/UIEditorExtensions.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Tools/Coroutines/Scripts.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Tools/Coroutines/Scripts/Coroutines.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/VavilichevGD/Tools/Coroutines/Coroutines.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/VavilichevGD/Tools/Coroutines/Scripts/Coroutines.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,125 +264,175 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/Assets/VavilichevGD/Architecture/UI/Scripts/Interfaces/IUIPopup.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/VavilichevGD/Architecture/UI/Scripts/Interfaces/IUIElement.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Storage/Scripts/CloudStorage.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Storage/Scripts/Surrogates/Vector2SerializationSurrogate.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/VavilichevGD/Architecture/ArchitectureComponentState.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/VavilichevGD/Architecture/UI/Scripts/Interfaces/IUIElementOnLayer.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/VavilichevGD/Architecture/UI/Scripts/Interfaces/IUIWidget.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Game/Scripts/GameManager.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Storage/Scripts/Surrogates/Vector3SerializationSurrogate.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Example/Repositories/Scripts/DummyRepository.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/VavilichevGD/Architecture/UI/Scripts/Utils/UIExtensions.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/VavilichevGD/Architecture/UI/Scripts/Interfaces/IUIScreen.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/VavilichevGD/Architecture/UI/Scripts/UIPopup.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Scenes/IScene.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Interactors/Scripts/Interactor.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/48050808-8AEE-40CA-B708-18FF164A29D5/8c/f64fabb7/GameObject.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Storage/Scripts/FileStorage.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Scenes/ISceneManager.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Interactors/Scripts/IInteractor.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/VavilichevGD/Architecture/UI/Scripts/UILayer.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/VavilichevGD/Architecture/UI/Scripts/UIController.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Game/Scripts/Game.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Storage/Scripts/GameData.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/VavilichevGD/Architecture/UI/Scripts/UIScreen.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/VavilichevGD/Architecture/UI/Scripts/UI.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Storage/Example/Scripts/StorageExample.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Example/UI/ScreenGameExample/WidgetInfoGameExample/Scripts/UIWidgetInfoGameExample.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/VavilichevGD/Architecture/UI/Scripts/UIWidget.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Repository/Scripts/IRepository.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/48050808-8AEE-40CA-B708-18FF164A29D5/5b/02f3d982/SerializeReference.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/VavilichevGD/Architecture/UI/Scripts/UILayerType.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/VavilichevGD/Architecture/UI/Scripts/UIElement.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/48050808-8AEE-40CA-B708-18FF164A29D5/79/558c7282/TooltipAttribute.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Example/Interactors/Scripts/DummyInteractor.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Lukomor/Scripts/Presentation/Views/Windows/IWindow.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Lukomor/Scripts/Presentation/Views/Windows/Window.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Lukomor/Scripts/Presentation/Views/Windows/WindowInteractionBlocker.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Lukomor/Scripts/Presentation/Views/Windows/WindowsStack.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Lukomor/Scripts/Presentation/Views/Windows/DialogWindow.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Lukomor/Scripts/Presentation/Views/Windows/HomeWindow.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Lukomor/Example/Scripts/Presentation/Gameplay/GameplayWindowModel.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Lukomor/Scripts/Presentation/Views/Widgets/Widget.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/VavilichevGD/Utils/Observables/ObservableEvent.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/VavilichevGD/Extensions/ArrayExtensions.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Lukomor/Example/Scripts/Presentation/Loading/ReloadingFeatureScreen.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Lukomor/Example/Scripts/Presentation/Gameplay/GameplayWindow.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Lukomor/Example/Scripts/Presentation/Gameplay/GameplayWindowController.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Lukomor/Example/Scripts/Presentation/Grid/TagsGridModel.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/VavilichevGD/Utils/Attributes/ObjectsOfType/ScriptableObjectOfTypeDrawer.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/VavilichevGD/Utils/Attributes/ObjectsOfType/GameObjectOfTypeAttribute.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Lukomor/Example/Scripts/Presentation/Grid/TagsGridWidget.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Lukomor/Example/Scripts/Presentation/Loading/LoadingScreenExample.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/VavilichevGD/Utils/Observables/ObservableCommand.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/VavilichevGD/Utils/Observables/ObservableVariable.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/VavilichevGD/Utils/Attributes/ObjectsOfType/GameObjectOfTypeDrawer.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Lukomor/Example/Scripts/Presentation/Cell/TagsCellModel.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Lukomor/Example/Scripts/Presentation/Cell/TagsCellWidget.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/VavilichevGD/Utils/Attributes/ObjectsOfType/ObjectOfTypeAttributeBase.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/VavilichevGD/Utils/Attributes/ObjectsOfType/ScriptableObjectOfTypeAttribute.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Lukomor/Example/Scripts/Presentation/Grid/TagsGridController.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Lukomor/Example/Scripts/Domain/TagsGrid/TagsGridFeatureModel.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/VavilichevGD/Tools/Coroutines/Coroutines.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Lukomor/Example/Scripts/Application/TagsGrid/TagsGridFeatureInstaller.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Lukomor/Example/Scripts/Presentation/Cell/TagsCellController.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Lukomor/Example/Scripts/Domain/TagsGrid/TagsCell.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/VavilichevGD/Tools/Async/UnityAwaiters.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Lukomor/Example/Scripts/Domain/TagsGrid/TagsGrid.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/VavilichevGD/Tools/Async/TaskExtensions.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Lukomor/Example/Scripts/Domain/TagsGrid/TagsGridFeature.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/VavilichevGD/Tools/Logging/Log.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Lukomor/Scripts/Presentation/Common/UILayerContainer.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Lukomor/Scripts/Presentation/Models/Model.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Lukomor/Scripts/Presentation/Controllers/Controller.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Lukomor/Scripts/Presentation/Common/Transition.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Lukomor/Scripts/Presentation/Common/UILayer.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Lukomor/Scripts/Application/Services/Service.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Lukomor/Scripts/Presentation/Views/IView.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Lukomor/Scripts/Presentation/Views/View.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Lukomor/Scripts/Application/Contexts/IContext.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.textmeshpro@2.0.1/Scripts/Runtime/TextMeshProUGUI.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Lukomor/Scripts/Application/Features/Feature.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Lukomor/Scripts/Application/Features/IFeature.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Lukomor/Scripts/Application/Services/IService.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Lukomor/Scripts/Application/Signals/ISignalObserver.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Lukomor/Scripts/Application/Signals/ISignalTower.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Lukomor/Scripts/Application/Signals/SignalTower.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Lukomor/Scripts/Application/Contexts/ContextBase.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Lukomor/Scripts/Domain/Scenes/ISceneManager.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Lukomor/Scripts/Domain/Scenes/SceneLoader.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Lukomor/Scripts/Domain/Scenes/SceneManager.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Lukomor/Scripts/Application/Signals/ISignal.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Lukomor/Scripts/Common/Scenes/ISceneConfig.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Lukomor/Scripts/Common/Scenes/SceneConfig.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Lukomor/Scripts/Common/Scenes/ScenesLibrary.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Lukomor/Scripts/Domain/Scenes/ISceneLoader.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Lukomor/Example/Scripts/Application/TagsGameContextMain.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.textmeshpro@2.0.1/Scripts/Runtime/TMP_Text.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Lukomor/Example/Scripts/Domain/TagsGame.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/90D4BCB0-03FB-405F-B092-41AED2F178AA/47/b63327c1/SerializedPropertyType.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/VavilichevGD/Architecture/UI/Loading/Scripts/LoadingScreen.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Storage/Scripts/Storage.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Utils/Scripts/Editor/UIEditorExtensions.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Utils/Scripts/ArchitectureExtensions.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/VavilichevGD/Architecture/IArchitectureCaptureEvents.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Scenes/Config/SceneConfig.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/VavilichevGD/Architecture/IArchitectureComponent.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Scenes/SceneManager.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Utils/Attributes/GameObjectOfType/GameObjectOfTypeAttribute.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Scenes/Scene.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Utils/Attributes/GameObjectOfType/Editor/GameObjectOfTypeDrawer.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Example/UI/ScreenGameExample/Scripts/UIScreenGameExample.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Utils/Attributes/SceneNameAttribute/Editor/SceneNameAttributeDrawer.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Repository/Scripts/Repository.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Utils/Attributes/SceneNameAttribute/SceneNameAttribute.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/99258562-0D64-4271-98DD-F3A0E1467733/ad/8c84d65a/ValueTuple`2.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Lukomor/Scripts/Presentation/UserInterface.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://C:/Program Files/Unity/Hub/Editor/2019.3.11f1/Editor/Data/Resources/PackageManager/BuiltInPackages/com.unity.ugui/Runtime/UI/Core/Selectable.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://C:/Program Files/Unity/Hub/Editor/2019.3.11f1/Editor/Data/Resources/PackageManager/BuiltInPackages/com.unity.ugui/Runtime/UI/Core/InputField.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Lukomor/Scripts/DIContainer/DIArray.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/26BACF2A-B3E7-4E5B-9AB6-134973DBE886/91/5d55c901/Array.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Lukomor/Scripts/DIContainer/DIVar.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/90D4BCB0-03FB-405F-B092-41AED2F178AA/bd/4b7c1b75/DragAndDrop.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://C:/Program Files/Unity/Hub/Editor/2019.3.11f1/Editor/Data/Resources/PackageManager/BuiltInPackages/com.unity.ugui/Runtime/UI/Core/DefaultControls.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/7A640F6C-B241-40B6-897C-AC910F849430/5c/91be9b57/Array.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/48050808-8AEE-40CA-B708-18FF164A29D5/1b/73a590c7/Vector2.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/7A640F6C-B241-40B6-897C-AC910F849430/73/04648224/IDisposable.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Lukomor/Scripts/DIContainer/DI.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/7A640F6C-B241-40B6-897C-AC910F849430/bf/c86e412a/IServiceProvider.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/48050808-8AEE-40CA-B708-18FF164A29D5/56/01618773/Resources.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/7BE1A95B-44F5-474C-9C1A-5C5FD9C86B28/f2/7a7a6557/BindableElement.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Lukomor/Scripts/Common/IStoredObject.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Lukomor/Scripts/Common/Payload.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/7BE1A95B-44F5-474C-9C1A-5C5FD9C86B28/52/bf1f98c9/TextElement.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/7BE1A95B-44F5-474C-9C1A-5C5FD9C86B28/53/c6596722/Button.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Lukomor/Scripts/Common/ServiceLocator.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/7BE1A95B-44F5-474C-9C1A-5C5FD9C86B28/76/1e4a9ecb/VisualElement.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/A9627032-6887-4EDC-9774-216522BE7D07/2d/b92122c9/Enumerable.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Lukomor/Scripts/Common/Constants.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://C:/Program Files/Unity/Hub/Editor/2019.3.11f1/Editor/Data/Resources/PackageManager/BuiltInPackages/com.unity.ugui/Runtime/UI/Core/Button.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Utils/Attributes/ClassReferenceAttribute/Editor/ClassReferenceAttributeDrawer.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/VavilichevGD/Architecture/GameSettings/AudioSettings/IAudioSettings.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/VavilichevGD/Architecture/ArchitectureComponent.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Storage/Scripts/Surrogates/QuaternionSerializationSurrogate.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Utils/Attributes/ClassReferenceAttribute/ClassReferenceAttribute.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/48050808-8AEE-40CA-B708-18FF164A29D5/9d/3651e355/PropertyAttribute.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/VavilichevGD/Architecture/GameSettings/Scripts/ISettings.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/8462C93B-00B5-4616-9C50-6EB8281FD255/c5/28ad4ac8/Attribute.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Example/UI/PopupExample/Scripts/UIPopupExitExample.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/VavilichevGD/Architecture/GameSettings/Scripts/IGameSettings.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/VavilichevGD/Tools/Coroutines/Scripts/Coroutines.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/VavilichevGD/Architecture/ComponentsBase.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/VavilichevGD/Architecture/GameSettings/Scripts/GameSettings.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/48050808-8AEE-40CA-B708-18FF164A29D5/e4/6693c892/Vector2Int.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/48050808-8AEE-40CA-B708-18FF164A29D5/ce/60bb859e/SceneManager.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/437BA245-D840-4784-B9FB-AB9B439AC908/67/8ac18a18/IDisposable.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/VavilichevGD/Utils/Attributes/ObjectsOfType/ObjectOfTypeDrawerBase.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/59819BE1-42C3-4115-ADE6-88F6962021F1/f3/132ade9a/WorkItem.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Lukomor/Example/Scripts/Application/TagsGrid/Signals/ITagsGridRebuiltSignalObserver.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Lukomor/Example/Scripts/Application/TagsGrid/Signals/TagsGridRebuildStartSignal.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/437BA245-D840-4784-B9FB-AB9B439AC908/7c/c5a10600/Task.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Lukomor/Example/Scripts/Application/TagsGrid/Signals/TagsGridRebuiltSignal.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Lukomor/Scripts/Presentation/Views/Windows/Extensions/WindowExtensions.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/A9627032-6887-4EDC-9774-216522BE7D07/db/8b7b9f5c/HashSet`1.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Lukomor/Example/Scripts/Domain/TagsGrid/Interactors/ReloadTagsFeatureInteractor.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://C:/Program Files/Unity/Hub/Editor/2019.3.11f1/Editor/Data/Resources/PackageManager/BuiltInPackages/com.unity.ugui/Runtime/UI/Core/Toggle.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Lukomor/Example/Scripts/Application/TagsGrid/Signals/CellMovedSignal.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Lukomor/Example/Scripts/Application/TagsGrid/Signals/ICellMovedSignalObserver.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/48050808-8AEE-40CA-B708-18FF164A29D5/4a/a0ef2bc3/ScriptableObject.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Lukomor/Example/Scripts/Application/TagsGrid/Signals/ITagsGridRebuildStartSignalObserver.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://C:/Program Files/Unity/Hub/Editor/2019.3.11f1/Editor/Data/Resources/PackageManager/BuiltInPackages/com.unity.ugui/Runtime/UI/Core/Dropdown.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Lukomor/Example/Scripts/Domain/TagsGrid/Interactors/IReloadTagsFeatureInteractor.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Lukomor/Example/Scripts/Domain/TagsGrid/Interactors/MoveCellInteractor.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Lukomor/Example/Scripts/ExampleBoot.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Lukomor/Example/Scripts/Domain/TagsGrid/Interactors/GetTagsGridDataInteractor.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Lukomor/Example/Scripts/Domain/TagsGrid/Interactors/IGetTagsGridDataInteractor.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Lukomor/Example/Scripts/Domain/TagsGrid/Interactors/IMoveCellInteractor.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Example/Game/Scripts/GameExample.cs" />
-        <option value="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Example/Game/Scripts/GameManagerExample.cs" />
-        <option value="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Game/Scripts/GameComponentState.cs" />
-        <option value="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Game/Scripts/ArchitectureComponentState.cs" />
-        <option value="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Storage/NewStorage/StorageExtensions.cs" />
-        <option value="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Storage/NewStorage/Storage.cs" />
-        <option value="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Storage/NewStorage/FileStorage.cs" />
-        <option value="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Storage/NewStorage/CloudStorage.cs" />
-        <option value="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/ArchitectureComponent.cs" />
-        <option value="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/IArchitectureComponent.cs" />
-        <option value="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Storage/Scripts/CloudStorage.cs" />
-        <option value="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Storage/Scripts/Storage.cs" />
-        <option value="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Storage/Example/Scripts/StorageExample.cs" />
-        <option value="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Storage/Scripts/FileStorage.cs" />
-        <option value="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Game/GameSettings/AudioSettings/AudioSettingsData.cs" />
-        <option value="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Game/GameSettings/Scripts/ISettings.cs" />
-        <option value="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Game/GameSettings/Example/Scripts/WidgetSettingSounds.cs" />
-        <option value="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Game/GameSettings/AudioSettings/IAudioSettings.cs" />
-        <option value="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Game/GameSettings/Example/Scripts/WidgetAudioSettings.cs" />
-        <option value="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Game/GameSettings/Example/Scripts/WidgetVibro.cs" />
-        <option value="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Game/GameSettings/VibroSettings/IVibroSettings.cs" />
-        <option value="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Game/GameSettings/VibroSettings/VibroSettingsData.cs" />
-        <option value="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Game/GameSettings/AudioSettings/AudioSettings.cs" />
-        <option value="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Game/GameSettings/Example/Scripts/WidgetAudioSetting.cs" />
-        <option value="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Game/GameSettings/Example/Scripts/WidgetSetting.cs" />
-        <option value="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Game/GameSettings/Example/Scripts/GameSettingsExample.cs" />
-        <option value="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Game/GameSettings/Scripts/GameSettingsData.cs" />
-        <option value="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Game/GameSettings/VibroSettings/VibroSettings.cs" />
-        <option value="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Game/GameSettings/Example/Scripts/WidgetSettingMusic.cs" />
-        <option value="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Game/GameSettings/Example/Scripts/WidgetSettingSFX.cs" />
-        <option value="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Game/GameSettings/Example/Scripts/WidgetSettingVibro.cs" />
-        <option value="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Game/GameSettings/Scripts/GameSettings.cs" />
-        <option value="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Game/Scripts/GameManager.cs" />
-        <option value="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Utils/Attributes/GameObjectOfType/GameObjectOfTypeAttribute.cs" />
-        <option value="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Utils/Attributes/GameObjectOfType/Editor/GameObjectOfTypeDrawer.cs" />
-        <option value="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Utils/Attributes/SceneNameAttribute/Editor/SceneNameAttributeDrawer.cs" />
-        <option value="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/UI/Scripts/Config/UISceneConfig.cs" />
-        <option value="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/UI/Loading/Scripts/LoadingScreen.cs" />
-        <option value="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Storage/Scripts/GameData.cs" />
-        <option value="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Scenes/SceneManager.cs" />
-        <option value="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Example/UI/PopupExample/Scripts/UIPopupExitExample.cs" />
-        <option value="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Example/Repositories/Scripts/DummyRepository.cs" />
-        <option value="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Scenes/IScene.cs" />
-        <option value="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Scenes/ISceneManager.cs" />
-        <option value="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Example/UI/ScreenGameExample/WidgetInfoGameExample/Scripts/UIWidgetInfoGameExample.cs" />
-        <option value="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Example/UI/ScreenGameExample/Scripts/UIScreenGameExample.cs" />
-        <option value="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/UI/Scripts/UI.cs" />
-        <option value="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Scenes/Scene.cs" />
-        <option value="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Scenes/Config/SceneConfig.cs" />
-        <option value="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/UI/Scripts/UIController.cs" />
-        <option value="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Game/Scripts/Game.cs" />
+        <option value="$PROJECT_DIR$/Assets/Lukomor/Example/Scripts/Presentation/Cell/TagsCellWidget.cs" />
+        <option value="$PROJECT_DIR$/Assets/Lukomor/Example/Scripts/Presentation/Gameplay/GameplayWindow.cs" />
+        <option value="$PROJECT_DIR$/Assets/Lukomor/Example/Scripts/Presentation/Gameplay/GameplayWindowController.cs" />
+        <option value="$PROJECT_DIR$/Assets/Lukomor/Example/Scripts/Presentation/Gameplay/GameplayWindowModel.cs" />
+        <option value="$PROJECT_DIR$/Assets/Lukomor/Example/Scripts/Presentation/Grid/TagsGridController.cs" />
+        <option value="$PROJECT_DIR$/Assets/Lukomor/Example/Scripts/Presentation/Grid/TagsGridModel.cs" />
+        <option value="$PROJECT_DIR$/Assets/Lukomor/Example/Scripts/Presentation/Grid/TagsGridWidget.cs" />
+        <option value="$PROJECT_DIR$/Assets/Lukomor/Example/Scripts/Presentation/Loading/LoadingScreenExample.cs" />
+        <option value="$PROJECT_DIR$/Assets/Lukomor/Example/Scripts/Presentation/Loading/ReloadingFeatureScreen.cs" />
+        <option value="$PROJECT_DIR$/Assets/Lukomor/Example/Scripts/ExampleBoot.cs" />
+        <option value="$PROJECT_DIR$/Assets/Lukomor/Scripts/Application/Contexts/ContextBase.cs" />
+        <option value="$PROJECT_DIR$/Assets/Lukomor/Scripts/Application/Contexts/IContext.cs" />
+        <option value="$PROJECT_DIR$/Assets/Lukomor/Scripts/Application/Features/Feature.cs" />
+        <option value="$PROJECT_DIR$/Assets/Lukomor/Scripts/Application/Features/IFeature.cs" />
+        <option value="$PROJECT_DIR$/Assets/Lukomor/Scripts/Application/Services/IService.cs" />
+        <option value="$PROJECT_DIR$/Assets/Lukomor/Scripts/Application/Services/Service.cs" />
+        <option value="$PROJECT_DIR$/Assets/Lukomor/Scripts/Application/Signals/ISignal.cs" />
+        <option value="$PROJECT_DIR$/Assets/Lukomor/Scripts/Application/Signals/ISignalObserver.cs" />
+        <option value="$PROJECT_DIR$/Assets/Lukomor/Scripts/Application/Signals/ISignalTower.cs" />
+        <option value="$PROJECT_DIR$/Assets/Lukomor/Scripts/Application/Signals/SignalTower.cs" />
+        <option value="$PROJECT_DIR$/Assets/Lukomor/Scripts/Common/Scenes/ISceneConfig.cs" />
+        <option value="$PROJECT_DIR$/Assets/Lukomor/Scripts/Common/Scenes/SceneConfig.cs" />
+        <option value="$PROJECT_DIR$/Assets/Lukomor/Scripts/Common/Scenes/ScenesLibrary.cs" />
+        <option value="$PROJECT_DIR$/Assets/Lukomor/Scripts/Common/Constants.cs" />
+        <option value="$PROJECT_DIR$/Assets/Lukomor/Scripts/Common/IStoredObject.cs" />
+        <option value="$PROJECT_DIR$/Assets/Lukomor/Scripts/Common/Payload.cs" />
+        <option value="$PROJECT_DIR$/Assets/Lukomor/Scripts/Common/ServiceLocator.cs" />
+        <option value="$PROJECT_DIR$/Assets/Lukomor/Scripts/DIContainer/DI.cs" />
+        <option value="$PROJECT_DIR$/Assets/Lukomor/Scripts/DIContainer/DIArray.cs" />
+        <option value="$PROJECT_DIR$/Assets/Lukomor/Scripts/DIContainer/DIVar.cs" />
+        <option value="$PROJECT_DIR$/Assets/Lukomor/Scripts/Domain/Scenes/ISceneLoader.cs" />
+        <option value="$PROJECT_DIR$/Assets/Lukomor/Scripts/Domain/Scenes/ISceneManager.cs" />
+        <option value="$PROJECT_DIR$/Assets/Lukomor/Scripts/Domain/Scenes/SceneLoader.cs" />
+        <option value="$PROJECT_DIR$/Assets/Lukomor/Scripts/Domain/Scenes/SceneManager.cs" />
+        <option value="$PROJECT_DIR$/Assets/Lukomor/Scripts/Presentation/Common/Transition.cs" />
+        <option value="$PROJECT_DIR$/Assets/Lukomor/Scripts/Presentation/Common/UILayer.cs" />
+        <option value="$PROJECT_DIR$/Assets/Lukomor/Scripts/Presentation/Common/UILayerContainer.cs" />
+        <option value="$PROJECT_DIR$/Assets/Lukomor/Scripts/Presentation/Controllers/Controller.cs" />
+        <option value="$PROJECT_DIR$/Assets/Lukomor/Scripts/Presentation/Models/Model.cs" />
+        <option value="$PROJECT_DIR$/Assets/Lukomor/Scripts/Presentation/Views/Widgets/Widget.cs" />
+        <option value="$PROJECT_DIR$/Assets/Lukomor/Scripts/Presentation/Views/Windows/Extensions/WindowExtensions.cs" />
+        <option value="$PROJECT_DIR$/Assets/Lukomor/Scripts/Presentation/Views/Windows/DialogWindow.cs" />
+        <option value="$PROJECT_DIR$/Assets/Lukomor/Scripts/Presentation/Views/Windows/HomeWindow.cs" />
+        <option value="$PROJECT_DIR$/Assets/Lukomor/Scripts/Presentation/Views/Windows/IWindow.cs" />
+        <option value="$PROJECT_DIR$/Assets/Lukomor/Scripts/Presentation/Views/Windows/Window.cs" />
+        <option value="$PROJECT_DIR$/Assets/Lukomor/Scripts/Presentation/Views/Windows/WindowInteractionBlocker.cs" />
+        <option value="$PROJECT_DIR$/Assets/Lukomor/Scripts/Presentation/Views/Windows/WindowsStack.cs" />
+        <option value="$PROJECT_DIR$/Assets/Lukomor/Scripts/Presentation/Views/IView.cs" />
+        <option value="$PROJECT_DIR$/Assets/Lukomor/Scripts/Presentation/Views/View.cs" />
+        <option value="$PROJECT_DIR$/Assets/Lukomor/Scripts/Presentation/UserInterface.cs" />
+        <option value="$PROJECT_DIR$/Assets/Lukomor/Example/Scripts/Application/TagsGameContextMain.cs" />
       </list>
     </option>
   </component>
@@ -164,11 +447,13 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="DebuggerViewTab_PTCS_FirstProportionKey" value="0.34994584" />
+    <property name="DebuggerViewTab_PTCS_LastProportionKey" value="0.30010834" />
     <property name="Discover.Launch.Via.Unity" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+    <property name="settings.editor.selected.configurable" value="CodeLensConfigurable" />
   </component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
     <configuration name="Attach to Unity Editor &amp; Play" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="UNITY_ATTACH_AND_PLAY" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
@@ -233,17 +518,128 @@
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="794" y="221" key="RiderGenerateDialog" timestamp="1626158264484">
+    <state width="1004" height="464" key="DebuggerActiveHint" timestamp="1651175606393">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="794" y="221" key="RiderGenerateDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1626158264484" />
-    <state x="616" y="240" key="run.anything.popup" timestamp="1625858190153">
+    <state width="1004" height="464" key="DebuggerActiveHint/0.0.1920.1040@0.0.1920.1040" timestamp="1651175606393" />
+    <state width="1877" height="305" key="GridCell.Tab.0.bottom" timestamp="1651177386414">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="616" y="240" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1625858190153" />
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1626161023144">
+    <state width="1877" height="305" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1651177386414" />
+    <state width="1877" height="305" key="GridCell.Tab.0.center" timestamp="1651177386414">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1626161023144" />
+    <state width="1877" height="305" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1651177386414" />
+    <state width="1877" height="305" key="GridCell.Tab.0.left" timestamp="1651177386414">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="305" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1651177386414" />
+    <state width="1877" height="305" key="GridCell.Tab.0.right" timestamp="1651177386414">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="305" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1651177386414" />
+    <state width="1877" height="305" key="GridCell.Tab.1.bottom" timestamp="1651177386414">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="305" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1651177386414" />
+    <state width="1877" height="305" key="GridCell.Tab.1.center" timestamp="1651177386414">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="305" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1651177386414" />
+    <state width="1877" height="305" key="GridCell.Tab.1.left" timestamp="1651177386414">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="305" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1651177386414" />
+    <state width="1877" height="305" key="GridCell.Tab.1.right" timestamp="1651177386414">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="305" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1651177386414" />
+    <state width="1877" height="305" key="GridCell.Tab.2.bottom" timestamp="1651177386414">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="305" key="GridCell.Tab.2.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1651177386414" />
+    <state width="1877" height="305" key="GridCell.Tab.2.center" timestamp="1651177386414">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="305" key="GridCell.Tab.2.center/0.0.1920.1040@0.0.1920.1040" timestamp="1651177386414" />
+    <state width="1877" height="305" key="GridCell.Tab.2.left" timestamp="1651177386414">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="305" key="GridCell.Tab.2.left/0.0.1920.1040@0.0.1920.1040" timestamp="1651177386414" />
+    <state width="1877" height="305" key="GridCell.Tab.2.right" timestamp="1651177386414">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="305" key="GridCell.Tab.2.right/0.0.1920.1040@0.0.1920.1040" timestamp="1651177386414" />
+    <state width="1877" height="305" key="GridCell.Tab.3.bottom" timestamp="1651177386414">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="305" key="GridCell.Tab.3.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1651177386414" />
+    <state width="1877" height="305" key="GridCell.Tab.3.center" timestamp="1651177386414">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="305" key="GridCell.Tab.3.center/0.0.1920.1040@0.0.1920.1040" timestamp="1651177386414" />
+    <state width="1877" height="305" key="GridCell.Tab.3.left" timestamp="1651177386414">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="305" key="GridCell.Tab.3.left/0.0.1920.1040@0.0.1920.1040" timestamp="1651177386414" />
+    <state width="1877" height="305" key="GridCell.Tab.3.right" timestamp="1651177386414">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="305" key="GridCell.Tab.3.right/0.0.1920.1040@0.0.1920.1040" timestamp="1651177386414" />
+    <state x="729" y="210" key="RiderGenerateDialog" timestamp="1645782544167">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="729" y="210" key="RiderGenerateDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1645782544167" />
+    <state x="414" y="330" width="1228" height="710" key="SettingsEditor" timestamp="1644324156362">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="414" y="330" width="1228" height="710" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1644324156362" />
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1651173956510">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1651173956510" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/VavilichevGD/Utils/Attributes/ObjectsOfType/ObjectOfTypeDrawerBase.cs</url>
+          <line>48</line>
+          <properties documentPath="$PROJECT_DIR$/Assets/VavilichevGD/Utils/Attributes/ObjectsOfType/ObjectOfTypeDrawerBase.cs" initialLine="48">
+            <startOffsets>
+              <option value="1713" />
+            </startOffsets>
+            <endOffsets>
+              <option value="1750" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="10" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Example/TagsGame/Scripts/Application/Interactors/GetCellDataInteractor.cs</url>
+          <line>18</line>
+          <properties documentPath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Example/TagsGame/Scripts/Application/Interactors/GetCellDataInteractor.cs" initialLine="18" />
+          <option name="timeStamp" value="32" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Example/TagsGame/Scripts/Presentation/TagsCell/TagsCellInstaller.cs</url>
+          <line>29</line>
+          <properties documentPath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Example/TagsGame/Scripts/Presentation/TagsCell/TagsCellInstaller.cs" initialLine="30" />
+          <option name="timeStamp" value="33" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Example/TagsGame/Scripts/Presentation/TagsCell/TagsCellInstaller.cs</url>
+          <line>22</line>
+          <properties documentPath="$PROJECT_DIR$/Assets/VavilichevGD/Architecture/Example/TagsGame/Scripts/Presentation/TagsCell/TagsCellInstaller.cs" initialLine="23" />
+          <option name="timeStamp" value="34" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Mesha/Example/Scripts/Presentation/Common/SelectableObjects/SelectableObjectColor.cs</url>
+          <line>36</line>
+          <properties documentPath="$PROJECT_DIR$/Assets/Mesha/Example/Scripts/Presentation/Common/SelectableObjects/SelectableObjectColor.cs" initialLine="36" />
+          <option name="timeStamp" value="49" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
