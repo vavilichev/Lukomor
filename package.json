@@ -18,11 +18,11 @@
     "email": "andreyvavilichev@gmail.com",
     "url": "https://github.com/vavilichev/Lukomor"
   },
+  "license": "See LICENSE.md file",
   "samples": [
     {
       "displayName": "Tags game as an example",
-      "description": "Simple game without wining or losing, but it fully implemented with the Lukomor",
-      "path": "Lukomor/Example/Scenes/Bootstrap"
+      "description": "Simple game without wining or losing, but it fully implemented with the Lukomor"
     }
   ]
 }
