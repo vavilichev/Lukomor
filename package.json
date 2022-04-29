@@ -3,7 +3,7 @@
   "version": "2.0.0",
   "displayName": "Lukomor Architectural Template",
   "description": "Lukomor is an architectural template for games making with Unity.",
-  "unity": "2019.3.11",
+  "unity": "2019.3",
   "dependencies": {},
   "keywords": [
     "architecture",
