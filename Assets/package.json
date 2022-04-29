@@ -1,0 +1,28 @@
+{
+  "name": "com.lukomor",
+  "version": "2.0",
+  "displayName": "Lukomor Architectural Template",
+  "description": "Lukomor is an architectural template for games making with Unity.",
+  "unity": "2019.3.11",
+  "dependencies": {},
+  "keywords": [
+    "architecture",
+    "code",
+    "project",
+    "organization",
+    "dependency injection",
+	"DI"
+  ],
+  "author": {
+    "name": "Andrey Vavilichev",
+    "email": "andreyvavilichev@gmail.com",
+    "url": "https://github.com/vavilichev/Lukomor"
+  },
+  "samples": [
+    {
+      "displayName": "Tags game as an example",
+      "description": "Simple game without wining or losing, but it fully implemented with the Lukomor",
+      "path": "Lukomor/Example/Scenes/Bootstrap"
+    }
+  ]
+}
