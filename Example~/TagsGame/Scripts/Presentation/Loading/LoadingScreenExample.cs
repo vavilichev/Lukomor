@@ -9,7 +9,7 @@ namespace Lukomor.Example.Presentation.Loading
 
         private static LoadingScreenExample _instance;
 
-        private void Awake()
+        private void Start()
         {
             if (CreateSingleton())
             {

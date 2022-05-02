@@ -1,5 +1,4 @@
-﻿using Lukomor.Example.Domain;
-using UnityEngine;
+﻿using UnityEngine;
 using VavilichevGD.Tools.Async;
 
 namespace Lukomor.Example

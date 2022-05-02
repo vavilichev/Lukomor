@@ -5,7 +5,7 @@ using Lukomor.Domain.Scenes;
 using Lukomor.Example.Application;
 using Lukomor.Presentation;
 
-namespace Lukomor.Example.Domain
+namespace Lukomor.Example
 {
     public class TagsGame
     {
@@ -24,7 +24,7 @@ namespace Lukomor.Example.Domain
         public static async Task StartGameAsync()
         {
             await Context.Initialize();
-            await SceneManager.LoadScene(1);
+            await SceneManager.LoadScene("LukomorExample_Gameplay");
         }
     }
 }

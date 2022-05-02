@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9e701e7db3c47bc41a5f127d202fc939, type: 3}
-  m_Name: SceneConfig_Gameplay
+  m_Name: SceneConfig_LukomorExample_Gameplay
   m_EditorClassIdentifier: 
-  _sceneName: GameplayScene
+  _sceneName: LukomorExample_Gameplay
   _sceneWindowPrefabs:
   - {fileID: 1920921128503862753, guid: 82ca712a6b2c79c4393659814cc8b625, type: 3}
