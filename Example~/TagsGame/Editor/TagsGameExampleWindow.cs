@@ -19,14 +19,7 @@ public class TagsGameExampleWindow  : EditorWindow
         window.maxSize = window.minSize;
         window.Show();
     }
-    
-    [MenuItem("Lukomore/Clear")]
-    static void Clear()
-    {
-        EditorPrefs.DeleteKey(KEY_NEVER_ASK);
-        EditorPrefs.DeleteKey(KEY_DATE);
-    }
-
+ 
     void OnGUI()
     {
        DrawTitle();
