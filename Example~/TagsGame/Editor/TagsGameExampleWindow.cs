@@ -14,10 +14,13 @@ public class TagsGameExampleWindow  : EditorWindow
     [MenuItem("Lukomore/Example Rules")]
     static void Init()
     {
-        TagsGameExampleWindow window = (TagsGameExampleWindow)GetWindow(typeof(TagsGameExampleWindow));
-        window.minSize = new Vector2(640f, 260);
-        window.maxSize = window.minSize;
-        window.Show();
+        if (!HasOpenInstances<TagsGameExampleWindow>())
+        {
+            TagsGameExampleWindow window = (TagsGameExampleWindow)GetWindow(typeof(TagsGameExampleWindow));
+            window.minSize = new Vector2(640f, 260);
+            window.maxSize = window.minSize;
+            window.Show();
+        }
     }
  
     void OnGUI()
