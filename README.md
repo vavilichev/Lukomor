@@ -6,6 +6,7 @@ Copy next line:
 
 ```
 https://github.com/vavilichev/Lukomor.git
+
 ```
 
 Open Window/Package Manager, click **+** button, choose "Add package from git URL..." and past link here. Then click the "Add" button.
