@@ -142,6 +142,8 @@ namespace Lukomor.Presentation
 
 			if (previousWindow?.GetType() == windowType)
 			{
+				ActivateWindow(previousWindow);
+				
 				return previousWindow;
 			}
 
@@ -164,23 +166,28 @@ namespace Lukomor.Presentation
 				}
 			}
 
-			if (windowForShowing != null)
+			ActivateWindow(windowForShowing);
+
+			return windowForShowing;
+		}
+
+		private void ActivateWindow(IWindow window)
+		{
+			if (window != null)
 			{
-				if (!windowForShowing.IsActive)
+				if (!window.IsActive)
 				{
-					windowForShowing.Show().RunAsync();
+					window.Show().RunAsync();
 				}
 				
-				if (windowForShowing is IHomeWindow)
+				if (window is IHomeWindow)
 				{
 					_windowStack.Clear();
 				}
 				
-				FocusedWindow = windowForShowing;
-				_windowStack.Push(windowType);
+				FocusedWindow = window;
+				_windowStack.Push(window.GetType());
 			}
-
-			return windowForShowing;
 		}
 
 		private void DestroyOldWindows(IWindow[] alreadyCreatedWindows, IWindow[] prefabsForCreating)
