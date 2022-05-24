@@ -2,16 +2,16 @@
 {
 	public class GetTagsGridDataInteractor : IGetTagsGridDataInteractor
 	{
-		private readonly TagsGridFeatureModel _model;
+		private readonly TagsGridRepository _repository;
 
-		public GetTagsGridDataInteractor(TagsGridFeatureModel model)
+		public GetTagsGridDataInteractor(TagsGridRepository repository)
 		{
-			_model = model;
+			_repository = repository;
 		}
 
 		public TagsGrid Execute()
 		{
-			return _model.Grid;
+			return _repository.Grid;
 		}
 	}
 }

@@ -9,16 +9,16 @@ namespace Lukomor.Example.Domain.TagsGrid.Interactors
 	public class MoveCellInteractor : IMoveCellInteractor
 	{
 		private readonly DIVar<ISignalTower> _signalTower = new DIVar<ISignalTower>();
-		private readonly TagsGridFeatureModel _model;
+		private readonly TagsGridRepository _repository;
 
-		public MoveCellInteractor(TagsGridFeatureModel model)
+		public MoveCellInteractor(TagsGridRepository repository)
 		{
-			_model = model;
+			_repository = repository;
 		}
 
 		public void Execute(TagsCell clickedCell)
 		{
-			var cellsData = _model.Grid.CellsData;
+			var cellsData = _repository.Grid.CellsData;
 			var rowsCount = cellsData.GetLength(0);
 			var columnsCount = cellsData.GetLength(1);
 			var clickedCellPosition = cellsData.GetCoordinates(clickedCell);

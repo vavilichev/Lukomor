@@ -7,18 +7,18 @@ namespace Lukomor.Example.Domain.TagsGrid.Interactors
 	public class ReloadTagsFeatureInteractor : IReloadTagsFeatureInteractor
 	{
 		private readonly DIVar<ISignalTower> _signalTower = new DIVar<ISignalTower>();
-		private readonly TagsGridFeatureModel _model;
+		private readonly TagsGridRepository _repository;
 
-		public ReloadTagsFeatureInteractor(TagsGridFeatureModel model)
+		public ReloadTagsFeatureInteractor(TagsGridRepository repository)
 		{
-			_model = model;
+			_repository = repository;
 		}
 
 		public void Execute()
 		{
 			_signalTower.Value.FireSignal(new TagsGridRebuildStartSignal());
 			
-			_model.Grid.Randomize();
+			_repository.Grid.Randomize();
 
 			_signalTower.Value.FireSignal(new TagsGridRebuiltSignal());
 		}

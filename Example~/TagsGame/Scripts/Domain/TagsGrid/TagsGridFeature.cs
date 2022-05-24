@@ -10,18 +10,18 @@ namespace Lukomor.Example.Domain.TagsGrid
 		public IMoveCellInteractor MoveCell { get; private set; }
 		public IReloadTagsFeatureInteractor ReloadFeature { get; private set; }
 
-		private TagsGridFeatureModel _model;
+		private TagsGridRepository _repository;
 
 		protected override Task InitializeInternal()
 		{
-			var gridData = new Lukomor.Example.Domain.TagsGrid.TagsGrid(4);
+			var gridData = new TagsGrid(4);
 			gridData.Randomize();
 			
-			_model = new TagsGridFeatureModel(gridData);
+			_repository = new TagsGridRepository(gridData);
 
-			GetTagsGridData = new GetTagsGridDataInteractor(_model);
-			MoveCell = new MoveCellInteractor(_model);
-			ReloadFeature = new ReloadTagsFeatureInteractor(_model);
+			GetTagsGridData = new GetTagsGridDataInteractor(_repository);
+			MoveCell = new MoveCellInteractor(_repository);
+			ReloadFeature = new ReloadTagsFeatureInteractor(_repository);
 			
 			return Task.CompletedTask;
 		}
