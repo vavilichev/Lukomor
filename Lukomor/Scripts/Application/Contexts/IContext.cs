@@ -6,6 +6,7 @@ namespace Lukomor.Application.Contexts
 	{
 		bool IsReady { get; }
 
-		Task Initialize();
+		Task InitializeAsync();
+		void Destroy();
 	}
 }
