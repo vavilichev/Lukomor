@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
+using Lukomor.Application.Contexts;
 using Lukomor.DIContainer;
 using Lukomor.Presentation;
 using UnityEngine;
@@ -14,13 +15,13 @@ namespace Lukomor.Domain.Scenes {
 
 		private ISceneLoader _sceneLoader;
 		
-		public static ISceneManager CreateInstance()
+		public static ISceneManager CreateInstance(ProjectContext projectContext)
 		{
 			var ui = DI.Get<UserInterface>();
 			var go = new GameObject("[Scene Manager]");
 			var sceneManager = go.AddComponent<SceneManager>();
 
-			sceneManager.Init(ui);
+			sceneManager.Init(ui, projectContext);
 			
 			DontDestroyOnLoad(go);
 			
@@ -51,10 +52,10 @@ namespace Lukomor.Domain.Scenes {
 			return _sceneLoader.ReloadScene(SceneLoadingResultsCallback);
 		}
 
-		private void Init(UserInterface ui) {
+		private void Init(UserInterface ui, ProjectContext projectContext) {
 			var sceneNames = CacheSceneNames();
 			
-			_sceneLoader = new SceneLoader(ui, sceneNames);
+			_sceneLoader = new SceneLoader(ui, sceneNames, projectContext);
 		}
 		
 		private string[] CacheSceneNames() {

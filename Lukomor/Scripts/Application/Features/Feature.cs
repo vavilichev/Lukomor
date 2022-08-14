@@ -5,7 +5,7 @@ namespace Lukomor.Application.Features
 	public abstract class Feature : IFeature
 	{
 		public bool IsReady { get; private set; }
-		public async Task Initialize()
+		public async Task InitializeAsync()
 		{
 			if (!IsReady)
 			{
@@ -15,7 +15,10 @@ namespace Lukomor.Application.Features
 			}
 		}
 
-		public virtual void Dispose() { }
+		public virtual Task DestroyAsync()
+		{
+			return Task.CompletedTask;
+		}
 
 		protected virtual Task InitializeInternal() { return Task.CompletedTask; }
 	}

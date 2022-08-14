@@ -1,12 +1,12 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace Lukomor.Application.Services
 {
-	public interface IService : IDisposable
+	public interface IService
 	{
 		bool IsReady { get; }
 
-		Task Initialize();
+		Task InitializeAsync();
+		Task DestroyAsync();
 	}
 }

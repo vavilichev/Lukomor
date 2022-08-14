@@ -6,9 +6,7 @@ namespace Lukomor.Application.Services
 	{
 		public bool IsReady { get; private set; }
 
-		public virtual void Dispose() { }
-
-		public async Task Initialize()
+		public async Task InitializeAsync()
 		{
 			if (!IsReady)
 			{
@@ -17,7 +15,12 @@ namespace Lukomor.Application.Services
 				IsReady = true;
 			}
 		}
-
+		
+		public virtual Task DestroyAsync()
+		{
+			return Task.CompletedTask;
+		}
+		
 		protected abstract Task InitializeAsyncInternal();
 	}
 }

@@ -1,12 +1,12 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace Lukomor.Application.Features
 {
-	public interface IFeature : IDisposable
+	public interface IFeature
 	{
 		bool IsReady { get; }
 
-		Task Initialize();
+		Task InitializeAsync();
+		Task DestroyAsync();
 	}
 }

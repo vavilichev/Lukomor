@@ -22,7 +22,7 @@ namespace Lukomor.Example.Presentation.Loading
         {
             if (CreateSingleton())
             {
-                await UnityAwaiters.WaitUntil(() => TagsGame.Context.IsReady);
+                await UnityAwaiters.WaitUntil(() => TagsGame.ProjectContext.IsReady);
                 
                 _signalTower.Value.Register<TagsGridRebuildStartSignal>(this);
                 _signalTower.Value.Register<TagsGridRebuiltSignal>(this);
