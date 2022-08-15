@@ -1,6 +1,6 @@
 {
   "name": "com.vavilichev.lukomor",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "displayName": "Lukomor Architecture",
   "description": "Lukomor is an architectural template for games making with Unity.",
   "unity": "2019.3",
