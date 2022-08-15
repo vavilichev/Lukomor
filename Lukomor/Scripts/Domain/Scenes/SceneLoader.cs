@@ -92,6 +92,8 @@ namespace Lukomor.Domain.Scenes
 					await Task.Yield();
 				}
 
+				await Task.Yield(); 			// It's required to switching scenes before new scene context will start loading.
+				
 				await LoadContext(sceneName);
 
 				var scenesLibrary = Resources.Load<ScenesLibrary>(ScenesLibraryAssetPath);
