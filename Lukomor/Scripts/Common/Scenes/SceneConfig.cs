@@ -10,7 +10,7 @@ namespace Lukomor.Common.Scenes
 	{
 		[SerializeField] private string _sceneName;
 
-		[SerializeField, GameObjectOfType(typeof(IWindow))]
+		[SerializeField]
 		private List<GameObject> _sceneWindowPrefabs;
 
 		public string SceneName => _sceneName;
