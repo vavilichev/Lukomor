@@ -42,7 +42,7 @@ namespace Lukomor.Presentation
 
 			DontDestroyOnLoad(gameObject);
 		}
-
+ 
 		public void Build(ISceneConfig config)
 		{
 			FocusedWindow = null;

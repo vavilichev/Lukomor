@@ -5,21 +5,27 @@ using System.Threading.Tasks;
 using Lukomor.Application.Features;
 using Lukomor.Application.Services;
 using Lukomor.DIContainer;
+using UnityEngine;
 using VavilichevGD.Tools.Async;
 
 namespace Lukomor.Application.Contexts
 {
-	public abstract class ContextBase : IContext
-	{
-		public bool IsReady { get; private set; }
+    public abstract class MonoContext : MonoBehaviour, IContext
+    {
+        public bool IsReady { get; private set; }
 		
 		private Dictionary<Type, IService> _servicesMap;
 		private Dictionary<Type, IFeature> _featuresMap;
 
-		public ContextBase()
+		private void Awake()
 		{
 			_servicesMap = new Dictionary<Type, IService>();
 			_featuresMap = new Dictionary<Type, IFeature>();
+		}
+		
+		private void OnDestroy()
+		{
+			ForceDestroy();
 		}
 
 		public virtual async Task InitializeAsync()
@@ -32,8 +38,8 @@ namespace Lukomor.Application.Contexts
 
 			await WaitInitializationComplete();
 		}
-		
-		public void Destroy()
+
+		public void ForceDestroy()
 		{
 			DestroyServices();
 			DestroyFeatures();
@@ -66,10 +72,9 @@ namespace Lukomor.Application.Contexts
 		{
 			return _featuresMap.Values.ToArray();
 		}
-		
 
-		protected abstract void InstallServices();
-		protected abstract void InstallFeatures();
+		protected virtual void InstallServices() { }
+		protected virtual void InstallFeatures() { }
 
 		protected void AddService<T>(T service) where T : class, IService
 		{
@@ -152,5 +157,5 @@ namespace Lukomor.Application.Contexts
 				DI.Unbind(feature);
 			}
 		}
-	}
+    }
 }

@@ -18,14 +18,15 @@ namespace Lukomor.Domain.Scenes
 		public bool IsLoading { get; private set; }
 
 		private bool isLoadingUnityScene { get; set; }
-		private UserInterface ui { get; }
-		private string[] _sceneNames { get; }
-		private ProjectContext _projectContext;
-		private IContext _currentSceneContext;
+		
+		private readonly UserInterface _ui;
+		private readonly string[] _sceneNames;
+		private readonly IContext _projectContext;
+		private readonly IContext _currentSceneContext;
 
-		public SceneLoader(UserInterface ui, string[] sceneNames, ProjectContext projectContext)
+		public SceneLoader(UserInterface ui, string[] sceneNames, IContext projectContext)
 		{
-			this.ui = ui;
+			_ui = ui;
 			_sceneNames = sceneNames;
 			_projectContext = projectContext;
 		}
@@ -101,7 +102,7 @@ namespace Lukomor.Domain.Scenes
 
 				if (sceneConfig != null)
 				{
-					ui.Build(sceneConfig);
+					_ui.Build(sceneConfig);
 				}
 
 				IsLoading = false;
