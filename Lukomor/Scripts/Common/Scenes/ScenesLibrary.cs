@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using UnityEngine;
-using VavilichevGD.Tools.Logging;
 
 namespace Lukomor.Common.Scenes
 {
@@ -15,7 +14,7 @@ namespace Lukomor.Common.Scenes
 
 			if (foundConfig == null)
 			{
-				Log.PrintError($"ScenesLibrary: Cannot find scene config for sceneName = {sceneName}");
+				Debug.LogError($"ScenesLibrary: Cannot find scene config for sceneName = {sceneName}");
 			}
 
 			return foundConfig;

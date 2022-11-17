@@ -1,80 +1,36 @@
-﻿using System.Collections.Generic;
-using Lukomor.Presentation.Controllers;
-using Lukomor.Presentation.Models;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Lukomor.Presentation.Views {
-	public abstract class View<TModel> : MonoBehaviour, IView where TModel : Model, new()
-	{
-		public TModel Model { get; protected set; }
-		public Controller<TModel> Controller { get; private set; }
-		public bool IsReady { get; private set; }
-		
-		private readonly Dictionary<string, object> _payloadsMap = new Dictionary<string, object>();
+namespace Lukomor.Presentation.Views
+{
+    public abstract class View<TViewModel> : MonoBehaviour, IView<TViewModel> where TViewModel : ViewModel
+    {
+        #region Fields and properties
 
-		public void AddPayload(string key, object payloadEntry) {
-			_payloadsMap[key] = payloadEntry;
-			
-			OnPayloadAdded(key);
-		}
+        public bool IsActive => gameObject.activeInHierarchy;
+        public TViewModel ViewModel { get; private set; }
+        
+        #endregion
 
-		public bool PayloadExists(string key)
-		{
-			return _payloadsMap.ContainsKey(key);
-		}
+        #region Unity lifecycle
 
-		public TValue GetPayload<TValue>(string key) {
-			TValue payloadEntry = default;
-			
-			_payloadsMap.TryGetValue(key, out object value);
+        private void Awake()
+        {
+            ViewModel = GetComponent<TViewModel>();
+            
+            AwakeInternal();
+        }
 
-			if (value != null) {
-				payloadEntry = (TValue)value;
-			}
+        protected virtual void AwakeInternal() { }
 
-			return payloadEntry;
-		}
+        #endregion
 
-		public TValue GetAndRemovePayload<TValue>(string key)
-		{
-			var payload = GetPayload<TValue>(key);
+        #region Methods
 
-			RemovePayload(key);
+        public virtual void Refresh() { }
+        public virtual void Subscribe() { }
+        public virtual void Unsubscribe() { }
 
-			return payload;
-		}
+        #endregion
 
-		public void RemovePayload(string key) {
-			if (_payloadsMap.ContainsKey(key)) {
-				_payloadsMap.Remove(key);
-			}
-		}
-
-		public void RemoveAllPayloads() {
-			_payloadsMap.Clear();
-		}
-		
-		protected virtual void Awake()
-		{
-			InstallModelAndController();
-			MarkAsReady();
-		}
-
-		protected void InstallModelAndController()
-		{
-			Model = new TModel();
-			Controller = CreateController();
-			
-			Controller?.SetModel(Model);
-		}
-		
-		protected void MarkAsReady()
-		{
-			IsReady = true;
-		}
-
-		protected abstract Controller<TModel> CreateController();
-
-		protected virtual void OnPayloadAdded(string payloadKey) { }
-	}
+    }
 }

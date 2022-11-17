@@ -1,219 +1,196 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Lukomor.Common;
-using Lukomor.Common.Scenes;
 using Lukomor.Presentation.Common;
 using Lukomor.Presentation.Views.Windows;
-using Lukomor.Presentation.Views.Windows.Extensions;
 using UnityEngine;
-using VavilichevGD.Tools.Async;
-using VavilichevGD.Tools.Logging;
 
 namespace Lukomor.Presentation
 {
 	public sealed class UserInterface : MonoBehaviour
 	{
-		private const string PrefabPath = "[INTERFACE]";
+		private static class Keys
+		{
+			public const string UserInterfacePrefabPath = "[INTERFACE]";
+			public const string WindowViewModelPrefabsFolder = "Prefabs/Windows";
+			public const string WindowViewModelPrefabsConfigFolder = "Configs/UI";
+		}
 
+		public event Action<WindowViewModel> WindowOpened;
+		public event Action<WindowViewModel> WindowClosed; 
+		
 		[SerializeField] private UILayerContainer[] _containers;
+		[SerializeField] private SceneConfigUI[] _sceneConfigsUI;
 
-		public IWindow FocusedWindow { get; private set; }
+		public WindowViewModel FocusedWindowViewModel { get; private set; }
 
-		private Dictionary<Type, IWindow> _createdWindowsCache;
-		private Dictionary<Type, string> _prefabWindowReferencesCache;
+		private static UserInterface _instance;
+		private Dictionary<Type, WindowViewModel> _createdWindowViewModelsCache;
+		private Dictionary<Type, string> _prefabWindowViewModelReferencesCache;
 		private WindowsStack _windowStack;
 
-		public static UserInterface CreateInstance()
+		public static UserInterface GetOrCreateInstance()
 		{
-			var prefab = Resources.Load<UserInterface>(PrefabPath);
-			var ui = Instantiate(prefab);
+			if (_instance == null)
+			{
+				var prefab = Resources.Load<UserInterface>(Keys.UserInterfacePrefabPath);
+				var ui = Instantiate(prefab);
 
-			DontDestroyOnLoad(ui.gameObject);
+				DontDestroyOnLoad(ui.gameObject);
 
-			return ui;
+				_instance = ui;
+			}
+
+			return _instance;
 		}
 
 		private void Awake()
 		{
-			_createdWindowsCache = new Dictionary<Type, IWindow>();
-			_prefabWindowReferencesCache = new Dictionary<Type, string>();
+			if (_instance != null)
+			{
+				Destroy(gameObject);
+				return;
+			}
+			
+			_createdWindowViewModelsCache = new Dictionary<Type, WindowViewModel>();
+			_prefabWindowViewModelReferencesCache = new Dictionary<Type, string>();
 			_windowStack = new WindowsStack();
-
-			DontDestroyOnLoad(gameObject);
 		}
- 
-		public void Build(ISceneConfig config)
+
+		public void Build(string sceneName)
 		{
-			FocusedWindow = null;
+			DestroyOldWindows();
+			CreateNewWindows(sceneName);
+		}
+		
+		private WindowViewModel CreateWindowViewModel(WindowViewModel prefabWindowViewModel)
+		{
+			var windowViewModelType = prefabWindowViewModel.GetType();
 
-			var prefabs = config.WindowPrefabs;
-			var createdWindows = _createdWindowsCache.Values.ToArray();
-
-			if (_createdWindowsCache.Count > 0)
+			if (_createdWindowViewModelsCache.TryGetValue(windowViewModelType, out var windowViewModel))
 			{
-				DestroyOldWindows(createdWindows, prefabs);
+				return windowViewModel;
+			}
+			
+			var container = GetContainer(prefabWindowViewModel.WindowSettings.TargetLayer);
+			var createdWindowViewModel = Instantiate(prefabWindowViewModel, container);
+			
+			_createdWindowViewModelsCache[windowViewModelType] = createdWindowViewModel;
+
+			if (createdWindowViewModel.WindowSettings.OpenWhenCreated)
+			{
+				ActivateWindowViewModel(createdWindowViewModel);
+			}
+			else
+			{
+				createdWindowViewModel.Window.HideInstantly();
 			}
 
-			CreateNewWindows(createdWindows, prefabs);
+			return createdWindowViewModel;
 		}
 
-		public T ShowWindow<T>() where T : class, IWindow
+		private void ActivateWindowViewModel(WindowViewModel windowViewModel)
 		{
-			var windowType = typeof(T);
-			var showedWindow = ShowWindowInternal(windowType);
+			windowViewModel.Refresh();
 			
-			showedWindow.Subscribe();
-			showedWindow.Refresh();
-
-			return (T)showedWindow;
-		}
-
-		public T ShowWindow<T>(Payload payload) where T : class, IWindow
-		{
-			var windowType = typeof(T);
-			var showedWindow = ShowWindowInternal(windowType);
-
-			showedWindow.AddPayload(payload.Key, payload.Value);
-			
-			showedWindow.Subscribe();
-			showedWindow.Refresh();
-
-			return (T)showedWindow;
-		}
-
-		public T ShowWindow<T>(Payload[] payloads) where T : class, IWindow
-		{
-			var windowType = typeof(T);
-			var showedWindow = ShowWindowInternal(windowType);
-			var payloadsAmount = payloads.Length;
-
-			for (int i = 0; i < payloadsAmount; i++)
+			if (!windowViewModel.IsActive)
 			{
-				var payload = payloads[i];
+				windowViewModel.Subscribe();
 				
-				showedWindow.AddPayload(payload.Key, payload.Value);
-			}
-
-			showedWindow.Subscribe();
-			showedWindow.Refresh();
-
-			return (T)showedWindow;
-		}
-
-		public UserInterface SetBackDestination<T>()
-		{
-			var windowType = typeof(T);
-
-			_windowStack.Pop();
-			_windowStack.Push(windowType);
-			_windowStack.Push(FocusedWindow.GetType());
-
-			return this;
-		}
-
-		public void Back()
-		{
-			if (_windowStack.Length > 1)
-			{
-				var focusedWindowType = FocusedWindow.GetType();
+				var window = windowViewModel.Window;
 				
-				FocusedWindow.Hide().RunAsync();
-				_windowStack.RemoveLast(focusedWindowType);
+				window.Show();
+				window.Hidden += OnWindowHidden;
+				window.Destroyed += OnWindowDestroyed;
 				
-				var previousWindowType = _windowStack.Pop();
+				_windowStack.Push(windowViewModel.GetType());
 
-				_createdWindowsCache.TryGetValue(previousWindowType, out var previousWindow);
-
-				var needToRefresh = previousWindow != null && !previousWindow.IsActive;
-				var showedWindow = ShowWindowInternal(previousWindowType);
-
-				if (needToRefresh)
-				{
-					showedWindow.Subscribe();
-					showedWindow.Refresh();
-				}
+				FocusedWindowViewModel = windowViewModel;
+				
+				WindowOpened?.Invoke(FocusedWindowViewModel);
 			}
 		}
 		
-		private IWindow ShowWindowInternal(Type windowType)
+		private void CachePrefabPath(WindowViewModel windowViewModelPrefab)
 		{
-			var previousWindow = FocusedWindow;
+			var prefabName = windowViewModelPrefab.name;
+			var prefabPath = $"{Keys.WindowViewModelPrefabsFolder}/{prefabName}";
+			var windowViewModelType = windowViewModelPrefab.GetType();
 
-			if (previousWindow?.GetType() == windowType)
+			_prefabWindowViewModelReferencesCache[windowViewModelType] = prefabPath;
+		}
+		
+		public IWindowOpenHandler ShowWindow<T>() where T : class, IWindow
+		{
+			var windowViewModelType = typeof(T);
+			WindowViewModel windowViewModel;
+
+			if (_createdWindowViewModelsCache.TryGetValue(windowViewModelType, out windowViewModel))
 			{
-				ActivateWindow(previousWindow);
-				
-				return previousWindow;
+				ActivateWindowViewModel(windowViewModel);
+			}
+			else
+			{
+				var prefabPath = _prefabWindowViewModelReferencesCache[windowViewModelType];
+				var prefab = Resources.Load<WindowViewModel>(prefabPath);
+
+				windowViewModel = CreateWindowViewModel(prefab);
 			}
 
-			_createdWindowsCache.TryGetValue(windowType, out var windowForShowing);
+			var handler = new WindowOpenHandler(windowViewModel, this);
 
-			if (windowForShowing == null)
+			return handler;
+		}
+		
+		public void SetBackDestination<TWindowViewModel>() where TWindowViewModel : WindowViewModel
+		{
+			var windowViewModelType = typeof(TWindowViewModel);
+			
+			_windowStack.Pop();
+			_windowStack.Push(windowViewModelType);
+			_windowStack.Push(FocusedWindowViewModel.GetType());
+		}
+		
+		public void Back()
+		{
+			if (FocusedWindowViewModel.Window is IHomeWindow)
 			{
-				_prefabWindowReferencesCache.TryGetValue(windowType, out var prefabPath);
-
-				if (!string.IsNullOrEmpty(prefabPath))
-				{
-					var prefabGO = Resources.Load<GameObject>(prefabPath);
-					var prefabWindow = prefabGO.GetComponent<IWindow>();
-
-					windowForShowing = CreateWindow(prefabWindow);
-				}
-				else
-				{
-					Log.PrintError($"Couldn't find window of type {windowType.Name} for opening");
-				}
+				return;
 			}
 
-			ActivateWindow(windowForShowing);
-
-			return windowForShowing;
+			_windowStack.Pop();
+			
+			var windowTypeForRefreshing = _windowStack.Pop();
+			var viewModelForRefreshing = _createdWindowViewModelsCache[windowTypeForRefreshing];
+			
+			ActivateWindowViewModel(viewModelForRefreshing);
+		}
+		
+		private void DestroyOldWindows()
+		{
+			foreach (var createdWindowViewModelItem in _createdWindowViewModelsCache)
+			{
+				Destroy(createdWindowViewModelItem.Value);
+			}
+			
+			_createdWindowViewModelsCache.Clear();
+			_prefabWindowViewModelReferencesCache.Clear();
 		}
 
-		private void ActivateWindow(IWindow window)
+		private void CreateNewWindows(string sceneName)
 		{
-			if (window != null)
-			{
-				if (!window.IsActive)
-				{
-					window.Show().RunAsync();
-				}
-				
-				if (window is IHomeWindow)
-				{
-					_windowStack.Clear();
-				}
-				
-				FocusedWindow = window;
-				_windowStack.Push(window.GetType());
-			}
-		}
+			FocusedWindowViewModel = null;
 
-		private void DestroyOldWindows(IWindow[] alreadyCreatedWindows, IWindow[] prefabsForCreating)
-		{
-			foreach (var createdWindow in alreadyCreatedWindows)
-			{
-				if (!prefabsForCreating.ContainsWindow(createdWindow))
-				{
-					var type = createdWindow.GetType();
-
-					Destroy(createdWindow.GameObject);
-					_createdWindowsCache.Remove(type);
-				}
-			}
-		}
-
-		private void CreateNewWindows(IWindow[] alreadyCreatedWindows, IWindow[] prefabsForCreating)
-		{
+			var sceneConfigUI = _sceneConfigsUI.First(c => c.SceneName == sceneName);
+			var sceneViewModelsConfigPath = $"{Keys.WindowViewModelPrefabsConfigFolder}/{sceneConfigUI.SceneViewModelsFileName}";
+			var sceneViewModels = Resources.Load<SceneViewModelsConfig>(sceneViewModelsConfigPath);
+			var prefabsForCreating = sceneViewModels.ViewModelPrefabs;
+			
 			foreach (var prefab in prefabsForCreating)
 			{
-				if (prefab.IsPreCached)
+				if (prefab.WindowSettings.IsPreCached)
 				{
-					if (!alreadyCreatedWindows.ContainsWindow(prefab))
-					{
-						CreateWindow(prefab);
-					}
+					CreateWindowViewModel(prefab);
 				}
 				else
 				{
@@ -221,72 +198,39 @@ namespace Lukomor.Presentation
 				}
 			}
 		}
-
-		private IWindow CreateWindow(IWindow prefab)
-		{
-			prefab.GameObject.SetActive(false);
-			
-			var container = GetContainer(prefab.TargetLayer);
-			var createdWindowGO = Instantiate(prefab.GameObject, container);
-			var createdWindow = createdWindowGO.GetComponent<IWindow>();
-			var createdWindowType = createdWindow.GetType();
-
-			createdWindow.UI = this;
-			
-			createdWindow.Install();
-
-			if (createdWindow.IsPreCached && createdWindow.OpenedByDefault)
-			{
-				createdWindowGO.SetActive(true);
-				
-				_windowStack.Push(createdWindowType);
-				FocusedWindow = createdWindow;
-				
-				createdWindow.Subscribe();
-				createdWindow.Refresh();
-			}
-
-			_createdWindowsCache[createdWindowType] = createdWindow;
-
-			createdWindow.Destroyed += OnWindowDestroyed;
-			createdWindow.Hidden += OnWindowHidden;
-			
-			prefab.GameObject.SetActive(true);
-			
-			return createdWindow;
-		}
-
-		private void CachePrefabPath(IWindow prefab)
-		{
-			var prefabName = prefab.GameObject.name;
-			var prefabPath = $"Windows/{prefabName}";
-			var windowType = prefab.GetType();
-
-			_prefabWindowReferencesCache[windowType] = prefabPath;
-		}
-
+		
 		private Transform GetContainer(UILayer layer)
 		{
 			return _containers.FirstOrDefault(container => container.layer == layer)?.transform;
 		}
-
-		private void OnWindowDestroyed(IWindow window)
+		
+		private void OnWindowDestroyed(WindowViewModel windowViewModel)
 		{
+			var window = windowViewModel.Window;
+			
 			window.Destroyed -= OnWindowDestroyed;
 			window.Hidden -= OnWindowHidden;
 
-			if (!window.IsPreCached)
+			if (!windowViewModel.WindowSettings.IsPreCached)
 			{
-				var windowType = window.GetType();
+				var windowViewModelType = windowViewModel.GetType();
 
-				_createdWindowsCache.Remove(windowType);
+				_createdWindowViewModelsCache.Remove(windowViewModelType);
 			}
 		}
 		
-		private void OnWindowHidden(IWindow window)
+		private void OnWindowHidden(WindowViewModel windowViewModel)
 		{
-			_windowStack.RemoveLast(window.GetType());
-			window.Unsubscribe();
+			_windowStack.RemoveLast(windowViewModel.GetType());
+			windowViewModel.Unsubscribe();
+
+			var focusedWindowType = _windowStack.GetLast();
+			var focusedWindowViewModel = _createdWindowViewModelsCache[focusedWindowType];
+
+			FocusedWindowViewModel = focusedWindowViewModel;
+
+			WindowClosed?.Invoke(windowViewModel);
 		}
+		
 	}
 }

@@ -1,12 +1,11 @@
-﻿using Lukomor.Presentation.Controllers;
-using Lukomor.Presentation.Models;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 namespace Lukomor.Presentation.Views.Windows
 {
-	public abstract class DialogWindow<TModel> : Window<TModel> where TModel : Model, new()
+	public abstract class DialogWindow<TWindowViewModel> : Window<TWindowViewModel> where TWindowViewModel : WindowViewModel
 	{
+		[Space]
 		[SerializeField] protected Button _btnClose;
 		[SerializeField] protected Button _btnCloseAlt;
 
@@ -43,14 +42,6 @@ namespace Lukomor.Presentation.Views.Windows
 		protected virtual void OnCloseButtonClick()
 		{
 			UI.Back();
-		}
-	}
-	
-	public abstract class DialogWindow : DialogWindow<Model>
-	{
-		protected sealed override Controller<Model> CreateController()
-		{
-			return null;
 		}
 	}
 }
