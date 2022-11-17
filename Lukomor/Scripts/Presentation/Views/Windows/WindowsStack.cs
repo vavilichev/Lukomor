@@ -16,12 +16,6 @@ namespace Lukomor.Presentation.Views.Windows {
 			_windowsQueue.Add(windowType);
 		}
 
-		public void Push(Type windowType, Type backDestinationWindowType) {
-			Pop();
-			Push(backDestinationWindowType);
-			Push(windowType);
-		}
-
 		public Type Pop() {
 			Type result = null;
 			
@@ -50,6 +44,11 @@ namespace Lukomor.Presentation.Views.Windows {
 				
 				_windowsQueue.RemoveAt(lastIndexOf);
 			}
+		}
+
+		public Type GetLast()
+		{
+			return _windowsQueue[^1];
 		}
 	}
 }

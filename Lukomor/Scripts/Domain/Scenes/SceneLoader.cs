@@ -6,7 +6,6 @@ using Lukomor.Common.Scenes;
 using Lukomor.Presentation;
 using UnityEngine;
 using VavilichevGD.Tools.Coroutines;
-using VavilichevGD.Tools.Logging;
 
 namespace Lukomor.Domain.Scenes
 {
@@ -34,7 +33,7 @@ namespace Lukomor.Domain.Scenes
 		{
 			if (_sceneNames == null || _sceneNames.Length < sceneIndex + 1)
 			{
-				Log.PrintError($"SceneLoader: cannot load scene with index {sceneIndex}. Index out of range");
+				Debug.LogError($"SceneLoader: cannot load scene with index {sceneIndex}. Index out of range");
 
 				var args = new SceneLoadingArgs
 				{
@@ -75,7 +74,7 @@ namespace Lukomor.Domain.Scenes
 
 			if (IsLoading)
 			{
-				Log.PrintError($"SceneLoader: cannot load scene {sceneName}. Another scene is loading now");
+				Debug.LogError($"SceneLoader: cannot load scene {sceneName}. Another scene is loading now");
 
 				callback?.Invoke(args);
 			}
@@ -85,24 +84,11 @@ namespace Lukomor.Domain.Scenes
 				
 				UnloadCurrentContext();
 
-				Coroutines.StartRoutine(LoadSceneRouting(sceneName));
+				await LoadUnitySceneAsync(sceneName);
 
-				while (isLoadingUnityScene)
-				{
-					await Task.Yield();
-				}
-
-				await Task.Yield(); 			// It's required to switching scenes before new scene context will start loading.
-				
 				await LoadContext(sceneName);
 
-				var scenesLibrary = Resources.Load<ScenesLibrary>(ScenesLibraryAssetPath);
-				var sceneConfig = scenesLibrary.GetConfigOfScene(sceneName);
-
-				if (sceneConfig != null)
-				{
-					ui.Build(sceneConfig);
-				}
+				ui.Build(sceneName);
 
 				IsLoading = false;
 				args.Success = true;
@@ -128,7 +114,7 @@ namespace Lukomor.Domain.Scenes
 			}
 		}
 
-		private IEnumerator LoadSceneRouting(string sceneName)
+		private async Task LoadUnitySceneAsync(string sceneName)
 		{
 			isLoadingUnityScene = true;
 
@@ -137,7 +123,7 @@ namespace Lukomor.Domain.Scenes
 
 			while (asyncOperation.progress < Progress90)
 			{
-				yield return null;
+				await Task.Yield();
 			}
 
 			asyncOperation.allowSceneActivation = true;

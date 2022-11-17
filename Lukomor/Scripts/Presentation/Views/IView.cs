@@ -1,14 +1,15 @@
 ﻿namespace Lukomor.Presentation.Views
 {
-	public interface IView
-	{
-		bool IsReady { get; }
-		
-		void AddPayload(string key, object payload);
-		T GetPayload<T>(string key);
-		T GetAndRemovePayload<T>(string key);
-		bool PayloadExists(string key);
-		void RemovePayload(string key);
-		void RemoveAllPayloads();
-	}
+    public interface IView<out TViewModel> : IView where TViewModel : ViewModel
+    {
+        TViewModel ViewModel { get; }
+    }
+
+    public interface IView
+    {
+        bool IsActive { get; }
+        void Refresh();
+        void Subscribe();
+        void Unsubscribe();
+    }
 }
