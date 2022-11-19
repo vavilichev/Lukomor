@@ -1,12 +1,12 @@
-﻿using Lukomor.Application.Contexts;
+﻿using Lukomor.Common.Utils.Async;
+using Lukomor.Domain.Contexts;
 using UnityEngine;
-using VavilichevGD.Tools.Async;
 
-namespace Lukomor.Application.Boot
+namespace Lukomor.Application
 {
-    public abstract class Bootstrap : MonoBehaviour
+    public class Bootstrap : MonoBehaviour
     {
-        [SerializeField] private MonoContext _projectContext;
+        [SerializeField] private ProjectContext _projectContext;
 
         private void Start()
         {

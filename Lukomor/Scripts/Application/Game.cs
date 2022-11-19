@@ -1,27 +1,38 @@
-﻿using System.Threading.Tasks;
-using Lukomor.Application.Contexts;
+﻿using System;
+using System.Threading.Tasks;
+using Lukomor.Application.Scenes;
 using Lukomor.Application.Signals;
-using Lukomor.DIContainer;
-using Lukomor.Domain.Scenes;
-using Lukomor.Presentation;
+using Lukomor.Common.DIContainer;
+using Lukomor.Domain.Contexts;
+using Lukomor.Domain.Signals;
+using Object = UnityEngine.Object;
 
 namespace Lukomor.Application
 {
     public static class Game
     {
-        public static bool GameStarted { get; private set; }
+        public static event Action ProjectContextPreInitialized;
+        public static event Action ProjectContextInitialized;
+        public static event Action GameStarted;
         
-        private static IContext _projectContext { get; set; }
+        public static bool IsStarted { get; private set; }
+        public static bool IsMainObjectsBound { get; private set; }
+        public static bool IsProjectContextInitialized { get; private set; }
+        
+        private static ProjectContext _projectContext { get; set; }
         private static bool _gameStarting { get; set; }
 
-        public static async Task StartGameAsync(IContext projectContext)
+        public static async Task StartGameAsync(ProjectContext projectContext)
         {
-            if (!GameStarted && !_gameStarting)
+            if (!IsStarted && !_gameStarting)
             {
+                IsMainObjectsBound = false;
+                IsProjectContextInitialized = false;
+                
                 _gameStarting = true;
                 _projectContext = projectContext;
-                
-                var ui = UserInterface.CreateInstance();
+
+                var ui = Object.Instantiate(projectContext.UserInterfacePrefab);
                 var sceneManager = SceneManager.CreateInstance(_projectContext, ui);
                 var signalTower = new SignalTower();
 
@@ -29,15 +40,23 @@ namespace Lukomor.Application
                 DI.Bind(ui);
                 DI.Bind(sceneManager);
 
+                IsMainObjectsBound = true;
+                ProjectContextPreInitialized?.Invoke();
+
                 if (projectContext != null)
                 {
                     await _projectContext.InitializeAsync();
                 }
 
+                IsProjectContextInitialized = true;
+                ProjectContextInitialized?.Invoke();
+
                 await sceneManager.LoadScene(1);
 
-                GameStarted = true;
+                IsStarted = true;
                 _gameStarting = false;
+                
+                GameStarted?.Invoke();
             }
         }
     }
