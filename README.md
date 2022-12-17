@@ -1,12 +1,18 @@
 # Lukomor - Unity Architectural Template
 
+## WARNING
+Version 2.x.x is deprecated and moved to branch version_2. **Version 3 doesn't support backward compatibility**, and you shouldn't update your project from the package manager with clicking Update button (it will download version 3). For updating version 2 (is will have a support for a some time) please reimport asset with the link:
+
+```
+https://github.com/vavilichev/Lukomor.git#version_2
+```
+
 ## Installation
 
 Copy next line:
 
 ```
 https://github.com/vavilichev/Lukomor.git
-
 ```
 
 Open Window/Package Manager, click **+** button, choose "Add package from git URL..." and past link here. Then click the "Add" button.
@@ -23,7 +29,7 @@ If you want to learn the example of the project used the Lukomor Architecture - 
 
 **WARNING**
 
-To make example work properly you must add two scenes in the BuildSettings: **LukomorExample_Bootstrap** and **LukomorExample_Gameplay**. Also you must copy prefab **[INTERFACE]** from LukomorArchitecture/Lukomor/Prefabs to Resources folder.(create it if needed).
-
+To make example work properly you must add all scenes from the folder Example/TagsGame/Scenes/ to the BuildSettings.
+![image](https://user-images.githubusercontent.com/22970240/208266184-7ef2c78e-2337-45b6-8afc-f39cc1597852.png)
 
 Full documentation coming soon..
