@@ -30,6 +30,6 @@ If you want to learn the example of the project used the Lukomor Architecture - 
 **WARNING**
 
 To make example work properly you must add all scenes from the folder Example/TagsGame/Scenes/ to the BuildSettings.
-![image](https://user-images.githubusercontent.com/22970240/208266184-7ef2c78e-2337-45b6-8afc-f39cc1597852.png)
+![image](https://user-images.githubusercontent.com/22970240/208266469-2f999603-a067-4cbd-a4eb-cc3e590d2ae7.png)
 
 Full documentation coming soon..
