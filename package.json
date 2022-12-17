@@ -1,6 +1,6 @@
 {
   "name": "com.vavilichev.lukomor",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "displayName": "Lukomor Architecture",
   "description": "Lukomor is an architectural template for games making with Unity.",
   "unity": "2019.3",
@@ -13,10 +13,19 @@
     "dependency injection",
 	"DI"
   ],
+  "homepage": "https://github.com/vavilichev/Lukomor.git",
+  "bugs": {
+    "url": "https://github.com/vavilichev/Lukomor/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com:vavilichev/Lukomor.git"
+  },
+  "license": "MIT",
   "author": {
     "name": "Andrey Vavilichev",
     "email": "andreyvavilichev@gmail.com",
-    "url": "https://github.com/vavilichev/Lukomor"
+    "url": "https://t.me/vavilichev"
   },
   "license": "See LICENSE.md file",
   "samples": [
