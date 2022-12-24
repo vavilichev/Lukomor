@@ -20,6 +20,10 @@ namespace Lukomor.Domain.Features
 			return Task.CompletedTask;
 		}
 
+		public virtual void OnApplicationFocus(bool hasFocus) { }
+		public virtual void OnApplicationPause(bool pauseStatus) { }
+
+
 		protected virtual Task InitializeInternal() { return Task.CompletedTask; }
 	}
 }

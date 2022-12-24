@@ -8,5 +8,8 @@ namespace Lukomor.Domain.Services
 
 		Task InitializeAsync();
 		Task DestroyAsync();
+		
+		void OnApplicationFocus(bool hasFocus);
+		void OnApplicationPause(bool pauseStatus);
 	}
 }

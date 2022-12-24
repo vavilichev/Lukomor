@@ -157,5 +157,39 @@ namespace Lukomor.Domain.Contexts
 				DI.Unbind(feature);
 			}
 		}
+
+		private void OnApplicationFocus(bool hasFocus)
+		{
+			var allServices = GetAllServices();
+
+			foreach (IService service in allServices)
+			{
+				service.OnApplicationFocus(hasFocus);
+			}
+
+			var allFeatures = GetAllFeatures();
+
+			foreach (IFeature feature in allFeatures)
+			{
+				feature.OnApplicationFocus(hasFocus);
+			}
+		}
+
+		private void OnApplicationPause(bool pauseStatus)
+		{
+			var allServices = GetAllServices();
+
+			foreach (IService service in allServices)
+			{
+				service.OnApplicationPause(pauseStatus);
+			}
+
+			var allFeatures = GetAllFeatures();
+
+			foreach (IFeature feature in allFeatures)
+			{
+				feature.OnApplicationPause(pauseStatus);
+			}
+		}
     }
 }

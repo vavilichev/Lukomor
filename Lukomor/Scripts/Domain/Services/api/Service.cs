@@ -21,6 +21,9 @@ namespace Lukomor.Domain.Services
 			return Task.CompletedTask;
 		}
 		
+		public virtual void OnApplicationFocus(bool hasFocus) { }
+		public virtual void OnApplicationPause(bool pauseStatus) { }
+		
 		protected abstract Task InitializeAsyncInternal();
 	}
 }
