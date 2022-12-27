@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Lukomor.Common.DIContainer;
 using Lukomor.Common.Utils.Async;
 using Lukomor.Domain.Features;
-using Lukomor.Domain.Services;
 using UnityEngine;
 
 namespace Lukomor.Domain.Contexts
@@ -13,182 +10,133 @@ namespace Lukomor.Domain.Contexts
     public abstract class MonoContext : MonoBehaviour, IContext
     {
         public bool IsReady { get; private set; }
-		
-		private Dictionary<Type, IService> _servicesMap;
-		private Dictionary<Type, IFeature> _featuresMap;
+
+        [SerializeField] private FeatureInstaller[] _serviceFeaturesInstallers;
+        [SerializeField] private FeatureInstaller[] _gameplayFeatureInstallers;
+        
+		private List<IFeature> _cachedServiceFeatures;
+		private List<IFeature> _cachedGameplayFeatures;
+
+		#region Unity Lifecycle
 
 		private void Awake()
 		{
-			_servicesMap = new Dictionary<Type, IService>();
-			_featuresMap = new Dictionary<Type, IFeature>();
+			_cachedServiceFeatures = new List<IFeature>();
+			_cachedGameplayFeatures = new List<IFeature>();
 		}
 		
 		private void OnDestroy()
 		{
 			Destroy();
 		}
+		
+		private void OnApplicationFocus(bool hasFocus)
+		{
+			foreach (IFeature serviceFeature in _cachedServiceFeatures)
+			{
+				serviceFeature.OnApplicationFocus(hasFocus);
+			}
 
+			foreach (IFeature gameplayFeature in _cachedGameplayFeatures)
+			{
+				gameplayFeature.OnApplicationFocus(hasFocus);
+			}
+		}
+
+		private void OnApplicationPause(bool pauseStatus)
+		{
+			foreach (IFeature serviceFeature in _cachedServiceFeatures)
+			{
+				serviceFeature.OnApplicationPause(pauseStatus);
+			}
+
+			foreach (IFeature gameplayFeature in _cachedGameplayFeatures)
+			{
+				gameplayFeature.OnApplicationPause(pauseStatus);
+			}
+		}
+
+		#endregion
+
+		#region Lifecycle
+		
 		public virtual async Task InitializeAsync()
 		{
-			InstallServices();
-			InstallFeatures();
+			InstallServiceFeatures();
+			InstallGameplayFeatures();
 
-			InitializeServices();
-			InitializeFeatures();
+			InitializeServiceFeatures();
+			InitializeGameplayFeatures();
 
 			await WaitInitializationComplete();
 		}
 
 		public void Destroy()
 		{
-			DestroyServices();
-			DestroyFeatures();
+			DestroyServiceFeatures();
+			DestroyGameplayFeatures();
 		}
+
+		#endregion
 		
-		public T GetService<T>() where T : IService
+		private void InstallServiceFeatures()
 		{
-			var type = typeof(T);
-
-			_servicesMap.TryGetValue(type, out var service);
-
-			return (T)service;
-		}
-		
-		public T GetFeature<T>() where T : IFeature
-		{
-			var type = typeof(T);
-
-			_featuresMap.TryGetValue(type, out var feature);
-
-			return (T)feature;
-		}
-
-		public IService[] GetAllServices()
-		{
-			return _servicesMap.Values.ToArray();
-		}
-
-		public IFeature[] GetAllFeatures()
-		{
-			return _featuresMap.Values.ToArray();
-		}
-
-		protected virtual void InstallServices() { }
-		protected virtual void InstallFeatures() { }
-
-		protected void AddService<T>(T service) where T : class, IService
-		{
-			var type = service.GetType();
-
-			_servicesMap[type] = service;
-			
-			DI.Bind(service);
-		}
-
-		protected void AddFeature<T>(T feature) where T : class, IFeature
-		{
-			var type = feature.GetType();
-
-			_featuresMap[type] = feature;
-
-			DI.Bind(feature);
-		}
-
-		private void InitializeServices()
-		{
-			var allServices = GetAllServices();
-			var count = allServices.Length;
-
-			for (int i = 0; i < count; i++)
+			foreach (var serviceFeatureInstaller in _serviceFeaturesInstallers)
 			{
-				allServices[i].InitializeAsync().RunAsync();
+				var createdFeature = serviceFeatureInstaller.Create();
+
+				_cachedServiceFeatures.Add(createdFeature);
 			}
 		}
 
-		private void InitializeFeatures()
+		private void InstallGameplayFeatures()
 		{
-			var allFeatures = GetAllFeatures();
-			var count = allFeatures.Length;
-
-			for (int i = 0; i < count; i++)
+			foreach (var gameplayFeatureInstaller in _gameplayFeatureInstallers)
 			{
-				allFeatures[i].InitializeAsync().RunAsync();
+				var createdFeature = gameplayFeatureInstaller.Create();
+
+				_cachedGameplayFeatures.Add(createdFeature);
+			}
+		}
+
+		private void InitializeServiceFeatures()
+		{
+			foreach (var serviceFeature in _cachedServiceFeatures)
+			{
+				serviceFeature.InitializeAsync().RunAsync();
+			}
+		}
+
+		private void InitializeGameplayFeatures()
+		{
+			foreach (var gameplayFeature in _cachedGameplayFeatures)
+			{
+				gameplayFeature.InitializeAsync().RunAsync();
 			}
 		}
 
 		private async Task WaitInitializationComplete()
 		{
-			var allServices = GetAllServices();
-			var allFeatures = GetAllFeatures();
-
 			await UnityAwaiters.WaitUntil(() =>
-				allFeatures.All(feature => feature.IsReady)
-				&& allServices.All(service => service.IsReady));
+				_cachedGameplayFeatures.All(feature => feature.IsReady)
+				&& _cachedServiceFeatures.All(service => service.IsReady));
 
 			IsReady = true;
 		}
 
-		private void DestroyServices()
+		private void DestroyServiceFeatures()
 		{
-			var allServices = GetAllServices();
-			var count = allServices.Length;
-
-			for (int i = 0; i < count; i++)
+			foreach (var serviceFeature in _cachedServiceFeatures)
 			{
-				var service = allServices[i];
-				
-				service.DestroyAsync().RunAsync();
-				
-				DI.Unbind(service);
+				serviceFeature.DestroyAsync().RunAsync();
 			}
 		}
 
-		private void DestroyFeatures()
+		private void DestroyGameplayFeatures()
 		{
-			var allFeatures = GetAllFeatures();
-			var count = allFeatures.Length;
-
-			for (int i = 0; i < count; i++)
+			foreach (var gameplayFeature in _cachedGameplayFeatures)
 			{
-				var feature = allFeatures[i];
-				
-				feature.DestroyAsync().RunAsync();
-
-				DI.Unbind(feature);
-			}
-		}
-
-		private void OnApplicationFocus(bool hasFocus)
-		{
-			var allServices = GetAllServices();
-
-			foreach (IService service in allServices)
-			{
-				service.OnApplicationFocus(hasFocus);
-			}
-
-			var allFeatures = GetAllFeatures();
-
-			foreach (IFeature feature in allFeatures)
-			{
-				feature.OnApplicationFocus(hasFocus);
-			}
-		}
-
-		private void OnApplicationPause(bool pauseStatus)
-		{
-			var allServices = GetAllServices();
-
-			foreach (IService service in allServices)
-			{
-				service.OnApplicationPause(pauseStatus);
-			}
-
-			var allFeatures = GetAllFeatures();
-
-			foreach (IFeature feature in allFeatures)
-			{
-				feature.OnApplicationPause(pauseStatus);
+				gameplayFeature.DestroyAsync().RunAsync();
 			}
 		}
     }

@@ -132,7 +132,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 17897133}
-  - component: {fileID: 17897134}
+  - component: {fileID: 17897135}
   m_Layer: 0
   m_Name: PreviewSceneContext
   m_TagString: Untagged
@@ -155,7 +155,7 @@ Transform:
   m_Father: {fileID: 207105887}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &17897134
+--- !u!114 &17897135
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -164,9 +164,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 17897132}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 96fb03a3329345c4881816e02cf5b30e, type: 3}
+  m_Script: {fileID: 11500000, guid: 4b22d6686eb24192b6c5cf7626684ca2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _serviceFeaturesInstallers: []
+  _gameplayFeatureInstallers: []
   _scene: {fileID: 102900000, guid: 2d3f235073ddc5b4ab60dd99d3b05351, type: 3}
   _uiSceneConfig: {fileID: 11400000, guid: 33acdac9932c4714db152e54ebee9047, type: 2}
   SceneName: LukomorExample_Preview
@@ -214,14 +216,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 207105885}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61ee1c15b06d4306848c7956a32918fd, type: 3}
+  m_Script: {fileID: 11500000, guid: 0def60a47b78447fa9891593328dfa15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _serviceFeaturesInstallers: []
+  _gameplayFeatureInstallers: []
   _userInterfacePrefab: {fileID: 5181342956067342278, guid: 090586af556d2ef4c841ddb9f531d534,
     type: 3}
   _sceneContexts:
-  - {fileID: 748642398}
-  - {fileID: 17897134}
+  - {fileID: 17897135}
+  - {fileID: 748642400}
 --- !u!114 &207105889
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -244,7 +248,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 748642399}
-  - component: {fileID: 748642398}
+  - component: {fileID: 748642400}
   m_Layer: 0
   m_Name: GameplaySceneContext
   m_TagString: Untagged
@@ -252,21 +256,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &748642398
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 748642397}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 96fb03a3329345c4881816e02cf5b30e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _scene: {fileID: 102900000, guid: e74bd731b82aa0045859dab62de64620, type: 3}
-  _uiSceneConfig: {fileID: 11400000, guid: 4e3109b608220ea46bd53e8380fc8b61, type: 2}
-  SceneName: LukomorExample_Gameplay
 --- !u!4 &748642399
 Transform:
   m_ObjectHideFlags: 0
@@ -282,6 +271,24 @@ Transform:
   m_Father: {fileID: 207105887}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &748642400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 748642397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b22d6686eb24192b6c5cf7626684ca2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _serviceFeaturesInstallers: []
+  _gameplayFeatureInstallers:
+  - {fileID: 11400000, guid: 9ede82a64e9b09e4e81261d1375b9d68, type: 2}
+  _scene: {fileID: 102900000, guid: e74bd731b82aa0045859dab62de64620, type: 3}
+  _uiSceneConfig: {fileID: 11400000, guid: 4e3109b608220ea46bd53e8380fc8b61, type: 2}
+  SceneName: LukomorExample_Gameplay
 --- !u!1001 &1907364216
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -4,12 +4,18 @@ using UnityEngine;
 
 namespace Lukomor.Domain.Contexts
 {
-    public abstract class ProjectContext : MonoContext
+    public sealed class ProjectContext : MonoContext
     {
+        [Space]
         [SerializeField] private UserInterface _userInterfacePrefab;
         [SerializeField] private SceneContext[] _sceneContexts;
 
         public UserInterface UserInterfacePrefab => _userInterfacePrefab;
+
+        private void Start()
+        {
+            DontDestroyOnLoad(gameObject);
+        }
 
         public SceneContext GetSceneContext(string sceneName)
         {

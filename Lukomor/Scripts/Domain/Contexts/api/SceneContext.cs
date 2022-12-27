@@ -3,8 +3,9 @@ using UnityEngine;
 
 namespace Lukomor.Domain.Contexts
 {
-    public abstract class SceneContext : MonoContext
+    public sealed class SceneContext : MonoContext
     {
+        [Space]
 #if UNITY_EDITOR
         [SerializeField] private UnityEditor.SceneAsset _scene;
 #endif

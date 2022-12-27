@@ -2,7 +2,7 @@
 using Lukomor.Application;
 using Lukomor.Common.DIContainer;
 using Lukomor.Domain.Signals;
-using Lukomor.TagsGame.Grid.Application;
+using Lukomor.TagsGame.Grid;
 using UnityEngine;
 
 namespace Lukomor.TagsGame.Loading.Presentation
