@@ -13,7 +13,12 @@ namespace Lukomor.Common.DIContainer
 		{
 			var type = typeof(T);
 
-			_bindedObjects.Add(type, value);
+			if (_bindedObjects.ContainsKey(type))
+			{
+				Debug.LogWarning($"Adding duplicate of object of type {type}. Old object was rewritten.");
+			}
+
+			_bindedObjects[type] = value;
 		}
 
 		public static void Unbind<T>(T value) where T : class
