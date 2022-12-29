@@ -48,7 +48,7 @@ namespace Lukomor.Presentation.Views.Windows {
 
 		public Type GetLast()
 		{
-			return _windowsQueue[^1];
+			return _windowsQueue.Last();
 		}
 	}
 }
