@@ -5,6 +5,7 @@ namespace Lukomor.Presentation.Views.Windows
     public class WindowOpenHandler : IWindowOpenHandler
     {
         public WindowViewModel OpeningWindowViewModel { get; }
+        public IWindow OpeningWindow => OpeningWindowViewModel.Window;
 
         private UserInterface _ui;
         
