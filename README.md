@@ -1,5 +1,8 @@
 # Lukomor - Unity Architectural Template
 
+**Discussing here:**
+https://discord.gg/yX3cKpvaGC
+
 ## WARNING
 Versions older than 4.0.0 are deprecated. (version 2.x.x moved to branch version_2). **Version 4 doesn't support backward compatibility**, and you shouldn't update your project from the package manager with clicking Update button (it will download version 3). For updating version 2 (is will have a support for a some time) please reimport asset with the link:
 
