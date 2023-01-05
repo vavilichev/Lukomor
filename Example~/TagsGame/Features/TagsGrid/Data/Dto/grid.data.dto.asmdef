@@ -1,0 +1,17 @@
+{
+    "name": "grid.data.dto",
+    "rootNamespace": "Lukomor.TagsGame.TagsGrid.Dto",
+    "references": [
+        "GUID:8bb627b5ad7ce994cb14f80990c68af2",
+        "GUID:a2fab455fa0c0f144b4a28f6fc7d660b"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

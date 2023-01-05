@@ -1,0 +1,19 @@
+{
+    "name": "grid.impl",
+    "rootNamespace": "Lukomor.TagsGame.TagsGrid",
+    "references": [
+        "GUID:dc8a113ebdff36644889206835fa65d3",
+        "GUID:a2fab455fa0c0f144b4a28f6fc7d660b",
+        "GUID:8bb627b5ad7ce994cb14f80990c68af2",
+        "GUID:6b358f3e21153c344bbcbcbcbda560d9"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

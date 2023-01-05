@@ -1,0 +1,16 @@
+{
+    "name": "grid.api",
+    "rootNamespace": "Lukomor.TagsGame.TagsGrid",
+    "references": [
+        "GUID:a2fab455fa0c0f144b4a28f6fc7d660b"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
