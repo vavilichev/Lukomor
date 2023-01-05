@@ -29,7 +29,8 @@ namespace Lukomor.TagsGame.TagsGrid.Dto
 			{
 				_database = JsonConvert.DeserializeObject<Database>(json);
 			}
-			else
+			
+			if (_database == null)
 			{
 				_database = new Database
 				{
