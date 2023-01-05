@@ -64,6 +64,56 @@ namespace Lukomor.Presentation
 			return result;
 		}
 		
+		public IWindowOpenHandler ShowWindow<T>() where T : WindowViewModel
+		{
+			var windowViewModelType = typeof(T);
+			WindowViewModel windowViewModel;
+
+			if (_createdWindowViewModelsCache.TryGetValue(windowViewModelType, out windowViewModel))
+			{
+				ActivateWindowViewModel(windowViewModel);
+			}
+			else
+			{
+				_uiSceneConfig.TryGetPrefab(out T prefab);
+
+				windowViewModel = CreateWindowViewModel(prefab);
+			}
+
+			var handler = new WindowOpenHandler(windowViewModel, this);
+
+			return handler;
+		}
+		
+		public void SetBackDestination<TWindowViewModel>() where TWindowViewModel : WindowViewModel
+		{
+			var windowViewModelType = typeof(TWindowViewModel);
+			
+			_windowStack.Pop();
+			_windowStack.Push(windowViewModelType);
+			_windowStack.Push(FocusedWindowViewModel.GetType());
+		}
+		
+		public void Back()
+		{
+			if (FocusedWindowViewModel.Window is IHomeWindow)
+			{
+				return;
+			}
+
+			_windowStack.Pop();
+			
+			var windowTypeForRefreshing = _windowStack.Pop();
+			var viewModelForRefreshing = _createdWindowViewModelsCache[windowTypeForRefreshing];
+			
+			ActivateWindowViewModel(viewModelForRefreshing);
+		}
+		
+		public Transform GetContainer(UILayer layer)
+		{
+			return _containers.FirstOrDefault(container => container.layer == layer)?.transform;
+		}
+		
 		private WindowViewModel CreateWindowViewModel(WindowViewModel prefabWindowViewModel)
 		{
 			var windowViewModelType = prefabWindowViewModel.GetType();
@@ -112,51 +162,6 @@ namespace Lukomor.Presentation
 			}
 		}
 		
-		public IWindowOpenHandler ShowWindow<T>() where T : WindowViewModel
-		{
-			var windowViewModelType = typeof(T);
-			WindowViewModel windowViewModel;
-
-			if (_createdWindowViewModelsCache.TryGetValue(windowViewModelType, out windowViewModel))
-			{
-				ActivateWindowViewModel(windowViewModel);
-			}
-			else
-			{
-				_uiSceneConfig.TryGetPrefab(out T prefab);
-
-				windowViewModel = CreateWindowViewModel(prefab);
-			}
-
-			var handler = new WindowOpenHandler(windowViewModel, this);
-
-			return handler;
-		}
-		
-		public void SetBackDestination<TWindowViewModel>() where TWindowViewModel : WindowViewModel
-		{
-			var windowViewModelType = typeof(TWindowViewModel);
-			
-			_windowStack.Pop();
-			_windowStack.Push(windowViewModelType);
-			_windowStack.Push(FocusedWindowViewModel.GetType());
-		}
-		
-		public void Back()
-		{
-			if (FocusedWindowViewModel.Window is IHomeWindow)
-			{
-				return;
-			}
-
-			_windowStack.Pop();
-			
-			var windowTypeForRefreshing = _windowStack.Pop();
-			var viewModelForRefreshing = _createdWindowViewModelsCache[windowTypeForRefreshing];
-			
-			ActivateWindowViewModel(viewModelForRefreshing);
-		}
-		
 		private void DestroyOldWindows()
 		{
 			foreach (var createdWindowViewModelItem in _createdWindowViewModelsCache)
@@ -181,12 +186,7 @@ namespace Lukomor.Presentation
 				}
 			}
 		}
-		
-		private Transform GetContainer(UILayer layer)
-		{
-			return _containers.FirstOrDefault(container => container.layer == layer)?.transform;
-		}
-		
+
 		private void OnWindowDestroyed(WindowViewModel windowViewModel)
 		{
 			var window = windowViewModel.Window;
