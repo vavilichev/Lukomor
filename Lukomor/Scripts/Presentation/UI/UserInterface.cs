@@ -43,6 +43,26 @@ namespace Lukomor.Presentation
 			DestroyOldWindows();
 			CreateNewWindows();
 		}
+
+		public bool TryGetActiveWindowViewModel<T>(out T activeWindowViewModel) where T : WindowViewModel
+		{
+			activeWindowViewModel = null;
+
+			var type = typeof(T);
+			var result = false;
+
+			if (_createdWindowViewModelsCache.TryGetValue(type, out var viewModel))
+			{
+				if (viewModel.IsActive)
+				{
+					activeWindowViewModel = (T) viewModel;
+					
+					result = true;
+				}
+			}
+
+			return result;
+		}
 		
 		private WindowViewModel CreateWindowViewModel(WindowViewModel prefabWindowViewModel)
 		{
