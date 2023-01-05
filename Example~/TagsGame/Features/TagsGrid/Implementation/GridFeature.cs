@@ -95,7 +95,7 @@ namespace Lukomor.TagsGame.TagsGrid
 				cells.Add(CreateCell(cellSaveData));
 			}
 
-			var createdGrid = new Grid(gridSaveData, cells.ToArray());
+			var createdGrid = new GameGrid(gridSaveData, cells.ToArray());
 
 			return createdGrid;
 		}

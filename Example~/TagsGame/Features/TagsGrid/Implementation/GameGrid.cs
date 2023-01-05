@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Lukomor.TagsGame.TagsGrid
 {
-	public class Grid : IGrid
+	public class GameGrid : IGrid
 	{
 		public ICell[] Cells { get; }
 		public int Size => _dto.Size;
@@ -14,7 +14,7 @@ namespace Lukomor.TagsGame.TagsGrid
 		private IGridSaveData _dto;
 		
 
-		public Grid(IGridSaveData dto, ICell[] cells)
+		public GameGrid(IGridSaveData dto, ICell[] cells)
 		{
 			_dto = dto;
 

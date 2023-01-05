@@ -5,17 +5,29 @@ using Vector2 = System.Numerics.Vector2;
 
 namespace Lukomor.TagsGame.TagsGrid.Dto
 {
-    [JsonObject(MemberSerialization.OptIn)]
-    public sealed class CellDto : ICellSaveData, ISerializationCallbackReceiver
+    [JsonObject(MemberSerialization.Fields)]
+    public sealed class CellDto : ICellSaveData
     {
         [JsonProperty(PropertyName = "id")]
         public int CellId { get; private set; }
-        public Vector2Int Position { get; set; }
+
+        public Vector2Int Position
+        {
+            get => myPosition;
+            set
+            {
+                myPosition = value;
+                position = new Vector2(value.x, value.y);
+            }
+        }
+
         [JsonProperty(PropertyName = "numb")]
         public int Number { get; set; }
 
         [JsonProperty(PropertyName = "pos")]
-        private Vector2 position;
+        private Vector2 position { get; set; }
+
+        private Vector2Int myPosition;
 
         public CellDto(int id, int number, Vector2Int position)
         {
@@ -26,15 +38,5 @@ namespace Lukomor.TagsGame.TagsGrid.Dto
 
         [JsonConstructor]
         public CellDto() { }
-
-        public void OnBeforeSerialize()
-        {
-            position = new Vector2(Position.x, Position.y);
-        }
-
-        public void OnAfterDeserialize()
-        {
-            Position = new Vector2Int((int) position.X, (int) position.Y);
-        }
     }
 }

@@ -12,8 +12,8 @@ namespace Lukomor.TagsGame.TagsGrid.Dto
 		private class Database
 		{
 			public int NextCellId = 0;
-			public IGridSaveData Grid;
-			public Dictionary<int, ICellSaveData> CachedCells = new Dictionary<int, ICellSaveData>();
+			public GridDto Grid;
+			public Dictionary<int, CellDto> CachedCells = new Dictionary<int, CellDto>();
 		}
 		
 		private const string saveKey = "Grid";
@@ -29,13 +29,10 @@ namespace Lukomor.TagsGame.TagsGrid.Dto
 			{
 				_database = JsonConvert.DeserializeObject<Database>(json);
 			}
-			
-			if (_database == null)
+			else
 			{
-				_database = new Database
-				{
-					Grid = Create()
-				};
+				_database = new Database();
+				_database.Grid = (GridDto) Create();
 
 				Save();
 			}
@@ -45,7 +42,7 @@ namespace Lukomor.TagsGame.TagsGrid.Dto
 
 		public Task Save()
 		{
-			string json = JsonUtility.ToJson(_database);
+			string json = JsonConvert.SerializeObject(_database);
 			PlayerPrefs.SetString(saveKey, json);
 			
 			return Task.CompletedTask;
