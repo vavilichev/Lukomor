@@ -130,6 +130,11 @@ namespace Lukomor.Domain.Contexts
 			{
 				serviceFeature.DestroyAsync().RunAsync();
 			}
+			
+			foreach (var serviceFeaturesInstaller in _serviceFeaturesInstallers)
+			{
+				serviceFeaturesInstaller.Dispose();
+			}
 		}
 
 		private void DestroyGameplayFeatures()
@@ -137,6 +142,11 @@ namespace Lukomor.Domain.Contexts
 			foreach (var gameplayFeature in _cachedGameplayFeatures)
 			{
 				gameplayFeature.DestroyAsync().RunAsync();
+			}
+
+			foreach (var featureInstaller in _gameplayFeatureInstallers)
+			{
+				featureInstaller.Dispose();
 			}
 		}
     }

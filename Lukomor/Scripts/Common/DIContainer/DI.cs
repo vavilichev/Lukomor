@@ -21,13 +21,13 @@ namespace Lukomor.Common.DIContainer
 			_bindedObjects[type] = value;
 		}
 
-		public static void Unbind<T>(T value) where T : class
+		public static void Unbind<T>() where T : class
 		{
 			var type = typeof(T);
 
 			_bindedObjects.Remove(type);
 		}
-
+		
 		public static T Get<T>() where T : class
 		{
 			var type = typeof(T);

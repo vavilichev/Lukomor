@@ -19,5 +19,10 @@ namespace Lukomor
 
             return feature;
         }
+
+        public override void Dispose()
+        {
+            DI.Unbind<IGridFeature>();
+        }
     }
 }
