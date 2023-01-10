@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Lukomor.Common.Utils.Async;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Lukomor.Presentation.Views.Windows
@@ -41,7 +42,7 @@ namespace Lukomor.Presentation.Views.Windows
 
 		protected virtual void OnCloseButtonClick()
 		{
-			UI.Back();
+			Hide().RunAsync();
 		}
 	}
 }
