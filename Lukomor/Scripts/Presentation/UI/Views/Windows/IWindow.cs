@@ -14,7 +14,7 @@ namespace Lukomor.Presentation.Views.Windows {
 		bool IsShown { get; }
 		
 		Task<IWindow> Show();
-		Task<IWindow> Hide();
+		Task<IWindow> Hide(bool forced = false);
 		IWindow HideInstantly();
 	}
 }
