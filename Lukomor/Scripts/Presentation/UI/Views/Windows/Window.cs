@@ -49,6 +49,11 @@ namespace Lukomor.Presentation.Views.Windows
 
 		public async Task<IWindow> Hide(bool forced = false)
 		{
+			if (_transitionIn != null && _transitionIn.IsPlaying && !forced)
+			{
+				return this;
+			}
+			
 			if (_transitionOut != null && !forced)
 			{
 				if (_transitionOut.IsPlaying)
