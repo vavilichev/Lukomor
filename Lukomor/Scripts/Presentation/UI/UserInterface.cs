@@ -77,6 +77,11 @@ namespace Lukomor.Presentation
 			{
 				_uiSceneConfig.TryGetPrefab(out T prefab);
 
+				if (prefab == null)
+				{
+					Debug.Log($"<color=#FF0000>Couldn't open window ({windowViewModelType}). It doesn't exist in the config of this scene. </color>");
+				}
+
 				windowViewModel = CreateWindowViewModel(prefab);
 			}
 
@@ -93,12 +98,17 @@ namespace Lukomor.Presentation
 			_windowStack.Push(windowViewModelType);
 			_windowStack.Push(FocusedWindowViewModel.GetType());
 		}
-		
-		public void Back()
+
+		public void Back(bool hideCurrentWindow = true)
 		{
 			if (FocusedWindowViewModel.Window is IHomeWindow)
 			{
 				return;
+			}
+
+			if (hideCurrentWindow)
+			{
+				FocusedWindowViewModel.Window.Hide();
 			}
 
 			_windowStack.Pop();
