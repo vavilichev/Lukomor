@@ -80,6 +80,7 @@ namespace Lukomor.Presentation
 				if (prefab == null)
 				{
 					Debug.Log($"<color=#FF0000>Couldn't open window ({windowViewModelType}). It doesn't exist in the config of this scene. </color>");
+					return null;
 				}
 
 				windowViewModel = CreateWindowViewModel(prefab);
