@@ -1,78 +1,53 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
 
 namespace Lukomor.DI
 {
-	public sealed class DiContainer
+	public sealed class DIContainer : IDIContainer
 	{
-		private readonly Dictionary<Type, object> bindObjects = new Dictionary<Type, object>();
-		
-		public void Bind<T>(T value) where T : class
+		private readonly Dictionary<Type, object> _instances = new();
+		private readonly IDIContainer _parentContainer;
+		public bool IsRoot => _parentContainer == null;
+
+		public DIContainer() { }
+
+		public DIContainer(IDIContainer parentContainer)
+		{
+			_parentContainer = parentContainer;
+		}
+
+		public void Bind<T>(T instance) where T : class
 		{
 			var type = typeof(T);
 
-			if (bindObjects.ContainsKey(type))
+			if (_instances.ContainsKey(type))
 			{
-				Debug.LogWarning($"Adding duplicate of object of type {type}. Old object was overwritten.");
+				throw new Exception($"You cannot add the same type of instance to container twice. Type: {type}");
 			}
 
-			bindObjects[type] = value;
+			_instances[type] = instance;
 		}
 
-		public void Unbind<T>() where T : class
+		public T Resolve<T>() where T : class
 		{
 			var type = typeof(T);
 
-			bindObjects.Remove(type);
-		}
-		
-		public T Get<T>() where T : class
-		{
-			var type = typeof(T);
-
-			bindObjects.TryGetValue(type, out var foundObject);
-
-			if (foundObject == null)
+			if (_instances.TryGetValue(type, out var foundInstance))
 			{
-				Debug.LogError($"DI: Could not find bindable object with key '{type}'.");
-				
-				return null;
+				return (T) foundInstance;
+			}
+			
+			if (!IsRoot)
+			{
+				return _parentContainer.Resolve<T>();
 			}
 
-			return (T)foundObject;
+			throw new Exception($"There is no instance of type registered. Type: {type}");
 		}
 
-		public bool TryGet<T>(out T instance)
+		public void Dispose()
 		{
-			instance = default;
-			var type = typeof(T);
-
-			bool result = bindObjects.TryGetValue(type, out var foundObject);
-
-			if (result)
-			{
-				instance = (T) foundObject;
-			}
-
-			return result;
-		}
-
-		public bool Has<T>()
-		{
-			var type = typeof(T);
-
-			return bindObjects.ContainsKey(type);
-		}
-
-		public T[] GetAll<T>() where T : class
-		{
-			var type = typeof(T);
-			var allFoundObjectsBindable = bindObjects.Values.Where(value => type.IsInstanceOfType(value)).ToArray();
-			var allFoundObjects = Array.ConvertAll(allFoundObjectsBindable, item => (T)item);
-
-			return allFoundObjects;
+			_instances.Clear();
 		}
 	}
 }

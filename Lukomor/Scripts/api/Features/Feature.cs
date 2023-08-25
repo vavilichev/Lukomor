@@ -8,9 +8,9 @@ namespace Lukomor.Features
 	{
 		public bool IsReady { get; private set; }
 		
-		protected DiContainer Container { get; }
+		protected DIContainer Container { get; }
 
-		public Feature(DiContainer container)
+		public Feature(DIContainer container)
 		{
 			Container = container;
 		}

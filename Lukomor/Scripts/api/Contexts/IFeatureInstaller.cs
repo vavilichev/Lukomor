@@ -5,6 +5,6 @@ namespace Lukomor.Domain.Contexts
 {
     public interface IFeatureInstaller
     {
-        IFeature Create(DiContainer container);
+        IFeature Create(DIContainer container);
     }
 }

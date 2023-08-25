@@ -7,7 +7,7 @@ namespace Lukomor.Contexts
 	{
 		bool IsReady { get; }
 
-		Task InitializeAsync(DiContainer container);
+		Task InitializeAsync(DIContainer container);
 		void Destroy();
 	}
 }
