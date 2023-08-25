@@ -3,13 +3,9 @@ using System.Collections.Generic;
 
 namespace Lukomor.Reactive
 {
-    public interface IReactiveCollection<T> : IEnumerable<T>
+    public interface IReactiveCollection<out T> : IReadOnlyCollection<T>
     {
-        int Count { get; }
-
-        void AddListenerItemAdded(Action<T> callback);
-        void RemoveListenerItemAdded(Action<T> callback);
-        void AddListenerItemRemoved(Action<T> callback);
-        void RemoveListenerItemRemoved(Action<T> callback);
+        IObservable<T> Added { get; }
+        IObservable<T> Removed { get; }
     }
 }

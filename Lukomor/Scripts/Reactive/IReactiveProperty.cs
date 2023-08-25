@@ -2,11 +2,11 @@
 
 namespace Lukomor.Reactive
 {
-    public interface IReactiveProperty<T>
+    public interface IReactiveProperty<out T> : IObservable<T>
     {
         T Value { get; }
+        bool HasValue { get; }
 
-        void AddListener(Action<T> callback);
-        void RemoveListener(Action<T> callback);
+        void Unsubscribe(IObserver<T> observer);
     }
 }

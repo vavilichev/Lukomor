@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace Lukomor.Reactive
 {
-    public sealed class ReactiveProperty<T> : IReactiveProperty<T>
+    public class SingleReactiveProperty<T> : IReactiveProperty<T>
     {
         private T _value;
         private bool _hasValue;
-        private readonly List<IObserver<T>> _observers = new();
+        private IObserver<T> _observer;
 
         public T Value
         {
@@ -19,22 +19,22 @@ namespace Lukomor.Reactive
                     _hasValue = true;
                     _value = value;
 
-                    NotifyAboutNewValue(value);
+                    _observer.OnNext(value);
                 }
                 else if (!EqualityComparer<T>.Default.Equals(_value, value))
                 {
                     _value = value;
 
-                    NotifyAboutNewValue(value);
+                    _observer.OnNext(value);
                 }
             }
         }
         
         public bool HasValue => _hasValue;
 
-        public ReactiveProperty() { }
+        public SingleReactiveProperty() { }
 
-        public ReactiveProperty(T valueByDefault)
+        public SingleReactiveProperty(T valueByDefault)
         {
             _value = valueByDefault;
             _hasValue = true;
@@ -42,11 +42,13 @@ namespace Lukomor.Reactive
         
         public IDisposable Subscribe(IObserver<T> observer)
         {
-            if (!_observers.Contains(observer))
+            if (_observer != null)
             {
-                _observers.Add(observer);
+                throw new Exception("You cannot subscribe on SingleReactiveProperty more than one time");
             }
-            
+
+            _observer = observer;
+
             if (_hasValue)
             {
                 observer.OnNext(_value);
@@ -57,20 +59,7 @@ namespace Lukomor.Reactive
         
         public void Unsubscribe(IObserver<T> observer)
         {
-            if (_observers.Contains(observer))
-            {
-                _observers.Remove(observer);
-            }
-        }
-
-        private void NotifyAboutNewValue(T newValue)
-        {
-            var count = _observers.Count;
-                    
-            for (var i = 0; i < count; i++)
-            {
-                _observers[i].OnNext(newValue);
-            }
+            _observer = null;
         }
     }
 }

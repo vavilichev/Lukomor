@@ -1,5 +1,5 @@
 ﻿using System;
-using Lukomor.MVVM.Attributes;
+using System.Reactive.Disposables;
 using Lukomor.Reactive;
 using UnityEngine;
 
@@ -11,7 +11,6 @@ namespace Lukomor.MVVM
 
         [SerializeField] private string _viewModelPath;
         
-        [ViewModelProperty] 
         [SerializeField] protected string _propertyName;
 
         public abstract Type GetGenericArgumentType();
@@ -60,7 +59,7 @@ namespace Lukomor.MVVM
         }
     }
 
-    public abstract class Binder<T> : PropertyBinder
+    public abstract class BinderObsolete<T> : PropertyBinder
     {
         public override Type GetGenericArgumentType()
         {
@@ -71,17 +70,22 @@ namespace Lukomor.MVVM
         {
             var property = viewModel.GetType().GetProperty(propertyName);
             var reactiveProperty = (IReactiveProperty<T>)property.GetValue(viewModel);
-            
-            reactiveProperty.AddListener(callback);
         }
 
-        protected void BindLikeCollection(string propertyName, IViewModel viewModel, Action<T> addedCallback, Action<T> removedCallback)
+
+        protected IDisposable BindLikeCollection(string propertyName, IViewModel viewModel, Action<T> addedCallback, Action<T> removedCallback)
         {
             var propertyInfo = viewModel.GetType().GetProperty(propertyName);
             var reactiveCollection = (IReactiveCollection<T>)propertyInfo.GetValue(viewModel);
 
-            reactiveCollection.AddListenerItemAdded(addedCallback);
-            reactiveCollection.AddListenerItemRemoved(removedCallback);
+            var addedSubscription = reactiveCollection.Added.Subscribe(addedCallback);
+            var removedSubscription = reactiveCollection.Removed.Subscribe(removedCallback);
+            var compositeDisposable = new CompositeDisposable();
+            
+            compositeDisposable.Add(addedSubscription);
+            compositeDisposable.Add(removedSubscription);
+
+            return compositeDisposable;
         }
 
         protected virtual void OnDestroy()

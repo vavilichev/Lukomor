@@ -2,13 +2,13 @@
 
 namespace Lukomor.MVVM.PrefabCreation
 {
-    public class ViewModelToGameObjectCreationFromListBinder : Binder<IViewModel>
+    public class ViewModelToGameObjectCreationFromListObservableBinder : ObservableBinder<IViewModel>
     {
         [SerializeField] private ViewModelToPrefabMapper _mapper;
 
         protected override void BindInternal(IViewModel viewModel)
         {
-            BindLikeElement(_propertyName, viewModel, OnViewModelChanged);
+            BindObservable(_propertyName, viewModel, OnViewModelChanged);
         }
 
         private void OnViewModelChanged(IViewModel newViewModel)

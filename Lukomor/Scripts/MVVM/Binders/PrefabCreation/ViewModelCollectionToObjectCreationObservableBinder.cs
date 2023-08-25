@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Lukomor.MVVM.PrefabCreation
 {
-    public class ViewModelCollectionToObjectCreationBinder : Binder<IViewModel>
+    public class ViewModelCollectionToObjectCreationObservableBinder : ObservableBinder<IViewModel>
     {
         [SerializeField] private GameObject _prefab;
 
@@ -11,7 +11,7 @@ namespace Lukomor.MVVM.PrefabCreation
 
         protected override void BindInternal(IViewModel viewModel)
         {
-            BindLikeCollection(_propertyName, viewModel, OnViewModelAdded, OnViewModelRemoved);
+            BindCollection(_propertyName, viewModel, OnViewModelAdded, OnViewModelRemoved);
         }
 
         private void OnViewModelAdded<T>(T newViewModel) where T : IViewModel

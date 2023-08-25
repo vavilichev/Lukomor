@@ -1,6 +1,6 @@
 ﻿namespace Lukomor.MVVM
 {
-    public class TestBinder : Binder<int>
+    public class TestObservableBinder : ObservableBinder<int>
     {
         protected override void BindInternal(IViewModel viewModel)
         {
