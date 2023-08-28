@@ -1,18 +1,19 @@
 ﻿using System;
 using System.Reactive.Disposables;
 using Lukomor.Reactive;
-using UnityEngine;
 
 namespace Lukomor.MVVM
 {
-    public class ObservableBinder<T> : MonoBehaviour
+    public abstract class ObservableBinder : Binder { }
+
+    public abstract class ObservableBinder<T> : ObservableBinder
     {
         protected IDisposable BindObservable(string propertyName, IViewModel viewModel, Action<T> callback)
         {
             var property = viewModel.GetType().GetProperty(propertyName);
             var observable = (IObservable<T>)property.GetValue(viewModel);
             var subscription = observable.Subscribe(callback);
-
+        
             return subscription;
         }
         
@@ -20,14 +21,14 @@ namespace Lukomor.MVVM
         {
             var propertyInfo = viewModel.GetType().GetProperty(propertyName);
             var reactiveCollection = (IReactiveCollection<T>)propertyInfo.GetValue(viewModel);
-
+        
             var addedSubscription = reactiveCollection.Added.Subscribe(addedCallback);
             var removedSubscription = reactiveCollection.Removed.Subscribe(removedCallback);
             var compositeDisposable = new CompositeDisposable();
             
             compositeDisposable.Add(addedSubscription);
             compositeDisposable.Add(removedSubscription);
-
+        
             return compositeDisposable;
         }
     }

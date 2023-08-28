@@ -1,21 +1,26 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Lukomor.MVVM.PrefabCreation
 {
     public class ViewModelToGameObjectCreation : ObservableBinder<IViewModel>
     {
-        [SerializeField] private GameObject _prefab;
-
-        protected override void BindInternal(IViewModel viewModel)
+        [SerializeField] private View _prefabView;
+        
+        protected override IDisposable BindInternal(IViewModel viewModel)
         {
-            BindObservable(_propertyName, viewModel, OnViewModelChanged);
-        }
+            var type = viewModel.GetType();
 
-        private void OnViewModelChanged(IViewModel newViewModel)
-        {
-            var createdGameObject = Instantiate(_prefab, transform);
+            if (type.FullName == ViewModelTypeFullName)
+            {
+                var propertyInfo = type.GetProperty(PropertyName);
+                var subViewModel = (IViewModel)propertyInfo.GetValue(viewModel);
+                var createdView = Instantiate(_prefabView, transform);
+                
+                createdView.Bind(subViewModel);
+            }
 
-            TakeViewModelToChildBinders(createdGameObject, newViewModel);
+            return null;
         }
     }
 }
