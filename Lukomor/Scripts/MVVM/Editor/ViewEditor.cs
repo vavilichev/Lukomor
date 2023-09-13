@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -12,13 +12,13 @@ namespace Lukomor.MVVM.Editor
     {
         private const string NONE = "None";
         private SerializedProperty _viewModelTypeFullName;
+        private SerializedProperty _childBinders;
         private readonly Dictionary<string, string> _viewModelNames = new();
-        private Assembly _assembly;
 
         private void OnEnable()
         {
-            _assembly = Assembly.GetAssembly(typeof(IViewModel));
             _viewModelTypeFullName = serializedObject.FindProperty(nameof(_viewModelTypeFullName));
+            _childBinders = serializedObject.FindProperty(nameof(_childBinders));
         }
 
         public override void OnInspectorGUI()
@@ -41,13 +41,16 @@ namespace Lukomor.MVVM.Editor
 
             var displayName = string.IsNullOrEmpty(_viewModelTypeFullName.stringValue)
                 ? NONE
-                : _viewModelTypeFullName.stringValue;
+                : ToShortName(_viewModelTypeFullName.stringValue);
+            
             if (GUILayout.Button(displayName, EditorStyles.popup))
             {
                 SearchWindow.Open(new SearchWindowContext(GUIUtility.GUIToScreenPoint(Event.current.mousePosition)), provider);
             }
             
             EditorGUILayout.EndHorizontal();
+
+            DrawDebug();
         }
 
         private void DefineAllViewModels()
@@ -55,16 +58,27 @@ namespace Lukomor.MVVM.Editor
             _viewModelNames.Clear();
             _viewModelNames[NONE] = null;
 
-            var allViewModelsTypes = _assembly.GetTypes()
-                .Where(myType => 
-                    myType.IsClass 
-                    && !myType.IsAbstract 
-                    && typeof(IViewModel).IsAssignableFrom(myType));
+            var allViewModelsTypes = TypeCache.GetTypesDerivedFrom<IViewModel>()
+                .Where(myType => myType.IsClass && !myType.IsAbstract);
             
             foreach (var viewModelsType in allViewModelsTypes)
             {
                 _viewModelNames[viewModelsType.Name] = viewModelsType.FullName;
             }
+        }
+
+        private string ToShortName(string viewModelTypeFullName)
+        {
+            var viewModelType = Type.GetType(viewModelTypeFullName);
+            
+            return viewModelType == null ? NONE : viewModelType.Name;
+        }
+
+        private void DrawDebug()
+        {
+            GUI.enabled = false;
+            EditorGUILayout.PropertyField(_childBinders);
+            GUI.enabled = true;
         }
     }
 }
