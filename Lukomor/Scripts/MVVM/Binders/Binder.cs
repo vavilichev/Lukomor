@@ -8,8 +8,8 @@ namespace Lukomor.MVVM
 #endif
     public abstract class Binder : MonoBehaviour
     {
-        [SerializeField] private string _viewModelTypeFullName;
-        [SerializeField] private string _propertyName;
+        [SerializeField, HideInInspector] private string _viewModelTypeFullName;
+        [SerializeField, HideInInspector] private string _propertyName;
 
         public string ViewModelTypeFullName => _viewModelTypeFullName;
         protected string PropertyName => _propertyName;

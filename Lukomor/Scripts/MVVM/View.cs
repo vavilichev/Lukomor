@@ -9,6 +9,8 @@ namespace Lukomor.MVVM
 
         [SerializeField] private List<View> _subViews = new();
         [SerializeField] private List<Binder> _childBinders = new();
+
+        public string ViewModelTypeFullName => _viewModelTypeFullName;
         
         public void Bind(IViewModel viewModel)
         {

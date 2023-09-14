@@ -1,13 +1,19 @@
 ﻿using System;
 using System.Reactive.Disposables;
 using Lukomor.Reactive;
+using UnityEditorInternal;
 
 namespace Lukomor.MVVM
 {
-    public abstract class ObservableBinder : Binder { }
+    public abstract class ObservableBinder : Binder
+    {
+        public abstract Type ArgumentType { get; }
+    }
 
     public abstract class ObservableBinder<T> : ObservableBinder
     {
+        public override Type ArgumentType => typeof(T);
+
         protected IDisposable BindObservable(string propertyName, IViewModel viewModel, Action<T> callback)
         {
             var property = viewModel.GetType().GetProperty(propertyName);
