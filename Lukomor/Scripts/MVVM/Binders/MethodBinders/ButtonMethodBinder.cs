@@ -6,7 +6,7 @@ using UnityEngine.UI;
 namespace Lukomor.MVVM
 {
     [RequireComponent(typeof(Button))]
-    public class ButtonActionBinder : EmptyMethodBinder
+    public class ButtonMethodBinder : EmptyMethodBinder
     {
         [SerializeField] private Button _button;
         [SerializeField] private string _methodName;

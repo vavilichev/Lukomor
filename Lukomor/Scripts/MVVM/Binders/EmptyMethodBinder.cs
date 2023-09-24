@@ -12,5 +12,10 @@ namespace Lukomor.MVVM
 
             return null;
         }
+
+        public void Perform()
+        {
+            _action?.Invoke();
+        }
     }
 }

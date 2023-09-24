@@ -11,14 +11,14 @@ namespace Lukomor.MVVM.Editor
     [CustomEditor(typeof(ObservableBinder), true)]
     public class ObservableBinderEditor : BinderEditor
     {
-        private ObservableBinder _binder;
+        private ObservableBinder _observableBinder;
         private SerializedProperty _propertyName;
 
         protected override void OnEnable()
         {
             base.OnEnable();
 
-            _binder = (ObservableBinder)target;
+            _observableBinder = (ObservableBinder)target;
             _propertyName = serializedObject.FindProperty(nameof(_propertyName));
         }
 
@@ -63,7 +63,7 @@ namespace Lukomor.MVVM.Editor
         private bool IsValidProperty(Type propertyType)
         {
             var genericArgument = propertyType.GetGenericArguments().First();
-            var requiredArgument = _binder.ArgumentType;
+            var requiredArgument = _observableBinder.ArgumentType;
 
             if (genericArgument != requiredArgument)
             {
