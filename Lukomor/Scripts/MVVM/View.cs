@@ -1,29 +1,68 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Lukomor.MVVM
 {
+#if UNITY_EDITOR
+    [ExecuteInEditMode]
+#endif
     public class View : MonoBehaviour
     {
         [SerializeField] private string _viewModelTypeFullName;
+        [SerializeField] private string _viewModelPropertyName;
+        [SerializeField] private bool _isParentView;
 
         [SerializeField] private List<View> _subViews = new();
         [SerializeField] private List<Binder> _childBinders = new();
 
         public string ViewModelTypeFullName => _viewModelTypeFullName;
+        public string ViewModelPropertyName => _viewModelPropertyName;
+
+#if UNITY_EDITOR
+        private void Start()
+        {
+            var parentView = GetComponentsInParent<View>().FirstOrDefault(c => !ReferenceEquals(c, this));
+
+            if (parentView != null)
+            {
+                parentView.RegisterView(this);
+            }
+        }
+        
+        private void OnDestroy()
+        {
+            var parentView = GetComponentsInParent<View>().FirstOrDefault(c => !ReferenceEquals(c, this));
+            
+            if (parentView != null)
+            {
+                parentView.RemoveView(this);
+            }
+        }
+#endif
         
         public void Bind(IViewModel viewModel)
         {
+            IViewModel targetViewModel;
+            
+            if (_isParentView)
+            {
+                targetViewModel = viewModel;
+            }
+            else
+            {
+                var property = viewModel.GetType().GetProperty(_viewModelPropertyName);
+                targetViewModel = (IViewModel)property.GetValue(viewModel);
+            }
+            
             foreach (var subView in _subViews)
             {
-                var subViewModel = default(IViewModel); // TODO: Get SubViewModel from viewModel
-                
-                subView.Bind(subViewModel);
+                subView.Bind(targetViewModel);
             }
             
             foreach (var binder in _childBinders)
             {
-                binder.Bind(viewModel);
+                binder.Bind(targetViewModel);
             }
         }
 
@@ -46,7 +85,19 @@ namespace Lukomor.MVVM
         {
             _childBinders.Remove(binder);
         }
+
+        private void RegisterView(View view)
+        {
+            if (!_subViews.Contains(view))
+            {
+                _subViews.Add(view);
+            }
+        }
+
+        private void RemoveView(View view)
+        {
+            _subViews.Remove(view);
+        }
 #endif
-        
     }
 }

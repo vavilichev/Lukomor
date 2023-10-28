@@ -34,7 +34,7 @@ namespace Lukomor.MVVM
             
 #if UNITY_EDITOR
             var parentView = GetComponentInParent<View>();
-            parentView.RemoveBinder(this);
+            parentView.RemoveBinder(this);  // TODO: бывает Null, когда добавляешь Binder на View и нажимаешь Ctrl + z
 #endif
             
             OnDestroyed();

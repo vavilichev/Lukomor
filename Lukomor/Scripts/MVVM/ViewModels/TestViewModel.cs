@@ -1,8 +1,12 @@
-﻿namespace Lukomor.MVVM.ViewModels
+﻿using Lukomor.Reactive;
+
+namespace Lukomor.MVVM.ViewModels
 {
     public class TestViewModel : IViewModel
     {
-        public TestSubViewModel SubViewModel;
+        public TestSubViewModel SubViewModel { get; }
+        public TestSubViewModel SubViewModel2 { get; }
+        public TestViewModelOlolo SubViewModelsalkjdklsakhjkajshd { get; }
 
         public TestViewModel()
         {
