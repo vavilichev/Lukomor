@@ -7,7 +7,7 @@ namespace Lukomor.MVVM.Binders
 {
     public class IntToSpriteUnityEventBinder : ObservableBinder<int>
     {
-        [SerializeField] private IntToSpriteMapping[] _mappings;
+        [SerializeField] private List<IntToSpriteMapping> _mappings = new();
         [SerializeField] private Sprite _spriteByDefault;
 
         [SerializeField] private UnityEvent<Sprite> _event;
@@ -24,14 +24,9 @@ namespace Lukomor.MVVM.Binders
             }
         }
 
-        protected override IDisposable BindInternal(IViewModel viewModel)
+        protected override void OnPropertyChanged(int newValue)
         {
-            return this.BindObservable(PropertyName, viewModel, OnValueChanged);
-        }
-
-        private void OnValueChanged(int value)
-        {
-            if (_spritesMap.TryGetValue(value, out var sprite))
+            if (_spritesMap.TryGetValue(newValue, out var sprite))
             {
                 _event.Invoke(sprite);
             }

@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -8,12 +7,7 @@ namespace Lukomor.MVVM.Binders
     {
         [SerializeField] private UnityEvent<T> _event;
         
-        protected override IDisposable BindInternal(IViewModel viewModel)
-        {
-            return BindObservable(PropertyName, viewModel, OnPropertyChanged);
-        }
-
-        private void OnPropertyChanged(T newValue)
+        protected override void OnPropertyChanged(T newValue)
         {
             _event.Invoke(newValue);
         }

@@ -53,7 +53,7 @@ namespace Lukomor.MVVM.Editor
             else
             {
                 SetParentViewBoolean(true);
-                DefineAllViewModels();
+                ViewModelsEditorUtility.DefineAllViewModels(_viewModelNames);
                 DrawEditorForParentView(provider);
                 DrawDebug();
                 DrawOpenViewModelButton(_view.ViewModelTypeFullName);
@@ -112,7 +112,7 @@ namespace Lukomor.MVVM.Editor
 
             var displayName = string.IsNullOrEmpty(_viewModelTypeFullName.stringValue)
                 ? NONE
-                : ToShortName(_viewModelTypeFullName.stringValue);
+                : ViewModelsEditorUtility.ToShortName(_viewModelTypeFullName.stringValue);
             
             if (GUILayout.Button(displayName, EditorStyles.popup))
             {
@@ -134,20 +134,6 @@ namespace Lukomor.MVVM.Editor
             serializedObject.ApplyModifiedProperties();
         }
 
-        private void DefineAllViewModels()
-        {
-            _viewModelNames.Clear();
-            _viewModelNames[NONE] = null;
-
-            var allViewModelsTypes = TypeCache.GetTypesDerivedFrom<IViewModel>()
-                .Where(myType => myType.IsClass && !myType.IsAbstract);
-            
-            foreach (var viewModelsType in allViewModelsTypes)
-            {
-                _viewModelNames[viewModelsType.Name] = viewModelsType.FullName;
-            }
-        }
-
         private void DefineAllViewModelPropertyNames(string parentViewModelTypeFullName)
         {
             _viewModelPropertyNames.Clear();
@@ -163,13 +149,6 @@ namespace Lukomor.MVVM.Editor
             {
                 _viewModelPropertyNames.Add(validProperty.Name);
             }
-        }
-
-        private string ToShortName(string viewModelTypeFullName)
-        {
-            var viewModelType = Type.GetType(viewModelTypeFullName);
-            
-            return viewModelType == null ? NONE : viewModelType.Name;
         }
 
         private void DrawScriptTitle()

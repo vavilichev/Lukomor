@@ -1,4 +1,7 @@
-﻿using UnityEditor;
+﻿using System;
+using System.Linq;
+using Lukomor.Reactive;
+using UnityEditor;
 
 namespace Lukomor.MVVM.Editor
 {
@@ -37,5 +40,32 @@ namespace Lukomor.MVVM.Editor
         }
 
         protected abstract void DrawProperties();
+        
+        protected static bool IsValidProperty(Type propertyType, Type requiredType, Type requiredArgumentType)
+        {
+            var genericArgument = propertyType.GetGenericArguments().First();
+
+            if (genericArgument != requiredArgumentType)
+            {
+                return false;
+            }
+            
+            var interfaceTypes = propertyType.GetInterfaces().Where(i => i.IsGenericType);
+
+            if (requiredType.IsAssignableFrom(propertyType.GetGenericTypeDefinition()))
+            {
+                return true;
+            }
+
+            foreach (var interfaceType in interfaceTypes)
+            {
+                if (requiredType.IsAssignableFrom(interfaceType.GetGenericTypeDefinition()))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
 }

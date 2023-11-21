@@ -7,8 +7,8 @@ namespace Lukomor.MVVM.Binders
 {
     public class IntToColorUnityEventBinder : ObservableBinder<int>
     {
-        [SerializeField] private IntToColorMapping[] _mappings;
-        [SerializeField] private Color _colorByDefault;
+        [SerializeField] private List<IntToColorMapping> _mappings = new();
+        [SerializeField] private Color _colorByDefault = Color.white;
         
         [SerializeField] private UnityEvent<Color> _event;
 
@@ -24,14 +24,9 @@ namespace Lukomor.MVVM.Binders
             }
         }
 
-        protected override IDisposable BindInternal(IViewModel viewModel)
+        protected override void OnPropertyChanged(int newValue)
         {
-            return BindObservable(PropertyName, viewModel, OnValueChanged);
-        }
-
-        private void OnValueChanged(int value)
-        {
-            if (_colorsMap.TryGetValue(value, out var color))
+            if (_colorsMap.TryGetValue(newValue, out var color))
             {
                 _event.Invoke(color);
             }

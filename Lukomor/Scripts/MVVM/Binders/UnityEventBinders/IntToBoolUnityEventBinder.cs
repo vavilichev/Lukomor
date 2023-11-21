@@ -1,5 +1,4 @@
-﻿using System;
-using Lukomor.MVVM.Utils;
+﻿using Lukomor.MVVM.Utils;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -12,14 +11,9 @@ namespace Lukomor.MVVM.Binders
         
         [SerializeField] private UnityEvent<bool> _event;
 		
-        protected override IDisposable BindInternal(IViewModel viewModel)
+        protected override void OnPropertyChanged(int newValue)
         {
-            return BindObservable(PropertyName, viewModel, OnActiveObjectsAmountChanged);
-        }
-
-        private void OnActiveObjectsAmountChanged(int receivedAmount)
-        {
-            var result = _compareOperation.Compare(receivedAmount, _comparingValue);
+            var result = _compareOperation.Compare(newValue, _comparingValue);
 
             _event.Invoke(result);
         }

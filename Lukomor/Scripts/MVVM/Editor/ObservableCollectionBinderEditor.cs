@@ -1,26 +1,27 @@
 ﻿using System;
+using Lukomor.Reactive;
 using UnityEditor;
 
 namespace Lukomor.MVVM.Editor
 {
-    [CustomEditor(typeof(ObservableBinder), true)]
-    public class ObservableBinderEditor : ObservableBinderBase
+    [CustomEditor(typeof(ObservableCollectionBinder), true)]
+    public class ObservableCollectionBinderEditor : ObservableBinderBase
     {
-        private ObservableBinder _observableBinder;
+        private ObservableCollectionBinder _observableBinder;
         protected override SerializedProperty _propertyName { get; set; }
 
         protected override void OnEnable()
         {
             base.OnEnable();
 
-            _observableBinder = (ObservableBinder)target;
+            _observableBinder = (ObservableCollectionBinder)target;
             _propertyName = serializedObject.FindProperty(nameof(_propertyName));
         }
 
         protected override bool IsValidProperty(Type propertyType)
         {
             var requiredArgumentType = _observableBinder.ArgumentType;
-            var requiredType = typeof(IObservable<>);
+            var requiredType = typeof(IReadOnlyReactiveCollection<>);
 
             return IsValidProperty(propertyType, requiredType, requiredArgumentType);
         }

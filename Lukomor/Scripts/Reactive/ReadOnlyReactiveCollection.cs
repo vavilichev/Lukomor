@@ -6,7 +6,7 @@ using System.Reactive.Linq;
 
 namespace Lukomor.Reactive
 {
-    public sealed class ReactiveCollection<T> : IReactiveCollection<T>, ICollection<T>
+    public sealed class ReadOnlyReactiveCollection<T> : IReadOnlyReactiveCollection<T>, ICollection<T>
     {
         public int Count => _items.Count;
         public bool IsReadOnly => false;
@@ -18,7 +18,7 @@ namespace Lukomor.Reactive
         
         private readonly List<T> _items = new();
         
-        public ReactiveCollection()
+        public ReadOnlyReactiveCollection()
         {
             Added = _items.ToObservable(Scheduler.Immediate)
                 .Concat(Observable.FromEvent<T>(
@@ -30,7 +30,7 @@ namespace Lukomor.Reactive
                 a => _itemRemoved -= a, Scheduler.Immediate);
         }
 
-        public ReactiveCollection(IEnumerable<T> collection) : this()
+        public ReadOnlyReactiveCollection(IEnumerable<T> collection) : this()
         {
             _items.AddRange(collection);
         }
