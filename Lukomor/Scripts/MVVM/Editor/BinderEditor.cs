@@ -19,7 +19,7 @@ namespace Lukomor.MVVM.Editor
         protected virtual void OnEnable()
         {
             _binder = (Binder)target;
-            _parentView = _binder.GetComponentInParent<View>();
+            _parentView = _binder.GetComponentInParent<View>(true);
 
             _viewModelTypeFullName = serializedObject.FindProperty(nameof(_viewModelTypeFullName));
         }
@@ -45,7 +45,7 @@ namespace Lukomor.MVVM.Editor
         {
             var genericArgument = propertyType.GetGenericArguments().First();
 
-            if (genericArgument != requiredArgumentType)
+            if (!requiredArgumentType.IsAssignableFrom(genericArgument))
             {
                 return false;
             }
