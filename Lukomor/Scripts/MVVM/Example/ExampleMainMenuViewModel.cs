@@ -1,5 +1,4 @@
 using UnityEditor;
-using UnityEngine;
 
 namespace Lukomor
 {
@@ -18,6 +17,11 @@ namespace Lukomor
             {
                 _uiRootViewModel.OpenGameplayScreen("New Game Opened");
             });
+        }
+
+        public void OnQuestsButtonClick()
+        {
+            _uiRootViewModel.OpenQuestsScreen();
         }
 
         public void OnContinueButtonClick()

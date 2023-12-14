@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -84,6 +85,53 @@ namespace Lukomor.MVVM
         public void RemoveBinder(Binder binder)
         {
             _childBinders.Remove(binder);
+        }
+
+        public bool IsValidSetup()
+        {
+            foreach (var childBinder in _childBinders)
+            {
+                if (childBinder == null)
+                {
+                    return false;
+                }
+            }
+
+            foreach (var subView in _subViews)
+            {
+                if (subView == null)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        public void Fix()
+        {
+            _childBinders.Clear();
+            var allFoundChildBinders = gameObject.GetComponentsInChildren<Binder>(true);
+            foreach (var foundChildBinder in allFoundChildBinders)
+            {
+                if (foundChildBinder.ViewModelTypeFullName == ViewModelTypeFullName)
+                {
+                    RegisterBinder(foundChildBinder);
+                }
+            }
+
+            _subViews.Clear();
+            var allFoundSubViews = gameObject.GetComponentsInChildren<View>(true);
+            foreach (var foundSubView in allFoundSubViews)
+            {
+                var parentView = foundSubView.GetComponentsInParent<View>().FirstOrDefault(c => !ReferenceEquals(c, foundSubView));
+            
+                if (parentView == this)
+                {
+                    RegisterView(foundSubView);
+                }
+            }
+
         }
 
         private void RegisterView(View view)

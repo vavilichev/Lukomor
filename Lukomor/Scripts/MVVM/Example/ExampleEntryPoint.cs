@@ -20,11 +20,13 @@ namespace Lukomor
             Func<string, Action, Action, ExamplePopupAreYouSureViewModel> createAreYouSureViewModel =
                 (question, yesCallback, noCallback) =>
                     new ExamplePopupAreYouSureViewModel(question, yesCallback, noCallback);
+            Func<ExampleScreenQuestsViewModel> createQuestsScreenViewModel = () => new ExampleScreenQuestsViewModel(getUIRootViewModel());
 
             _uiRootViewModel = new ExampleUIRootViewModel(
                 createMainMenuViewModel, 
                 createGameplayScreenViewModel,
-                createAreYouSureViewModel);
+                createAreYouSureViewModel,
+                createQuestsScreenViewModel);
 
             _uiRootView.Bind(_uiRootViewModel);
             

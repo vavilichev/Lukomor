@@ -12,15 +12,18 @@ namespace Lukomor
         private readonly Func<ExampleMainMenuViewModel> _createMainMenuViewModel;
         private readonly Func<string, ExampleScreenGamePlayViewModel> _createGameplayScreenViewModel;
         private readonly Func<string, Action, Action, ExamplePopupAreYouSureViewModel> _createAreYouSureViewModel;
+        private readonly Func<ExampleScreenQuestsViewModel> _createQuestsScreenViewModel;
 
         public ExampleUIRootViewModel(
             Func<ExampleMainMenuViewModel> createMainMenuViewModel, 
             Func<string, ExampleScreenGamePlayViewModel> createGameplayScreenViewModel,
-            Func<string, Action, Action, ExamplePopupAreYouSureViewModel> createAreYouSureViewModel)
+            Func<string, Action, Action, ExamplePopupAreYouSureViewModel> createAreYouSureViewModel,
+            Func<ExampleScreenQuestsViewModel> createQuestsScreenViewModel)
         {
             _createMainMenuViewModel = createMainMenuViewModel;
             _createGameplayScreenViewModel = createGameplayScreenViewModel;
             _createAreYouSureViewModel = createAreYouSureViewModel;
+            _createQuestsScreenViewModel = createQuestsScreenViewModel;
         }
         
         public void OpenMainMenuScreen()
@@ -33,6 +36,12 @@ namespace Lukomor
         {
             CloseCurrentScreen();
             OpenedScreen.Value = _createGameplayScreenViewModel(text);
+        }
+
+        public void OpenQuestsScreen()
+        {
+            CloseCurrentScreen();
+            OpenedScreen.Value = _createQuestsScreenViewModel();
         }
 
         public void OpenAreYouSurePopup(string text, Action yesCallback, Action noCallback = null)

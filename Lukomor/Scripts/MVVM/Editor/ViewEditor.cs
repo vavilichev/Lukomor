@@ -58,6 +58,11 @@ namespace Lukomor.MVVM.Editor
                 DrawDebug();
                 DrawOpenViewModelButton(_view.ViewModelTypeFullName);
             }
+
+            if (!_view.IsValidSetup())
+            {
+                DrawFixButton();
+            }
         }
 
         private void DrawEditorForSubView(StringListSearchProvider provider, string parentViewModelTypeFullName)
@@ -224,6 +229,16 @@ namespace Lukomor.MVVM.Editor
             else
             {
                 Debug.LogError($"No script found for type: {typeName}");
+            }
+        }
+
+        private void DrawFixButton()
+        {
+            EditorGUILayout.HelpBox("Some binders or sub views are missing. Please, fix it", MessageType.Warning);
+            
+            if (GUILayout.Button($"Fix"))
+            {
+                _view.Fix();
             }
         }
     }
