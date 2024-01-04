@@ -1,8 +1,8 @@
 using UnityEditor;
 
-namespace Lukomor
+namespace Lukomor.Example
 {
-    public class ExampleMainMenuViewModel : WindowViewModel
+    public class ExampleMainMenuViewModel : ExampleWindowViewModel
     {
         private readonly ExampleUIRootViewModel _uiRootViewModel;
 

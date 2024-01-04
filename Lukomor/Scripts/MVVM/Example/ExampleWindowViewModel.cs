@@ -3,15 +3,15 @@ using System.Reactive;
 using System.Reactive.Linq;
 using Lukomor.MVVM;
 
-namespace Lukomor
+namespace Lukomor.Example
 {
-    public abstract class WindowViewModel : IViewModel
+    public abstract class ExampleWindowViewModel : IViewModel
     {
         public IObservable<Unit> Closed { get; }
 
         private event Action<Unit> _closedEvent; 
 
-        public WindowViewModel()
+        public ExampleWindowViewModel()
         {
             Closed = Observable.FromEvent<Unit>(
                 a => _closedEvent += a,

@@ -8,8 +8,6 @@ namespace Lukomor.MVVM.Editor
     [CustomEditor(typeof(Binder), true)]
     public abstract class BinderEditor : UnityEditor.Editor
     {
-        protected const string NONE = "None";
-        
         private Binder _binder;
         private View _parentView;
         private SerializedProperty _viewModelTypeFullName;

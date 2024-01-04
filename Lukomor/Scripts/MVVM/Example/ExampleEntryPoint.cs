@@ -1,9 +1,8 @@
 ﻿using System;
 using Lukomor.MVVM;
-using PlasticGui.WorkspaceWindow.CodeReview.Summary;
 using UnityEngine;
 
-namespace Lukomor
+namespace Lukomor.Example
 {
     public class ExampleEntryPoint : MonoBehaviour
     {

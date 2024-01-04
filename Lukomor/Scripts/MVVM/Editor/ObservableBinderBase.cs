@@ -23,22 +23,22 @@ namespace Lukomor.MVVM.Editor
             var validProperties = allProperties.Where(p => IsValidProperty(p.PropertyType));
             var validPropertyNames = validProperties.Select(p => p.Name);
             var provider = CreateInstance<StringListSearchProvider>();
-            var options = new List<string> { NONE };
+            var options = new List<string> { MVVMConstants.NONE };
             options.AddRange(validPropertyNames);
             
             provider.Init(options.ToArray(), result =>
             {
-                _propertyName.stringValue = result == NONE ? null : result;
+                _propertyName.stringValue = result == MVVMConstants.NONE ? null : result;
 
                 serializedObject.ApplyModifiedProperties();
             });
             
             EditorGUILayout.BeginHorizontal();
 
-            EditorGUILayout.LabelField("PropertyName:");
+            EditorGUILayout.LabelField(MVVMConstants.PROPERTY_NAME);
 
             var displayName = string.IsNullOrEmpty(_propertyName.stringValue)
-                ? NONE
+                ? MVVMConstants.NONE
                 : _propertyName.stringValue;
             
             if (GUILayout.Button(displayName, EditorStyles.popup))

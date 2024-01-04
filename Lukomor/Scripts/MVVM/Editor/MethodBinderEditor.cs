@@ -23,22 +23,22 @@ namespace Lukomor.MVVM.Editor
             var allMethods = GetMethodsInfo();
             var allMethodNames = allMethods.Select(m => m.Name);
             var provider = CreateInstance<StringListSearchProvider>();
-            var options = new List<string> { NONE };
+            var options = new List<string> { MVVMConstants.NONE };
             options.AddRange(allMethodNames);
 
             provider.Init(options.ToArray(), result =>
             {
-                _propertyName.stringValue = result == NONE ? null : result;
+                _propertyName.stringValue = result == MVVMConstants.NONE ? null : result;
 
                 serializedObject.ApplyModifiedProperties();
             });
 
             EditorGUILayout.BeginHorizontal();
 
-            EditorGUILayout.LabelField("Method Name:");
+            EditorGUILayout.LabelField(MVVMConstants.METHOD_NAME);
 
             var displayName = string.IsNullOrEmpty(_propertyName.stringValue)
-                ? NONE
+                ? MVVMConstants.NONE
                 : _propertyName.stringValue;
 
             if (GUILayout.Button(displayName, EditorStyles.popup))

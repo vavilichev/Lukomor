@@ -1,12 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using Lukomor.MVVM;
 using Lukomor.Reactive;
-using UnityEngine;
 
-namespace Lukomor
+namespace Lukomor.Example
 {
-    public class ExampleScreenGamePlayViewModel : WindowViewModel
+    public class ExampleScreenGamePlayViewModel : ExampleWindowViewModel
     {
         public ReactiveProperty<string> GameplayText { get; }
         

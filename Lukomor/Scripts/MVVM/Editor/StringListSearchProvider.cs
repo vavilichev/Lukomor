@@ -20,7 +20,7 @@ namespace Lukomor.MVVM.Editor
         {
             var searchList = new List<SearchTreeEntry>();
 
-            searchList.Add(new SearchTreeGroupEntry(new GUIContent("Search"), 0));
+            searchList.Add(new SearchTreeGroupEntry(new GUIContent(MVVMConstants.SEARCH), 0));
 
             foreach (var option in _options)
             {

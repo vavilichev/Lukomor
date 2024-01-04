@@ -23,21 +23,31 @@ namespace Lukomor.MVVM
 #if UNITY_EDITOR
         private void Start()
         {
-            var parentView = GetComponentsInParent<View>().FirstOrDefault(c => !ReferenceEquals(c, this));
+            var parentTransform = transform.parent;
 
-            if (parentView != null)
+            if (parentTransform)
             {
-                parentView.RegisterView(this);
+                var parentView = parentTransform.GetComponentInParent<View>();
+
+                if (parentView != null)
+                {
+                    parentView.RegisterView(this);
+                }
             }
         }
         
         private void OnDestroy()
         {
-            var parentView = GetComponentsInParent<View>().FirstOrDefault(c => !ReferenceEquals(c, this));
-            
-            if (parentView != null)
+            var parentTransform = transform.parent;
+
+            if (parentTransform)
             {
-                parentView.RemoveView(this);
+                var parentView = parentTransform.GetComponentInParent<View>();
+
+                if (parentView != null)
+                {
+                    parentView.RemoveView(this);
+                }
             }
         }
 #endif
@@ -108,6 +118,7 @@ namespace Lukomor.MVVM
             return true;
         }
 
+        [ContextMenu("Force Fix")]
         public void Fix()
         {
             _childBinders.Clear();

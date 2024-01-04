@@ -9,10 +9,9 @@ namespace Lukomor.MVVM.Editor
     [CustomPropertyDrawer(typeof(ViewModelToViewMapping))]
     public class ViewModelToViewMappingPropertyDrawer : PropertyDrawer
     {
-        private const string NONE = "None";
         private readonly Dictionary<string, string> _viewModelNames = new();
-        private readonly GUIContent _viewModelLabelGUIContent = new GUIContent("ViewModel:");
-        private readonly GUIContent _prefabViewGUIContent = new GUIContent("Prefab View");
+        private readonly GUIContent _viewModelLabelGUIContent = new("ViewModel:");
+        private readonly GUIContent _prefabViewGUIContent = new("Prefab View");
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
@@ -43,7 +42,7 @@ namespace Lukomor.MVVM.Editor
                
             EditorGUI.PrefixLabel(viewModelTypeLabelRect, GUIUtility.GetControlID(FocusType.Passive), _viewModelLabelGUIContent);
             var buttonDisplayName = string.IsNullOrEmpty(viewModelTypeFullName.stringValue)
-                ? NONE
+                ? MVVMConstants.NONE
                 : ViewModelsEditorUtility.ToShortName(viewModelTypeFullName.stringValue);
             var viewModelGuiContent = new GUIContent(buttonDisplayName);
             

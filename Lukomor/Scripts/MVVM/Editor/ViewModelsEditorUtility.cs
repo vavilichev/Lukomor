@@ -7,12 +7,10 @@ namespace Lukomor.MVVM.Editor
 {
     public static class ViewModelsEditorUtility
     {
-        private const string NONE = "None";
-        
         public static void DefineAllViewModels(Dictionary<string, string> viewModelNames)
         {
             viewModelNames.Clear();
-            viewModelNames[NONE] = null;
+            viewModelNames[MVVMConstants.NONE] = null;
 
             var allViewModelsTypes = TypeCache.GetTypesDerivedFrom<IViewModel>()
                 .Where(myType => myType.IsClass && !myType.IsAbstract);
@@ -27,7 +25,7 @@ namespace Lukomor.MVVM.Editor
         {
             var viewModelType = Type.GetType(viewModelTypeFullName);
             
-            return viewModelType == null ? NONE : viewModelType.Name;
+            return viewModelType == null ? MVVMConstants.NONE : viewModelType.Name;
         }
     }
 }

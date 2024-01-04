@@ -1,9 +1,9 @@
 ﻿using System;
 using Lukomor.Reactive;
 
-namespace Lukomor
+namespace Lukomor.Example
 {
-    public class ExamplePopupAreYouSureViewModel : WindowViewModel
+    public class ExamplePopupAreYouSureViewModel : ExampleWindowViewModel
     {
         public ReactiveProperty<string> Question { get; }
         

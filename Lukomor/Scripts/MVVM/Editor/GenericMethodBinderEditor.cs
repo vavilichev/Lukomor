@@ -18,9 +18,6 @@ namespace Lukomor.MVVM.Editor
             base.OnEnable();
 
             _genericMethodBinder = (GenericMethodBinder)target;
-            var binderType = _genericMethodBinder.GetType();
-            
-            // TODO: Найти базовый класс типа GenericMethodBinder<> и вытащить из него parameterType
         }
 
         protected override IEnumerable<MethodInfo> GetMethodsInfo()

@@ -10,7 +10,6 @@ namespace Lukomor.MVVM.Editor
     [CustomEditor(typeof(View))]
     public class ViewEditor : UnityEditor.Editor
     {
-        private const string NONE = "None";
         private SerializedProperty _viewModelTypeFullName;
         private SerializedProperty _viewModelPropertyName;
         private SerializedProperty _isParentView;
@@ -71,9 +70,9 @@ namespace Lukomor.MVVM.Editor
 
             provider.Init(options, result =>
             {
-                _viewModelPropertyName.stringValue = result == NONE ? null : result;
+                _viewModelPropertyName.stringValue = result == MVVMConstants.NONE ? null : result;
 
-                if (result != NONE)
+                if (result != MVVMConstants.NONE)
                 {
                     _viewModelTypeFullName.stringValue = GetChildViewModelType(parentViewModelTypeFullName, result)?.FullName;
                 }
@@ -89,7 +88,7 @@ namespace Lukomor.MVVM.Editor
             EditorGUILayout.LabelField($"Property Name{propertyTypeName}:");
 
             var displayName = string.IsNullOrEmpty(_viewModelPropertyName.stringValue)
-                ? NONE
+                ? MVVMConstants.NONE
                 : _viewModelPropertyName.stringValue;
             
             if (GUILayout.Button(displayName, EditorStyles.popup))
@@ -113,10 +112,10 @@ namespace Lukomor.MVVM.Editor
                 
             EditorGUILayout.BeginHorizontal();
 
-            EditorGUILayout.LabelField("ViewModel:");
+            EditorGUILayout.LabelField(MVVMConstants.VIEW_MODEL);
 
             var displayName = string.IsNullOrEmpty(_viewModelTypeFullName.stringValue)
-                ? NONE
+                ? MVVMConstants.NONE
                 : ViewModelsEditorUtility.ToShortName(_viewModelTypeFullName.stringValue);
             
             if (GUILayout.Button(displayName, EditorStyles.popup))
@@ -142,7 +141,7 @@ namespace Lukomor.MVVM.Editor
         private void DefineAllViewModelPropertyNames(string parentViewModelTypeFullName)
         {
             _viewModelPropertyNames.Clear();
-            _viewModelPropertyNames.Add(NONE);
+            _viewModelPropertyNames.Add(MVVMConstants.NONE);
 
             var parentViewModelType = Type.GetType(parentViewModelTypeFullName);
 
@@ -159,7 +158,7 @@ namespace Lukomor.MVVM.Editor
         private void DrawScriptTitle()
         {
             GUI.enabled = false;
-            EditorGUILayout.ObjectField("Script:", MonoScript.FromMonoBehaviour((View)target), typeof(View), false);
+            EditorGUILayout.ObjectField(MVVMConstants.SCRIPT, MonoScript.FromMonoBehaviour((View)target), typeof(View), false);
             GUI.enabled = true;
         }
 
@@ -174,7 +173,7 @@ namespace Lukomor.MVVM.Editor
 
         private void DrawPingParentViewButton(GameObject parentViewGo)
         {
-            if (parentViewGo != null && GUILayout.Button("Highlight Parent View"))
+            if (parentViewGo != null && GUILayout.Button(MVVMConstants.HIGHLIGHT_PARENT_VIEW))
             {
                 EditorGUIUtility.PingObject(parentViewGo);
             }

@@ -1,6 +1,6 @@
 using Lukomor.MVVM;
 
-namespace Lukomor
+namespace Lukomor.Example
 {
     public abstract class ExampleQuestViewModelBase : IViewModel { }
 }

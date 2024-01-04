@@ -1,6 +1,6 @@
 ﻿using Lukomor.Reactive;
 
-namespace Lukomor
+namespace Lukomor.Example
 {
     public class ExampleQuestViewModel1 : ExampleQuestViewModelBase
     {

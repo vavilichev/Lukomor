@@ -2,13 +2,13 @@
 using Lukomor.MVVM;
 using Lukomor.Reactive;
 
-namespace Lukomor
+namespace Lukomor.Example
 {
     public class ExampleUIRootViewModel : IViewModel
     {
-        public ReactiveProperty<WindowViewModel> OpenedScreen { get; } = new();
-        public ReactiveProperty<WindowViewModel> OpenedPopup { get; } = new();
-
+        public ReactiveProperty<ExampleWindowViewModel> OpenedScreen { get; } = new();
+        public ReactiveProperty<ExampleWindowViewModel> OpenedPopup { get; } = new();
+        
         private readonly Func<ExampleMainMenuViewModel> _createMainMenuViewModel;
         private readonly Func<string, ExampleScreenGamePlayViewModel> _createGameplayScreenViewModel;
         private readonly Func<string, Action, Action, ExamplePopupAreYouSureViewModel> _createAreYouSureViewModel;

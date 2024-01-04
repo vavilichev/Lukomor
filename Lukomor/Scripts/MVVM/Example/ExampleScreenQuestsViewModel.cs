@@ -1,8 +1,8 @@
 ﻿using Lukomor.Reactive;
 
-namespace Lukomor
+namespace Lukomor.Example
 {
-    public class ExampleScreenQuestsViewModel : WindowViewModel
+    public class ExampleScreenQuestsViewModel : ExampleWindowViewModel
     {
         public ReadOnlyReactiveCollection<ExampleQuestViewModelBase> Quests { get; } = new();
         
