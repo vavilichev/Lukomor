@@ -4,24 +4,24 @@ namespace Lukomor.Reactive
 {
     public sealed class ReactiveSubscription<T> : IDisposable
     {
-        private IReactiveProperty<T> _property;
+        private IReactiveProperty<T> _propertyOwner;
         private IObserver<T> _observer;
 
-        public ReactiveSubscription(IReactiveProperty<T> property, IObserver<T> observer)
+        public ReactiveSubscription(IReactiveProperty<T> propertyOwner, IObserver<T> observer)
         {
-            _property = property;
+            _propertyOwner = propertyOwner;
             _observer = observer;
         }
 
         public void Dispose()
         {
-            if (_property == null)
+            if (_propertyOwner == null)
             {
                 return;
             }
                 
-            _property.Unsubscribe(_observer);
-            _property = null;
+            _propertyOwner.Unsubscribe(_observer);
+            _propertyOwner = null;
             _observer = null;
         }
     }

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using Lukomor.Reactive;
+using Lukomor.MVVM.Binders;
 using UnityEditor;
 
 namespace Lukomor.MVVM.Editor

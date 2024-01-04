@@ -2,7 +2,7 @@ using System.Reactive;
 using Lukomor.MVVM;
 using UnityEngine;
 
-namespace Lukomor
+namespace Lukomor.MVVM.Binders
 {
     public class CloseWindowBinder : ObservableBinder<Unit>
     {

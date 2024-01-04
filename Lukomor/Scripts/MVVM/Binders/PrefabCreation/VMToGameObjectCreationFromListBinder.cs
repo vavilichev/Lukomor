@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-namespace Lukomor.MVVM.PrefabCreation
+namespace Lukomor.MVVM.Binders
 {
-    public class ViewModelToGameObjectCreationFromListObservableBinder : ObservableBinder<IViewModel>
+    public class VMToGameObjectCreationFromListBinder : ObservableBinder<IViewModel>
     {
         [SerializeField] private ViewModelToViewMapper _mapper;
 

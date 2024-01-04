@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-namespace Lukomor.MVVM.PrefabCreation
+namespace Lukomor.MVVM.Binders
 {
-    public class ViewModelToGameObjectCreationBinder : ObservableBinder<IViewModel>
+    public class VMToGameObjectCreationBinder : ObservableBinder<IViewModel>
     {
         [SerializeField] private View _prefabView;
         

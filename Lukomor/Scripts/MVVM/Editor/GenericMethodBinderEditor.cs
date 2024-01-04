@@ -2,12 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Lukomor.MVVM;
-using Lukomor.MVVM.Editor;
+using Lukomor.MVVM.Binders;
 using UnityEditor;
-using UnityEngine;
 
-namespace Lukomor
+namespace Lukomor.MVVM.Editor
 {
     [CustomEditor(typeof(GenericMethodBinder), true)]
     public class GenericMethodBinderEditor : MethodBinderEditor

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Lukomor.MVVM
+namespace Lukomor.MVVM.Binders
 {
     public abstract class GenericMethodBinder : MethodBinder
     {

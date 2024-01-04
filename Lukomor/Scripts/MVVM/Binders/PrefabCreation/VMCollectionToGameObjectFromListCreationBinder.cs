@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Lukomor.MVVM.PrefabCreation
+namespace Lukomor.MVVM.Binders
 {
-    public class VMCollectionToCreateObjectFromListBinder : ObservableCollectionBinder<IViewModel>
+    public class VMCollectionToGameObjectFromListCreationBinder : ObservableCollectionBinder<IViewModel>
     {
         [SerializeField] private ViewModelToViewMapper _mapper;
-        [SerializeField] private Transform _viewsContainer;
         
         private readonly Dictionary<IViewModel, View> _createdViews = new();
 
@@ -32,16 +31,5 @@ namespace Lukomor.MVVM.PrefabCreation
                 _createdViews.Remove(viewModel);
             }
         }
-        
-        
-#if UNITY_EDITOR
-        private void Reset()
-        {
-            if (_viewsContainer == null)
-            {
-                _viewsContainer = transform;
-            }
-        }
-#endif
     }
 }

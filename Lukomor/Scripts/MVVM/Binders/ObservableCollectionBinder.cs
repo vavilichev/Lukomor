@@ -2,7 +2,7 @@
 using System.Reactive.Disposables;
 using Lukomor.Reactive;
 
-namespace Lukomor.MVVM
+namespace Lukomor.MVVM.Binders
 {
     public abstract class ObservableCollectionBinder : Binder
     {

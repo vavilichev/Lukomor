@@ -1,4 +1,5 @@
 ﻿using System;
+using Lukomor.MVVM.Binders;
 using UnityEditor;
 
 namespace Lukomor.MVVM.Editor

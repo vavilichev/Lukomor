@@ -3,28 +3,40 @@ using System.Reflection;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Lukomor.MVVM
+namespace Lukomor.MVVM.Binders
 {
     [RequireComponent(typeof(Button))]
     public class ButtonMethodBinder : EmptyMethodBinder
     {
         [SerializeField] private Button _button;
         [SerializeField] private string _methodName;
-
+        
         private IViewModel _viewModel;
         private MethodInfo _cachedMethod;
 
         private void OnEnable()
         {
+#if UNITY_EDITOR
+            if (!Application.isPlaying)
+            {
+                return;
+            }
+#endif
             _button.onClick.AddListener(OnClick);
+
         }
 
         private void OnDisable()
         {
+#if UNITY_EDITOR
+            if (!Application.isPlaying)
+            {
+                return;
+            }
+#endif
+            
             _button.onClick.RemoveListener(OnClick);
         }
-
-        public Type ViewModelType { get; }
 
         public void Bind(IViewModel viewModel)
         {

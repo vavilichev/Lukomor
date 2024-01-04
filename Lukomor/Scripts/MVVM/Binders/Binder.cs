@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Lukomor.MVVM
+namespace Lukomor.MVVM.Binders
 {
 #if UNITY_EDITOR
     [ExecuteInEditMode]

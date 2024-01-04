@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Lukomor.MVVM.PrefabCreation
+namespace Lukomor.MVVM
 {
     [Serializable]
     public class ViewModelToViewMapping

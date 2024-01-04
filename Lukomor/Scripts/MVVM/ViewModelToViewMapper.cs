@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Lukomor.MVVM.PrefabCreation
+namespace Lukomor.MVVM
 {
     public class ViewModelToViewMapper : MonoBehaviour
     {
