@@ -19,6 +19,13 @@ namespace Lukomor.MVVM.Editor
         private void DrawPropertyNames()
         {
             var viewModelType = Type.GetType(ViewModelTypeFullName.stringValue);
+            
+            if (viewModelType == null)
+            {
+                Debug.LogError("View Model is not defined. Check setup, please.");
+                return;
+            }
+            
             var allProperties = viewModelType.GetProperties().Where(p => p.PropertyType.IsGenericType);
             var validProperties = allProperties.Where(p => IsValidProperty(p.PropertyType));
             var validPropertyNames = validProperties.Select(p => p.Name);

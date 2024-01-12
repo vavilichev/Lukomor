@@ -1,4 +1,4 @@
-﻿namespace Lukomor.MVVM
+﻿namespace Lukomor.MVVM.Editor
 {
     public static class MVVMConstants
     {

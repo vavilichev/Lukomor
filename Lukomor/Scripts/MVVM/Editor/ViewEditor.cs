@@ -185,6 +185,11 @@ namespace Lukomor.MVVM.Editor
             {
                 var viewModelType = Type.GetType(viewModelTypeFullName);
 
+                if (viewModelType == null)
+                {
+                    return;
+                }
+
                 if (GUILayout.Button($"Open {viewModelType.Name}"))
                 {
                     OpenScript(viewModelType.Name);

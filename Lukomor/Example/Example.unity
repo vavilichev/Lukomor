@@ -314,10 +314,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _prefabMappings:
-  - ViewModelTypeFullName: Lukomor.ExampleScreenGamePlayViewModel
+  - ViewModelTypeFullName: Lukomor.Example.ExampleScreenGamePlayViewModel
     PrefabView: {fileID: 6438245763236954964, guid: 2e34a4ff715ad424eaa40137caf07945,
       type: 3}
-  - ViewModelTypeFullName: Lukomor.ExampleScreenQuestsViewModel
+  - ViewModelTypeFullName: Lukomor.Example.ExampleScreenQuestsViewModel
     PrefabView: {fileID: 729712036245948206, guid: 6fdec642903bf124aa25369955307292,
       type: 3}
   _prefabByDefault: {fileID: 729712036245948206, guid: a751718566be0a244a504c133a35b250,
@@ -353,7 +353,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e87b667d54944e8794ecaa90d365592a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _viewModelTypeFullName: Lukomor.ExampleUIRootViewModel
+  _viewModelTypeFullName: Lukomor.Example.ExampleUIRootViewModel
   _propertyName: OpenedScreen
   _mapper: {fileID: 658209462}
 --- !u!1 &673580416
@@ -649,7 +649,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59c2f4280e1cd7340a37aa0a1d7b6d8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _viewModelTypeFullName: Lukomor.ExampleUIRootViewModel
+  _viewModelTypeFullName: Lukomor.Example.ExampleUIRootViewModel
   _viewModelPropertyName: 
   _isParentView: 1
   _subViews: []
@@ -727,7 +727,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _prefabMappings:
-  - ViewModelTypeFullName: Lukomor.ExamplePopupAreYouSureViewModel
+  - ViewModelTypeFullName: Lukomor.Example.ExamplePopupAreYouSureViewModel
     PrefabView: {fileID: 729712036245948206, guid: 20a5221e28189674189fd740482d1a62,
       type: 3}
   _prefabByDefault: {fileID: 0}
@@ -743,7 +743,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e87b667d54944e8794ecaa90d365592a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _viewModelTypeFullName: Lukomor.ExampleUIRootViewModel
+  _viewModelTypeFullName: Lukomor.Example.ExampleUIRootViewModel
   _propertyName: OpenedPopup
   _mapper: {fileID: 2050900395}
 --- !u!1660057539 &9223372036854775807
