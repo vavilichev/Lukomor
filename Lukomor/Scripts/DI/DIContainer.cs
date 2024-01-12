@@ -5,67 +5,99 @@ namespace Lukomor.DI
 {
     public sealed class DIContainer
     {
-        private Dictionary<(string, Type), DIEntry> _factoriesMap = new();
-        private HashSet<(string, Type)> _cachedKeysForResolving = new();
+        private readonly Dictionary<(string, Type), DIEntry> _factoriesMap = new();
+        private readonly HashSet<(string, Type)> _cachedKeysForResolving = new();
 
-        private readonly DIContainer _parentContainer;
+        private readonly DIContainer _parentDiContainer;
         
-        public DIContainer(DIContainer parentContainer = null)
+        public DIContainer(DIContainer parentDiContainer = null)
         {
-            _parentContainer = parentContainer;
+            _parentDiContainer = parentDiContainer;
         }
         
-        public void RegisterSingleton<T>(Func<DIContainer, T> factory)
+        public DIBuilder<T> RegisterSingleton<T>(Func<DIContainer, T> factory)
         {
-            RegisterSingleton("", factory);
+            return RegisterSingleton("", factory);
         }
 
-        public void RegisterSingleton<T>(string tag, Func<DIContainer, T> factory)
+        public DIBuilder<T> RegisterSingleton<T>(string tag, Func<DIContainer, T> factory)
         {
             var key = (tag, typeof(T));
             
-            RegisterSingleton(key, factory);
+            return RegisterSingleton(key, factory);
         }
 
-        public void Register<T>(Func<DIContainer, T> factory)
+        public DIBuilder<T> Register<T>(Func<DIContainer, T> factory)
         {
-            Register("", factory);
+            return Register("", factory);
         }
 
-        public void Register<T>(string tag, Func<DIContainer, T> factory)
+        public DIBuilder<T> Register<T>(string tag, Func<DIContainer, T> factory)
         {
             var key = (tag, typeof(T));
             
-            Register(key, factory);
+            return Register(key, factory);
         }
 
-        public T Resolve<T>(string key = "")
+        public T Resolve<T>(string tag = "")
         {
-            // TODO: Остановился на том, что надо зарезолвить, и учесть цикличные резолвы.
+            var type = typeof(T);
+            var key = (tag, type);
+
+            if (_cachedKeysForResolving.Contains(key))
+            {
+                throw new Exception($"Cyclic dependencies. Key: {key}");
+            }
+
+            _cachedKeysForResolving.Add(key);
+
+            T result;
+
+            if (!_factoriesMap.ContainsKey(key))
+            {
+                if (_parentDiContainer == null)
+                {
+                    throw new Exception($"There is no factory registered for key: {key}");
+                }
+
+                result = _parentDiContainer.Resolve<T>(tag);
+            }
+            else
+            {
+                result = _factoriesMap[key].Resolve<T>();
+            }
+            
+            _cachedKeysForResolving.Remove(key);
+
+            return result;
         }
         
-        private void RegisterSingleton<T>((string, Type) key, Func<DIContainer, T> factory)
+        private DIBuilder<T> RegisterSingleton<T>((string, Type) key, Func<DIContainer, T> factory)
         {
             if (_factoriesMap.ContainsKey(key))
             {
-                throw new Exception("Already has factory entry for type: " + key.Item2.Name);
+                throw new Exception("Already has factory entry for key: " + key);
             }
             
             var diEntry = new DIEntrySingleton<T>(this, factory);
 
             _factoriesMap[key] = diEntry;
+
+            return new DIBuilder<T>(diEntry);
         }
 
-        private void Register<T>((string, Type) key, Func<DIContainer, T> factory)
+        private DIBuilder<T> Register<T>((string, Type) key, Func<DIContainer, T> factory)
         {
             if (_factoriesMap.ContainsKey(key))
             {
                 throw new Exception("Already has factory entry for type: " + key.Item2.Name);
             }
             
-            var diEntry = new DIEntryGenerator<T>(this, factory);
+            var diEntry = new DIEntryTransient<T>(this, factory);
 
             _factoriesMap[key] = diEntry;
+
+            return new DIBuilder<T>(diEntry);
         }
     }
 }

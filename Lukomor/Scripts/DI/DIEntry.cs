@@ -4,24 +4,24 @@ namespace Lukomor.DI
 {
     public abstract class DIEntry
     {
-        protected DIContainer Container { get; }
+        protected DIContainer DiContainer { get; }
         
-        public DIEntry(DIContainer container)
+        public DIEntry(DIContainer diContainer)
         {
-            Container = container;
+            DiContainer = diContainer;
         }
         
         public T Resolve<T>()
         {
-            return ((DiEntry<T>)this).Resolve();
+            return ((DIEntry<T>)this).Resolve();
         }
     }
     
-    public abstract class DiEntry<T> : DIEntry
+    public abstract class DIEntry<T> : DIEntry
     {
         protected Func<DIContainer, T> Factory { get; }
         
-        public DiEntry(DIContainer container, Func<DIContainer, T> factory) : base(container)
+        public DIEntry(DIContainer diContainer, Func<DIContainer, T> factory) : base(diContainer)
         {
             Factory = factory;
         }

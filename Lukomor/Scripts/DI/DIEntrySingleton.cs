@@ -2,17 +2,17 @@
 
 namespace Lukomor.DI
 {
-    public sealed class DIEntrySingleton<T> : DiEntry<T>
+    public sealed class DIEntrySingleton<T> : DIEntry<T>
     {
         private T _instance;
         
-        public DIEntrySingleton(DIContainer container, Func<DIContainer, T> factory) : base(container, factory) { }
+        public DIEntrySingleton(DIContainer diContainer, Func<DIContainer, T> factory) : base(diContainer, factory) { }
         
         public override T Resolve()
         {
             if (_instance == null)
             {
-                _instance = Factory(Container);
+                _instance = Factory(DiContainer);
             }
 
             return _instance;
