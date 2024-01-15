@@ -1,5 +1,7 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System;
+using System.Runtime.CompilerServices;
 using Lukomor.DI;
+using UnityEditor.Build.Content;
 
 namespace Lukomor.Example.Pong
 {
@@ -10,27 +12,28 @@ namespace Lukomor.Example.Pong
             container.Register(_ => ScreenGameplayViewModelFactory());
             container.Register(_ => ScreenPauseViewModelFactory());
             container.Register(_ => ScreenResultViewModelFactory());
-            container.Register(_ => ScreenMainMenuViewModelFactory());
+            container.Register(_ =>
+                ScreenMainMenuViewModelFactory(() => container.Resolve<PongScreenPauseViewModel>()));
         }
         
-        private static ScreenGameplayViewModel ScreenGameplayViewModelFactory()
+        private static PongScreenGameplayViewModel ScreenGameplayViewModelFactory()
         {
-            return new ScreenGameplayViewModel();
+            return new PongScreenGameplayViewModel();
         } 
         
-        private static ScreenPauseViewModel ScreenPauseViewModelFactory()
+        private static PongScreenPauseViewModel ScreenPauseViewModelFactory()
         {
-            return new ScreenPauseViewModel();
+            return new PongScreenPauseViewModel();
         } 
         
-        private static ScreenResultViewModel ScreenResultViewModelFactory()
+        private static PongScreenResultViewModel ScreenResultViewModelFactory()
         {
-            return new ScreenResultViewModel();
+            return new PongScreenResultViewModel();
         } 
         
-        private static ScreenMainMenuViewModel ScreenMainMenuViewModelFactory()
+        private static PongScreenMainMenuViewModel ScreenMainMenuViewModelFactory(Action showPauseScreen)
         {
-            return new ScreenMainMenuViewModel();
+            return new PongScreenMainMenuViewModel(showPauseScreen);
         } 
     }
 }

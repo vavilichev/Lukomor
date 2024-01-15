@@ -21,14 +21,15 @@ namespace Lukomor.Example.Pong
             var container = new DIContainer();
             PongScreensRegistrations.Register(container);
 
-            var uiRootViewModel = new UIRootViewModel(
-                () => container.Resolve<ScreenMainMenuViewModel>(),
-                () => container.Resolve<ScreenPauseViewModel>(),
-                () => container.Resolve<ScreenResultViewModel>(),
-                () => container.Resolve<ScreenGameplayViewModel>()
+            var uiRootViewModel = new PongUIRootViewModel(
+                () => container.Resolve<PongScreenMainMenuViewModel>(),
+                () => container.Resolve<PongScreenPauseViewModel>(),
+                () => container.Resolve<PongScreenResultViewModel>(),
+                () => container.Resolve<PongScreenGameplayViewModel>()
             );
             
             _rootUIView.Bind(uiRootViewModel);
+            uiRootViewModel.OpenMainMenuScreen();
         }
         
         private void SetupPlayer<T>(Block block) where T : InputController

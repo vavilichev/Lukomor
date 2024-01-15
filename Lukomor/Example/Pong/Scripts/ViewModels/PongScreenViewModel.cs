@@ -2,7 +2,7 @@
 
 namespace Lukomor.Example.Pong
 {
-    public class ScreenViewModel : IViewModel
+    public class PongScreenViewModel : IViewModel
     {
         public void Close()
         {

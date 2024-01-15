@@ -4,21 +4,21 @@ using Lukomor.Reactive;
 
 namespace Lukomor.Example.Pong
 {
-    public class UIRootViewModel : IViewModel
+    public class PongUIRootViewModel : IViewModel
     {
-        public IReactiveProperty<ScreenViewModel> OpenedScreen => _openedScreen;
+        public IReactiveProperty<PongScreenViewModel> OpenedScreen => _openedScreen;
 
-        private readonly ReactiveProperty<ScreenViewModel> _openedScreen = new();
-        private readonly Func<ScreenMainMenuViewModel> _screenMainMenuFactory;
-        private readonly Func<ScreenPauseViewModel> _screenPauseFactory;
-        private readonly Func<ScreenResultViewModel> _screenResultFactory;
-        private readonly Func<ScreenGameplayViewModel> _screenGameplayFactory;
+        private readonly ReactiveProperty<PongScreenViewModel> _openedScreen = new();
+        private readonly Func<PongScreenMainMenuViewModel> _screenMainMenuFactory;
+        private readonly Func<PongScreenPauseViewModel> _screenPauseFactory;
+        private readonly Func<PongScreenResultViewModel> _screenResultFactory;
+        private readonly Func<PongScreenGameplayViewModel> _screenGameplayFactory;
 
-        public UIRootViewModel(
-            Func<ScreenMainMenuViewModel> screenMainMenuFactory,
-            Func<ScreenPauseViewModel> screenPauseFactory,
-            Func<ScreenResultViewModel> screenResultFactory,
-            Func<ScreenGameplayViewModel> screenGameplayFactory)
+        public PongUIRootViewModel(
+            Func<PongScreenMainMenuViewModel> screenMainMenuFactory,
+            Func<PongScreenPauseViewModel> screenPauseFactory,
+            Func<PongScreenResultViewModel> screenResultFactory,
+            Func<PongScreenGameplayViewModel> screenGameplayFactory)
         {
             _screenMainMenuFactory = screenMainMenuFactory;
             _screenPauseFactory = screenPauseFactory;
@@ -51,13 +51,12 @@ namespace Lukomor.Example.Pong
         {
             CloseOldScreen();
 
-            _openedScreen.Value = _screenMainMenuFactory();
+            _openedScreen.Value = _screenGameplayFactory();
         }
 
         private void CloseOldScreen()
         {
             _openedScreen.Value?.Close();
-            _openedScreen.Value = null;
         }
 
     }

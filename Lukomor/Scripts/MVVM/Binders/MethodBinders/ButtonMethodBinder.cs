@@ -9,7 +9,6 @@ namespace Lukomor.MVVM.Binders
     public class ButtonMethodBinder : EmptyMethodBinder
     {
         [SerializeField] private Button _button;
-        [SerializeField] private string _methodName;
         
         private IViewModel _viewModel;
         private MethodInfo _cachedMethod;
@@ -38,10 +37,11 @@ namespace Lukomor.MVVM.Binders
             _button.onClick.RemoveListener(OnClick);
         }
 
-        public void Bind(IViewModel viewModel)
+        protected override IDisposable BindInternal(IViewModel viewModel)
         {
-            _viewModel = viewModel;
-            _cachedMethod = viewModel.GetType().GetMethod(_methodName);
+            _cachedMethod = viewModel.GetType().GetMethod(MethodName);
+
+            return base.BindInternal(viewModel);
         }
 
         private void OnClick()
