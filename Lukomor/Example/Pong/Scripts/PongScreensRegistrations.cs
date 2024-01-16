@@ -1,39 +1,24 @@
-﻿using System;
-using System.Runtime.CompilerServices;
-using Lukomor.DI;
-using UnityEditor.Build.Content;
+﻿using Lukomor.DI;
+using Lukomor.Example.Pong.Scripts.Services;
 
 namespace Lukomor.Example.Pong
 {
-    public static class PongScreensRegistrations
+    public class PongScreensRegistrations
     {
-        public static void Register(DIContainer container)
+        public void Register(DIContainer container)
         {
-            container.Register(_ => ScreenGameplayViewModelFactory());
-            container.Register(_ => ScreenPauseViewModelFactory());
-            container.Register(_ => ScreenResultViewModelFactory());
-            container.Register(_ =>
-                ScreenMainMenuViewModelFactory(() => container.Resolve<PongScreenPauseViewModel>()));
+            container.RegisterSingleton(c => new PongScreenGameplayViewModel(
+                c.Resolve<GameSessionsService>(),
+                c.Resolve<PongUIRootViewModel>().OpenResultScreen, 
+                c.Resolve<PongUIRootViewModel>().OpenPauseScreen)
+            );
+
+            container.RegisterSingleton(_ => new PongScreenPauseViewModel());
+            container.RegisterSingleton(_ => new PongScreenResultViewModel());
+            
+            container.RegisterSingleton(c => new PongScreenMainMenuViewModel
+                (c.Resolve<PongUIRootViewModel>().OpenPauseScreen)
+            );
         }
-        
-        private static PongScreenGameplayViewModel ScreenGameplayViewModelFactory()
-        {
-            return new PongScreenGameplayViewModel();
-        } 
-        
-        private static PongScreenPauseViewModel ScreenPauseViewModelFactory()
-        {
-            return new PongScreenPauseViewModel();
-        } 
-        
-        private static PongScreenResultViewModel ScreenResultViewModelFactory()
-        {
-            return new PongScreenResultViewModel();
-        } 
-        
-        private static PongScreenMainMenuViewModel ScreenMainMenuViewModelFactory(Action showPauseScreen)
-        {
-            return new PongScreenMainMenuViewModel(showPauseScreen);
-        } 
     }
 }

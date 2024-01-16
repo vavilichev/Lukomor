@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Reactive.Linq;
+using Lukomor.Example.Pong.Scripts.Services;
 using Lukomor.MVVM;
 using Lukomor.Reactive;
 
@@ -18,12 +20,25 @@ namespace Lukomor.Example.Pong
             Func<PongScreenMainMenuViewModel> screenMainMenuFactory,
             Func<PongScreenPauseViewModel> screenPauseFactory,
             Func<PongScreenResultViewModel> screenResultFactory,
-            Func<PongScreenGameplayViewModel> screenGameplayFactory)
+            Func<PongScreenGameplayViewModel> screenGameplayFactory,
+            GameSessionsService gameSessionsService)
         {
             _screenMainMenuFactory = screenMainMenuFactory;
             _screenPauseFactory = screenPauseFactory;
             _screenResultFactory = screenResultFactory;
             _screenGameplayFactory = screenGameplayFactory;
+
+            gameSessionsService.IsPaused.Skip(1).Subscribe(isPaused =>
+            {
+                if (isPaused)
+                {
+                    OpenPauseScreen();
+                }
+                else
+                {
+                    OpenGameplayScreen();
+                }
+            });
         }
 
         public void OpenMainMenuScreen()
@@ -40,7 +55,7 @@ namespace Lukomor.Example.Pong
             _openedScreen.Value = _screenPauseFactory();
         }
 
-        public void OpenResultScreen()
+        public void OpenResultScreen(bool isLeftPlayerWinner)
         {
             CloseOldScreen();
 

@@ -1,4 +1,6 @@
 ﻿using Lukomor.DI;
+using Lukomor.Example.Pong.Scripts;
+using Lukomor.Example.Pong.Scripts.Services;
 using Lukomor.MVVM;
 using UnityEngine;
 
@@ -18,18 +20,27 @@ namespace Lukomor.Example.Pong
             SetupPlayer<FirstPlayerInputController>(_leftBlock);
             SetupAI(_rightBlock, _ball);
 
-            var container = new DIContainer();
-            PongScreensRegistrations.Register(container);
+            var gameState = new PongGameState();
+            var scoreLimit = 3;
 
-            var uiRootViewModel = new PongUIRootViewModel(
+            var container = new DIContainer();
+            container.RegisterSingleton(_ => new GameSessionsService(gameState, scoreLimit));
+            
+            var screensRegistrations = new PongScreensRegistrations();
+            screensRegistrations.Register(container);
+
+            container.Register(_ => new PongUIRootViewModel(
                 () => container.Resolve<PongScreenMainMenuViewModel>(),
                 () => container.Resolve<PongScreenPauseViewModel>(),
                 () => container.Resolve<PongScreenResultViewModel>(),
-                () => container.Resolve<PongScreenGameplayViewModel>()
-            );
-            
-            _rootUIView.Bind(uiRootViewModel);
-            uiRootViewModel.OpenMainMenuScreen();
+                () => container.Resolve<PongScreenGameplayViewModel>(),
+                container.Resolve<GameSessionsService>()
+            ));
+
+
+            var uiRootVM = container.Resolve<PongUIRootViewModel>();
+            _rootUIView.Bind(uiRootVM);
+            uiRootVM.OpenMainMenuScreen();
         }
         
         private void SetupPlayer<T>(Block block) where T : InputController

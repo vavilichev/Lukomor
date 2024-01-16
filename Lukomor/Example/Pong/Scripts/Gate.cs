@@ -13,6 +13,8 @@ namespace Lukomor
             var ball = collision.gameObject.GetComponent<Ball>();
             if (ball)
             {
+                ball.Stop();
+                
                 BallCatched?.Invoke();
             }
         }

@@ -8,7 +8,7 @@ namespace Lukomor.Example.Pong
         private readonly Action _showPauseScreen;
         public PongScreenMainMenuViewModel(Action showPauseScreen)
         {
-            this._showPauseScreen = showPauseScreen;
+            _showPauseScreen = showPauseScreen;
         }
         
         public void OnePlayerButtonClicked()

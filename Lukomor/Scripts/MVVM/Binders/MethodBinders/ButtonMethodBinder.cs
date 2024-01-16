@@ -39,6 +39,7 @@ namespace Lukomor.MVVM.Binders
 
         protected override IDisposable BindInternal(IViewModel viewModel)
         {
+            _viewModel = viewModel;
             _cachedMethod = viewModel.GetType().GetMethod(MethodName);
 
             return base.BindInternal(viewModel);
