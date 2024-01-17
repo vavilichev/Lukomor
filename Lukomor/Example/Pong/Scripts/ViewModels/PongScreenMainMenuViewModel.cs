@@ -24,15 +24,15 @@ namespace Lukomor.Example.Pong
             Debug.Log("Two players clicked");
             _showPauseScreen?.Invoke();
         }
-
+ 
         public void ExitButtonClicked()
         {
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
             return;
-#endif
-            
+#else
             Application.Quit();
+#endif
         }
     }
 }

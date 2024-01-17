@@ -2,11 +2,12 @@
 using Lukomor.Example.Pong.Scripts;
 using Lukomor.Example.Pong.Scripts.Services;
 using Lukomor.MVVM;
+using Unity.VisualScripting.YamlDotNet.Serialization.ObjectGraphTraversalStrategies;
 using UnityEngine;
 
 namespace Lukomor.Example.Pong
 {
-    public class EntryPoint : MonoBehaviour
+    public class PongGameplayEntryPoint : MonoBehaviour
     {
         [SerializeField] private Block _leftBlock;
         [SerializeField] private Block _rightBlock;
@@ -15,13 +16,19 @@ namespace Lukomor.Example.Pong
         [SerializeField] private Gate _gateRight;
         [SerializeField] private View _rootUIView;
 
-        private void Start()
+        public void Process(GameplayMode gameplayMode)
         {
-            SetupPlayer<FirstPlayerInputController>(_leftBlock);
-            SetupAI(_rightBlock, _ball);
-
+            Debug.Log("GameplayEntryPoint: " + gameplayMode);
+            
+            // TODO: Load state;
+            // TODO: Load Control
+            // TODO: Load Services
+            // TODO: Load UI
+            
             var gameState = new PongGameState();
-            var scoreLimit = 3;
+            const int scoreLimit = 3;
+
+            SetupPlayers(gameplayMode);
 
             var container = new DIContainer();
             container.RegisterSingleton(_ => new GameSessionsService(gameState, scoreLimit));
@@ -42,8 +49,22 @@ namespace Lukomor.Example.Pong
             _rootUIView.Bind(uiRootVM);
             uiRootVM.OpenMainMenuScreen();
         }
+
+        private void SetupPlayers(GameplayMode mode)
+        {
+            SetupPlayer<FirstPlayerInputController>(_leftBlock);
+
+            if (mode == GameplayMode.OnePlayer)
+            {
+                SetupAI(_rightBlock, _ball);
+            }
+            else
+            {
+                SetupPlayer<SecondPlayerInputController>(_rightBlock);
+            }
+        }
         
-        private void SetupPlayer<T>(Block block) where T : InputController
+        private static void SetupPlayer<T>(Block block) where T : InputController
         {
             var inputController = block.GetComponent<InputController>();
 
@@ -55,7 +76,7 @@ namespace Lukomor.Example.Pong
             inputController.Bind(block);
         }
 
-        private void SetupAI(Block block, Ball ball)
+        private static void SetupAI(Block block, Ball ball)
         {
             var inputController = block.GetComponent<AIInputController>();
 
