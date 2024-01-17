@@ -2,7 +2,7 @@
 using System.Reactive.Linq;
 using Lukomor.Reactive;
 
-namespace Lukomor.Example.Pong.Scripts.Services
+namespace Lukomor.Example.Pong
 {
     public class GameSessionsService
     {

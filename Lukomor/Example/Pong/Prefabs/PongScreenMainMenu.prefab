@@ -355,7 +355,7 @@ GameObject:
   - component: {fileID: 1398380486208841186}
   - component: {fileID: 2949157848774628192}
   - component: {fileID: 8764647777041370516}
-  - component: {fileID: 5810696729206173835}
+  - component: {fileID: 3577414097004181217}
   m_Layer: 0
   m_Name: ButtonExit
   m_TagString: Untagged
@@ -465,7 +465,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &5810696729206173835
+--- !u!114 &3577414097004181217
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -474,11 +474,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 2736763069997015617}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e42fd23546bf484089a642ac8cdd31a, type: 3}
+  m_Script: {fileID: 11500000, guid: 44eae45995fb415ca888029c7beef32d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _viewModelTypeFullName: Lukomor.Example.Pong.PongScreenMainMenuViewModel
   _propertyName: ExitButtonClicked
+  _button: {fileID: 8764647777041370516}
 --- !u!1 &2836793921791435465
 GameObject:
   m_ObjectHideFlags: 0
@@ -670,7 +671,7 @@ MonoBehaviour:
   _childBinders:
   - {fileID: 8718516833742758657}
   - {fileID: 6642426420596902363}
-  - {fileID: 5810696729206173835}
+  - {fileID: 3577414097004181217}
 --- !u!1 &6972394510784632844
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,8 +1,5 @@
 ﻿using Lukomor.DI;
-using Lukomor.Example.Pong.Scripts;
-using Lukomor.Example.Pong.Scripts.Services;
 using Lukomor.MVVM;
-using Unity.VisualScripting.YamlDotNet.Serialization.ObjectGraphTraversalStrategies;
 using UnityEngine;
 
 namespace Lukomor.Example.Pong
@@ -16,7 +13,7 @@ namespace Lukomor.Example.Pong
         [SerializeField] private Gate _gateRight;
         [SerializeField] private View _rootUIView;
 
-        public void Process(GameplayMode gameplayMode)
+        public void Process(DIContainer container, GameplayMode gameplayMode)
         {
             Debug.Log("GameplayEntryPoint: " + gameplayMode);
             
@@ -30,14 +27,12 @@ namespace Lukomor.Example.Pong
 
             SetupPlayers(gameplayMode);
 
-            var container = new DIContainer();
             container.RegisterSingleton(_ => new GameSessionsService(gameState, scoreLimit));
             
             var screensRegistrations = new PongScreensRegistrations();
             screensRegistrations.Register(container);
 
             container.Register(_ => new PongUIRootViewModel(
-                () => container.Resolve<PongScreenMainMenuViewModel>(),
                 () => container.Resolve<PongScreenPauseViewModel>(),
                 () => container.Resolve<PongScreenResultViewModel>(),
                 () => container.Resolve<PongScreenGameplayViewModel>(),

@@ -1,4 +1,4 @@
-﻿namespace Lukomor.Example.Pong.Scripts
+﻿namespace Lukomor.Example.Pong
 {
     public enum GameplayMode
     {

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0.3708985, g: 0.3783704, b: 0.35722548, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -167,8 +167,138 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcbf040c901e409197d1778df3d28b49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _uiRootView: {fileID: 1579364847}
+--- !u!1001 &1579364846
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 235011022543089645, guid: 33a536fbfa773d44f9e0ac95380636c6,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 235011022543089645, guid: 33a536fbfa773d44f9e0ac95380636c6,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 235011022543089645, guid: 33a536fbfa773d44f9e0ac95380636c6,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 235011022543089645, guid: 33a536fbfa773d44f9e0ac95380636c6,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 235011022543089645, guid: 33a536fbfa773d44f9e0ac95380636c6,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 235011022543089645, guid: 33a536fbfa773d44f9e0ac95380636c6,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 235011022543089645, guid: 33a536fbfa773d44f9e0ac95380636c6,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 235011022543089645, guid: 33a536fbfa773d44f9e0ac95380636c6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 235011022543089645, guid: 33a536fbfa773d44f9e0ac95380636c6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 235011022543089645, guid: 33a536fbfa773d44f9e0ac95380636c6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1756910665803687201, guid: 33a536fbfa773d44f9e0ac95380636c6,
+        type: 3}
+      propertyPath: _viewModelTypeFullName
+      value: Lukomor.Example.Pong.PongUIMainMenuRootViewModel
+      objectReference: {fileID: 0}
+    - target: {fileID: 4673434274886019946, guid: 33a536fbfa773d44f9e0ac95380636c6,
+        type: 3}
+      propertyPath: m_Name
+      value: '[USER INTERFACE]'
+      objectReference: {fileID: 0}
+    - target: {fileID: 5140301170751512051, guid: 33a536fbfa773d44f9e0ac95380636c6,
+        type: 3}
+      propertyPath: _prefabMappings.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5140301170751512051, guid: 33a536fbfa773d44f9e0ac95380636c6,
+        type: 3}
+      propertyPath: _prefabMappings.Array.data[0].PrefabView
+      value: 
+      objectReference: {fileID: 7100132614258209848, guid: 955c5054be910a740819ac02f88e6a93,
+        type: 3}
+    - target: {fileID: 5140301170751512051, guid: 33a536fbfa773d44f9e0ac95380636c6,
+        type: 3}
+      propertyPath: _prefabMappings.Array.data[1].PrefabView
+      value: 
+      objectReference: {fileID: 1795455280032357305, guid: b56ccc7373bacff4ea11640767e25325,
+        type: 3}
+    - target: {fileID: 5140301170751512051, guid: 33a536fbfa773d44f9e0ac95380636c6,
+        type: 3}
+      propertyPath: _prefabMappings.Array.data[2].PrefabView
+      value: 
+      objectReference: {fileID: 1795455280032357305, guid: b56ccc7373bacff4ea11640767e25325,
+        type: 3}
+    - target: {fileID: 5140301170751512051, guid: 33a536fbfa773d44f9e0ac95380636c6,
+        type: 3}
+      propertyPath: _prefabMappings.Array.data[0].ViewModelTypeFullName
+      value: Lukomor.Example.Pong.PongScreenMainMenuViewModel
+      objectReference: {fileID: 0}
+    - target: {fileID: 5140301170751512051, guid: 33a536fbfa773d44f9e0ac95380636c6,
+        type: 3}
+      propertyPath: _prefabMappings.Array.data[1].ViewModelTypeFullName
+      value: Lukomor.Example.Pong.PongScreenResultViewModel
+      objectReference: {fileID: 0}
+    - target: {fileID: 5140301170751512051, guid: 33a536fbfa773d44f9e0ac95380636c6,
+        type: 3}
+      propertyPath: _prefabMappings.Array.data[2].ViewModelTypeFullName
+      value: Lukomor.Example.Pong.PongScreenResultViewModel
+      objectReference: {fileID: 0}
+    - target: {fileID: 6089044952324337419, guid: 33a536fbfa773d44f9e0ac95380636c6,
+        type: 3}
+      propertyPath: _viewModelTypeFullName
+      value: Lukomor.Example.Pong.PongUIMainMenuRootViewModel
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 33a536fbfa773d44f9e0ac95380636c6, type: 3}
+--- !u!114 &1579364847 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6089044952324337419, guid: 33a536fbfa773d44f9e0ac95380636c6,
+    type: 3}
+  m_PrefabInstance: {fileID: 1579364846}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59c2f4280e1cd7340a37aa0a1d7b6d8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1365491632}
+  - {fileID: 1579364846}

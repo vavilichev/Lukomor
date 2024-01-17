@@ -1,5 +1,4 @@
 ﻿using System;
-using Lukomor.Example.Pong.Scripts.Services;
 using Lukomor.Reactive;
 
 namespace Lukomor.Example.Pong

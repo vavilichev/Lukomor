@@ -1,14 +1,14 @@
-﻿using UnityEngine;
+﻿using Lukomor.DI;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Lukomor.Example.Pong.Scripts
 {
     public class PongGameEntryPoint
     {
-        private const string SCENE_GAMEPLAY = "PongGameplay";
-        private const string SCENE_MAIN_MENU = "PongMainMenu";
-        
         private static PongGameEntryPoint _instance;
+
+        private DIContainer _rootContainer;
         
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         private static void StartGame()
@@ -19,52 +19,57 @@ namespace Lukomor.Example.Pong.Scripts
 
         private void Init()
         {
-            var sceneName = SceneManager.GetActiveScene().name;
+            SceneManager.sceneLoaded += OnSceneLoaded;
 
-            if (sceneName == SCENE_GAMEPLAY)
+            _rootContainer = new DIContainer();
+            var scenesService = _rootContainer.RegisterSingleton(_ => new ScenesService()).CreateInstance();
+            var sceneName = scenesService.GetActiveSceneName();
+
+            if (sceneName == ScenesService.SCENE_GAMEPLAY)
             {
                 StartGameplay(GameplayMode.OnePlayer);
                 return;
             }
 
-            if (sceneName == SCENE_MAIN_MENU)
+            if (sceneName == ScenesService.SCENE_MAIN_MENU)
             {
                 StartMainMenu();
                 return;
             }
             
-            LoadMainMenu();
-            
-            // TODO: also create container where we can put a scene manager that can load different scenes.
-            // In the child scenes we can create different viewModels that can run methods from this scene manager.
-            // We just put methods into these viewModels.
+            scenesService.LoadMainMenuScene();
         }
 
-        private void StartGameplay(GameplayMode mode)
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            var entryPoint = Object.FindObjectOfType<PongGameplayEntryPoint>();
-            entryPoint.Process(mode);
-        }
-
-        private void StartMainMenu()
-        {
-            var entryPoint = Object.FindObjectOfType<PongMainMenuEntryPoint>();
-            entryPoint.Process();
-        }
-        
-        private void LoadMainMenu()
-        {
-            SceneManager.sceneLoaded += OnMainMenuSceneLoaded;
-            SceneManager.LoadScene(SCENE_MAIN_MENU);
-        }
-        
-        private void OnMainMenuSceneLoaded(Scene scene, LoadSceneMode mode)
-        {
-            if (scene.name == SCENE_MAIN_MENU)
+            if (scene.name == ScenesService.SCENE_MAIN_MENU)
             {
-                SceneManager.sceneLoaded -= OnMainMenuSceneLoaded;
                 StartMainMenu();
+                return;
+            }
+
+            if (scene.name == ScenesService.SCENE_GAMEPLAY)
+            {
+                var gameplayMode = _rootContainer.Resolve<ScenesService>().CachedGameplayMode;
+                StartGameplay(gameplayMode);
             }
         }
+
+        public void StartMainMenu()
+        {
+            var entryPoint = Object.FindObjectOfType<PongMainMenuEntryPoint>();
+            var mainMenuContainer = new DIContainer(_rootContainer);
+            
+            entryPoint.Process(mainMenuContainer);
+        }
+        
+        public void StartGameplay(GameplayMode mode)
+        {
+            var entryPoint = Object.FindObjectOfType<PongGameplayEntryPoint>();
+            var gameplayContainer = new DIContainer(_rootContainer);
+            
+            entryPoint.Process(gameplayContainer, mode);
+        }
+
     }
 }
