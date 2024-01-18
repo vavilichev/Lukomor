@@ -45,6 +45,11 @@ namespace Lukomor.Example.Pong
             _isFlying = true;
         }
 
+        public void SpeedUp(float speedIncreasingStep)
+        {
+            _speed += speedIncreasingStep;
+        }
+
         public void Stop()
         {
             _isFlying = false;
