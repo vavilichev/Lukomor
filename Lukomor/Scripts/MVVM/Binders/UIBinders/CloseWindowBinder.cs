@@ -1,5 +1,4 @@
 using System.Reactive;
-using Lukomor.MVVM;
 using UnityEngine;
 
 namespace Lukomor.MVVM.Binders

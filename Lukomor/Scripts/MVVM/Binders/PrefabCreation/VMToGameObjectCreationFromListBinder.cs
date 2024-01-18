@@ -11,9 +11,9 @@ namespace Lukomor.MVVM.Binders
         protected override void OnPropertyChanged(IViewModel newValue)
         {
             var prefabView = _mapper.GetPrefab(newValue.GetType().FullName);
-            var createdView = Instantiate(prefabView, transform);
+            _createdView = Instantiate(prefabView, transform);
                 
-            createdView.Bind(newValue);
+            _createdView.Bind(newValue);
         }
     }
 }

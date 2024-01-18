@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Reactive.Linq;
 using Lukomor.MVVM;
 using Lukomor.Reactive;
 
@@ -13,32 +12,30 @@ namespace Lukomor.Example.Pong
         private readonly Func<PongScreenPauseViewModel> _screenPauseFactory;
         private readonly Func<PongScreenResultViewModel> _screenResultFactory;
         private readonly Func<PongScreenGameplayViewModel> _screenGameplayFactory;
+        private readonly Func<PongScreenGoalViewModel> _screenGoalFactory;
 
         public PongUIRootViewModel(
             Func<PongScreenPauseViewModel> screenPauseFactory,
             Func<PongScreenResultViewModel> screenResultFactory,
             Func<PongScreenGameplayViewModel> screenGameplayFactory,
-            GameSessionsService gameSessionsService)
+            Func<PongScreenGoalViewModel> screenGoalFactory)
         {
             _screenPauseFactory = screenPauseFactory;
             _screenResultFactory = screenResultFactory;
             _screenGameplayFactory = screenGameplayFactory;
+            _screenGoalFactory = screenGoalFactory;
 
-            gameSessionsService.IsPaused.Skip(1).Subscribe(isPaused =>
-            {
-                if (isPaused)
-                {
-                    OpenPauseScreen();
-                }
-                else
-                {
-                    OpenGameplayScreen();
-                }
-            });
-        }
-
-        public void OpenMainMenuScreen()
-        {
+            // gameSessionsService.IsPaused.Skip(1).Subscribe(isPaused =>
+            // {
+            //     if (isPaused)
+            //     {
+            //         OpenPauseScreen();
+            //     }
+            //     else
+            //     {
+            //         OpenGameplayScreen();
+            //     }
+            // });
         }
 
         public void OpenPauseScreen()
@@ -53,6 +50,13 @@ namespace Lukomor.Example.Pong
             CloseOldScreen();
 
             _openedScreen.Value = _screenResultFactory();
+        }
+
+        public void OpenGoalScreen(bool isLeftPlayerWinner)
+        {
+            CloseOldScreen();
+
+            _openedScreen.Value = _screenGoalFactory();
         }
 
         public void OpenGameplayScreen()

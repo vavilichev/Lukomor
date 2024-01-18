@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2296940297740503322}
   - component: {fileID: 1795455280032357305}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: PongScreenResult
   m_TagString: Untagged
   m_Icon: {fileID: 0}

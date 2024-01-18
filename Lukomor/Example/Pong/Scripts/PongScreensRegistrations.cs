@@ -14,6 +14,7 @@ namespace Lukomor.Example.Pong
 
             container.RegisterSingleton(_ => new PongScreenPauseViewModel());
             container.RegisterSingleton(_ => new PongScreenResultViewModel());
+            container.RegisterSingleton(c => new PongScreenGoalViewModel(c.Resolve<GameSessionsService>()));
         }
     }
 }

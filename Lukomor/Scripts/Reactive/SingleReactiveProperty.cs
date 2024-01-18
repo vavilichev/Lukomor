@@ -19,7 +19,7 @@ namespace Lukomor.Reactive
                     _hasValue = true;
                     _value = value;
 
-                    _observer.OnNext(value);
+                    _observer?.OnNext(value);
                 }
                 else if (!EqualityComparer<T>.Default.Equals(_value, value))
                 {

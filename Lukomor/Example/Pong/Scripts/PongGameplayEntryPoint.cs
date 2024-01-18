@@ -27,22 +27,40 @@ namespace Lukomor.Example.Pong
 
             SetupPlayers(gameplayMode);
 
-            container.RegisterSingleton(_ => new GameSessionsService(gameState, scoreLimit));
+            container.RegisterSingleton("left_player_gate",
+                c => new GateViewModel(c.Resolve<GameSessionsService>(), true));
+            container.RegisterSingleton("right_player_gate",
+                c => new GateViewModel(c.Resolve<GameSessionsService>(), false));
+
+            container.RegisterSingleton("left_player_block", c => new BlockViewModel(c.Resolve<GameSessionsService>()));
+            container.RegisterSingleton("right_player_block", c => new BlockViewModel(c.Resolve<GameSessionsService>()));
             
             var screensRegistrations = new PongScreensRegistrations();
             screensRegistrations.Register(container);
 
-            container.Register(_ => new PongUIRootViewModel(
+            container.RegisterSingleton(_ => new PongUIRootViewModel(
                 () => container.Resolve<PongScreenPauseViewModel>(),
                 () => container.Resolve<PongScreenResultViewModel>(),
                 () => container.Resolve<PongScreenGameplayViewModel>(),
-                container.Resolve<GameSessionsService>()
+                () => container.Resolve<PongScreenGoalViewModel>()
             ));
 
+            container.RegisterSingleton(c => new GameSessionsService(gameState, scoreLimit,
+                c.Resolve<PongUIRootViewModel>().OpenGoalScreen, c.Resolve<PongUIRootViewModel>().OpenResultScreen));
+            container.RegisterSingleton(c => new BallViewModel(c.Resolve<GameSessionsService>()));
+            
+            
+           
+
+            _ball.GetComponent<View>().Bind(container.Resolve<BallViewModel>());
+            _gateLeft.GetComponent<View>().Bind(container.Resolve<GateViewModel>("left_player_gate"));
+            _gateRight.GetComponent<View>().Bind(container.Resolve<GateViewModel>("right_player_gate"));
+            _leftBlock.GetComponent<View>().Bind(container.Resolve<BlockViewModel>("left_player_block"));
+            _rightBlock.GetComponent<View>().Bind(container.Resolve<BlockViewModel>("right_player_block"));
 
             var uiRootVM = container.Resolve<PongUIRootViewModel>();
             _rootUIView.Bind(uiRootVM);
-            uiRootVM.OpenMainMenuScreen();
+            uiRootVM.OpenGameplayScreen();
         }
 
         private void SetupPlayers(GameplayMode mode)

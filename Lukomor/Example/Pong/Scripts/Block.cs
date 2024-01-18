@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using UnityEngine;
 
@@ -11,9 +10,20 @@ namespace Lukomor.Example.Pong
         [SerializeField] private float _speed = 1f;
         [SerializeField] private float _smoothing = 1f;
         [SerializeField] private float _limitY = 4.75f;
-        
+
+        public bool IsActive
+        {
+            get => enabled;
+            set => enabled = value;
+        }
+
         public void Move(float y)
         {
+            if (!IsActive)
+            {
+                return;
+            }
+            
             var nextPosition = Vector3.Lerp(transform.position, transform.position + Vector3.up * (y * _speed), Time.deltaTime * _smoothing);
             nextPosition.y = Mathf.Clamp(nextPosition.y, -_limitY, _limitY);
 
