@@ -12,7 +12,7 @@ namespace Lukomor.Example.Pong
         {
             Debug.Log("Main Menu Entry Point");
 
-            var scenesService = container.Resolve<ScenesService>();
+            var scenesService = container.Resolve<PongScenesService>();
 
             container.RegisterSingleton(_ => new PongScreenMainMenuViewModel(scenesService.LoadGameplayScene));
             container.RegisterSingleton(container =>

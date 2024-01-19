@@ -2,18 +2,18 @@
 
 namespace Lukomor.Example.Pong
 {
-    public class SecondPlayerInputController : InputController
+    public class PongFirstPlayerInputController : PongInputController
     {
         private void Update()
         {
             var y = 0;
 
-            if (Input.GetKey(KeyCode.UpArrow))
+            if (Input.GetKey(KeyCode.W))
             {
                 y += 1;
             }
 
-            if (Input.GetKey(KeyCode.DownArrow))
+            if (Input.GetKey(KeyCode.S))
             {
                 y -= 1;
             }

@@ -11,25 +11,32 @@ namespace Lukomor.Example.Pong
 
         private readonly SingleReactiveProperty<string> _winText = new();
         private readonly SingleReactiveProperty<string> _countText = new();
-        private readonly GameSessionsService _gameSessionsService;
-        private readonly Action _openGameplayScreen;
+        private readonly PongGameSessionService _gameSessionsService;
 
-        public PongScreenGoalViewModel(GameSessionsService gameSessionsService, Action openGameplayScreen)
+        public PongScreenGoalViewModel(PongGameSessionService gameSessionsService)
         {
             _gameSessionsService = gameSessionsService;
-            _openGameplayScreen = openGameplayScreen;
 
-            gameSessionsService.LeftPlayerScore.Merge(gameSessionsService.RightPlayerScore).Subscribe(_ =>
+            gameSessionsService.RoundOver.Subscribe(_ =>
             {
-                _countText.Value =
-                    $"{gameSessionsService.LeftPlayerScore.Value}:{gameSessionsService.RightPlayerScore.Value}";
-                _winText.Value = gameSessionsService.IsLastGoalByLeftPlayer.Value ? "Left player GOAL!" : "Right player GOAL!";
+                UpdateText();
             });
+            
+            UpdateText();
+        }
+
+        private void UpdateText()
+        {
+            var leftPlayerScore = _gameSessionsService.LeftPlayerScore.Value;
+            var rightPlayerScore = _gameSessionsService.RightPlayerScore.Value;
+            var isLeftPlayerWinner = _gameSessionsService.LastGoalByLeftPlayer;
+            
+            _countText.Value = $"{leftPlayerScore}:{rightPlayerScore}";
+            _winText.Value = isLeftPlayerWinner ? "Left player GOAL!" : "Right player GOAL!";
         }
 
         public void Continue()
         {
-            _openGameplayScreen();
             _gameSessionsService.RestartRound();
         }
     }

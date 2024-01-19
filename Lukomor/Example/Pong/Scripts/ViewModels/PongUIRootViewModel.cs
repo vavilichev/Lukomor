@@ -13,29 +13,25 @@ namespace Lukomor.Example.Pong
         private readonly Func<PongScreenResultViewModel> _screenResultFactory;
         private readonly Func<PongScreenGameplayViewModel> _screenGameplayFactory;
         private readonly Func<PongScreenGoalViewModel> _screenGoalFactory;
+        private readonly PongGameSessionService _gameSessionsService;
 
         public PongUIRootViewModel(
             Func<PongScreenPauseViewModel> screenPauseFactory,
             Func<PongScreenResultViewModel> screenResultFactory,
             Func<PongScreenGameplayViewModel> screenGameplayFactory,
-            Func<PongScreenGoalViewModel> screenGoalFactory)
+            Func<PongScreenGoalViewModel> screenGoalFactory,
+            PongGameSessionService gameSessionsService)
         {
             _screenPauseFactory = screenPauseFactory;
             _screenResultFactory = screenResultFactory;
             _screenGameplayFactory = screenGameplayFactory;
             _screenGoalFactory = screenGoalFactory;
+            _gameSessionsService = gameSessionsService;
 
-            // gameSessionsService.IsPaused.Skip(1).Subscribe(isPaused =>
-            // {
-            //     if (isPaused)
-            //     {
-            //         OpenPauseScreen();
-            //     }
-            //     else
-            //     {
-            //         OpenGameplayScreen();
-            //     }
-            // });
+            gameSessionsService.GameOver.Subscribe(_ => OpenResultScreen());
+            gameSessionsService.RoundOver.Subscribe(_ => OpenGoalScreen());
+            gameSessionsService.RoundRestarted.Subscribe(_ => OpenGameplayScreen());
+            gameSessionsService.GameRestarted.Subscribe(_ => OpenGameplayScreen());
         }
 
         public void OpenPauseScreen()
@@ -45,14 +41,14 @@ namespace Lukomor.Example.Pong
             _openedScreen.Value = _screenPauseFactory();
         }
 
-        public void OpenResultScreen(bool isLeftPlayerWinner)
+        public void OpenResultScreen()
         {
             CloseOldScreen();
 
             _openedScreen.Value = _screenResultFactory();
         }
 
-        public void OpenGoalScreen(bool isLeftPlayerWinner)
+        public void OpenGoalScreen()
         {
             CloseOldScreen();
 
@@ -64,6 +60,21 @@ namespace Lukomor.Example.Pong
             CloseOldScreen();
 
             _openedScreen.Value = _screenGameplayFactory();
+        }
+
+        public void HandlePauseButtonClick()
+        {
+            
+            if (_gameSessionsService.IsPaused.Value)
+            {
+                _gameSessionsService.Unpause();
+                OpenGameplayScreen();
+            }
+            else
+            {
+                _gameSessionsService.Pause();
+                OpenPauseScreen();
+            }
         }
 
         private void CloseOldScreen()

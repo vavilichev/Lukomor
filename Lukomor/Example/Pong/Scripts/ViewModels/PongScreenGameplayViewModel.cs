@@ -1,31 +1,21 @@
 ﻿using System;
+using System.Reactive.Linq;
 using Lukomor.Reactive;
 
 namespace Lukomor.Example.Pong
 {
     public class PongScreenGameplayViewModel : PongScreenViewModel
     {
-        public IReactiveProperty<int> LeftPlayerScore;
-        public IReactiveProperty<int> RightPlayerScore;
+        public IReactiveProperty<string> GameScore => _gameScore;
         
-        private readonly GameSessionsService _gameSessionsService;
-        private readonly Action<bool> _openResultScreen;
-        private readonly Action _openPauseScreen;
+        private readonly SingleReactiveProperty<string> _gameScore = new();
 
-        public PongScreenGameplayViewModel(GameSessionsService gameSessionsService, Action<bool> openResultScreen, Action openPauseScreen)
+        public PongScreenGameplayViewModel(PongGameSessionService gameSessionsService)
         {
-            _gameSessionsService = gameSessionsService;
-            _openPauseScreen = openPauseScreen;
-
-            LeftPlayerScore = _gameSessionsService.LeftPlayerScore;
-            RightPlayerScore = _gameSessionsService.RightPlayerScore;
-            
-            _gameSessionsService.Won.Subscribe(openResultScreen);
-        }
-
-        public void HandlePauseClick()
-        {
-            
+            gameSessionsService.LeftPlayerScore.Merge(gameSessionsService.RightPlayerScore).Subscribe(_ =>
+            {
+                _gameScore.Value = $"{gameSessionsService.LeftPlayerScore.Value}:{gameSessionsService.RightPlayerScore.Value}";
+            });
         }
     }
 }

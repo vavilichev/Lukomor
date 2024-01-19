@@ -1,6 +1,6 @@
 ﻿namespace Lukomor.Example.Pong
 {
-    public enum GameplayMode
+    public enum PongGameplayMode
     {
         OnePlayer,
         TwoPlayer

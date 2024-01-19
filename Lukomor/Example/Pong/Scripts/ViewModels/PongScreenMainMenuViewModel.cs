@@ -4,21 +4,21 @@ namespace Lukomor.Example.Pong
 {
     public class PongScreenMainMenuViewModel : PongScreenViewModel
     {
-        private readonly Action<GameplayMode> _startGameplay;
+        private readonly Action<PongGameplayMode> _startGameplay;
         
-        public PongScreenMainMenuViewModel(Action<GameplayMode> startGameplay)
+        public PongScreenMainMenuViewModel(Action<PongGameplayMode> startGameplay)
         {
             _startGameplay = startGameplay;
         }
         
         public void OnePlayerButtonClicked()
         {
-            _startGameplay(GameplayMode.OnePlayer);
+            _startGameplay(PongGameplayMode.OnePlayer);
         }
 
         public void TwoPlayersButtonClicked()
         {
-            _startGameplay(GameplayMode.TwoPlayer);
+            _startGameplay(PongGameplayMode.TwoPlayer);
         }
  
         public void ExitButtonClicked()

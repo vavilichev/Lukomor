@@ -3,9 +3,9 @@ using UnityEngine;
 
 namespace Lukomor.Example.Pong
 {
-    public class Block : MonoBehaviour
+    public class PongBlockView : MonoBehaviour
     {
-        private const float BALL_SPEED_INCREASING_STEP = 0.3f;
+        private const float BALL_SPEED_INCREASING_STEP = 0.4f;
         
         [SerializeField] private float _speed = 1f;
         [SerializeField] private float _smoothing = 1f;
@@ -32,11 +32,11 @@ namespace Lukomor.Example.Pong
         
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            var ball = collision.gameObject.GetComponent<Ball>();
+            var ball = collision.gameObject.GetComponent<PongBallView>();
             
             if (ball)
             {
-                var ballDirection = ball.Direction;
+                var ballDirection = ball.MoveDirection;
                 var normal = collision.contacts.First().normal;
                 var newDirection = Vector2.Reflect(ballDirection, normal);
 

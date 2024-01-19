@@ -1,16 +1,16 @@
-using Lukomor.Example.Pong;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Lukomor
+namespace Lukomor.Example.Pong
 {
-    public class Gate : MonoBehaviour
+    public class PongGateView : MonoBehaviour
     {
         public UnityEvent OnBallCatched;
         
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            var ball = collision.gameObject.GetComponent<Ball>();
+            var ball = collision.gameObject.GetComponent<PongBallView>();
+            
             if (ball)
             {
                 OnBallCatched?.Invoke();

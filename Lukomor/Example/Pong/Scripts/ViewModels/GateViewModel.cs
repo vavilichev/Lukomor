@@ -4,10 +4,10 @@ namespace Lukomor.Example.Pong
 {
     public class GateViewModel : IViewModel
     {
-        private readonly GameSessionsService _gameSessionsService;
+        private readonly PongGameSessionService _gameSessionsService;
         private readonly bool _isLeftPlayer;
 
-        public GateViewModel(GameSessionsService gameSessionsService, bool isLeftPlayer)
+        public GateViewModel(PongGameSessionService gameSessionsService, bool isLeftPlayer)
         {
             _gameSessionsService = gameSessionsService;
             _isLeftPlayer = isLeftPlayer;

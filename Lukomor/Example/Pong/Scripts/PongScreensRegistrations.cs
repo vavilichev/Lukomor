@@ -7,21 +7,17 @@ namespace Lukomor.Example.Pong
         public void Register(DIContainer container)
         {
             container.RegisterSingleton(c => new PongScreenGameplayViewModel(
-                c.Resolve<GameSessionsService>(),
-                c.Resolve<PongUIRootViewModel>().OpenResultScreen, 
-                c.Resolve<PongUIRootViewModel>().OpenPauseScreen)
+                c.Resolve<PongGameSessionService>())
             );
 
-            container.RegisterSingleton(_ => new PongScreenPauseViewModel());
-            
+            container.RegisterSingleton(c => new PongScreenPauseViewModel(c.Resolve<PongGameSessionService>()));
+
             container.RegisterSingleton(c => new PongScreenResultViewModel(
-                c.Resolve<GameSessionsService>(),
-                c.Resolve<ScenesService>(),
-                c.Resolve<PongUIRootViewModel>().OpenGameplayScreen));
+                c.Resolve<PongGameSessionService>(),
+                c.Resolve<PongScenesService>()));
             
             container.RegisterSingleton(c => new PongScreenGoalViewModel(
-                c.Resolve<GameSessionsService>(),
-                c.Resolve<PongUIRootViewModel>().OpenGameplayScreen));
+                c.Resolve<PongGameSessionService>()));
         }
     }
 }

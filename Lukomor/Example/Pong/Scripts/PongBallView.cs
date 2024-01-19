@@ -1,33 +1,30 @@
-﻿using PlasticGui;
-using UnityEngine;
+﻿using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace Lukomor.Example.Pong
 {
-    public class Ball : MonoBehaviour
+    public class PongBallView : MonoBehaviour
     {
         [SerializeField] private float _speed = 1f;
         [SerializeField] private Vector3 _initialPosition = Vector3.zero;
 
-        public Vector3 Direction => _direction;
+        public Vector3 MoveDirection => _moveDirection;
 
-        private Vector3 _direction;
-        private Rigidbody2D _rb;
+        private Vector3 _moveDirection;
         
         private void Start()
         {
-            _rb = GetComponent<Rigidbody2D>();
             PushRandomDirection();
         }
 
         private void Update()
         {
-            transform.position += _direction.normalized * (Time.deltaTime * _speed);
+            transform.position += _moveDirection.normalized * (Time.deltaTime * _speed);
         }
         
         public void Push(Vector3 direction)
         {
-            _direction = direction.normalized;
+            _moveDirection = direction.normalized;
         }
 
         public void SpeedUp(float speedIncreasingStep)

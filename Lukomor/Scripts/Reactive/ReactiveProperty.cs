@@ -63,6 +63,17 @@ namespace Lukomor.Reactive
             }
         }
 
+        /// <summary>
+        /// Set value and invoke event;
+        /// </summary>
+        /// <param name="newValue"></param>
+        public void Set(T newValue)
+        {
+            _value = newValue;
+            
+            NotifyAboutNewValue(newValue);
+        }
+
         private void NotifyAboutNewValue(T newValue)
         {
             var count = _observers.Count;

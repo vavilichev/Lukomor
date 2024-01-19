@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Lukomor.Example.Pong.Scripts
+namespace Lukomor.Example.Pong
 {
     public class PongGameEntryPoint
     {
@@ -22,16 +22,16 @@ namespace Lukomor.Example.Pong.Scripts
             SceneManager.sceneLoaded += OnSceneLoaded;
 
             _rootContainer = new DIContainer();
-            var scenesService = _rootContainer.RegisterSingleton(_ => new ScenesService()).CreateInstance();
+            var scenesService = _rootContainer.RegisterSingleton(_ => new PongScenesService()).CreateInstance();
             var sceneName = scenesService.GetActiveSceneName();
 
-            if (sceneName == ScenesService.SCENE_GAMEPLAY)
+            if (sceneName == PongScenesService.SCENE_GAMEPLAY)
             {
-                StartGameplay(GameplayMode.OnePlayer);
+                StartGameplay(PongGameplayMode.OnePlayer);
                 return;
             }
 
-            if (sceneName == ScenesService.SCENE_MAIN_MENU)
+            if (sceneName == PongScenesService.SCENE_MAIN_MENU)
             {
                 StartMainMenu();
                 return;
@@ -42,15 +42,15 @@ namespace Lukomor.Example.Pong.Scripts
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            if (scene.name == ScenesService.SCENE_MAIN_MENU)
+            if (scene.name == PongScenesService.SCENE_MAIN_MENU)
             {
                 StartMainMenu();
                 return;
             }
 
-            if (scene.name == ScenesService.SCENE_GAMEPLAY)
+            if (scene.name == PongScenesService.SCENE_GAMEPLAY)
             {
-                var gameplayMode = _rootContainer.Resolve<ScenesService>().CachedGameplayMode;
+                var gameplayMode = _rootContainer.Resolve<PongScenesService>().CachedGameplayMode;
                 StartGameplay(gameplayMode);
             }
         }
@@ -63,7 +63,7 @@ namespace Lukomor.Example.Pong.Scripts
             entryPoint.Process(mainMenuContainer);
         }
         
-        public void StartGameplay(GameplayMode mode)
+        public void StartGameplay(PongGameplayMode mode)
         {
             var entryPoint = Object.FindObjectOfType<PongGameplayEntryPoint>();
             var gameplayContainer = new DIContainer(_rootContainer);

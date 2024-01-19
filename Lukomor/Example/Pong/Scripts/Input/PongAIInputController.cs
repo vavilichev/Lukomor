@@ -1,15 +1,14 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Lukomor.Example.Pong
 {
-    public class AIInputController : InputController
+    public class PongAIInputController : PongInputController
     {
         [SerializeField] private float _speed = 1f;
         
-        private Ball _ball;
+        private PongBallView _ball;
         
-        public void Bind(Block block, Ball ball)
+        public void Bind(PongBlockView block, PongBallView ball)
         {
             base.Bind(block);
 
