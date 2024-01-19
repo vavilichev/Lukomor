@@ -46,7 +46,7 @@ namespace Lukomor.Example.Pong
             ));
 
             container.RegisterSingleton(c => new GameSessionsService(gameState, scoreLimit,
-                c.Resolve<PongUIRootViewModel>().OpenGoalScreen, c.Resolve<PongUIRootViewModel>().OpenResultScreen));
+                c.Resolve<PongUIRootViewModel>().OpenGoalScreen));
             container.RegisterSingleton(c => new BallViewModel(c.Resolve<GameSessionsService>()));
             
             

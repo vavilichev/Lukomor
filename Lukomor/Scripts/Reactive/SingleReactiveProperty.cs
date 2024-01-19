@@ -25,7 +25,7 @@ namespace Lukomor.Reactive
                 {
                     _value = value;
 
-                    _observer.OnNext(value);
+                    _observer?.OnNext(value);
                 }
             }
         }

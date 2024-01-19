@@ -15,7 +15,7 @@ namespace Lukomor.Example.Pong
 
         public void RegisterGoal()
         {
-            _gameSessionsService.RegisterGoal(_isLeftPlayer);
+            _gameSessionsService.RegisterGoal(!_isLeftPlayer);
         }
     }
 }

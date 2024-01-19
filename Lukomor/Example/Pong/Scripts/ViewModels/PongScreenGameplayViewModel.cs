@@ -19,7 +19,7 @@ namespace Lukomor.Example.Pong
 
             LeftPlayerScore = _gameSessionsService.LeftPlayerScore;
             RightPlayerScore = _gameSessionsService.RightPlayerScore;
-
+            
             _gameSessionsService.Won.Subscribe(openResultScreen);
         }
 

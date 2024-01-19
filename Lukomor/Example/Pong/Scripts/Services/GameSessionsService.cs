@@ -17,7 +17,6 @@ namespace Lukomor.Example.Pong
         private readonly PongGameState _state;
         private readonly int _scoreLimit;
         private readonly Action<bool> _showGoalScreen;
-        private readonly Action<bool> _showResultScreen;
         private readonly ReactiveProperty<int> _leftPlayerScore;
         private readonly ReactiveProperty<int> _rightPlayerScore;
         private readonly ReactiveProperty<bool> _isPaused;
@@ -25,12 +24,11 @@ namespace Lukomor.Example.Pong
         private event Action<bool> _won;
         private event Action<Unit> _restartedRound;
 
-        public GameSessionsService(PongGameState gameState, int scoreLimit, Action<bool> showGoalScreen, Action<bool> showResultScreen)
+        public GameSessionsService(PongGameState gameState, int scoreLimit, Action<bool> showGoalScreen)
         {
             _state = gameState;
             _scoreLimit = scoreLimit;
             _showGoalScreen = showGoalScreen;
-            _showResultScreen = showResultScreen;
 
             _leftPlayerScore = new ReactiveProperty<int>(_state.LeftPlayerScore);
             _rightPlayerScore = new ReactiveProperty<int>(_state.RightPlayerScore);
@@ -59,12 +57,10 @@ namespace Lukomor.Example.Pong
 
             if (_state.LeftPlayerScore >= _scoreLimit)
             {
-                _showResultScreen(leftPlayer);
                 _won?.Invoke(true);
             }
             else if (_state.RightPlayerScore >= _scoreLimit)
             {
-                _showResultScreen(leftPlayer);
                 _won?.Invoke(false);
             }
             else
