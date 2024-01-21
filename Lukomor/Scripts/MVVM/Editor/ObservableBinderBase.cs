@@ -22,10 +22,10 @@ namespace Lukomor.MVVM.Editor
             
             if (viewModelType == null)
             {
-                Debug.LogError("View Model is not defined. Check setup, please.");
+                EditorGUILayout.HelpBox($"Could not find ViewModel. Maybe you forget to chose one, or maybe you renamed the ViewModel. Registered name: {ViewModelTypeFullName.stringValue}", MessageType.Error);
                 return;
             }
-            
+
             var allProperties = viewModelType.GetProperties().Where(p => p.PropertyType.IsGenericType);
             var validProperties = allProperties.Where(p => IsValidProperty(p.PropertyType));
             var validPropertyNames = validProperties.Select(p => p.Name);
@@ -54,6 +54,11 @@ namespace Lukomor.MVVM.Editor
             }
             
             EditorGUILayout.EndHorizontal();
+            
+            if (!IsValidPropertyName(_propertyName.stringValue, viewModelType))
+            {
+                EditorGUILayout.HelpBox($"Property Name ({_propertyName.stringValue}) not found in ViewModel: {viewModelType.Name}. Please choose correct property name.", MessageType.Warning);
+            }
         }
 
         protected abstract bool IsValidProperty(Type propertyType);

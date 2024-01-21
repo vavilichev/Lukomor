@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEditor;
@@ -20,6 +21,14 @@ namespace Lukomor.MVVM.Editor
 
         protected override void DrawProperties()
         {
+            var viewModelType = Type.GetType(ViewModelTypeFullName.stringValue);
+            
+            if (viewModelType == null)
+            {
+                EditorGUILayout.HelpBox($"Could not find ViewModel. Maybe you forget to chose one, or maybe you renamed the ViewModel. Registered name: {ViewModelTypeFullName.stringValue}", MessageType.Error);
+                return;
+            }
+            
             var allMethods = GetMethodsInfo();
             var allMethodNames = allMethods.Select(m => m.Name);
             var provider = CreateInstance<StringListSearchProvider>();
@@ -48,6 +57,11 @@ namespace Lukomor.MVVM.Editor
             }
 
             EditorGUILayout.EndHorizontal();
+            
+            if (!IsValidMethodName(_propertyName.stringValue, viewModelType))
+            {
+                EditorGUILayout.HelpBox($"Property Name ({_propertyName.stringValue}) not found in ViewModel: {viewModelType.Name}. Please choose correct property name.", MessageType.Warning);
+            }
         }
 
         protected abstract IEnumerable<MethodInfo> GetMethodsInfo();

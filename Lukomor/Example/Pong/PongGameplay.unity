@@ -276,7 +276,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _viewModelTypeFullName: Lukomor.Example.Pong.GateViewModel
-  _propertyName: RegisterGoal
+  _propertyName: HandleBallCatch
 --- !u!114 &27130550
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -793,7 +793,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _viewModelTypeFullName: Lukomor.Example.Pong.GateViewModel
-  _propertyName: RegisterGoal
+  _propertyName: HandleBallCatch
 --- !u!114 &520655377
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1980,7 +1980,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59c2f4280e1cd7340a37aa0a1d7b6d8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _viewModelTypeFullName: Lukomor.Example.Pong.PongUIRootViewModel
+  _viewModelTypeFullName: Lukomor.Example.Pong.UIRootGameplayViewModel
   _viewModelPropertyName: 
   _isParentView: 1
   _subViews: []
@@ -2039,19 +2039,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _prefabMappings:
-  - ViewModelTypeFullName: Lukomor.Example.Pong.PongScreenGameplayViewModel
+  - ViewModelTypeFullName: Lukomor.Example.Pong.ScreenGameplayViewModel
     PrefabView: {fileID: 3479811450629385304, guid: 45d1bdf7be0f70c4e8140c5b9d6e55dc,
       type: 3}
-  - ViewModelTypeFullName: Lukomor.Example.Pong.PongScreenMainMenuViewModel
+  - ViewModelTypeFullName: Lukomor.Example.Pong.ScreenMainMenuViewModel
     PrefabView: {fileID: 7100132614258209848, guid: 955c5054be910a740819ac02f88e6a93,
       type: 3}
-  - ViewModelTypeFullName: Lukomor.Example.Pong.PongScreenPauseViewModel
+  - ViewModelTypeFullName: Lukomor.Example.Pong.ScreenPauseViewModel
     PrefabView: {fileID: 4538281269218611566, guid: 3f5b5c92a3c59524aaef0001cd964535,
       type: 3}
-  - ViewModelTypeFullName: Lukomor.Example.Pong.PongScreenResultViewModel
+  - ViewModelTypeFullName: Lukomor.Example.Pong.ScreenGameOverViewModel
     PrefabView: {fileID: 1795455280032357305, guid: b56ccc7373bacff4ea11640767e25325,
       type: 3}
-  - ViewModelTypeFullName: Lukomor.Example.Pong.PongScreenGoalViewModel
+  - ViewModelTypeFullName: Lukomor.Example.Pong.ScreenRoundOverViewModel
     PrefabView: {fileID: 4538281269218611566, guid: 7664a893d0c95b94fb9da7c8451330af,
       type: 3}
   _prefabByDefault: {fileID: 7100132614258209848, guid: 955c5054be910a740819ac02f88e6a93,
@@ -2068,7 +2068,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a3c724f33287894abaa72efe078fdf0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 4
+  _initialSpeed: 5
   _initialPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &9095750921785182151
 GameObject:

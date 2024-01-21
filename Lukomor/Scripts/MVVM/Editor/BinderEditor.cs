@@ -65,5 +65,19 @@ namespace Lukomor.MVVM.Editor
 
             return false;
         }
+        
+        protected static bool IsValidPropertyName(string propertyName, Type viewModelType)
+        {
+            var property = viewModelType.GetProperty(propertyName);
+
+            return property != null;
+        }
+
+        protected static bool IsValidMethodName(string methodName, Type viewModelType)
+        {
+            var method = viewModelType.GetMethod(methodName);
+
+            return method != null;
+        }
     }
 }

@@ -37,7 +37,7 @@ namespace Lukomor.MVVM.Editor
             var provider = CreateInstance<StringListSearchProvider>();
             var isParentViewExist = parentView != null;
             var parentViewGo = isParentViewExist ? parentView.gameObject : _view.gameObject;
-
+            
             if (isParentViewExist && !string.IsNullOrEmpty(parentView.ViewModelTypeFullName))
             {
                 SetParentViewBoolean(false);

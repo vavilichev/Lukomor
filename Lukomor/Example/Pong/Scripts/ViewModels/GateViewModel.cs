@@ -4,18 +4,20 @@ namespace Lukomor.Example.Pong
 {
     public class GateViewModel : IViewModel
     {
-        private readonly PongGameSessionService _gameSessionsService;
-        private readonly bool _isLeftPlayer;
+        private readonly GameSessionService _gameSessionsService;
+        private readonly PongPlayer _ownerPlayer;
 
-        public GateViewModel(PongGameSessionService gameSessionsService, bool isLeftPlayer)
+        public GateViewModel(GameSessionService gameSessionsService, PongPlayer ownerPlayer)
         {
             _gameSessionsService = gameSessionsService;
-            _isLeftPlayer = isLeftPlayer;
+            _ownerPlayer = ownerPlayer;
         }
 
-        public void RegisterGoal()
+        public void HandleBallCatch()
         {
-            _gameSessionsService.RegisterGoal(!_isLeftPlayer);
+            var opponentPlayer = _ownerPlayer == PongPlayer.One ? PongPlayer.Two : PongPlayer.One;
+            
+            _gameSessionsService.RegisterGoal(opponentPlayer);
         }
     }
 }

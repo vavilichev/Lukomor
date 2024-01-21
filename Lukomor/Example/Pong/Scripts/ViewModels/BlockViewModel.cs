@@ -8,7 +8,7 @@ namespace Lukomor.Example.Pong
     {
         public IObservable<bool> IsActive { get; }
         
-        public BlockViewModel(PongGameSessionService gameSessionService)
+        public BlockViewModel(GameSessionService gameSessionService)
         {
             IsActive = gameSessionService.IsPaused.Select(value => !value);
         }

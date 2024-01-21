@@ -10,9 +10,9 @@ namespace Lukomor.Example.Pong
         public IObservable<bool> IsActive { get; }
         public IObservable<Unit> PositionReset { get; }
         
-        private readonly PongGameSessionService _gameSessionsService;
+        private readonly GameSessionService _gameSessionsService;
 
-        public BallViewModel(PongGameSessionService gameSessionsService)
+        public BallViewModel(GameSessionService gameSessionsService)
         {
             _gameSessionsService = gameSessionsService;
 
