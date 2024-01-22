@@ -1261,9 +1261,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _leftBlock: {fileID: 1154046633}
   _rightBlock: {fileID: 485053437}
-  _ball: {fileID: 8958519578582200976}
-  _gateLeft: {fileID: 520655374}
-  _gateRight: {fileID: 27130547}
+  _ball: {fileID: 6039267847477532892}
+  _gateLeft: {fileID: 520655377}
+  _gateRight: {fileID: 27130550}
   _rootUIView: {fileID: 8065621984938099541}
 --- !u!1 &1553770593
 GameObject:

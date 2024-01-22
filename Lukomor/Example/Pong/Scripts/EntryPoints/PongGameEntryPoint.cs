@@ -22,19 +22,27 @@ namespace Lukomor.Example.Pong
             SceneManager.sceneLoaded += OnSceneLoaded;
 
             _rootContainer = new DIContainer();
-            var scenesService = _rootContainer.RegisterSingleton(_ => new PongScenesService()).CreateInstance();
+            
+            var scenesService = _rootContainer
+                .RegisterSingleton(_ => new ScenesService())
+                .CreateInstance();
             var sceneName = scenesService.GetActiveSceneName();
 
-            if (sceneName == PongScenesService.SCENE_GAMEPLAY)
+            if (sceneName == ScenesService.SCENE_GAMEPLAY)
             {
                 StartGameplay(PongGameplayMode.OnePlayer);
                 return;
             }
 
-            if (sceneName == PongScenesService.SCENE_MAIN_MENU)
+            if (sceneName == ScenesService.SCENE_MAIN_MENU)
             {
                 StartMainMenu();
                 return;
+            }
+
+            if (sceneName != ScenesService.SCENE_BOOT)
+            {
+                return; // If scene isn't from the example project - do nothing.
             }
             
             scenesService.LoadMainMenuScene();
@@ -42,15 +50,15 @@ namespace Lukomor.Example.Pong
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            if (scene.name == PongScenesService.SCENE_MAIN_MENU)
+            if (scene.name == ScenesService.SCENE_MAIN_MENU)
             {
                 StartMainMenu();
                 return;
             }
 
-            if (scene.name == PongScenesService.SCENE_GAMEPLAY)
+            if (scene.name == ScenesService.SCENE_GAMEPLAY)
             {
-                var gameplayMode = _rootContainer.Resolve<PongScenesService>().CachedGameplayMode;
+                var gameplayMode = _rootContainer.Resolve<ScenesService>().CachedGameplayMode;
                 StartGameplay(gameplayMode);
             }
         }

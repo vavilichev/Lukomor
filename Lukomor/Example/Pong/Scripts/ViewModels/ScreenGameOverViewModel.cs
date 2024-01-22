@@ -12,9 +12,9 @@ namespace Lukomor.Example.Pong
         private readonly SingleReactiveProperty<string> _countText = new();
         
         private readonly GameSessionService _gameSessionsService;
-        private readonly PongScenesService _scenesService;
+        private readonly ScenesService _scenesService;
 
-        public ScreenGameOverViewModel(GameSessionService gameSessionsService, PongScenesService scenesService)
+        public ScreenGameOverViewModel(GameSessionService gameSessionsService, ScenesService scenesService)
         {
             _gameSessionsService = gameSessionsService;
             _scenesService = scenesService;

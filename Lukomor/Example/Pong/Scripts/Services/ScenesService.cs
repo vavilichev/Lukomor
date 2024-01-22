@@ -2,10 +2,11 @@
 
 namespace Lukomor.Example.Pong
 {
-    public class PongScenesService
+    public class ScenesService
     {
         public const string SCENE_GAMEPLAY = "PongGameplay";
         public const string SCENE_MAIN_MENU = "PongMainMenu";
+        public const string SCENE_BOOT = "PongBoot";
 
         public PongGameplayMode CachedGameplayMode { get; private set; }
 
