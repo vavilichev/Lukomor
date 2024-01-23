@@ -1,10 +1,9 @@
 {
   "name": "com.vavilichev.lukomor",
-  "version": "5.0.1",
+  "version": "5.0.2",
   "displayName": "Lukomor Architecture",
   "description": "Lukomor is an architectural template with MVVM and DI implementation for games making with Unity.",
   "unity": "2022.3",
-  "dependencies": {},
   "keywords": [
     "architecture",
     "code",
@@ -28,12 +27,5 @@
     "email": "andreyvavilichev@gmail.com",
     "url": "https://t.me/vavilichev"
   },
-  "license": "See LICENSE.md file",
-  "samples": [
-    {
-      "displayName": "Pong",
-      "description": "Pong game built with MVVM and DI",
-      "url": "https://github.com/vavilichev/LukomorExample"
-    }
-  ]
+  "license": "See LICENSE.md file"
 }
