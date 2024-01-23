@@ -18,7 +18,7 @@ namespace Lukomor.MVVM.Editor
 
         private void DrawPropertyNames()
         {
-            var viewModelType = Type.GetType(ViewModelTypeFullName.stringValue);
+            var viewModelType = GetViewModelType(ViewModelTypeFullName.stringValue);
             
             if (viewModelType == null)
             {

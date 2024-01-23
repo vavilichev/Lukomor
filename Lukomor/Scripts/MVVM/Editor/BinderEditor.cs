@@ -13,6 +13,7 @@ namespace Lukomor.MVVM.Editor
         private SerializedProperty _viewModelTypeFullName;
 
         protected SerializedProperty ViewModelTypeFullName => _viewModelTypeFullName;
+        private TypeCache.TypeCollection _cachedViewModelTypes;
 
         protected virtual void OnEnable()
         {
@@ -25,6 +26,8 @@ namespace Lukomor.MVVM.Editor
         public sealed override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
+
+            _cachedViewModelTypes = TypeCache.GetTypesDerivedFrom<IViewModel>();
             
             _viewModelTypeFullName.stringValue = _parentView.ViewModelTypeFullName;
 
@@ -78,6 +81,13 @@ namespace Lukomor.MVVM.Editor
             var method = viewModelType.GetMethod(methodName);
 
             return method != null;
+        }
+
+        protected Type GetViewModelType(string viewModelFullName)
+        {
+            var viewModelType = _cachedViewModelTypes.FirstOrDefault(t => t.FullName == viewModelFullName);
+
+            return viewModelType;
         }
     }
 }

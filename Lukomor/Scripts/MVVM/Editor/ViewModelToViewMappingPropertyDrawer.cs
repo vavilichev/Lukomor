@@ -12,9 +12,12 @@ namespace Lukomor.MVVM.Editor
         private readonly Dictionary<string, string> _viewModelNames = new();
         private readonly GUIContent _viewModelLabelGUIContent = new("ViewModel:");
         private readonly GUIContent _prefabViewGUIContent = new("Prefab View");
+        private TypeCache.TypeCollection _cachedViewModelTypes;
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
+            _cachedViewModelTypes = TypeCache.GetTypesDerivedFrom<IViewModel>();
+            
             var viewModelTypeFullName = property.FindPropertyRelative("ViewModelTypeFullName");
             var prefabView = property.FindPropertyRelative("PrefabView");
             
@@ -43,7 +46,7 @@ namespace Lukomor.MVVM.Editor
             EditorGUI.PrefixLabel(viewModelTypeLabelRect, GUIUtility.GetControlID(FocusType.Passive), _viewModelLabelGUIContent);
             var buttonDisplayName = string.IsNullOrEmpty(viewModelTypeFullName.stringValue)
                 ? MVVMConstants.NONE
-                : ViewModelsEditorUtility.ToShortName(viewModelTypeFullName.stringValue);
+                : ViewModelsEditorUtility.ToShortName(viewModelTypeFullName.stringValue, _cachedViewModelTypes);
             var viewModelGuiContent = new GUIContent(buttonDisplayName);
             
             if (EditorGUI.DropdownButton(viewModelTypeButtonRect, viewModelGuiContent, FocusType.Keyboard))

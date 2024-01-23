@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -12,7 +11,7 @@ namespace Lukomor.MVVM.Editor
     {
         protected override IEnumerable<MethodInfo> GetMethodsInfo()
         {
-            var viewModelType = Type.GetType(ViewModelTypeFullName.stringValue);
+            var viewModelType = GetViewModelType(ViewModelTypeFullName.stringValue);
             var allMethods = viewModelType.GetMethods()
                 .Where(m => m.GetParameters().Length == 0 && m.ReturnType == typeof(void));
 

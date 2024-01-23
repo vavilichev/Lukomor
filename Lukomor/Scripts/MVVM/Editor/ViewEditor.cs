@@ -16,6 +16,7 @@ namespace Lukomor.MVVM.Editor
         private SerializedProperty _childBinders;
         private SerializedProperty _subViews;
         private View _view;
+        private TypeCache.TypeCollection _cachedViewModelTypes;
         private readonly Dictionary<string, string> _viewModelNames = new();
         private readonly List<string> _viewModelPropertyNames = new();
 
@@ -31,6 +32,8 @@ namespace Lukomor.MVVM.Editor
 
         public override void OnInspectorGUI()
         {
+            _cachedViewModelTypes = TypeCache.GetTypesDerivedFrom<IViewModel>();
+            
             DrawScriptTitle();
             
             var parentView = _view.GetComponentsInParent<View>().FirstOrDefault(c => !ReferenceEquals(c, _view));
@@ -62,6 +65,13 @@ namespace Lukomor.MVVM.Editor
             {
                 DrawFixButton();
             }
+        }
+
+        protected Type GetViewModelType(string viewModelTypeFullName)
+        {
+            var type = _cachedViewModelTypes.FirstOrDefault(t => t.FullName == viewModelTypeFullName);
+
+            return type;
         }
 
         private void DrawEditorForSubView(StringListSearchProvider provider, string parentViewModelTypeFullName)
@@ -116,7 +126,7 @@ namespace Lukomor.MVVM.Editor
 
             var displayName = string.IsNullOrEmpty(_viewModelTypeFullName.stringValue)
                 ? MVVMConstants.NONE
-                : ViewModelsEditorUtility.ToShortName(_viewModelTypeFullName.stringValue);
+                : ViewModelsEditorUtility.ToShortName(_viewModelTypeFullName.stringValue, _cachedViewModelTypes);
             
             if (GUILayout.Button(displayName, EditorStyles.popup))
             {
@@ -143,8 +153,7 @@ namespace Lukomor.MVVM.Editor
             _viewModelPropertyNames.Clear();
             _viewModelPropertyNames.Add(MVVMConstants.NONE);
 
-            var parentViewModelType = Type.GetType(parentViewModelTypeFullName);
-
+            var parentViewModelType = GetViewModelType(parentViewModelTypeFullName);
             var allViewModelProperties = parentViewModelType.GetProperties();
             var allValidProperties =
                 allViewModelProperties.Where(p => typeof(IViewModel).IsAssignableFrom(p.PropertyType));
@@ -183,7 +192,7 @@ namespace Lukomor.MVVM.Editor
         {
             if (!string.IsNullOrEmpty(viewModelTypeFullName))
             {
-                var viewModelType = Type.GetType(viewModelTypeFullName);
+                var viewModelType = GetViewModelType(viewModelTypeFullName);
 
                 if (viewModelType == null)
                 {
@@ -211,7 +220,7 @@ namespace Lukomor.MVVM.Editor
         {
             if (!string.IsNullOrEmpty(propertyName))
             {
-                var parentViewModelType = Type.GetType(parentViewModelTypeFullName);
+                var parentViewModelType = GetViewModelType(parentViewModelTypeFullName);
                 var property = parentViewModelType.GetProperty(propertyName);
   
                 return property.PropertyType;

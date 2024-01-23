@@ -22,7 +22,7 @@ namespace Lukomor.MVVM.Editor
 
         protected override IEnumerable<MethodInfo> GetMethodsInfo()
         {
-            var viewModelType = Type.GetType(ViewModelTypeFullName.stringValue);
+            var viewModelType = GetViewModelType(ViewModelTypeFullName.stringValue);
             var requiredType = _genericMethodBinder.ParameterType;
 
             var allMethods = viewModelType.GetMethods()

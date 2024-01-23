@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 
@@ -21,9 +20,9 @@ namespace Lukomor.MVVM.Editor
             }
         }
         
-        public static string ToShortName(string viewModelTypeFullName)
+        public static string ToShortName(string viewModelTypeFullName, TypeCache.TypeCollection allViewModelTypes)
         {
-            var viewModelType = Type.GetType(viewModelTypeFullName);
+            var viewModelType = allViewModelTypes.FirstOrDefault(t => t.FullName == viewModelTypeFullName);
             
             return viewModelType == null ? MVVMConstants.NONE : viewModelType.Name;
         }

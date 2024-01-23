@@ -21,7 +21,7 @@ namespace Lukomor.MVVM.Editor
 
         protected override void DrawProperties()
         {
-            var viewModelType = Type.GetType(ViewModelTypeFullName.stringValue);
+            var viewModelType = GetViewModelType(ViewModelTypeFullName.stringValue);
             
             if (viewModelType == null)
             {
