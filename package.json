@@ -1,17 +1,17 @@
 {
   "name": "com.vavilichev.lukomor",
-  "version": "4.0.19",
+  "version": "5.0.2",
   "displayName": "Lukomor Architecture",
-  "description": "Lukomor is an architectural template for games making with Unity.",
-  "unity": "2019.3",
-  "dependencies": {},
+  "description": "Lukomor is an architectural template with MVVM and DI implementation for games making with Unity.",
+  "unity": "2022.3",
   "keywords": [
     "architecture",
     "code",
     "project",
     "organization",
     "dependency injection",
-	"DI"
+	"DI",
+	"MVVM"
   ],
   "homepage": "https://github.com/vavilichev/Lukomor.git",
   "bugs": {
@@ -27,12 +27,5 @@
     "email": "andreyvavilichev@gmail.com",
     "url": "https://t.me/vavilichev"
   },
-  "license": "See LICENSE.md file",
-  "samples": [
-    {
-      "displayName": "Tags Game",
-      "description": "Simple game without wining or losing, but it fully implemented with the Lukomor",
-      "path": "Example~/TagsGame"
-    }
-  ]
+  "license": "See LICENSE.md file"
 }
