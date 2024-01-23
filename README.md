@@ -1,14 +1,9 @@
 # Lukomor - Unity Architectural Template
 
+Lukomor is an architectural framework for Unity that includes MVVM implementation and DI. For more details watch [the example project](https://github.com/vavilichev/LukomorExample). Full documentaion coming soon.
+
 **Discussing here:**
 https://discord.gg/yX3cKpvaGC
-
-## WARNING
-Versions older than 4.0.0 are deprecated. (version 2.x.x moved to branch version_2). **Version 4 doesn't support backward compatibility**, and you shouldn't update your project from the package manager with clicking Update button (it will download version 4). For updating version 2 (is will have a support for a some time) please reimport asset with the link:
-
-```
-https://github.com/vavilichev/Lukomor.git#version_2
-```
 
 ## Installation
 
@@ -26,14 +21,6 @@ That's it! Asset ready to use.
 
 ## Example
 
-If you want to learn the example of the project used the Lukomor Architecture - just choose the Lukomore Architecture in the Package Manager and click "Import" in the "Samples" dirrectory on the right.
-
-![image](https://user-images.githubusercontent.com/22970240/166225335-f83cbda1-193c-44cd-8518-0a721a3a436c.png)
-
-**WARNING**
-
-To make example work properly you must add all scenes from the folder Example/TagsGame/Scenes/ to the BuildSettings.
-
-![image](https://user-images.githubusercontent.com/22970240/208266469-2f999603-a067-4cbd-a4eb-cc3e590d2ae7.png)
+If you want to learn the example of the project used the Lukomor Architecture - just [follow the link](https://github.com/vavilichev/LukomorExample) where you can find repository with example project. It's Pong game that has been made with Lukomor framework (MVVM, DI, EntryPoints).
 
 Full documentation coming soon..
