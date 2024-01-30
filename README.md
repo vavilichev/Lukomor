@@ -41,17 +41,35 @@ This site was built using [GitHub Pages](https://pages.github.com/).
 
 Table of content:
 - [Short description](https://github.com/vavilichev/Lukomor/tree/dev?tab=readme-ov-file#short-description)
-- What is the MVVM
-- What are the Binder and the View components
-- How to setup View and SubView
-- Using Observables in the Lukomor
-- Basic set of binders in Lukomor
-- How to expand the set of binders
-- How to setup binders
-- DI in the Lukomor
-- Recommendations
+- [What is the MVVM](https://github.com/vavilichev/Lukomor/tree/dev?tab=readme-ov-file#what-the-mvvm)
+- [What are the Binder and the View components](https://github.com/vavilichev/Lukomor/tree/dev?tab=readme-ov-file#what-the-mvvm)
+- [How to setup View and SubView](https://github.com/vavilichev/Lukomor/tree/dev?tab=readme-ov-file#what-the-mvvm)
+- [Using Observables in the Lukomor](https://github.com/vavilichev/Lukomor/tree/dev?tab=readme-ov-file#what-the-mvvm)
+- [Basic set of binders in Lukomor](https://github.com/vavilichev/Lukomor/tree/dev?tab=readme-ov-file#what-the-mvvm)
+- [How to expand the set of binders](https://github.com/vavilichev/Lukomor/tree/dev?tab=readme-ov-file#what-the-mvvm)
+- [How to setup binders](https://github.com/vavilichev/Lukomor/tree/dev?tab=readme-ov-file#what-the-mvvm)
+- [DI in the Lukomor](https://github.com/vavilichev/Lukomor/tree/dev?tab=readme-ov-file#what-the-mvvm)
+- [Recommendations](https://github.com/vavilichev/Lukomor/tree/dev?tab=readme-ov-file#what-the-mvvm)
 
 
 ## Short description
 
 It's a short description
+
+## What is the MVVM
+
+## What are the Binder and the View components
+
+## How to setup View and SubView
+
+## Using Observables in the Lukomor
+
+## Basic set of binders in Lukomor
+
+## How to expand the set of binders
+
+## How to setup binders
+
+## DI in the Lukomor
+
+## Recommendations
