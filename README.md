@@ -36,11 +36,43 @@ public class MyCoolViewModel : IViewModel
 
 ## View
 View is a basic MonoBehaviour component that must be attached to a GameObject that represents the visualization of some ViewModel`s work. It can be object on scene or prefab.
-Every View can be a SubView. It means that current View is a child of another View and it defines automatically in the Editor. Try to create a GameObject with View component and create another GameObject as a child of first GameObject and add View Component to it. You can see a isRoot checkmark  in the View component that says you the status.
 
-### View
-View component 
+![image](https://github.com/vavilichev/Lukomor/assets/22970240/6d7bc465-f22f-4e7c-b6df-766e518220d1)
 
+Every View can be a parent View (root) or SubView (child). The **IsParentView** checkbox in View component shows you the state. It calculates automatically.
+
+![image](https://github.com/vavilichev/Lukomor/assets/22970240/6a398e83-a213-413c-8d51-34165a27ed61)
+![image](https://github.com/vavilichev/Lukomor/assets/22970240/f885f804-618f-4c26-a48c-69859e06e80e)
+
+Parent View and child View look simmilar but work really different. First of all, both: parent View and child View awaits binding of IViewModel.
+
+Parent View awaits ViewModel that you choose in the ViewModel property in the Editor. And then sends this ViewModel to it's child views and binders that registered in this View.
+
+![image](https://github.com/vavilichev/Lukomor/assets/22970240/be6c1240-6721-4f75-aabb-553d0b3998bf)
+
+Child View shows you other field in the Editor - PropertyName. It's because child view awaits IViewModel that contains another ViewModel inside (SubViewModel or child ViewModel). Therefore this View gets this SubViewModel from received ViewModel (directly from property field with the name you picked in the Editor) and do the same work: sends it to it's child Views and Binders.
+
+```csharp
+public class MyCoolViewModel : IViewModel
+{
+    public SubViewModel MyCoolSubViewModel { get; }
+
+    public MyCoolViewModel()
+    {
+        MyCoolSubViewModel = new SubViewModel();
+    }
+}
+
+```
+
+![Parent View](https://github.com/vavilichev/Lukomor/assets/22970240/556fa715-d2f3-4aca-9e03-af28b40c295c)
+
+![Child View](https://github.com/vavilichev/Lukomor/assets/22970240/42834a0d-d684-4c14-bbd2-84fc10275c6e)
+
+The Search feature helps you find your ViewModels and property names really quick. 
+
+> [!WARNING]
+> When you are going to make a prefab with parent View, you have to place it outside of other View. Otherwise prefab View defines like **child View** and you cannot choose ViewModel, only property names of ViewModel.
 
 ## How to setup View and SubView
 
