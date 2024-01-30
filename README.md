@@ -48,10 +48,12 @@ Every View can be a parent View (root) or SubView (child). The **IsParentView** 
 
 Parent View and child View look simmilar but work really different. First of all, both: parent View and child View awaits binding of IViewModel.
 
+#### Parent View
 Parent View awaits ViewModel that you choose in the ViewModel property in the Editor. And then sends this ViewModel to it's child views and binders that registered in this View.
 
 ![image](https://github.com/vavilichev/Lukomor/assets/22970240/be6c1240-6721-4f75-aabb-553d0b3998bf)
 
+#### Child View
 Child View shows you other field in the Editor - PropertyName. It's because child view awaits IViewModel that contains another ViewModel inside (SubViewModel or child ViewModel). Therefore this View gets this SubViewModel from received ViewModel (directly from property field with the name you picked in the Editor) and do the same work: sends it to it's child Views and Binders.
 
 ```csharp
