@@ -79,6 +79,9 @@ public class MyCoolViewModel : IViewModel
 > [!WARNING]
 > When you are going to make a prefab with parent View, you have to place it outside of other View. Otherwise prefab View defines like **child View** and you cannot choose ViewModel, only property names of ViewModel.
 
+## Binders
+What is it.
+
 ## How to setup View and SubView
 
 ## Using Observables in the Lukomor
