@@ -40,7 +40,7 @@ Full documentation coming soon..
 This site was built using [GitHub Pages](https://pages.github.com/).
 
 Table of content:
-- [Short description](https://pages.github.com/)
+- [Short description](https://github.com/vavilichev/Lukomor/tree/dev?tab=readme-ov-file#short-description)
 - What is the MVVM
 - What are the Binder and the View components
 - How to setup View and SubView
