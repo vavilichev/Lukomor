@@ -6,7 +6,7 @@ https://discord.gg/yX3cKpvaGC
 Table of content:
 - [Short description](https://github.com/vavilichev/Lukomor/tree/dev?tab=readme-ov-file#short-description)
 - [What is the MVVM](https://github.com/vavilichev/Lukomor/tree/dev?tab=readme-ov-file#what-is-the-mvvm)
-- [What are the Binder and the View components](https://github.com/vavilichev/Lukomor/tree/dev?tab=readme-ov-file#what-are-the-binder-and-the-view-components)
+- [What are the View and the Binder components](https://github.com/vavilichev/Lukomor/tree/dev?tab=readme-ov-file#what-are-the-binder-and-the-view-components)
 - [How to setup View and SubView](https://github.com/vavilichev/Lukomor/tree/dev?tab=readme-ov-file#how-to-setup-view-and-subview)
 - [Using Observables in the Lukomor](https://github.com/vavilichev/Lukomor/tree/dev?tab=readme-ov-file#how-to-setup-view-and-subview)
 - [Basic set of binders in Lukomor](https://github.com/vavilichev/Lukomor/tree/dev?tab=readme-ov-file#basic-set-of-binders-in-lukomor)
@@ -25,7 +25,22 @@ MVVM (Model - View - ViewModel) is a simple architectural programming pattern. Y
 
 ![image](https://github.com/vavilichev/Lukomor/assets/22970240/9aef4881-09b9-4012-acc3-84b09b13db44)
 
-## What are the Binder and the View components
+## ViewModels
+ViewModels is a non MonoBehaviour class that connects View and Model. In the Lukomor you must implement the IViewModel interface in each of your ViewModel realization. It's required because the Editor scripts works with interfaces for showing relevant information about existing ViewModels. Therefore your class can be look like this:
+```csharp
+public class MyCoolViewModel : IViewModel 
+{
+
+}
+```
+
+## View
+View is a basic MonoBehaviour component that must be attached to a GameObject that represents the visualization of some ViewModel`s work. It can be object on scene or prefab.
+Every View can be a SubView. It means that current View is a child of another View and it defines automatically in the Editor. Try to create a GameObject with View component and create another GameObject as a child of first GameObject and add View Component to it. You can see a isRoot checkmark  in the View component that says you the status.
+
+### View
+View component 
+
 
 ## How to setup View and SubView
 
