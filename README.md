@@ -59,7 +59,7 @@ Child View shows you other field in the Editor - PropertyName. It's because chil
 ```csharp
 public class MyCoolViewModel : IViewModel
 {
-    public SubViewModel MyCoolSubViewModel { get; }
+    public SubViewModel MyCoolSubViewModel { get; }    // must be a property with public "get" for defining by Editor scripts
 
     public MyCoolViewModel()
     {
