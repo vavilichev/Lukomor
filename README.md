@@ -37,7 +37,6 @@ To make example work properly you must add all scenes from the folder Example/Ta
 ![image](https://user-images.githubusercontent.com/22970240/208266469-2f999603-a067-4cbd-a4eb-cc3e590d2ae7.png)
 
 Full documentation coming soon..
-This site was built using [GitHub Pages](https://pages.github.com/).
 
 Table of content:
 - [Short description](https://github.com/vavilichev/Lukomor/tree/dev?tab=readme-ov-file#short-description)
@@ -54,9 +53,12 @@ Table of content:
 
 ## Short description
 
-It's a short description
+Lukomor is an architectural framework for Unity game engine that helps you apply MVVM pattern to your project easy and convenient reducing the leaks of Model into View. This framework suits to any kind of project: small and large. The most cool part of this framework (in my opinion) is separating programmers part of work from artists. Programmers can write ViewModels for features and artists can just setup binders and get a workable feature. For more information read documentation and watch [the example](https://github.com/vavilichev/LukomorExample)
 
 ## What is the MVVM
+MVVM (Model - View - ViewModel) is a simple architectural programming pattern. You can find a lot of information about it in the internet. For example in [Wikipedia](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93viewmodel). Therefore, I just place a scheme of work here without any additional info.
+
+![image](https://github.com/vavilichev/Lukomor/assets/22970240/9aef4881-09b9-4012-acc3-84b09b13db44)
 
 ## What are the Binder and the View components
 
