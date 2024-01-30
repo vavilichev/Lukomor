@@ -54,7 +54,7 @@ Parent View awaits ViewModel that you choose in the ViewModel property in the Ed
 ![image](https://github.com/vavilichev/Lukomor/assets/22970240/be6c1240-6721-4f75-aabb-553d0b3998bf)
 
 #### Child View
-Child View shows you other field in the Editor - PropertyName. It's because child view awaits IViewModel that contains another ViewModel inside (SubViewModel or child ViewModel). Therefore this View gets this SubViewModel from received ViewModel (directly from property field with the name you picked in the Editor) and do the same work: sends it to it's child Views and Binders.
+Child View shows you other field in the Editor - PropertyName. It's because child view awaits IViewModel that contains another ViewModel inside (SubViewModel or child ViewModel). Therefore this View gets this SubViewModel from received ViewModel (directly from **property field** with the name you picked in the Editor) and do the same work: sends it to it's child Views and Binders.
 
 ```csharp
 public class MyCoolViewModel : IViewModel
