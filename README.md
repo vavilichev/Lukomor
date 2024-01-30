@@ -37,3 +37,21 @@ To make example work properly you must add all scenes from the folder Example/Ta
 ![image](https://user-images.githubusercontent.com/22970240/208266469-2f999603-a067-4cbd-a4eb-cc3e590d2ae7.png)
 
 Full documentation coming soon..
+This site was built using [GitHub Pages](https://pages.github.com/).
+
+Table of content:
+- [Short description](https://pages.github.com/)
+- What is the MVVM
+- What are the Binder and the View components
+- How to setup View and SubView
+- Using Observables in the Lukomor
+- Basic set of binders in Lukomor
+- How to expand the set of binders
+- How to setup binders
+- DI in the Lukomor
+- Recommendations
+
+
+## Short description
+
+It's a short description
