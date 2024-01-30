@@ -6,6 +6,8 @@ https://discord.gg/yX3cKpvaGC
 Table of content:
 - [Short description](https://github.com/vavilichev/Lukomor/tree/dev?tab=readme-ov-file#short-description)
 - [What is the MVVM](https://github.com/vavilichev/Lukomor/tree/dev?tab=readme-ov-file#what-is-the-mvvm)
+- [ViewModels](https://github.com/vavilichev/Lukomor/tree/dev?tab=readme-ov-file#viewmodels)
+- [Views](https://github.com/vavilichev/Lukomor/tree/dev?tab=readme-ov-file#views)
 - [What are the View and the Binder components](https://github.com/vavilichev/Lukomor/tree/dev?tab=readme-ov-file#what-are-the-binder-and-the-view-components)
 - [How to setup View and SubView](https://github.com/vavilichev/Lukomor/tree/dev?tab=readme-ov-file#how-to-setup-view-and-subview)
 - [Using Observables in the Lukomor](https://github.com/vavilichev/Lukomor/tree/dev?tab=readme-ov-file#how-to-setup-view-and-subview)
@@ -34,7 +36,7 @@ public class MyCoolViewModel : IViewModel
 }
 ```
 
-## View
+## Views
 View is a basic MonoBehaviour component that must be attached to a GameObject that represents the visualization of some ViewModel`s work. It can be object on scene or prefab.
 
 ![image](https://github.com/vavilichev/Lukomor/assets/22970240/6d7bc465-f22f-4e7c-b6df-766e518220d1)
@@ -69,7 +71,8 @@ public class MyCoolViewModel : IViewModel
 
 ![Child View](https://github.com/vavilichev/Lukomor/assets/22970240/42834a0d-d684-4c14-bbd2-84fc10275c6e)
 
-The Search feature helps you find your ViewModels and property names really quick. 
+> [!TIP]
+> The Search feature helps you find your ViewModels and property names really quick. 
 
 > [!WARNING]
 > When you are going to make a prefab with parent View, you have to place it outside of other View. Otherwise prefab View defines like **child View** and you cannot choose ViewModel, only property names of ViewModel.
