@@ -142,7 +142,7 @@ public class MyCoolViewModel : IViewModel
 
 
 ### MethodBinder (that named the same)
-When Binder received the ViewModel, this binder grabs the method from that ViewModel with the name you picked in the editor and caches it. When you call Perform() method of the Binder, this binder invokes the cached method. 
+When Binder received the ViewModel, this binder grabs the method from that ViewModel with the name you picked in the editor and caches it. When you call **Perform()** method of the Binder, this binder invokes the cached method. 
 
 ```csharp
 public class MyCoolViewModel : IViewModel
@@ -159,19 +159,20 @@ public class MyCoolViewModel : IViewModel
 }
 ```
 
-Next two variants are the same, but ButtonMerhodBinder is more convenient for using with Unity Buttons.
+Next two variants are the same, but **ButtonMerhodBinder** is more convenient for using with Unity Buttons.
 
 ![image](https://github.com/vavilichev/Lukomor/assets/22970240/5f741c12-b369-4e60-8569-543a642d34c3)
 
 ![image](https://github.com/vavilichev/Lukomor/assets/22970240/b78251eb-a2d7-463c-bc77-95476ffd50bf)
 
-Lukomor also suppots GenericMethodBinder<T> that can invoke methods with arguments. You should use Perform(T value) instead of Perform(). It's convenient for cases when player does some input actions, for example moving a handle of the Slider
+Lukomor also suppots G**enericMethodBinder<T>** that can invoke methods with arguments. You should use Perform(T value) instead of Perform(). It's convenient for cases when player does some input actions, for example moving a handle of the Slider
 
 ![image](https://github.com/vavilichev/Lukomor/assets/22970240/afad3725-8bbd-427b-b4f6-a4d93d85aed0)
 
 > [!IMPORTANT]
-> Full list of prepared binders you can see in the Packages/Lukomor Architecture/Lukomor/Scripts/MVVM/Binders section.
-
+> Full list of prepared binders you can see in the **Packages/Lukomor Architecture/Lukomor/Scripts/MVVM/Binders section**.
+> 
+>![image](https://github.com/vavilichev/Lukomor/assets/22970240/578216e2-1a28-465f-99be-1254673bd87e)
 
 ## How to setup View and SubView
 
