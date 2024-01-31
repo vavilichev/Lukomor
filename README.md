@@ -82,13 +82,61 @@ public class MyCoolViewModel : IViewModel
 
 ## Binders
 Binders is the main feature of this framework. Binders help you to connect View and ViewModel: visualize data from ViewModel and send signals to the ViewModel for interacting with Model for example.
-There are two types of binders:
-Observable property binder (ObservableBinder<T>). This binder subscribes on public property that implements the IObservable<T> interface. When IObservable does "next", then binder handles the changed data and changes the visual that has been setupped in the editor. 
-You can create your own binders, just inherit from ObservableBinder<T> and write your type instead of T. By the way, there are a bunch of prepared binders in the Lukomor.
-It's recommendet to pay attention to UnityEventBinder<T> type of binders. That binders use UnityEvents for handling data from ViewModel. It's very convenient for using. Let's see the simple example.
-We want to show some text, for example NPC name. We create NPCViewModel, that have IObservable<string> Name {get;} property. And use StringToUnityEventBinder component for putting the value of the Name property into everywhere you want. With UnityEvent you can put the text into Text (legacy) component, or TMP_Text component. Or by BoolToColorUnityEventBinder you can change any color property of unity components by changing boolean value in the ViewModel. You can change color of Text, TMP_Text, Image, etc. Just use UnityEvent for setup.
 
-MethodBinder (that named the same). When Binder received the ViewModel, this binder grabs the method from that ViewModel with the name you picked in the editor and caches it. When you call Perform() method of the Binder, this binder invokes the cached method. Lukomor suppots EmptyMethodBinder, that works with methods without arguments, and GenericMethodBinder<T> that can invoke methods with arguments. You should use Perform(T value) instead of Perform(). It's convenient for cases when player does some input actions, for example moving a handle of the Slider
+```csharp
+public class MyCoolViewModel : IViewModel
+{
+    public IObservable<string> SomeObservableText => _someObservableText;
+    public IObservable<string> SomeReactivePropertyText => _someReactivePropertyText;
+
+    private readonly Subject<string> _someObservableText = new();
+    private readonly ReactiveProperty<string> _someReactivePropertyText = new();
+
+    public MyCoolViewModel()
+    {
+        _someObservableText.OnNext("Your awesome observableText");
+        _someReactivePropertyText.Value = "Your awesome reactivePropertyText";
+    }
+}
+
+```
+
+![image](https://github.com/vavilichev/Lukomor/assets/22970240/74e4d884-2028-4b7e-b16f-f0ad863b5a21)
+
+
+There are two types of binders:
+
+#### Observable property binder (ObservableBinder<T>)
+
+This binder subscribes on public property that implements the IObservable<T> interface. When IObservable does "next", then binder handles the changed data and changes the visual that has been setupped in the editor. 
+You can create your own binders, just inherit from ObservableBinder<T> and write your type instead of T. By the way, there are a bunch of prepared binders in the Lukomor.
+
+It's recommendet to pay attention to **UnityEventBinder<T>** type of binders. That binders use UnityEvents for handling data from ViewModel. It's very convenient for using in editor. Watch the example above. 
+
+Also you can use implementation of **IReadonlyReactiveCollection<T>** for your binders, it's convinient for creating and destroying Views depending on collection content. For example **VMCollectionToGameObjectCreationBinder** instantiates View from picked Prefab and bind added to collection ViewModel to the created View.
+
+```csharp
+public class MyCoolViewModel : IViewModel
+{
+    public IReadOnlyReactiveCollection<SubViewModel> SubViewModels => _subViewModels;
+
+    private readonly ReactiveCollection<SubViewModel> _subViewModels = new();
+
+    public MyCoolViewModel()
+    {
+        var subViewModelA = new SubViewModel();
+        var subViewModelB = new SubViewModel();
+        
+        _subViewModels.Add(subViewModelA);
+        _subViewModels.Add(subViewModelB);
+    }
+}
+```
+
+![image](https://github.com/vavilichev/Lukomor/assets/22970240/3884728f-d153-4c12-884b-471725eb5c9d)
+
+#### MethodBinder (that named the same)
+. When Binder received the ViewModel, this binder grabs the method from that ViewModel with the name you picked in the editor and caches it. When you call Perform() method of the Binder, this binder invokes the cached method. Lukomor suppots EmptyMethodBinder, that works with methods without arguments, and GenericMethodBinder<T> that can invoke methods with arguments. You should use Perform(T value) instead of Perform(). It's convenient for cases when player does some input actions, for example moving a handle of the Slider
 
 Full list of prepared binders you can see in the Packages/Lukomor Architecture/Lukomor/Scripts/MVVM/Binders section.
 
