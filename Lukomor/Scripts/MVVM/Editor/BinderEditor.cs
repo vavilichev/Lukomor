@@ -38,8 +38,8 @@ namespace Lukomor.MVVM.Editor
                 return;
             }
             
-            DrawViewModelDebug(_viewModelTypeFullName.stringValue);
             DrawProperties();
+            DrawViewModelDebug(_viewModelTypeFullName.stringValue);
         }
 
         private void DrawViewModelDebug(string viewModelFullName)
