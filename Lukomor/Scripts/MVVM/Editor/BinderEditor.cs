@@ -2,6 +2,7 @@
 using System.Linq;
 using Lukomor.MVVM.Binders;
 using UnityEditor;
+using UnityEngine;
 
 namespace Lukomor.MVVM.Editor
 {
@@ -37,7 +38,23 @@ namespace Lukomor.MVVM.Editor
                 return;
             }
             
+            DrawViewModelDebug(_viewModelTypeFullName.stringValue);
             DrawProperties();
+        }
+
+        private void DrawViewModelDebug(string viewModelFullName)
+        {
+            var viewModelType = GetViewModelType(viewModelFullName);
+
+            if (viewModelType != null)
+            {
+                GUI.enabled = false;
+                EditorGUILayout.BeginHorizontal();
+                EditorGUILayout.LabelField("ViewModel:");
+                EditorGUILayout.TextField(viewModelType.Name);
+                EditorGUILayout.EndHorizontal();
+                GUI.enabled = true;
+            }
         }
 
         protected abstract void DrawProperties();
