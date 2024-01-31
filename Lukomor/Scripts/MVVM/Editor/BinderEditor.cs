@@ -49,10 +49,7 @@ namespace Lukomor.MVVM.Editor
             if (viewModelType != null)
             {
                 GUI.enabled = false;
-                EditorGUILayout.BeginHorizontal();
-                EditorGUILayout.LabelField("ViewModel:");
-                EditorGUILayout.TextField(viewModelType.Name);
-                EditorGUILayout.EndHorizontal();
+                EditorGUILayout.LabelField("ViewModel: " + viewModelType.Name);
                 GUI.enabled = true;
             }
         }
