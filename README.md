@@ -80,6 +80,9 @@ public class MyCoolViewModel : IViewModel
 > [!WARNING]
 > When you are going to make a prefab with parent View, you have to place it outside of other View. Otherwise prefab View defines like **child View** and you cannot choose ViewModel, only property names of ViewModel.
 
+
+
+
 ## Binders
 Binders is the main feature of this framework. Binders help you to connect View and ViewModel: visualize data from ViewModel and send signals to the ViewModel for interacting with Model for example.
 
@@ -104,9 +107,10 @@ public class MyCoolViewModel : IViewModel
 ![image](https://github.com/vavilichev/Lukomor/assets/22970240/74e4d884-2028-4b7e-b16f-f0ad863b5a21)
 
 
+
 There are two types of binders:
 
-#### Observable property binder (ObservableBinder<T>)
+### Observable property binder (ObservableBinder<T>)
 
 This binder subscribes on public property that implements the IObservable<T> interface. When IObservable does "next", then binder handles the changed data and changes the visual that has been setupped in the editor. 
 You can create your own binders, just inherit from ObservableBinder<T> and write your type instead of T. By the way, there are a bunch of prepared binders in the Lukomor.
@@ -135,11 +139,38 @@ public class MyCoolViewModel : IViewModel
 
 ![image](https://github.com/vavilichev/Lukomor/assets/22970240/3884728f-d153-4c12-884b-471725eb5c9d)
 
-#### MethodBinder (that named the same)
-. When Binder received the ViewModel, this binder grabs the method from that ViewModel with the name you picked in the editor and caches it. When you call Perform() method of the Binder, this binder invokes the cached method. Lukomor suppots EmptyMethodBinder, that works with methods without arguments, and GenericMethodBinder<T> that can invoke methods with arguments. You should use Perform(T value) instead of Perform(). It's convenient for cases when player does some input actions, for example moving a handle of the Slider
 
-Full list of prepared binders you can see in the Packages/Lukomor Architecture/Lukomor/Scripts/MVVM/Binders section.
 
+### MethodBinder (that named the same)
+When Binder received the ViewModel, this binder grabs the method from that ViewModel with the name you picked in the editor and caches it. When you call Perform() method of the Binder, this binder invokes the cached method. 
+
+```csharp
+public class MyCoolViewModel : IViewModel
+{
+    public void EmptyMethod()
+    {
+        
+    }
+
+    public void FloatArgMethod(float value)
+    {
+        
+    }
+}
+```
+
+Next two variants are the same, but ButtonMerhodBinder is more convenient for using with Unity Buttons.
+
+![image](https://github.com/vavilichev/Lukomor/assets/22970240/5f741c12-b369-4e60-8569-543a642d34c3)
+
+![image](https://github.com/vavilichev/Lukomor/assets/22970240/b78251eb-a2d7-463c-bc77-95476ffd50bf)
+
+Lukomor also suppots GenericMethodBinder<T> that can invoke methods with arguments. You should use Perform(T value) instead of Perform(). It's convenient for cases when player does some input actions, for example moving a handle of the Slider
+
+![image](https://github.com/vavilichev/Lukomor/assets/22970240/afad3725-8bbd-427b-b4f6-a4d93d85aed0)
+
+> [!IMPORTANT]
+> Full list of prepared binders you can see in the Packages/Lukomor Architecture/Lukomor/Scripts/MVVM/Binders section.
 
 
 ## How to setup View and SubView
