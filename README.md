@@ -9,7 +9,7 @@ Table of content:
 - [ViewModels](https://github.com/vavilichev/Lukomor/tree/dev?tab=readme-ov-file#viewmodels)
 - [Views](https://github.com/vavilichev/Lukomor/tree/dev?tab=readme-ov-file#views)
 - [Binders](https://github.com/vavilichev/Lukomor/tree/dev?tab=readme-ov-file#binders)
-- [What are the View and the Binder components](https://github.com/vavilichev/Lukomor/tree/dev?tab=readme-ov-file#what-are-the-binder-and-the-view-components)
+- [What kind of binders you can expand](https://github.com/vavilichev/Lukomor/tree/dev?tab=readme-ov-file#what-are-the-binder-and-the-view-components)
 - [How to setup View and SubView](https://github.com/vavilichev/Lukomor/tree/dev?tab=readme-ov-file#how-to-setup-view-and-subview)
 - [Using Observables in the Lukomor](https://github.com/vavilichev/Lukomor/tree/dev?tab=readme-ov-file#how-to-setup-view-and-subview)
 - [Basic set of binders in Lukomor](https://github.com/vavilichev/Lukomor/tree/dev?tab=readme-ov-file#basic-set-of-binders-in-lukomor)
@@ -173,6 +173,28 @@ Lukomor also suppots G**enericMethodBinder<T>** that can invoke methods with arg
 > Full list of prepared binders you can see in the **Packages/Lukomor Architecture/Lukomor/Scripts/MVVM/Binders section**.
 > 
 >![image](https://github.com/vavilichev/Lukomor/assets/22970240/578216e2-1a28-465f-99be-1254673bd87e)
+
+## What kind of binders you can expand
+
+### Binder
+
+This is an abstract base binder that automaticaly can define ViewModel for binding and register this binder to the View when you attach binder to the Game Object. Inherit from Binder class and do what you want with ViewModel. FYI: this class has BinderEditor script for drawing ViewModel property in the Editor.
+  
+### ObservableBinder\<T\>
+
+This is an abstract base ObservableBinder that has a PropertyName field. This binder automaticaly subscribes on **IObservable\<T\>** property from the received ViewModel. You can inherit form **ObservableBinder\<T\>** and define **T**, for example as a string (public class MyStringBinder : ObservableBinder\<string\>) and that binder automatically suggests only IObservable<string> property names for setupping this binder. Also it's required to write your implementation what to do with new value of the property (when it change) in the **OnPropertyChanged()** method.
+  
+### UnityEventBinder\<T\>
+
+This is an abstract base UnitEventBinder (inherited from **ObservableBinder\<T\>**)  that sugests you to invoke received updated data into **UnityEvent**. It's convenient to use it with common data and transform one type of data to another. For example transform boolean value into color (isActive {true = green, false = red). FYI: BoolToColorUnityEventBinder already exists. Inherit from **UnityEventBinder\<T\>** and define your **T**, no additional actions required. But if you want something special, you can inherid from **ObservableBinder\<T\>** and make custom UnityEventBinder with desired transformations or validations.
+  
+### ObservableCollectionBinder\<\T>
+
+The same as **ObservableBinder\<T\>** but works with **IReadOnlyReactiveCollection\<T\>**. And you need to implement two methods instead of one: **OnItemAdded()** and **OnItemRemoved()** in other words: what to do with the new element in the collection and what to do with removed element from collection of ViewModel (picked in the Editor)
+  
+### GenericMethodBinder\<T\>
+
+This is an abstract base binder for methods with parameters binding. This binder grabs public method with **T** parameter from ViewModel and caches it. The you run **Perform(T value)** method from anywherer you want, cached method of ViewModel will invoke. Inherit from **GenericMethodBinder\<T\>** and define **T** if you want to send custom data into ViewModel.
 
 ## How to setup View and SubView
 
