@@ -169,6 +169,9 @@ Lukomor also suppots G**enericMethodBinder<T>** that can invoke methods with arg
 > 
 >![image](https://github.com/vavilichev/Lukomor/assets/22970240/578216e2-1a28-465f-99be-1254673bd87e)
 
+
+
+
 ## What kind of binders you can expand
 
 ### Binder
@@ -190,16 +193,6 @@ The same as **ObservableBinder\<T\>** but works with **IReadOnlyReactiveCollecti
 ### GenericMethodBinder\<T\>
 
 This is an abstract base binder for methods with parameters binding. This binder grabs public method with **T** parameter from ViewModel and caches it. The you run **Perform(T value)** method from anywherer you want, cached method of ViewModel will invoke. Inherit from **GenericMethodBinder\<T\>** and define **T** if you want to send custom data into ViewModel.
-
-## How to setup View and SubView
-
-## Using Observables in the Lukomor
-
-## Basic set of binders in Lukomor
-
-## How to expand the set of binders
-
-## How to setup binders
 
 ## DI in the Lukomor
 
