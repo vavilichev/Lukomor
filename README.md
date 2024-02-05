@@ -195,5 +195,42 @@ The same as **ObservableBinder\<T\>** but works with **IReadOnlyReactiveCollecti
 This is an abstract base binder for methods with parameters binding. This binder grabs public method with **T** parameter from ViewModel and caches it. The you run **Perform(T value)** method from anywherer you want, cached method of ViewModel will invoke. Inherit from **GenericMethodBinder\<T\>** and define **T** if you want to send custom data into ViewModel.
 
 ## DI in the Lukomor
+Lukomor also has a simple Dependency Injection implementation. It's optional and it's not integrated in the MVVM system. DI is just nice addition for the main framework.
+Lukomor DI based on factories and has an inheritance of DI containers. Lets watch how it works in detail
+
+### DIContainer
+All dependencies (means factories) registers in DIContainer. Containers can inherit one from another with using composition, it means that you can create a tree of dependencies where child containers know about parent and can request instances from it, but parent containers doesn't know about childs. It's convenient to create one container for whole game that work like a project context, and different containers for each scene of your game. When you destroy scene, you destroy it's contaier, so all of dependencies of that scene destroyes too.
+
+### Factories
+DIContainer stores factories, therefore you have to register factories into id DIContainer. Factory is a delegate that receives a reference to a DIContainer instance (you can get another instances from this container) and returns an instance of requested type.
+```csharp
+Func<DIContainer, T> factory
+```
+
+#### Register like singletone
+You can register factory that produces singleton (not static, of course, just instance with flag) and cache it and uses cached value every Resolve() running.
+
+``` csharp
+var container = new DIContainer();
+container.RegisterSingleton(c => new MyAwesomeClass());
+```
+
+Also you can use tags system for creating unique instances of the same type for different needs:
+```csharp
+container.RegisterSingleton("my_owesome_tag_A", c => new MyAwesomeClass());
+container.RegisterSingleton("my_owesome_tag_B", c => new MyAwesomeClass());
+```
+
+> [!IMPORTANT]
+> You should know that registration doesn't creates instances instantly. Container creates instances when you request classes by calling  Resolve(). 
+
+> [!IMPORTANT]
+> You can create instance with registration by using CreateInstance() method. Each registration returns DIBuilder instance so you can do it with the registration.
+
+```csharp
+var myAwesomeClassInstance = container
+                .RegisterSingleton(_ => new MyAwesomeClass())
+                .CreateInstance();
+```
 
 ## Recommendations
