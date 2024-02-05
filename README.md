@@ -229,8 +229,53 @@ container.RegisterSingleton("my_owesome_tag_B", c => new MyAwesomeClass());
 
 ```csharp
 var myAwesomeClassInstance = container
-                .RegisterSingleton(_ => new MyAwesomeClass())
-                .CreateInstance();
+   .RegisterSingleton(c => new MyAwesomeClass())
+   .CreateInstance();
+```
+
+#### Register like transient
+Also you can register factory for resolving multiple times for getting new instance every time when you do Resolve().
+``` csharp
+container.Register(c => new MyAwesomeClass());
+
+...
+
+var instanceA = container.Resolve<MyAwesomeClass>();
+var instanceB = container.Resolve<MyAwesomeClass>();    // instanceA != instanceB
+```
+
+And transient variant has a tags approach as well.
+``` csharp
+container.Register("variant_1", c => new MyAwesomeClass(parameter_1));    // factory with parameter 1
+container.Register("variant_2", c => new MyAwesomeClass(parameter_2));    // factory with parameter 2
+
+...
+
+var instanceA = container.Resolve<MyAwesomeClass>("variant_1");
+var instanceB = container.Resolve<MyAwesomeClass>("variant_1");    // instanceA != instanceB
+
+var instanceC = container.Resolve<MyAwesomeClass>("variant_2");
+var instanceD = container.Resolve<MyAwesomeClass>("variant_2");    // instanceC != instanceD
+```
+
+### Inheritance
+You can make project context with own parent container and scene context with own child container for making access from scene context to project context by using inheritance with simple composition:
+```csharp
+var projectContainer = new DIContainer();
+projectContainer.RegisterSingleton<GameSettingsService>();
+
+... 
+
+var sceneContainer = new DIContainer(projectContainer);
+sceneContainer.RegisterSingleton<CoolSceneFeatureService>();
+
+...
+
+var gameSettingsService = projectContainer.Resolve<GameSettingsService>();    // Work
+var gameSettingsService = sceneContainer.Resolve<GameSettingsService>();    // Work
+
+var coolSceneFeatureService = sceneContainer.Resolve<CoolSceneFeatureService>();    // Work
+var coolSceneFeatureService = projectContainer.Resolve<CoolSceneFeatureService>();     // Doesn't work
 ```
 
 ## Recommendations
