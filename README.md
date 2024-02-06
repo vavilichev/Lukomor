@@ -279,3 +279,4 @@ var coolSceneFeatureService = projectContainer.Resolve<CoolSceneFeatureService>(
 ```
 
 ## Recommendations
+The only one recommendation: use Entry Point pattern for your projects if you use Lukomor framework. It's really convenient to separate different scopes of entities (for project, for scenes) using Lukomor DI and MVVM. Just imagine the tree of dependencies where each branch (DIContainer) can be a scope of entities (for example scene) and if you want to destroy all dependencies from this scope - destroy the branch (DIContainer). Let's see what I mean:
