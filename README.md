@@ -1,9 +1,12 @@
 # Lukomor - Unity Architectural Template
 
-**Discussing here:**
-https://discord.gg/yX3cKpvaGC
+Lukomor provides Editor and script tools for easy and convenient using MVVM pattern in your projects. Lukomor was made for separating code work from editor setupping work with binders system (this work can be done by non programmers actually).
+Also this framework has a lightweight DI system, it's powerful and nice addition for Lukomor.
 
-Table of content:
+> [!NOTE]
+> If you would like to support me, please feel free to do that with [PayPal](https://paypal.me/gamedevlavka)
+
+## Table of content:
 - [Short description](https://github.com/vavilichev/Lukomor/tree/dev?tab=readme-ov-file#short-description)
 - [What is the MVVM](https://github.com/vavilichev/Lukomor/tree/dev?tab=readme-ov-file#what-is-the-mvvm)
 - [ViewModels](https://github.com/vavilichev/Lukomor/tree/dev?tab=readme-ov-file#viewmodels)
