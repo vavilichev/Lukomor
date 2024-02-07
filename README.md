@@ -11,7 +11,7 @@ Table of content:
 - [Binders](https://github.com/vavilichev/Lukomor/tree/dev?tab=readme-ov-file#binders)
 - [What kind of binders you can expand](https://github.com/vavilichev/Lukomor/tree/dev?tab=readme-ov-file#what-kind-of-binders-you-can-expand)
 - [DI in the Lukomor](https://github.com/vavilichev/Lukomor/tree/dev?tab=readme-ov-file#di-in-the-lukomor)
-- [Recommendations](https://github.com/vavilichev/Lukomor/tree/dev?tab=readme-ov-file#di-in-the-lukomor)
+- [Recommendations](https://github.com/vavilichev/Lukomor/tree/dev?tab=readme-ov-file#recommendations)
 
 
 ## Short description
@@ -21,7 +21,7 @@ Lukomor is an architectural framework for Unity game engine that helps you apply
 ## What is the MVVM
 MVVM (Model - View - ViewModel) is a simple architectural programming pattern. You can find a lot of information about it in the internet. For example in [Wikipedia](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93viewmodel). Therefore, I just place a scheme of work here without any additional info.
 
-![image](https://github.com/vavilichev/Lukomor/assets/22970240/9aef4881-09b9-4012-acc3-84b09b13db44)
+![Lukomor Architercture-MVVM drawio (1)](https://github.com/vavilichev/Lukomor/assets/22970240/a9dc5792-9a51-4dc5-99c0-e767f99b9841)
 
 ## ViewModels
 ViewModels is a non MonoBehaviour class that connects View and Model. In the Lukomor you must implement the IViewModel interface in each of your ViewModel realization. It's required because the Editor scripts works with interfaces for showing relevant information about existing ViewModels. Therefore your class can be look like this:
@@ -279,4 +279,7 @@ var coolSceneFeatureService = projectContainer.Resolve<CoolSceneFeatureService>(
 ```
 
 ## Recommendations
-The only one recommendation: use Entry Point pattern for your projects if you use Lukomor framework. It's really convenient to separate different scopes of entities (for project, for scenes) using Lukomor DI and MVVM. Just imagine the tree of dependencies where each branch (DIContainer) can be a scope of entities (for example scene) and if you want to destroy all dependencies from this scope - destroy the branch (DIContainer). Let's see what I mean:
+The only one recommendation: use Entry Point pattern for your projects if you use Lukomor framework. It's really convenient to separate different scopes of entities (for project, for scenes) using Lukomor DI and MVVM. Just imagine the tree of dependencies where each branch (DIContainer) can be a scope of entities (for example scene) and if you want to destroy all dependencies from this scope - destroy the branch (DIContainer).
+
+![Lukomor Architercture-EntryPointTree drawio (2)](https://github.com/vavilichev/Lukomor/assets/22970240/e0dde927-719b-4a71-8594-aa9ddc9f4809)
+
