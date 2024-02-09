@@ -9,13 +9,13 @@ Also this framework has a lightweight DI system, it's powerful and nice addition
 ## Table of content:
 - [Short description](#short-description)
 - [Installation](#installation)
-- [What is the MVVM](https://github.com/vavilichev/Lukomor/main?tab=readme-ov-file#what-is-the-mvvm)
-- [ViewModels](https://github.com/vavilichev/Lukomor/tree/dev?tab=readme-ov-file#viewmodels)
-- [Views](https://github.com/vavilichev/Lukomor/tree/dev?tab=readme-ov-file#views)
-- [Binders](https://github.com/vavilichev/Lukomor/tree/dev?tab=readme-ov-file#binders)
-- [What kind of binders you can expand](https://github.com/vavilichev/Lukomor/tree/dev?tab=readme-ov-file#what-kind-of-binders-you-can-expand)
-- [DI in the Lukomor](https://github.com/vavilichev/Lukomor/tree/dev?tab=readme-ov-file#di-in-the-lukomor)
-- [Recommendations](https://github.com/vavilichev/Lukomor/tree/dev?tab=readme-ov-file#recommendations)
+- [What is the MVVM](#what-is-the-mvvm)
+- [ViewModels](#viewmodels)
+- [Views](#views)
+- [Binders](#binders)
+- [What kind of binders you can expand](#what-kind-of-binders-you-can-expand)
+- [DI in the Lukomor](#di-in-the-lukomor)
+- [Recommendations](#recommendations)
 
 
 ## Short description
