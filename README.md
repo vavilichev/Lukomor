@@ -8,6 +8,7 @@ Also this framework has a lightweight DI system, it's powerful and nice addition
 
 ## Table of content:
 - [Short description](https://github.com/vavilichev/Lukomor/tree/dev?tab=readme-ov-file#short-description)
+- [Installation](https://github.com/vavilichev/Lukomor/tree/dev?tab=readme-ov-file#installation)
 - [What is the MVVM](https://github.com/vavilichev/Lukomor/tree/dev?tab=readme-ov-file#what-is-the-mvvm)
 - [ViewModels](https://github.com/vavilichev/Lukomor/tree/dev?tab=readme-ov-file#viewmodels)
 - [Views](https://github.com/vavilichev/Lukomor/tree/dev?tab=readme-ov-file#views)
@@ -20,6 +21,21 @@ Also this framework has a lightweight DI system, it's powerful and nice addition
 ## Short description
 
 Lukomor is an architectural framework for Unity game engine that helps you apply MVVM pattern to your project easy and convenient reducing the leaks of Model into View. This framework suits to any kind of project: small and large. The most cool part of this framework (in my opinion) is separating programmers part of work from artists. Programmers can write ViewModels for features and artists can just setup binders and get a workable feature. For more information read documentation and watch [the example](https://github.com/vavilichev/LukomorExample)
+
+## Installation
+For installation, just use unity Package Manager, at the left top corner click "+" and choose "Add package from git URL..."
+
+![image](https://github.com/vavilichev/Lukomor/assets/22970240/9fe60655-ff22-4711-88f1-dfd16bfb9c08)
+
+Then paste the link below in the field and just press Enter.
+
+```
+https://github.com/vavilichev/Lukomor.git
+```
+
+![image](https://github.com/vavilichev/Lukomor/assets/22970240/ffe4a2de-0d92-4adc-9356-e32da9b02579)
+
+Ready for work!
 
 ## What is the MVVM
 MVVM (Model - View - ViewModel) is a simple architectural programming pattern. You can find a lot of information about it in the internet. For example in [Wikipedia](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93viewmodel). Therefore, I just place a scheme of work here without any additional info.
