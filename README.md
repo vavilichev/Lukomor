@@ -7,8 +7,8 @@ Also this framework has a lightweight DI system, it's powerful and nice addition
 > If you would like to support me, please feel free to do that with [PayPal](https://paypal.me/gamedevlavka)
 
 ## Table of content:
-- [Short description](https://github.com/vavilichev/Lukomor/tree/dev?tab=readme-ov-file#short-description)
-- [Installation](https://github.com/vavilichev/Lukomor/tree/dev?tab=readme-ov-file#installation)
+- [Short description](https://github.com/vavilichev/Lukomor/tab=readme-ov-file#short-description)
+- [Installation](https://github.com/vavilichev/Lukomor/tree/tab=readme-ov-file#installation)
 - [What is the MVVM](https://github.com/vavilichev/Lukomor/tree/dev?tab=readme-ov-file#what-is-the-mvvm)
 - [ViewModels](https://github.com/vavilichev/Lukomor/tree/dev?tab=readme-ov-file#viewmodels)
 - [Views](https://github.com/vavilichev/Lukomor/tree/dev?tab=readme-ov-file#views)
