@@ -9,7 +9,7 @@ Also this framework has a lightweight DI system, it's powerful and nice addition
 ## Table of content:
 - [Short description](https://github.com/vavilichev/Lukomor/tree/tab=readme-ov-file#short-description)
 - [Installation](https://github.com/vavilichev/Lukomor/tree/tab=readme-ov-file#installation)
-- [What is the MVVM](https://github.com/vavilichev/Lukomor/tree/main?tab=readme-ov-file#what-is-the-mvvm)
+- [What is the MVVM](https://github.com/vavilichev/Lukomor/main?tab=readme-ov-file#what-is-the-mvvm)
 - [ViewModels](https://github.com/vavilichev/Lukomor/tree/dev?tab=readme-ov-file#viewmodels)
 - [Views](https://github.com/vavilichev/Lukomor/tree/dev?tab=readme-ov-file#views)
 - [Binders](https://github.com/vavilichev/Lukomor/tree/dev?tab=readme-ov-file#binders)
