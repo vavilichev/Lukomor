@@ -15,9 +15,12 @@ namespace Lukomor.MVVM.Editor
         private SerializedProperty _isParentView;
         private SerializedProperty _childBinders;
         private SerializedProperty _subViews;
-        private View _view;
-        private TypeCache.TypeCollection _cachedViewModelTypes;
+        private SerializedProperty _showEditorLogs;
+        private View _view;        private SerializedProperty _parentView;
         private readonly Dictionary<string, string> _viewModelNames = new();
+        
+        // help 
+        private readonly List<View> _parentViews = new();
         private readonly List<string> _viewModelPropertyNames = new();
 
         private void OnEnable()
@@ -28,36 +31,33 @@ namespace Lukomor.MVVM.Editor
             _isParentView = serializedObject.FindProperty(nameof(_isParentView));
             _childBinders = serializedObject.FindProperty(nameof(_childBinders));
             _subViews = serializedObject.FindProperty(nameof(_subViews));
+            _parentView = serializedObject.FindProperty(nameof(_parentView));
+            _showEditorLogs = serializedObject.FindProperty(nameof(_showEditorLogs));
         }
 
         public override void OnInspectorGUI()
         {
-            _cachedViewModelTypes = TypeCache.GetTypesDerivedFrom<IViewModel>();
-            
             DrawScriptTitle();
             
-            var parentView = _view.GetComponentsInParent<View>().FirstOrDefault(c => !ReferenceEquals(c, _view));
-            var provider = CreateInstance<StringListSearchProvider>();
-            var isParentViewExist = parentView != null;
-            var parentViewGo = isParentViewExist ? parentView.gameObject : _view.gameObject;
-            
-            if (isParentViewExist && !string.IsNullOrEmpty(parentView.ViewModelTypeFullName))
-            {
-                SetParentViewBoolean(false);
-                DefineAllViewModelPropertyNames(parentView.ViewModelTypeFullName);
-                DrawEditorForSubView(provider, parentView.ViewModelTypeFullName);
-                DrawDebug();
+            // try to find parent view to define is it parent view or not
+            AutoDefineParentView();
+            DefineParentViews();
 
-                var childViewModelType = GetChildViewModelType(parentView.ViewModelTypeFullName, _view.ViewModelPropertyName);
-                
-                DrawSubViewModelDebugButtons(parentViewGo, childViewModelType?.FullName);
+            var parentView = _parentView.objectReferenceValue as View;
+            var searchProvider = CreateInstance<StringListSearchProvider>();
+            var isParentViewExist = _parentViews.Count > 0;
+            
+            if (isParentViewExist && !string.IsNullOrEmpty(parentView?.ViewModelTypeFullName))
+            {
+                DrawEditorForSubView(searchProvider, parentView);
             }
             else
             {
-                SetParentViewBoolean(true);
                 ViewModelsEditorUtility.DefineAllViewModels(_viewModelNames);
-                DrawEditorForParentView(provider);
+                DrawEditorForParentView(searchProvider);
+
                 DrawDebug();
+
                 DrawOpenViewModelButton(_view.ViewModelTypeFullName);
             }
 
@@ -67,33 +67,79 @@ namespace Lukomor.MVVM.Editor
             }
         }
 
-        protected Type GetViewModelType(string viewModelTypeFullName)
+        private void DrawEditorForParentView()
         {
-            var type = _cachedViewModelTypes.FirstOrDefault(t => t.FullName == viewModelTypeFullName);
-
-            return type;
+            
         }
 
-        private void DrawEditorForSubView(StringListSearchProvider provider, string parentViewModelTypeFullName)
+        private void DrawEditorForSubView(StringListSearchProvider searchProvider, View parentView)
         {
-            var options = _viewModelPropertyNames.ToArray();
-
-            provider.Init(options, result =>
+            // parent MUST exist
+            var isParentViewExist = parentView != null;
+            if (!isParentViewExist)
             {
-                _viewModelPropertyName.stringValue = result == MVVMConstants.NONE ? null : result;
+                throw new Exception("Parent view not found");
+            }
+            
+            // If parent view model is empty, let's show a message about it
+            var parentViewModelTypeFullName = parentView.ViewModelTypeFullName;
+            if (string.IsNullOrEmpty(parentViewModelTypeFullName))
+            {
+                EditorGUILayout.HelpBox($"Parent View Model is not defined. Please, define View Model in the parent View: ({parentView.name})", MessageType.Warning);
+                return; // Parent View Model isn't selected.
+            }
+            
+            // If parent view model is NOT EMPTY, but couldn't be found, lets reset it
+            var parentViewModelType = GetViewModelType(parentViewModelTypeFullName);
+            if (parentViewModelType == null)
+            {
+                Debug.LogWarning("Parent view model is selected, but cannot be found. Reset parent view model to null.", parentView.gameObject);
+                parentView.ResetViewModelTypeFullName();
+                return;
+            }
+            
+            var parentViewModelPropertyNames = GetAllViewModelPropertyNames(parentView.ViewModelTypeFullName);
+            var isPropertySelected = !string.IsNullOrEmpty(_viewModelPropertyName.stringValue);
+            if (isPropertySelected && !parentViewModelPropertyNames.Contains(_viewModelPropertyName.stringValue))
+            {
+                Debug.LogWarning("Parent view model was hanged, connected property name has been reset", parentView.gameObject);
+                _viewModelPropertyName.stringValue = null;
+                serializedObject.ApplyModifiedProperties();
+            }
+            
+            DrawSearchPanelForViewModelProperties(searchProvider, parentView.ViewModelTypeFullName, parentViewModelPropertyNames);
 
-                if (result != MVVMConstants.NONE)
+            DrawDebug();
+
+            var childViewModelType = GetChildViewModelType(parentView.ViewModelTypeFullName, _view.ViewModelPropertyName);
+                
+            DrawSubViewModelDebugButtons(parentView.gameObject, childViewModelType?.FullName);
+        }
+        
+        private void DrawSearchPanelForViewModelProperties(StringListSearchProvider provider, string parentViewModelTypeFullName, ICollection<string> propertyNames)
+        {
+            var viewModelPropertiesWithSubViewModelNames = propertyNames.ToArray();
+
+            provider.Init(viewModelPropertiesWithSubViewModelNames, viewModelPropertyWithSubViewModelName =>
+            {
+                _viewModelPropertyName.stringValue = viewModelPropertyWithSubViewModelName == MVVMConstants.NONE ? null : viewModelPropertyWithSubViewModelName;
+
+                if (viewModelPropertyWithSubViewModelName != MVVMConstants.NONE)
                 {
-                    _viewModelTypeFullName.stringValue = GetChildViewModelType(parentViewModelTypeFullName, result)?.FullName;
+                    _viewModelTypeFullName.stringValue =
+                        GetChildViewModelType(parentViewModelTypeFullName, viewModelPropertyWithSubViewModelName)
+                            ?.GetGenericArguments().First().FullName;
                 }
 
+                надо еще инициировать проверку всех дочерних вьюх, т.к при смене вьюмодели или ссылки на свойство, дочерние вьюхи могут тоже поломаться
+                
                 serializedObject.ApplyModifiedProperties();
             });
                 
             EditorGUILayout.BeginHorizontal();
 
             var childPropertyType = GetChildViewModelType(parentViewModelTypeFullName, _viewModelPropertyName.stringValue);
-            var propertyTypeName = childPropertyType != null ? $" ({childPropertyType.Name})" : string.Empty;
+            var propertyTypeName = childPropertyType != null ? $" ({childPropertyType.GetGenericArguments()[0].Name})" : string.Empty;
             
             EditorGUILayout.LabelField($"Property Name{propertyTypeName}:");
 
@@ -109,15 +155,73 @@ namespace Lukomor.MVVM.Editor
             EditorGUILayout.EndHorizontal();
         }
 
+        private void AutoDefineParentView()
+        {
+            if (_parentView.objectReferenceValue != null)
+            {
+                _isParentView.boolValue = false;
+                serializedObject.ApplyModifiedProperties();
+                
+                var parentViews = _view.GetComponentsInParent<View>();
+                if (parentViews.Any(pv => ReferenceEquals(pv, _parentView.objectReferenceValue)))
+                {
+                    return;
+                }
+                
+                EditorGUILayout.HelpBox("Cannot see parent View, but the reference still exists. Maybe you've changed the hierarchy of GameObjects and parent View has been lost.", MessageType.Error);
+
+                return;
+            }
+
+            var parent = _view.transform.parent;
+            if (parent == null)
+            {
+                // root View
+                _isParentView.boolValue = true;
+                serializedObject.ApplyModifiedProperties();
+                return;
+            }
+            
+            var parentView = _view.GetComponentsInParent<View>().FirstOrDefault(c => !ReferenceEquals(c, _view));
+            if (parentView != null)
+            {
+                _isParentView.boolValue = false;
+                _parentView.objectReferenceValue = parentView;
+                serializedObject.ApplyModifiedProperties();
+            }
+        }
+
+        private void DefineParentViews()
+        {
+            _parentViews.Clear();
+            
+            var parent = _view.transform.parent;
+            if (parent != null)
+            {
+                var foundParentViews = parent.GetComponentsInParent<View>();
+                _parentViews.AddRange(foundParentViews);
+            }
+        }
+
+        private Type GetViewModelType(string viewModelTypeFullName)
+        {
+            var type = ViewModelsDB.AllViewModelTypes.FirstOrDefault(t => t.FullName == viewModelTypeFullName);
+            return type;
+        }
+
+       
+
         private void DrawEditorForParentView(StringListSearchProvider provider)
         {
-            var options = _viewModelNames.Keys.ToArray();
+            var viewModelTypeFullNames = _viewModelNames.Values.ToArray();
 
-            provider.Init(options, result =>
+            provider.Init(viewModelTypeFullNames, viewModelTypeFullName =>
             {
-                _viewModelTypeFullName.stringValue = _viewModelNames[result];
-
+                _viewModelTypeFullName.stringValue = viewModelTypeFullName == MVVMConstants.NONE ? null : viewModelTypeFullName;
                 serializedObject.ApplyModifiedProperties();
+                
+                надо еще инициировать проверку всех дочерних вьюх, т.к при смене вьюмодели или ссылки на свойство, дочерние вьюхи могут тоже поломаться
+
             });
                 
             EditorGUILayout.BeginHorizontal();
@@ -126,42 +230,47 @@ namespace Lukomor.MVVM.Editor
 
             var displayName = string.IsNullOrEmpty(_viewModelTypeFullName.stringValue)
                 ? MVVMConstants.NONE
-                : ViewModelsEditorUtility.ToShortName(_viewModelTypeFullName.stringValue, _cachedViewModelTypes);
+                : ViewModelsEditorUtility.ToShortName(_viewModelTypeFullName.stringValue);
             
             if (GUILayout.Button(displayName, EditorStyles.popup))
             {
-                SearchWindow.Open(new SearchWindowContext(GUIUtility.GUIToScreenPoint(Event.current.mousePosition)), provider);
+                var mousePos = Event.current.mousePosition;
+                mousePos.Set(mousePos.x - 200, mousePos.y);
+                SearchWindow.Open(new SearchWindowContext(GUIUtility.GUIToScreenPoint(mousePos), 400), provider);
             }
             
             EditorGUILayout.EndHorizontal();
         }
-        
-        private void SetParentViewBoolean(bool isParentView)
-        {
-            if (Application.isPlaying)
-            {
-                return;
-            }
-            
-            _isParentView.boolValue = isParentView;
 
-            serializedObject.ApplyModifiedProperties();
-        }
-
-        private void DefineAllViewModelPropertyNames(string parentViewModelTypeFullName)
+        private ICollection<string> GetAllViewModelPropertyNames(string parentViewModelTypeFullName)
         {
             _viewModelPropertyNames.Clear();
-            _viewModelPropertyNames.Add(MVVMConstants.NONE);
 
             var parentViewModelType = GetViewModelType(parentViewModelTypeFullName);
+
+            if (parentViewModelType == null)
+            {
+                EditorGUILayout.HelpBox(
+                    $"ViewModel for Parent View didn't selected, the list of properties cannot be defined. Please, check the View Model setup for parent View ({(_parentView.objectReferenceValue as View)?.name})",
+                    MessageType.Warning);
+
+                return _viewModelPropertyNames; // parent view model is not selected
+            }
+
             var allViewModelProperties = parentViewModelType.GetProperties();
             var allValidProperties =
-                allViewModelProperties.Where(p => typeof(IViewModel).IsAssignableFrom(p.PropertyType));
+                allViewModelProperties.Where(p =>
+                {
+                    var genericArgument = p.PropertyType.GetGenericArguments().First();
+                    return typeof(IViewModel).IsAssignableFrom(genericArgument);
+                });
 
             foreach (var validProperty in allValidProperties)
             {
                 _viewModelPropertyNames.Add(validProperty.Name);
             }
+
+            return _viewModelPropertyNames;
         }
 
         private void DrawScriptTitle()
@@ -170,14 +279,28 @@ namespace Lukomor.MVVM.Editor
             EditorGUILayout.ObjectField(MVVMConstants.SCRIPT, MonoScript.FromMonoBehaviour((View)target), typeof(View), false);
             GUI.enabled = true;
         }
-
+        
         private void DrawDebug()
         {
-            GUI.enabled = false;
-            EditorGUILayout.PropertyField(_isParentView);
-            EditorGUILayout.PropertyField(_subViews);
-            EditorGUILayout.PropertyField(_childBinders);
-            GUI.enabled = true;
+            _showEditorLogs.boolValue = EditorGUILayout.Foldout(_showEditorLogs.boolValue, "Logs");
+            serializedObject.ApplyModifiedProperties();
+
+            if (_showEditorLogs.boolValue)
+            {
+                EditorGUI.indentLevel++;
+                GUI.enabled = false;
+                EditorGUILayout.PropertyField(_isParentView);
+
+                if (_parentView.objectReferenceValue != null)
+                {
+                    EditorGUILayout.PropertyField(_parentView);
+                }
+                
+                EditorGUILayout.PropertyField(_subViews);
+                EditorGUILayout.PropertyField(_childBinders);
+                GUI.enabled = true;
+                EditorGUI.indentLevel--;
+            }
         }
 
         private void DrawPingParentViewButton(GameObject parentViewGo)

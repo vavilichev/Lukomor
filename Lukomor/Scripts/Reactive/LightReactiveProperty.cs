@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Lukomor.Reactive
 {
-    public class SingleReactiveProperty<T> : IReactiveProperty<T>
+    public class LightReactiveProperty<T> : IReactiveProperty<T>
     {
         private T _value;
         private bool _hasValue;
@@ -32,9 +32,9 @@ namespace Lukomor.Reactive
         
         public bool HasValue => _hasValue;
 
-        public SingleReactiveProperty() { }
+        public LightReactiveProperty() { }
 
-        public SingleReactiveProperty(T valueByDefault)
+        public LightReactiveProperty(T valueByDefault)
         {
             _value = valueByDefault;
             _hasValue = true;
