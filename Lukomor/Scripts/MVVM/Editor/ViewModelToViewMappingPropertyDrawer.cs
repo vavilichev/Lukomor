@@ -46,7 +46,7 @@ namespace Lukomor.MVVM.Editor
             EditorGUI.PrefixLabel(viewModelTypeLabelRect, GUIUtility.GetControlID(FocusType.Passive), _viewModelLabelGUIContent);
             var buttonDisplayName = string.IsNullOrEmpty(viewModelTypeFullName.stringValue)
                 ? MVVMConstants.NONE
-                : ViewModelsEditorUtility.ToShortName(viewModelTypeFullName.stringValue, _cachedViewModelTypes);
+                : ViewModelsEditorUtility.ToShortName(viewModelTypeFullName.stringValue);
             var viewModelGuiContent = new GUIContent(buttonDisplayName);
             
             if (EditorGUI.DropdownButton(viewModelTypeButtonRect, viewModelGuiContent, FocusType.Keyboard))

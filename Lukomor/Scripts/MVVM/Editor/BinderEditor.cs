@@ -97,9 +97,10 @@ namespace Lukomor.MVVM.Editor
             return method != null;
         }
 
-        protected Type GetViewModelType(string viewModelFullName)
+        protected static Type GetViewModelType(string viewModelFullName)
         {
-            var viewModelType = _cachedViewModelTypes.FirstOrDefault(t => t.FullName == viewModelFullName);
+            var allViewModelTypes = ViewModelsDB.AllViewModelTypes;
+            var viewModelType = allViewModelTypes.FirstOrDefault(t => t.FullName == viewModelFullName);
 
             return viewModelType;
         }

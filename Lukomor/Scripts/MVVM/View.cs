@@ -17,6 +17,9 @@ namespace Lukomor.MVVM
         [SerializeField] private List<View> _subViews = new();
         [SerializeField] private List<Binder> _childBinders = new();
 
+        [SerializeField] private View _parentView;
+        [SerializeField] private bool _showEditorLogs;
+
         public string ViewModelTypeFullName => _viewModelTypeFullName;
         public string ViewModelPropertyName => _viewModelPropertyName;
 
@@ -156,6 +159,11 @@ namespace Lukomor.MVVM
         private void RemoveView(View view)
         {
             _subViews.Remove(view);
+        }
+
+        public void ResetViewModelTypeFullName()
+        {
+            _viewModelTypeFullName = null;
         }
 #endif
     }
