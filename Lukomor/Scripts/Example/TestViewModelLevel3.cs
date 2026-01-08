@@ -2,7 +2,7 @@
 
 namespace  Lukomor.Example
 {
-    public class TestViewModel2 : ViewModel
+    public class TestViewModelLevel3 : ViewModel
     {
         
     }

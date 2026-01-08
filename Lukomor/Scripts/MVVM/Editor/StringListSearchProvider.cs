@@ -10,7 +10,7 @@ namespace Lukomor.MVVM.Editor
         private readonly List<string> _options = new();
         private Action<string> _callback;
         
-        public void Init(string[] options, Action<string> callback)
+        public void Init(IEnumerable<string> options, Action<string> callback)
         {
             _options.Clear();
             _options.AddRange(options);
