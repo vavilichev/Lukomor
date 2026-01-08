@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Lukomor.MVVM.Editor
@@ -22,6 +23,12 @@ namespace Lukomor.MVVM.Editor
             var viewModelType = allViewModelTypes.FirstOrDefault(t => t.FullName == viewModelTypeFullName);
             
             return viewModelType == null ? MVVMConstants.NONE : viewModelType.Name;
+        }
+
+        public static Type ConvertViewModelType(string viewModelTypeFullName)
+        {
+            var type = ViewModelsDB.AllViewModelTypes.FirstOrDefault(t => t.FullName == viewModelTypeFullName);
+            return type;
         }
     }
 }
