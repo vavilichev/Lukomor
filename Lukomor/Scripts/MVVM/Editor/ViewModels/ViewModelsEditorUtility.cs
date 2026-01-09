@@ -31,7 +31,7 @@ namespace Lukomor.MVVM.Editor
             var type = ViewModelsDB.AllViewModelTypes.FirstOrDefault(t => t.FullName == viewModelTypeFullName);
             return type;
         }
-
+        
         public static string[] GetAllValidViewModelPropertyNames(Type type)
         {
             var allProperties = type.GetProperties();
@@ -72,6 +72,13 @@ namespace Lukomor.MVVM.Editor
             });
 
             var result = allValidProperties.Select(p => p.Name).ToArray();
+            return result;
+        }
+
+        public static bool DoesViewModelHaveProperty(Type viewModelType, string viewModelPropertyName)
+        {
+            var allPropertyNames = GetAllValidViewModelPropertyNames(viewModelType);
+            var result = allPropertyNames.Contains(viewModelPropertyName);
             return result;
         }
     }

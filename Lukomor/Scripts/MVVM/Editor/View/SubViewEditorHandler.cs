@@ -43,7 +43,8 @@ namespace Lukomor.MVVM.Editor
             var isParentViewExist = parentView != null;
             if (!isParentViewExist)
             {
-                throw new Exception("Parent view not found. Remember that Parent view must be higher in the hierarchy to work properly.");
+                DrawDebug();
+                return;
             }
 
             // If parent view model is empty, let's show a message about it

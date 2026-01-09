@@ -38,13 +38,15 @@ namespace Lukomor.MVVM.Editor
 
             _subViewEditorHandler = new SubViewEditorHandler(serializedObject, _searchProvider, _view);
             _rootViewEditorHandler = new RootViewEditorHandler(serializedObject, _searchProvider, _view);
+            
+            DefineParentViews();
         }
 
         public override void OnInspectorGUI()
         {
             DrawScriptTitle();
             DefineParentViews();
-            AutoDefineParentView();
+            //AutoDefineParentView();
             
             var isParentViewExist = _parentViews.Count > 0; 
 
@@ -84,6 +86,9 @@ namespace Lukomor.MVVM.Editor
                     .Where(c => !ReferenceEquals(c, _view));
                 _parentViews.AddRange(foundParentViews);
             }
+
+            _isParentView.boolValue = _parentViews.Count == 0;
+            serializedObject.ApplyModifiedProperties();
         }
 
         private void AutoDefineParentView()
