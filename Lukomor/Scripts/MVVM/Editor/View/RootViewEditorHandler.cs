@@ -8,17 +8,23 @@ namespace Lukomor.MVVM.Editor
     {
         private readonly SerializedObject _serializedObject;
         private readonly StringListSearchProvider _searchProvider;
+        private readonly View _view;
 
         /// <summary>
         /// Selected (by property) View Model Type Full Name
         /// </summary>
         private readonly SerializedProperty _viewModelTypeFullName;
+        
+        // help
+        private string _previousViewModelSelected;
 
         public RootViewEditorHandler(SerializedObject serializedObject, StringListSearchProvider searchProvider, View view) : base(serializedObject, view)
         {
             _serializedObject = serializedObject;
             _searchProvider = searchProvider;
+            _view = view;
             _viewModelTypeFullName = serializedObject.FindProperty(nameof(_viewModelTypeFullName));
+            _previousViewModelSelected = _viewModelTypeFullName.stringValue;
         }
         
         public void DrawEditor()
@@ -33,10 +39,17 @@ namespace Lukomor.MVVM.Editor
         {
             var viewModelTypeFullNames = ViewModelsDB.AllViewModelTypeFullNames;
 
-            _searchProvider.Init(viewModelTypeFullNames, viewModelTypeFullName =>
+            _searchProvider.Init(viewModelTypeFullNames, newViewModelTypeFullNameSelected =>
             {
-                _viewModelTypeFullName.stringValue = viewModelTypeFullName == MVVMConstants.NONE ? null : viewModelTypeFullName;
+                _viewModelTypeFullName.stringValue =
+                    newViewModelTypeFullNameSelected == MVVMConstants.NONE ? null : newViewModelTypeFullNameSelected;
                 _serializedObject.ApplyModifiedProperties();
+
+                if (_previousViewModelSelected != newViewModelTypeFullNameSelected)
+                {
+                    _previousViewModelSelected = newViewModelTypeFullNameSelected;
+                    _view.HandleParentViewModelChanging();
+                }
                 
                 CheckSubViews();
             });

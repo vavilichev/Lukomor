@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using Codice.Client.BaseCommands.BranchExplorer.ExplorerTree;
 using Lukomor.MVVM.Binders;
 using Lukomor.MVVM.Editor;
 using UnityEngine;
@@ -187,20 +185,15 @@ namespace Lukomor.MVVM
             _subViews.Remove(view);
         }
 
-        public void ResetViewModelTypeFullName()
-        {
-            _viewModelTypeFullName = null;
-        }
-
         private void OnTransformParentChanged()
         {
-            UpdateViewSetup();
+            HandleParentViewModelChanging();
         }
-
-        public void UpdateViewSetup()
+        
+        public void HandleParentViewModelChanging()
         {
             var setupExisted = !string.IsNullOrEmpty(_viewModelPropertyName) ||
-                             !string.IsNullOrEmpty(_viewModelTypeFullName);
+                               !string.IsNullOrEmpty(_viewModelTypeFullName);
             var parentExisted = _parentView != null;
             var allParentViews = gameObject.GetComponentsInParent<View>()
                                            .Where(c => !ReferenceEquals(c, this)).ToList();
@@ -209,7 +202,8 @@ namespace Lukomor.MVVM
             if (parentExisted)
             {
                 var isParentInHierarchy = allParentViews.Contains(_parentView);
-                if (!isParentInHierarchy){
+                if (!isParentInHierarchy)
+                {
                     // Parent has been lost, lets try to find new parent
                     if (anyParentExist)
                     {
@@ -241,13 +235,31 @@ namespace Lukomor.MVVM
                 else
                 {
                     // parent is still in hierarchy, but maybe it's setup has been changed
-                    if (!string.IsNullOrEmpty(_viewModelPropertyName) && string.IsNullOrEmpty(_parentView._viewModelTypeFullName))
+                    if (!string.IsNullOrEmpty(_viewModelPropertyName) &&
+                        string.IsNullOrEmpty(_parentView._viewModelTypeFullName))
                     {
                         // current property name exists, but parent view model has been reset, so, we must reset current setup
                         _viewModelPropertyName = null;
                         _viewModelTypeFullName = null;
                         Debug.LogWarning($"View [{gameObject.name}]: parent view has been reset, current view settings has been reset as well. Don't forget to redone the setup.",
                                          gameObject);
+                    }
+                    else if (!string.IsNullOrEmpty(_viewModelPropertyName))
+                    {
+                        var parentViewModelTypeFullName = _parentView!.ViewModelTypeFullName;
+                        var parentViewModelType =
+                            ViewModelsEditorUtility.ConvertViewModelType(parentViewModelTypeFullName);
+                        var parentViewModelProperties =
+                            ViewModelsEditorUtility.GetAllValidViewModelPropertyNames(parentViewModelType);
+
+                        if (!parentViewModelProperties.Contains(_viewModelPropertyName))
+                        {
+                            // There is no property in the parent view model. Maybe view model has been changed. Reset
+                            Debug.LogWarning($"View [{gameObject.name}]: parent view model has been changed and new view model doesn't have a property with name {_viewModelPropertyName}. The setup has been reset. Don't forget to redone the setup.",
+                                             gameObject);
+                            _viewModelPropertyName = null;
+                            _viewModelTypeFullName = null;
+                        }
                     }
                 }
             }
@@ -259,7 +271,7 @@ namespace Lukomor.MVVM
                     // parent didn't exist, but appeared
                     _parentView = allParentViews.First();
                     _isParentView = false;
-                    
+
                     if (setupExisted)
                     {
                         // as the setup was done, we should reset it and warn user about this reset
@@ -270,17 +282,14 @@ namespace Lukomor.MVVM
                     }
                 }
             }
-            
+
             // Also update children
             var subViews = gameObject.GetComponentsInChildren<View>().Where(c => !ReferenceEquals(c, this));
             foreach (var subView in subViews)
             {
-                subView.UpdateViewSetup();
+                subView.HandleParentViewModelChanging();
             }
         }
-        
-        // надо встроить валидацию, когда пользователь меняет вьюмодель или родительскую вьюху, то нужно пробежаться по дочерним 
-        //     вьюхам и проверить на предмет, а не надо ли им сбросить настройки с предупреждением
 #endif
     }
 }
