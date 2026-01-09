@@ -77,11 +77,6 @@ namespace Lukomor.MVVM.Editor
                 parentViewModelPropertyNames);
 
             DrawDebug();
-            
-            // var childViewModelType =
-            //     GetChildViewModelType(parentView.ViewModelTypeFullName, _view.ViewModelPropertyName);
-            //
-            // DrawSubViewModelDebugButtons(parentView.gameObject, childViewModelType?.FullName);
         }
 
         private ICollection<string> GetAllViewModelPropertyNames(View parentView)
@@ -104,11 +99,7 @@ namespace Lukomor.MVVM.Editor
             }
 
             var allViewModelPropertyNames = ViewModelsEditorUtility.GetAllValidViewModelPropertyNames(parentViewModelType);
-
-            foreach (var validPropertyName in allViewModelPropertyNames)
-            {
-                _viewModelPropertyNames.Add(validPropertyName);
-            }
+            _viewModelPropertyNames.AddRange(allViewModelPropertyNames);
 
             return _viewModelPropertyNames;
         }
@@ -159,6 +150,7 @@ namespace Lukomor.MVVM.Editor
             
             _serializedObject.ApplyModifiedProperties();
             
+            _view.CheckForWarningIcon();
             CheckSubViews();
         }
 

@@ -89,56 +89,34 @@ namespace Lukomor.MVVM
 
         public void ValidateViewModelSetup()
         {
-            if (_isParentView) return;
-
-            var allParentViews = gameObject.GetComponentsInParent<View>()
-                                           .Where(c => !ReferenceEquals(c, this));
-            var isCurrentParentValid = allParentViews.Contains(_parentView);
-
-            if (!isCurrentParentValid)
+            var allParentViews = gameObject.GetComponentsInParent<View>().Where(v => !ReferenceEquals(v, this));
+            var isParentViewExist = _parentView != null;
+            var shouldParentViewExist = allParentViews.Any();
+            
+            if (isParentViewExist)
             {
-                _viewModelTypeFullName = null;
-                _viewModelPropertyName = null;
-                Debug.LogError(
-                               $"Parent View is not a parent anymore for View ({gameObject.name}). Do not forget to resetup.",
-                               gameObject);
-                return;
-            }
-
-            var parentViewModelFullName = _parentView.ViewModelTypeFullName;
-            if (string.IsNullOrEmpty(parentViewModelFullName))
-            {
-                Debug.LogError("Parent View Model is not selected. Please select a view model first.",
-                               _parentView.gameObject);
-                return;
-            }
-
-            var parentViewModelType = ViewModelsEditorUtility.ConvertViewModelType(parentViewModelFullName);
-            if (parentViewModelType == null)
-            {
-                Debug.LogError("Parent View Model type Error. Please, check it.", _parentView.gameObject);
-                return;
-            }
-
-            var currentViewModelPropertyName = _viewModelPropertyName;
-            if (!string.IsNullOrEmpty(currentViewModelPropertyName))
-            {
-                var allParentViewModelProperties = parentViewModelType.GetProperties();
-                var allValidProperties =
-                    allParentViewModelProperties.Where(p =>
-                    {
-                        var genericArgument = p.PropertyType.GetGenericArguments().First();
-                        return typeof(IViewModel).IsAssignableFrom(genericArgument);
-                    });
-
-                if (allValidProperties.All(property => property.Name != currentViewModelPropertyName))
+                var setupExist = !string.IsNullOrEmpty(_viewModelPropertyName) && !string.IsNullOrEmpty(_viewModelTypeFullName);
+                if (!setupExist)
                 {
-                    _viewModelPropertyName = null;
-                    Debug.LogWarning(
-                                     $"Parent View Model doesn't have property {currentViewModelPropertyName} anymore. Reset to None",
-                                     gameObject);
+                    WarningIconDrawer.AddWarningView(gameObject.GetInstanceID());
                     return;
                 }
+                
+                WarningIconDrawer.RemoveWarningView(gameObject.GetInstanceID());
+            }
+            else
+            {
+                // no parent view
+                _viewModelPropertyName = null;  // property name must by null in case of root view model
+                
+                if (shouldParentViewExist)
+                {
+                    // no parent view but should exist
+                    WarningIconDrawer.AddWarningView(gameObject.GetInstanceID());
+                    return;
+                }
+
+                WarningIconDrawer.RemoveWarningView(gameObject.GetInstanceID());
             }
         }
 
@@ -213,8 +191,7 @@ namespace Lukomor.MVVM
                         {
                             _viewModelPropertyName = null;
                             _viewModelTypeFullName = null;
-                            Debug.LogWarning($"View [{gameObject.name}]: parent view has been changed, view settings has been reset. Don't forget to redone the setup.",
-                                             gameObject);
+                            LogWarn($"View [{gameObject.name}]: parent view has been changed, view settings has been reset. Don't forget to redone the setup.");
                         }
                     }
                     else
@@ -227,8 +204,7 @@ namespace Lukomor.MVVM
                         {
                             _viewModelPropertyName = null;
                             _viewModelTypeFullName = null;
-                            Debug.LogWarning($"View [{gameObject.name}]: parent view has been lost, view settings has been reset. Don't forget to redone the setup.",
-                                             gameObject);
+                            LogWarn($"View [{gameObject.name}]: parent view has been lost, view settings has been reset. Don't forget to redone the setup.");
                         }
                     }
                 }
@@ -241,8 +217,8 @@ namespace Lukomor.MVVM
                         // current property name exists, but parent view model has been reset, so, we must reset current setup
                         _viewModelPropertyName = null;
                         _viewModelTypeFullName = null;
-                        Debug.LogWarning($"View [{gameObject.name}]: parent view has been reset, current view settings has been reset as well. Don't forget to redone the setup.",
-                                         gameObject);
+
+                        LogWarn($"View [{gameObject.name}]: parent view has been reset, current view settings has been reset as well. Don't forget to redone the setup.");
                     }
                     else if (!string.IsNullOrEmpty(_viewModelPropertyName))
                     {
@@ -255,8 +231,8 @@ namespace Lukomor.MVVM
                         if (!parentViewModelProperties.Contains(_viewModelPropertyName))
                         {
                             // There is no property in the parent view model. Maybe view model has been changed. Reset
-                            Debug.LogWarning($"View [{gameObject.name}]: parent view model has been changed and new view model doesn't have a property with name {_viewModelPropertyName}. The setup has been reset. Don't forget to redone the setup.",
-                                             gameObject);
+                            LogWarn($"View [{gameObject.name}]: parent view model has been changed and new view model doesn't have a property with name {_viewModelPropertyName}. The setup has been reset. Don't forget to redone the setup.");
+
                             _viewModelPropertyName = null;
                             _viewModelTypeFullName = null;
                         }
@@ -277,11 +253,13 @@ namespace Lukomor.MVVM
                         // as the setup was done, we should reset it and warn user about this reset
                         _viewModelTypeFullName = null;
                         _viewModelPropertyName = null;
-                        Debug.LogWarning($"View [{gameObject.name}]: parent view has appeared, view settings has been reset. Don't forget to redone the setup.",
-                                         gameObject);
+
+                        LogWarn($"View [{gameObject.name}]: parent view has appeared, view settings has been reset. Don't forget to redone the setup.");
                     }
                 }
             }
+            
+            CheckForWarningIcon();
 
             // Also update children
             var subViews = gameObject.GetComponentsInChildren<View>().Where(c => !ReferenceEquals(c, this));
@@ -289,6 +267,37 @@ namespace Lukomor.MVVM
             {
                 subView.HandleParentViewModelChanging();
             }
+        }
+        
+        public void CheckForWarningIcon()
+        {
+            if (_isParentView)
+            {
+                if (string.IsNullOrEmpty(_viewModelTypeFullName))
+                {
+                    WarningIconDrawer.AddWarningView(gameObject.GetInstanceID());
+                }
+                else
+                {
+                    WarningIconDrawer.RemoveWarningView(gameObject.GetInstanceID());
+                }
+            }
+            else
+            {
+                if (string.IsNullOrEmpty(_viewModelPropertyName))
+                {
+                    WarningIconDrawer.AddWarningView(gameObject.GetInstanceID());
+                }
+                else
+                {
+                    WarningIconDrawer.RemoveWarningView(gameObject.GetInstanceID());
+                }
+            }
+        }
+
+        private void LogWarn(string message)
+        {
+            Debug.LogWarning(message, gameObject);
         }
 #endif
     }

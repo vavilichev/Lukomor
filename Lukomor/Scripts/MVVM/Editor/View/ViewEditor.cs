@@ -23,7 +23,6 @@ namespace Lukomor.MVVM.Editor
         private readonly List<View> _parentViews = new();
         private RootViewEditorHandler _rootViewEditorHandler;
         private SubViewEditorHandler _subViewEditorHandler;
-        private View _parentViewPreviousValue;
 
         private void OnEnable()
         {
@@ -35,13 +34,10 @@ namespace Lukomor.MVVM.Editor
             _childBinders = serializedObject.FindProperty(nameof(_childBinders));
             _subViews = serializedObject.FindProperty(nameof(_subViews));
             _parentView = serializedObject.FindProperty(nameof(_parentView));
-            _parentViewPreviousValue = _parentView.objectReferenceValue as View;
             _showEditorLogs = serializedObject.FindProperty(nameof(_showEditorLogs));
 
             _subViewEditorHandler = new SubViewEditorHandler(serializedObject, _searchProvider, _view);
             _rootViewEditorHandler = new RootViewEditorHandler(serializedObject, _searchProvider, _view);
-            
-            //_view.ValidateParentingSetup();
         }
 
         public override void OnInspectorGUI()
