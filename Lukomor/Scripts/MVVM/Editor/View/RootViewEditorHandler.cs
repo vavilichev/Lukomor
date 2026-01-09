@@ -29,6 +29,7 @@ namespace Lukomor.MVVM.Editor
         
         public void DrawEditor()
         {
+            DrawParentViewField();
             DrawEditorForParentView();
             DrawDebug();
         }

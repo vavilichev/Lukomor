@@ -2,6 +2,7 @@
 using System.Linq;
 using Lukomor.MVVM.Binders;
 using Lukomor.MVVM.Editor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 
 namespace Lukomor.MVVM
@@ -182,59 +183,43 @@ namespace Lukomor.MVVM
                 var isParentInHierarchy = allParentViews.Contains(_parentView);
                 if (!isParentInHierarchy)
                 {
-                    // Parent has been lost, lets try to find new parent
+                    _parentView = null;
+                    _isParentView = !anyParentExist;
+
+                    // Parent has been lost
                     if (anyParentExist)
                     {
-                        // New parent exists, let's define it and reset the setup if it's required
-                        _parentView = allParentViews.First();
-                        if (setupExisted)
-                        {
-                            _viewModelPropertyName = null;
-                            _viewModelTypeFullName = null;
-                            LogWarn($"View [{gameObject.name}]: parent view has been changed, view settings has been reset. Don't forget to redone the setup.");
-                        }
+                        // new parent exists, but we will clean the parent view and remain viewmodel type as it was to keep children setup valid, and warn user that parent is abscent
+                        LogWarn($"View [{gameObject.name}]: parent view has been lost, you have to specify parent view for sub view otherwise the setup will not work.");
                     }
                     else
                     {
-                        // The parent existed, but disappeared
-                        _isParentView = true;
-                        _parentView = null;
-
-                        if (setupExisted)
-                        {
-                            _viewModelPropertyName = null;
-                            _viewModelTypeFullName = null;
-                            LogWarn($"View [{gameObject.name}]: parent view has been lost, view settings has been reset. Don't forget to redone the setup.");
-                        }
+                        // new parent doesn't exist
+                        LogWarn($"View [{gameObject.name}]: parent view has been lost, view became a root view. Make sure that your setup is still valid.");
                     }
                 }
                 else
                 {
                     // parent is still in hierarchy, but maybe it's setup has been changed
-                    if (!string.IsNullOrEmpty(_viewModelPropertyName) &&
-                        string.IsNullOrEmpty(_parentView._viewModelTypeFullName))
-                    {
-                        // current property name exists, but parent view model has been reset, so, we must reset current setup
-                        _viewModelPropertyName = null;
-                        _viewModelTypeFullName = null;
 
-                        LogWarn($"View [{gameObject.name}]: parent view has been reset, current view settings has been reset as well. Don't forget to redone the setup.");
-                    }
-                    else if (!string.IsNullOrEmpty(_viewModelPropertyName))
+                    if (!string.IsNullOrEmpty(_viewModelPropertyName))
                     {
-                        var parentViewModelTypeFullName = _parentView!.ViewModelTypeFullName;
-                        var parentViewModelType =
-                            ViewModelsEditorUtility.ConvertViewModelType(parentViewModelTypeFullName);
-                        var parentViewModelProperties =
-                            ViewModelsEditorUtility.GetAllValidViewModelPropertyNames(parentViewModelType);
-
-                        if (!parentViewModelProperties.Contains(_viewModelPropertyName))
+                        var parentViewModelTypeFullName = _parentView?._viewModelTypeFullName;
+                        if (string.IsNullOrEmpty(parentViewModelTypeFullName))
                         {
-                            // There is no property in the parent view model. Maybe view model has been changed. Reset
-                            LogWarn($"View [{gameObject.name}]: parent view model has been changed and new view model doesn't have a property with name {_viewModelPropertyName}. The setup has been reset. Don't forget to redone the setup.");
-
                             _viewModelPropertyName = null;
-                            _viewModelTypeFullName = null;
+                            LogWarn($"View [{gameObject.name}]: parent view doesn't have view model type. Couldn't keep the property name, that's why it has been reset. Don't forget to setup View");
+                        }
+                        else
+                        {
+                            var parentViewModelType =
+                                ViewModelsEditorUtility.ConvertViewModelType(parentViewModelTypeFullName);
+                            if (!ViewModelsEditorUtility.DoesViewModelHaveProperty(parentViewModelType,
+                                    _viewModelPropertyName))
+                            {
+                                LogWarn($"View [{gameObject.name}]: parent view model doesn't have property with name ({_viewModelPropertyName}). Couldn't keep the property name, that's why it has been reset. Don't forget to setup View");
+                                _viewModelPropertyName = null;
+                            }
                         }
                     }
                 }
@@ -245,16 +230,11 @@ namespace Lukomor.MVVM
                 if (anyParentExist)
                 {
                     // parent didn't exist, but appeared
-                    _parentView = allParentViews.First();
                     _isParentView = false;
-
+                    // _viewModelPropertyName = null;
                     if (setupExisted)
                     {
-                        // as the setup was done, we should reset it and warn user about this reset
-                        _viewModelTypeFullName = null;
-                        _viewModelPropertyName = null;
-
-                        LogWarn($"View [{gameObject.name}]: parent view has appeared, view settings has been reset. Don't forget to redone the setup.");
+                        LogWarn($"View [{gameObject.name}]: Found parent Views. Don't forget to setup View otherwise it will not work.");
                     }
                 }
             }
@@ -271,9 +251,12 @@ namespace Lukomor.MVVM
         
         public void CheckForWarningIcon()
         {
+            var isInPrefabMode = PrefabStageUtility.GetPrefabStage(gameObject);
+            
             if (_isParentView)
             {
-                if (string.IsNullOrEmpty(_viewModelTypeFullName))
+                // warning for this case can only exist for not a prefab mode
+                if (string.IsNullOrEmpty(_viewModelTypeFullName) && !isInPrefabMode)
                 {
                     WarningIconDrawer.AddWarningView(gameObject.GetInstanceID());
                 }

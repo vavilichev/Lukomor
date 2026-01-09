@@ -1,5 +1,6 @@
 using System.Linq;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 
 namespace Lukomor.MVVM.Editor
@@ -13,10 +14,7 @@ namespace Lukomor.MVVM.Editor
         private readonly SerializedProperty _parentView;
         private readonly SerializedProperty _subViews;
         private readonly SerializedProperty _childBinders;
-        
-        // help
-        private View _previousParentViewValue;
-        
+
         public ViewEditorHandler(SerializedObject serializedObject, View view)
         {
             _serializedObject = serializedObject;
@@ -24,11 +22,10 @@ namespace Lukomor.MVVM.Editor
             _showEditorLogs = serializedObject.FindProperty(nameof(_showEditorLogs));
             _isParentView = serializedObject.FindProperty(nameof(_isParentView));
             _parentView = serializedObject.FindProperty(nameof(_parentView));
-            _previousParentViewValue = _parentView.objectReferenceValue as View;
             _subViews = serializedObject.FindProperty(nameof(_subViews));
             _childBinders = serializedObject.FindProperty(nameof(_childBinders));
         }
-        
+
         protected void DrawDebug()
         {
             _showEditorLogs.boolValue = EditorGUILayout.Foldout(_showEditorLogs.boolValue, "Logs");
@@ -45,7 +42,7 @@ namespace Lukomor.MVVM.Editor
                 EditorGUI.indentLevel--;
             }
         }
-        
+
         public void CheckSubViews()
         {
             var allSubViews = _view.gameObject.GetComponentsInChildren<View>(true)
@@ -56,20 +53,38 @@ namespace Lukomor.MVVM.Editor
                 subView.HandleParentViewModelChanging();
             }
         }
-        
+
         protected void DrawParentViewField()
         {
-            EditorGUILayout.PropertyField(_parentView);
-            if (EditorGUI.EndChangeCheck())
+            var isParentView = _isParentView.boolValue;
+            var isInPrefabMode = PrefabStageUtility.GetPrefabStage(_view.gameObject) != null;
+
+            if (!isInPrefabMode && isParentView)
             {
-                var newParentView = _parentView.objectReferenceValue as View;
-                if (!ReferenceEquals(newParentView, _previousParentViewValue))
+                return; // do not draw parent field, if parent doesn't exist and we are not in the prefab mode
+            }
+
+            var oldParentViewValue = _parentView.objectReferenceValue as View;
+            EditorGUILayout.PropertyField(_parentView);
+            _serializedObject.ApplyModifiedProperties();
+
+            var newParentView = _parentView.objectReferenceValue as View;
+            if (!ReferenceEquals(newParentView, oldParentViewValue))
+            {
+                if (newParentView != null)
                 {
+                    var allParentViews = _view.gameObject.GetComponentsInParent<View>().Where(v => !ReferenceEquals(v, _view));
+                    if (!allParentViews.Contains(newParentView))
+                    {
+                        _parentView.objectReferenceValue = null;
+                        _serializedObject.ApplyModifiedProperties();
+                        Debug.LogError($"ViewEditor [{_view.gameObject.name}]: Parent view must be higher in the hierarchy.");
+                        return;
+                    }
+                    
                     _view.HandleParentViewModelChanging();
-                    _previousParentViewValue = newParentView;
                 }
             }
-            _serializedObject.ApplyModifiedProperties();
         }
     }
 }
