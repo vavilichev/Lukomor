@@ -20,6 +20,7 @@ namespace Lukomor.MVVM.Editor
         /// </summary>
         private readonly SerializedProperty _viewModelTypeFullName;
         private readonly StringListSearchProvider _searchProvider;
+        private readonly View _view;
         private readonly List<string> _viewModelPropertyNames = new();
 
         public SubViewEditorHandler(SerializedObject serializedObject, StringListSearchProvider searchProvider, View view) : base(
@@ -30,6 +31,7 @@ namespace Lukomor.MVVM.Editor
             _viewModelTypeFullName = serializedObject.FindProperty(nameof(_viewModelTypeFullName));
             _viewModelPropertyName = serializedObject.FindProperty(nameof(_viewModelPropertyName));
             _searchProvider = searchProvider;
+            _view = view;
         }
 
         public void DrawEditor()
@@ -60,23 +62,13 @@ namespace Lukomor.MVVM.Editor
                 return; // Parent View Model isn't selected.
             }
 
-            // If parent view model is NOT EMPTY, but couldn't be found, lets reset it
-            var parentViewModelType = ViewModelsEditorUtility.ConvertViewModelType(parentViewModelTypeFullName);
-            if (parentViewModelType == null)
-            {
-                Debug.LogWarning("Parent view model is selected, but cannot be found. Reset parent view model to null.",
-                    parentView.gameObject);
-                parentView.ResetViewModelTypeFullName();
-                return;
-            }
-
             var parentViewModelPropertyNames = GetAllViewModelPropertyNames(parentView);
             var selectedViewModelPropertyName = _viewModelPropertyName.stringValue;
             var isPropertySelected = !string.IsNullOrEmpty(selectedViewModelPropertyName);
             if (isPropertySelected && !parentViewModelPropertyNames.Contains(selectedViewModelPropertyName))
             {
                 Debug.LogWarning("Parent view model was changed, connected property name has been reset to None",
-                    parentView.gameObject);
+                    _view.gameObject);
                 _viewModelPropertyName.stringValue = null;
                 _serializedObject.ApplyModifiedProperties();
             }
@@ -90,12 +82,6 @@ namespace Lukomor.MVVM.Editor
             //     GetChildViewModelType(parentView.ViewModelTypeFullName, _view.ViewModelPropertyName);
             //
             // DrawSubViewModelDebugButtons(parentView.gameObject, childViewModelType?.FullName);
-        }
-        
-        private void DrawParentViewField()
-        {
-            EditorGUILayout.PropertyField(_parentView);
-            _serializedObject.ApplyModifiedProperties();
         }
 
         private ICollection<string> GetAllViewModelPropertyNames(View parentView)
@@ -117,17 +103,11 @@ namespace Lukomor.MVVM.Editor
                 return _viewModelPropertyNames; // parent view model is not selected
             }
 
-            var allViewModelProperties = parentViewModelType.GetProperties();
-            var allValidProperties =
-                allViewModelProperties.Where(p =>
-                {
-                    var genericArgument = p.PropertyType.GetGenericArguments().First();
-                    return typeof(IViewModel).IsAssignableFrom(genericArgument);
-                });
+            var allViewModelPropertyNames = ViewModelsEditorUtility.GetAllValidViewModelPropertyNames(parentViewModelType);
 
-            foreach (var validProperty in allValidProperties)
+            foreach (var validPropertyName in allViewModelPropertyNames)
             {
-                _viewModelPropertyNames.Add(validProperty.Name);
+                _viewModelPropertyNames.Add(validPropertyName);
             }
 
             return _viewModelPropertyNames;
