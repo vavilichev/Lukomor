@@ -31,8 +31,6 @@ namespace Lukomor.MVVM.Editor
         {
             DrawEditorForParentView();
             DrawDebug();
-
-            //DrawOpenViewModelButton(_view.ViewModelTypeFullName);
         }
         
         private void DrawEditorForParentView()
@@ -51,6 +49,7 @@ namespace Lukomor.MVVM.Editor
                     _view.HandleParentViewModelChanging();
                 }
                 
+                _view.CheckForWarningIcon();
                 CheckSubViews();
             });
                 
