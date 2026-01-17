@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Lukomor.MVVM.Binders;
-using Lukomor.MVVM.Editor;
+using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 
@@ -27,28 +28,37 @@ namespace Lukomor.MVVM
         public string ViewModelPropertyName => _viewModelPropertyName;
 
 #if UNITY_EDITOR
-        private void Start()
+        
+        private void OnEnable()
         {
-            var parentTransform = transform.parent;
-
-            if (parentTransform)
+            if (!EditorApplication.isPlaying)
             {
-                var parentView = parentTransform.GetComponentInParent<View>();
-
-                if (parentView != null) parentView.RegisterView(this);
+                if (_parentView == null)
+                {
+                    var potentialParentView = this.FirstOrDefaultParentView();
+                    UpdateParentViewRegistration(potentialParentView);
+                }
+                else
+                {
+                    UpdateParentViewRegistration(_parentView);
+                }
             }
         }
 
         private void OnDestroy()
         {
-            var parentTransform = transform.parent;
+            RemoveWarningIcon();
+            _parentView?.RemoveViewRegistration(this);
+        }
 
-            if (parentTransform)
-            {
-                var parentView = parentTransform.GetComponentInParent<View>();
+        private void OnValidate()
+        {
+            CheckForWarningIcon();
+        }
 
-                if (parentView != null) parentView.RemoveView(this);
-            }
+        private void Reset()
+        {
+            ValidateViewModelSetup();
         }
 #endif
 
@@ -90,7 +100,7 @@ namespace Lukomor.MVVM
 
         public void ValidateViewModelSetup()
         {
-            var allParentViews = gameObject.GetComponentsInParent<View>().Where(v => !ReferenceEquals(v, this));
+            var allParentViews = this.AllParentViews();
             var isParentViewExist = _parentView != null;
             var shouldParentViewExist = allParentViews.Any();
             
@@ -99,11 +109,11 @@ namespace Lukomor.MVVM
                 var setupExist = !string.IsNullOrEmpty(_viewModelPropertyName) && !string.IsNullOrEmpty(_viewModelTypeFullName);
                 if (!setupExist)
                 {
-                    WarningIconDrawer.AddWarningView(gameObject.GetInstanceID());
+                    ShowWarningIcon();
                     return;
                 }
                 
-                WarningIconDrawer.RemoveWarningView(gameObject.GetInstanceID());
+                RemoveWarningIcon();
             }
             else
             {
@@ -113,11 +123,11 @@ namespace Lukomor.MVVM
                 if (shouldParentViewExist)
                 {
                     // no parent view but should exist
-                    WarningIconDrawer.AddWarningView(gameObject.GetInstanceID());
+                    ShowWarningIcon();
                     return;
                 }
 
-                WarningIconDrawer.RemoveWarningView(gameObject.GetInstanceID());
+                RemoveWarningIcon();
             }
         }
 
@@ -147,19 +157,17 @@ namespace Lukomor.MVVM
             var allFoundSubViews = gameObject.GetComponentsInChildren<View>(true);
             foreach (var foundSubView in allFoundSubViews)
             {
-                var parentView = foundSubView.GetComponentsInParent<View>()
-                                             .FirstOrDefault(c => !ReferenceEquals(c, foundSubView));
-
+                var parentView = foundSubView.FirstOrDefaultParentView();
                 if (parentView == this) RegisterView(foundSubView);
             }
         }
 
-        private void RegisterView(View view)
+        public void RegisterView(View view)
         {
             if (!_subViews.Contains(view)) _subViews.Add(view);
         }
 
-        private void RemoveView(View view)
+        public void RemoveViewRegistration(View view)
         {
             _subViews.Remove(view);
         }
@@ -174,8 +182,7 @@ namespace Lukomor.MVVM
             var setupExisted = !string.IsNullOrEmpty(_viewModelPropertyName) ||
                                !string.IsNullOrEmpty(_viewModelTypeFullName);
             var parentExisted = _parentView != null;
-            var allParentViews = gameObject.GetComponentsInParent<View>()
-                                           .Where(c => !ReferenceEquals(c, this)).ToList();
+            var allParentViews = this.AllParentViews().ToList();
             var anyParentExist = allParentViews.Count > 0;
 
             if (parentExisted)
@@ -183,6 +190,7 @@ namespace Lukomor.MVVM
                 var isParentInHierarchy = allParentViews.Contains(_parentView);
                 if (!isParentInHierarchy)
                 {
+                    _parentView.RemoveViewRegistration(this);
                     _parentView = null;
                     _isParentView = !anyParentExist;
 
@@ -213,8 +221,8 @@ namespace Lukomor.MVVM
                         else
                         {
                             var parentViewModelType =
-                                ViewModelsEditorUtility.ConvertViewModelType(parentViewModelTypeFullName);
-                            if (!ViewModelsEditorUtility.DoesViewModelHaveProperty(parentViewModelType,
+                                Editor.ViewModelsEditorUtility.ConvertViewModelType(parentViewModelTypeFullName);
+                            if (!Editor.ViewModelsEditorUtility.DoesViewModelHaveProperty(parentViewModelType,
                                     _viewModelPropertyName))
                             {
                                 LogWarn($"View [{gameObject.name}]: parent view model doesn't have property with name ({_viewModelPropertyName}). Couldn't keep the property name, that's why it has been reset. Don't forget to setup View");
@@ -240,10 +248,10 @@ namespace Lukomor.MVVM
             }
             
             CheckForWarningIcon();
+            ValidateViewModelSetup();
 
             // Also update children
-            var subViews = gameObject.GetComponentsInChildren<View>().Where(c => !ReferenceEquals(c, this));
-            foreach (var subView in subViews)
+            foreach (var subView in _subViews)
             {
                 subView.HandleParentViewModelChanging();
             }
@@ -258,24 +266,44 @@ namespace Lukomor.MVVM
                 // warning for this case can only exist for not a prefab mode
                 if (string.IsNullOrEmpty(_viewModelTypeFullName) && !isInPrefabMode)
                 {
-                    WarningIconDrawer.AddWarningView(gameObject.GetInstanceID());
+                    ShowWarningIcon();
                 }
                 else
                 {
-                    WarningIconDrawer.RemoveWarningView(gameObject.GetInstanceID());
+                    RemoveWarningIcon();
                 }
             }
             else
             {
                 if (string.IsNullOrEmpty(_viewModelPropertyName))
                 {
-                    WarningIconDrawer.AddWarningView(gameObject.GetInstanceID());
+                    ShowWarningIcon();
                 }
                 else
                 {
-                    WarningIconDrawer.RemoveWarningView(gameObject.GetInstanceID());
+                    RemoveWarningIcon();
                 }
             }
+        }
+
+        private void UpdateParentViewRegistration(View newParentView)
+        {
+            _parentView?.RemoveViewRegistration(this);
+            _parentView = newParentView;
+            newParentView?.RegisterView(this);
+        }
+
+        private void ShowWarningIcon()
+        {
+            Editor.WarningIconDrawer.AddWarningView(this.GetId());
+            _parentView?.ShowWarningIcon();
+        }
+
+        private void RemoveWarningIcon()
+        {
+            Editor.WarningIconDrawer.RemoveWarningView(this.GetId());
+            _parentView?.CheckForWarningIcon();
+            _parentView?.ValidateViewModelSetup();
         }
 
         private void LogWarn(string message)
