@@ -81,9 +81,7 @@ namespace Lukomor.MVVM.Editor
             var parent = _view.transform.parent;
             if (parent != null)
             {
-                var foundParentViews = parent
-                    .GetComponentsInParent<View>()
-                    .Where(c => !ReferenceEquals(c, _view));
+                var foundParentViews = _view.AllParentViews();
                 _parentViews.AddRange(foundParentViews);
             }
 

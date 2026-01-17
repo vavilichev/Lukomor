@@ -45,9 +45,7 @@ namespace Lukomor.MVVM.Editor
 
         public void CheckSubViews()
         {
-            var allSubViews = _view.gameObject.GetComponentsInChildren<View>(true)
-                .Where(c => !ReferenceEquals(c, _view));
-
+            var allSubViews = _view.AllSubViews();
             foreach (var subView in allSubViews)
             {
                 subView.HandleParentViewModelChanging();
@@ -71,9 +69,12 @@ namespace Lukomor.MVVM.Editor
             var newParentView = _parentView.objectReferenceValue as View;
             if (!ReferenceEquals(newParentView, oldParentViewValue))
             {
+                oldParentViewValue?.RemoveViewRegistration(_view);
+                
                 if (newParentView != null)
                 {
-                    var allParentViews = _view.gameObject.GetComponentsInParent<View>().Where(v => !ReferenceEquals(v, _view));
+                    newParentView.RegisterView(_view);
+                    var allParentViews = _view.AllParentViews();
                     if (!allParentViews.Contains(newParentView))
                     {
                         _parentView.objectReferenceValue = null;
@@ -84,6 +85,8 @@ namespace Lukomor.MVVM.Editor
                     
                     _view.HandleParentViewModelChanging();
                 }
+                
+                _view.ValidateViewModelSetup();
             }
         }
     }
