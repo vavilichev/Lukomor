@@ -1,14 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Lukomor.MVVM.Binders;
+using Lukomor.Reactive;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 namespace Lukomor.MVVM.Editor.Binders
 {
-    [CustomEditor(typeof(ObservableViewModelsListBinder), true)]
-    public class ObservableViewModelsListBinderEditor : UnityEditor.Editor
+    [CustomEditor(typeof(ObservableCollectionBinder), true)]
+    public class ObservableCollectionBinderEditor : UnityEditor.Editor
     {
         private const string PROP_SOURCE_VIEW = "_sourceView";
         private const string PROP_VIEW_MODEL_PROPERTY_NAME = "_viewModelPropertyName";
@@ -20,14 +23,14 @@ namespace Lukomor.MVVM.Editor.Binders
         };
         
         private StringListSearchProvider _searchProvider;
-        private ObservableViewModelsListBinder _binder;
+        private ObservableCollectionBinder _binder;
         private SerializedProperty _sourceViewProperty;
         private SerializedProperty _viewModelPropertyNameProperty;
 
         protected void OnEnable()
         {
             _searchProvider = CreateInstance<StringListSearchProvider>();
-            _binder = (ObservableViewModelsListBinder)target;
+            _binder = (ObservableCollectionBinder)target;
             _sourceViewProperty = serializedObject.FindProperty(PROP_SOURCE_VIEW);
             _viewModelPropertyNameProperty = serializedObject.FindProperty(PROP_VIEW_MODEL_PROPERTY_NAME);
         }
@@ -93,10 +96,9 @@ namespace Lukomor.MVVM.Editor.Binders
             if (GUILayout.Button(displayName, EditorStyles.popup))
             {
                 var sourceViewModelProperties = sourceViewModelType.GetProperties();
-                var binderInputValueType = typeof(IViewModel);
+                var binderInputValueType = _binder.InputType;
                 var sourceViewModelValidProperties =
-                    ViewModelsEditorUtility.FilterValidViewModelProperties(sourceViewModelProperties,
-                        binderInputValueType);
+                    FilterValidProperties(sourceViewModelProperties, binderInputValueType);
                 var sourceViewModelValidPropertyNames = sourceViewModelValidProperties.Select(x => x.Name).ToArray();
                 
                 _searchProvider.Init(sourceViewModelValidPropertyNames, newPropertyNameSelected =>
@@ -132,6 +134,42 @@ namespace Lukomor.MVVM.Editor.Binders
 
                 EditorGUILayout.PropertyField(iterator, true);
             }
+        }
+        
+        public static PropertyInfo[] FilterValidProperties(PropertyInfo[] allProperties, Type binderInputValueType)
+        {
+            var validProperties = allProperties.Where(p =>
+            {
+                var propertyType = p.PropertyType;
+                if (!propertyType.IsPublic || !propertyType.IsGenericType || propertyType.IsArray)
+                {
+                    return false;
+                }
+                
+                var isObservable = propertyType
+                    .GetInterfaces()
+                    .FirstOrDefault(i =>
+                        i.IsGenericType &&
+                        i.GetGenericTypeDefinition() == typeof(IReadOnlyReactiveCollection<>)
+                    ) != null;
+                
+                if (!isObservable)
+                {
+                    return false;
+                }
+
+                var genericArgs = propertyType.GetGenericArguments();
+                if (genericArgs.Length != 1)
+                {
+                    return false;
+                }
+
+                var genericArgumentType = genericArgs[0];
+                var result = binderInputValueType.IsAssignableFrom(genericArgumentType);
+                return result;
+            }).ToArray();
+
+            return validProperties;
         }
     }
 }

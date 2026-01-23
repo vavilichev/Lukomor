@@ -5,7 +5,7 @@ namespace Lukomor.MVVM.Binders
 {
     public class VmCollectionToGameObjectFromListCreationBinderDeprecated : ObservableCollectionBinderDeprecated<IViewModel>
     {
-        [SerializeField] private ViewModelToViewMapper _mapper;
+        [SerializeField] private IViewModelToViewMapper _mapper;
         
         private readonly Dictionary<IViewModel, View> _createdViews = new();
 
@@ -16,11 +16,11 @@ namespace Lukomor.MVVM.Binders
                 return;
             }
 
-            var prefab = _mapper.GetPrefab(viewModel.GetType().FullName);
-            var createdView = Instantiate(prefab, transform);
-            
-            _createdViews.Add(viewModel, createdView);
-            createdView.Bind(viewModel);
+            // var prefab = _mapper.GetPrefab(viewModel.GetType().FullName);
+            // var createdView = Instantiate(prefab, transform);
+            //
+            // _createdViews.Add(viewModel, createdView);
+            // createdView.Bind(viewModel);
         }
 
         protected override void OnItemRemoved(IViewModel viewModel)
