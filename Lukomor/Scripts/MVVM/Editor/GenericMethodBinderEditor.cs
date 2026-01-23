@@ -7,23 +7,23 @@ using UnityEditor;
 
 namespace Lukomor.MVVM.Editor
 {
-    [CustomEditor(typeof(GenericMethodBinder), true)]
+    [CustomEditor(typeof(GenericMethodBinderDeprecated), true)]
     public class GenericMethodBinderEditor : MethodBinderEditor
     {
-        private GenericMethodBinder _genericMethodBinder;
+        private GenericMethodBinderDeprecated _genericMethodBinderDeprecated;
         private Type _parameterType;
 
         protected override void OnEnable()
         {
             base.OnEnable();
 
-            _genericMethodBinder = (GenericMethodBinder)target;
+            _genericMethodBinderDeprecated = (GenericMethodBinderDeprecated)target;
         }
 
         protected override IEnumerable<MethodInfo> GetMethodsInfo()
         {
             var viewModelType = GetViewModelType(ViewModelTypeFullName.stringValue);
-            var requiredType = _genericMethodBinder.ParameterType;
+            var requiredType = _genericMethodBinderDeprecated.ParameterType;
 
             var allMethods = viewModelType.GetMethods()
                 .Where(m =>

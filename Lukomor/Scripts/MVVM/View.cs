@@ -20,12 +20,13 @@ namespace Lukomor.MVVM
         [SerializeField] private bool _isParentView;
 
         [SerializeField] private List<View> _subViews = new();
-        [SerializeField] private List<Binder> _childBinders = new();
+        [SerializeField] private List<BinderDEPRECATED> _childBinders = new();
 
         [SerializeField] private bool _showEditorLogs;
 
         public string ViewModelTypeFullName => _viewModelTypeFullName;
         public string ViewModelPropertyName => _viewModelPropertyName;
+        public IViewModel ViewModel { get; private set; }
 
 #if UNITY_EDITOR
         
@@ -88,14 +89,14 @@ namespace Lukomor.MVVM
         }
 
 #if UNITY_EDITOR
-        public void RegisterBinder(Binder binder)
+        public void RegisterBinder(BinderDEPRECATED binderDeprecated)
         {
-            if (!_childBinders.Contains(binder)) _childBinders.Add(binder);
+            if (!_childBinders.Contains(binderDeprecated)) _childBinders.Add(binderDeprecated);
         }
 
-        public void RemoveBinder(Binder binder)
+        public void RemoveBinder(BinderDEPRECATED binderDeprecated)
         {
-            _childBinders.Remove(binder);
+            _childBinders.Remove(binderDeprecated);
         }
 
         public void ValidateViewModelSetup()
@@ -148,7 +149,7 @@ namespace Lukomor.MVVM
         public void Fix()
         {
             _childBinders.Clear();
-            var allFoundChildBinders = gameObject.GetComponentsInChildren<Binder>(true);
+            var allFoundChildBinders = gameObject.GetComponentsInChildren<BinderDEPRECATED>(true);
             foreach (var foundChildBinder in allFoundChildBinders)
                 if (foundChildBinder.ViewModelTypeFullName == ViewModelTypeFullName)
                     RegisterBinder(foundChildBinder);

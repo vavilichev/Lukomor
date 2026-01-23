@@ -1,25 +1,79 @@
 ﻿using System;
+using System.Reactive.Subjects;
+using UnityEngine;
 
 namespace Lukomor.MVVM.Binders
 {
-    public abstract class ObservableBinder : Binder
+    public abstract class ObservableBinder : MonoBehaviour
     {
-        public abstract Type ArgumentType { get; }
-    }
-
-    public abstract class ObservableBinder<T> : ObservableBinder
-    {
-        public override Type ArgumentType => typeof(T);
-
-        protected sealed override IDisposable BindInternal(IViewModel viewModel)
-        {
-            var property = viewModel.GetType().GetProperty(PropertyName);
-            var observable = (IObservable<T>)property.GetValue(viewModel);
-            var subscription = observable.Subscribe(OnPropertyChanged);
+        [SerializeField, HideInInspector] private BindingType _bindingType = BindingType.View;
         
-            return subscription;
+        // For ViewModel
+        [SerializeField, HideInInspector] private View _sourceView;
+        [SerializeField, HideInInspector] private string _viewModelPropertyName;
+        
+        // For other binders
+        [SerializeField, HideInInspector] private ObservableBinder _sourceBinder;
+        
+        protected IDisposable Subscription;
+        
+        protected View SourceView => _sourceView;
+        protected ObservableBinder SourceBinder => _sourceBinder;
+        protected string ViewModelPropertyName => _viewModelPropertyName;
+        
+        public BindingType BindingType => _bindingType;
+        public abstract Type InputType { get; }
+        public abstract Type OutputType { get; }
+
+        protected virtual void OnDestroy()
+        {
+            Subscription?.Dispose();
+        }
+    }
+    
+    public abstract class ObservableBinder<TIn, TOut> :  ObservableBinder, IObservableStream<TOut>
+    {
+        private readonly BehaviorSubject<TOut> _outputStream = new(default);
+        public IObservable<TOut> OutputStream => _outputStream;
+        public override Type InputType { get; } = typeof(TIn);
+        public override Type OutputType { get; } = typeof(TOut);
+
+        protected void Start()
+        {
+            IObservable<TIn> inputStream;
+
+            if (SourceView != null)
+            {
+                inputStream = GetPropertyFromViewModel(SourceView.ViewModel);
+            }
+            else
+            {
+                inputStream = GetPropertyFromOtherBinder(SourceBinder);
+            }
+            
+            Subscription = inputStream?.Subscribe(value => {
+                var result = HandleValue(value);
+                _outputStream.OnNext(result);
+            });
         }
 
-        protected abstract void OnPropertyChanged(T newValue);
+        protected abstract TOut HandleValue(TIn value);
+
+        private IObservable<TIn> GetPropertyFromViewModel(IViewModel viewModel)
+        {
+            var vmType = viewModel.GetType();
+            var property = vmType.GetProperty(ViewModelPropertyName);
+            var propertyValue = (IObservable<TIn>)property?.GetValue(viewModel);
+            return propertyValue;
+        }
+
+        private IObservable<TIn> GetPropertyFromOtherBinder(ObservableBinder otherBinder)
+        {
+            return ((ObservableBinder<TIn>)otherBinder).OutputStream;
+        }
+    }
+    
+    public abstract class ObservableBinder<TInOut> : ObservableBinder<TInOut, TInOut>
+    {
     }
 }
