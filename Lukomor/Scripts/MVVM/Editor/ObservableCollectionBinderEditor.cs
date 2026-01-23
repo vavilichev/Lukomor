@@ -5,23 +5,23 @@ using UnityEditor;
 
 namespace Lukomor.MVVM.Editor
 {
-    [CustomEditor(typeof(ObservableCollectionBinder), true)]
+    [CustomEditor(typeof(ObservableCollectionBinderDeprecated), true)]
     public class ObservableCollectionBinderEditor : ObservableBinderBase
     {
-        private ObservableCollectionBinder _observableBinder;
+        private ObservableCollectionBinderDeprecated _observableBinderDeprecated;
         protected override SerializedProperty _propertyName { get; set; }
 
         protected override void OnEnable()
         {
             base.OnEnable();
 
-            _observableBinder = (ObservableCollectionBinder)target;
+            _observableBinderDeprecated = (ObservableCollectionBinderDeprecated)target;
             _propertyName = serializedObject.FindProperty(nameof(_propertyName));
         }
 
         protected override bool IsValidProperty(Type propertyType)
         {
-            var requiredArgumentType = _observableBinder.ArgumentType;
+            var requiredArgumentType = _observableBinderDeprecated.ArgumentType;
             var requiredType = typeof(IReadOnlyReactiveCollection<>);
 
             return IsValidProperty(propertyType, requiredType, requiredArgumentType);

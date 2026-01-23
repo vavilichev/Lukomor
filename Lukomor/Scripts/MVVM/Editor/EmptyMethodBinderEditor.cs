@@ -6,7 +6,7 @@ using UnityEditor;
 
 namespace Lukomor.MVVM.Editor
 {
-    [CustomEditor(typeof(EmptyMethodBinder), true)]
+    [CustomEditor(typeof(EmptyMethodBinderDeprecated), true)]
     public class EmptyMethodBinderEditor : MethodBinderEditor
     {
         protected override IEnumerable<MethodInfo> GetMethodsInfo()
