@@ -40,7 +40,8 @@ namespace Lukomor.MVVM.Editor
             return result;
         }
 
-        public static PropertyInfo[] FilterValidViewModelProperties(PropertyInfo[] allProperties, Type binderInputValueType)
+        public static PropertyInfo[] FilterValidViewModelProperties(PropertyInfo[] allProperties,
+                                                                    Type binderInputValueType)
         {
             var validProperties = allProperties.Where(p =>
             {
@@ -49,17 +50,18 @@ namespace Lukomor.MVVM.Editor
                 {
                     return false;
                 }
-                
-                var isObservable = propertyType
-                    .GetInterfaces()
-                    .FirstOrDefault(i =>
-                        i.IsGenericType &&
-                        i.GetGenericTypeDefinition() == typeof(IObservable<>)
-                    ) != null;
-                
-                if (!isObservable)
+
+                var isDirectlyObservable = propertyType.GetGenericTypeDefinition() == typeof(IObservable<>);
+                if (!isDirectlyObservable)
                 {
-                    return false;
+                    var interfaces = propertyType.GetInterfaces();
+                    var isInheritedByObservable =
+                        interfaces.FirstOrDefault(i => i.IsGenericType &&
+                                                       i.GetGenericTypeDefinition() == typeof(IObservable<>)) != null;
+                    if (!isInheritedByObservable)
+                    {
+                        return false;
+                    }
                 }
 
                 var genericArgs = propertyType.GetGenericArguments();
@@ -75,7 +77,7 @@ namespace Lukomor.MVVM.Editor
 
             return validProperties;
         }
-        
+
         public static bool DoesViewModelHaveProperty(Type viewModelType, string viewModelPropertyName)
         {
             var allPropertyNames = GetAllValidViewModelPropertyNames(viewModelType);

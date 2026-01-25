@@ -51,7 +51,7 @@ namespace Lukomor.MVVM.Editor.Binders
 
         private void DrawCustomHeader()
         {
-            DrawScriptTitle();
+            MVVMEditorUtils.DrawScriptTitle(_binder);
             DrawBindingTypeProperty();
             
             if (_binder.BindingType == BindingType.View)
@@ -62,13 +62,6 @@ namespace Lukomor.MVVM.Editor.Binders
             {
                 DrawSourceBinderProperty();
             }
-        }
-
-        private void DrawScriptTitle()
-        {
-            GUI.enabled = false;
-            EditorGUILayout.ObjectField(MVVMConstants.SCRIPT, MonoScript.FromMonoBehaviour(_binder), typeof(ObservableBinder), false);
-            GUI.enabled = true;
         }
         
         private void DrawBindingTypeProperty()
