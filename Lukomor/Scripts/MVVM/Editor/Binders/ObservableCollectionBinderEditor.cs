@@ -45,16 +45,9 @@ namespace Lukomor.MVVM.Editor.Binders
 
         private void DrawCustomHeader()
         {
-            DrawScriptTitle();
+            MVVMEditorUtils.DrawScriptTitle(_binder);
             DrawSourceViewProperty();
             DrawSourceViewPropertyNameProperty();
-        }
-
-        private void DrawScriptTitle()
-        {
-            GUI.enabled = false;
-            EditorGUILayout.ObjectField(MVVMConstants.SCRIPT, MonoScript.FromMonoBehaviour(_binder), typeof(ObservableBinder), false);
-            GUI.enabled = true;
         }
         
         private void DrawSourceViewProperty()
@@ -146,16 +139,17 @@ namespace Lukomor.MVVM.Editor.Binders
                     return false;
                 }
                 
-                var isObservable = propertyType
-                    .GetInterfaces()
-                    .FirstOrDefault(i =>
-                        i.IsGenericType &&
-                        i.GetGenericTypeDefinition() == typeof(IReadOnlyReactiveCollection<>)
-                    ) != null;
-                
-                if (!isObservable)
+                var isDirectlyObservableCollection = propertyType.GetGenericTypeDefinition() == typeof(IReadOnlyReactiveCollection<>);
+                if (!isDirectlyObservableCollection)
                 {
-                    return false;
+                    var interfaces = propertyType.GetInterfaces();
+                    var isInheritedByObservableCollection =
+                        interfaces.FirstOrDefault(i => i.IsGenericType &&
+                                                       i.GetGenericTypeDefinition() == typeof(IReadOnlyReactiveCollection<>)) != null;
+                    if (!isInheritedByObservableCollection)
+                    {
+                        return false;
+                    }
                 }
 
                 var genericArgs = propertyType.GetGenericArguments();

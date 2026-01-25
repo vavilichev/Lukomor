@@ -4,13 +4,13 @@ using UnityEngine;
 
 namespace Lukomor.MVVM.Binders
 {
-    public class ViewModelToViewDirectRefMapper : MonoBehaviour, IViewModelToViewMapper
+    public class ViewModelToViewDirectRefMapper : ViewModelToViewBaseMapper
     {
         [SerializeField] private ViewModelToViewDirectRefMapping[] _mappings;
         
         private readonly Dictionary<string, View> _prefabsMap = new();
 
-        public void Init()
+        public override void Init()
         {
             foreach (var mapping in _mappings)
             {
@@ -18,13 +18,13 @@ namespace Lukomor.MVVM.Binders
             }
         }
 
-        public View GetPrefab(IViewModel viewModel)
+        public override View GetPrefab(IViewModel viewModel)
         {
             var viewModelTypeFullname = viewModel.GetType().FullName;
             return _prefabsMap[viewModelTypeFullname!];
         }
 
-        public Task<View> GetPrefabAsync(IViewModel viewModel)
+        public override Task<View> GetPrefabAsync(IViewModel viewModel)
         {
             var viewModelTypeFullname = viewModel.GetType().FullName;
             return Task.FromResult(_prefabsMap[viewModelTypeFullname!]);

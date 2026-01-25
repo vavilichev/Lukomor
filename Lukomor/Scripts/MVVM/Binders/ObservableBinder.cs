@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reactive.Subjects;
+using PlasticGui.Diff;
 using UnityEngine;
 
 namespace Lukomor.MVVM.Binders
@@ -34,27 +35,37 @@ namespace Lukomor.MVVM.Binders
     public abstract class ObservableBinder<TIn, TOut> :  ObservableBinder, IObservableStream<TOut>
     {
         private readonly BehaviorSubject<TOut> _outputStream = new(default);
+        private IDisposable _viewModelSubscription;
         public IObservable<TOut> OutputStream => _outputStream;
         public override Type InputType { get; } = typeof(TIn);
         public override Type OutputType { get; } = typeof(TOut);
 
         protected void Start()
         {
-            IObservable<TIn> inputStream;
-
             if (SourceView != null)
             {
-                inputStream = GetPropertyFromViewModel(SourceView.ViewModel);
+                _viewModelSubscription = SourceView.ViewModel.Subscribe(viewModel =>
+                {
+                    if (viewModel == null)
+                    {
+                        return;
+                    }
+
+                    var inputStream = GetPropertyFromViewModel(viewModel);
+                    SubscribeOnInputStream(inputStream);
+                });
             }
             else
             {
-                inputStream = GetPropertyFromOtherBinder(SourceBinder);
+                var inputStream = GetPropertyFromOtherBinder(SourceBinder);
+                SubscribeOnInputStream(inputStream);
             }
-            
-            Subscription = inputStream?.Subscribe(value => {
-                var result = HandleValue(value);
-                _outputStream.OnNext(result);
-            });
+        }
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+            _viewModelSubscription?.Dispose();
         }
 
         protected abstract TOut HandleValue(TIn value);
@@ -70,6 +81,14 @@ namespace Lukomor.MVVM.Binders
         private IObservable<TIn> GetPropertyFromOtherBinder(ObservableBinder otherBinder)
         {
             return ((ObservableBinder<TIn>)otherBinder).OutputStream;
+        }
+
+        private void SubscribeOnInputStream(IObservable<TIn> inputStream)
+        {
+            Subscription = inputStream?.Subscribe(value => {
+                var result = HandleValue(value);
+                _outputStream.OnNext(result);
+            });
         }
     }
     

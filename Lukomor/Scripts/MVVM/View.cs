@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Lukomor.MVVM.Binders;
+using Lukomor.Reactive;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -24,9 +25,11 @@ namespace Lukomor.MVVM
 
         [SerializeField] private bool _showEditorLogs;
 
+        private readonly ReactiveProperty<IViewModel> _viewModel = new();
+        
         public string ViewModelTypeFullName => _viewModelTypeFullName;
         public string ViewModelPropertyName => _viewModelPropertyName;
-        public IViewModel ViewModel { get; private set; }
+        public IObservable<IViewModel> ViewModel => _viewModel;
 
 #if UNITY_EDITOR
         

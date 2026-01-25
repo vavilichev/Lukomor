@@ -5,30 +5,37 @@ namespace Lukomor.MVVM.Binders
 {
     public class ObservableCollectionToViewBinder : ObservableCollectionBinder<IViewModel>
     {
-        [SerializeField] private ViewModelToViewDirectRefMapper _mapper;
+        [SerializeField] private ViewModelToViewBaseMapper _mapper;
+        [SerializeField] private Transform _container;
         
         private readonly Dictionary<IViewModel, View> _createdViews = new();
 
-        protected override void OnValueAdded(IViewModel value)
+        protected override void Start()
         {
-            if (_createdViews.ContainsKey(value))
+            _mapper.Init();
+            base.Start();
+        }
+
+        protected override void OnValueAdded(IViewModel viewModel)
+        {
+            if (_createdViews.ContainsKey(viewModel))
             {
                 return;
             }
 
-            var prefab = _mapper.GetPrefab(value);
-            var createdView = Instantiate(prefab, transform);
+            var prefab = _mapper.GetPrefab(viewModel);
+            var createdView = Instantiate(prefab, _container);
             
-            _createdViews.Add(value, createdView);
-            createdView.Bind(value);
+            _createdViews.Add(viewModel, createdView);
+            createdView.Bind(viewModel);
         }
 
-        protected override void OnValueRemoved(IViewModel value)
+        protected override void OnValueRemoved(IViewModel viewModel)
         {
-            if (_createdViews.TryGetValue(value, out var view))
+            if (_createdViews.TryGetValue(viewModel, out var view))
             {
                 view.Destroy();
-                _createdViews.Remove(value);
+                _createdViews.Remove(viewModel);
             }
         }
     }

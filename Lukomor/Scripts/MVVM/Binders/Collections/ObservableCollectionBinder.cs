@@ -27,14 +27,22 @@ namespace Lukomor.MVVM.Binders
     {
         public override Type InputType => typeof(TValue);
 
-        protected void Start()
+        protected virtual void Start()
         {
-            var inputStream = GetPropertyFromViewModel(SourceView.ViewModel);
-            
-            Subscriptions.Add(inputStream.Added.Subscribe(OnValueAdded));
-            Subscriptions.Add(inputStream.Removed.Subscribe(OnValueRemoved));
+            Subscriptions.Add(SourceView.ViewModel.Subscribe(viewModel =>
+            {
+                if (viewModel == null)
+                {
+                    return;
+                }
+
+                var inputStream = GetPropertyFromViewModel(viewModel);
+
+                Subscriptions.Add(inputStream.Added.Subscribe(OnValueAdded));
+                Subscriptions.Add(inputStream.Removed.Subscribe(OnValueRemoved));
+            }));
         }
-        
+
         private IReadOnlyReactiveCollection<TValue> GetPropertyFromViewModel(IViewModel sourceViewModel)
         {
             var vmType = sourceViewModel.GetType();
@@ -43,7 +51,7 @@ namespace Lukomor.MVVM.Binders
             return propertyValue;
         }
         
-        protected abstract void OnValueAdded(TValue value);
-        protected abstract void OnValueRemoved(TValue value);
+        protected abstract void OnValueAdded(TValue viewModel);
+        protected abstract void OnValueRemoved(TValue viewModel);
     }
 }
