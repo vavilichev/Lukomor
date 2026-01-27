@@ -15,7 +15,6 @@ namespace Lukomor.MVVM
 
         [SerializeField] private string _viewModelTypeFullName;
         [SerializeField] private string _viewModelPropertyName;
-        [SerializeField] private bool _isParentView;
 
         private readonly ReactiveProperty<IViewModel> _viewModel = new();
         private readonly CompositeDisposable _subscriptions = new();

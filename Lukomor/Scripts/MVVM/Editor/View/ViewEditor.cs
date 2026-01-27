@@ -13,7 +13,6 @@ namespace Lukomor.MVVM.Editor
     {
         private SerializedProperty _viewModelTypeFullName;
         private SerializedProperty _viewModelPropertyName;
-        private SerializedProperty _isParentView;
         private View _view;        
         private SerializedProperty _parentView;
         private StringListSearchProvider _searchProvider;
@@ -28,16 +27,12 @@ namespace Lukomor.MVVM.Editor
             _view = (View)target;
             _viewModelTypeFullName = serializedObject.FindProperty(nameof(_viewModelTypeFullName));
             _viewModelPropertyName = serializedObject.FindProperty(nameof(_viewModelPropertyName));
-            _isParentView = serializedObject.FindProperty(nameof(_isParentView));
             _parentView = serializedObject.FindProperty(nameof(_parentView));
-
-            DrawIsParentLog();
         }
 
         public override void OnInspectorGUI()
         {
             DrawScriptTitle();
-            DrawIsParentLog();
             DrawParentViewField();
 
             var isParentViewExist = _parentView.objectReferenceValue != null;
@@ -81,21 +76,6 @@ namespace Lukomor.MVVM.Editor
             GUI.enabled = true;
         }
         
-        private void DrawIsParentLog()
-        {
-            _parentViews.Clear();
-
-            var foundParentViews = _view.AllParentViews();
-            _parentViews.AddRange(foundParentViews);
-            
-            _isParentView.boolValue = _parentViews.Count == 0;
-            serializedObject.ApplyModifiedProperties();
-
-            // GUI.enabled = false;
-            // EditorGUILayout.PropertyField(_isParentView);
-            // GUI.enabled = true;
-        }
-
         private void DrawViewModelSelector()
         {
             var viewModelTypeFullNames = ViewModelsDB.AllViewModelTypeFullNames;
