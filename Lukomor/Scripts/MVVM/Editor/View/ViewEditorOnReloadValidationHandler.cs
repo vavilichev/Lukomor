@@ -28,9 +28,8 @@ namespace Lukomor.MVVM.Editor
             var allSceneViews = Object.FindObjectsByType<View>(FindObjectsInactive.Include, FindObjectsSortMode.None);
             foreach (var view in allSceneViews)
             {
-                view.ValidateViewModelSetup();
+                view.CheckValidation();
             }
-            
         }
     }
 }

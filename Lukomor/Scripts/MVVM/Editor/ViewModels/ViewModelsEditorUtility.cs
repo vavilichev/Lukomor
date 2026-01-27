@@ -40,8 +40,7 @@ namespace Lukomor.MVVM.Editor
             return result;
         }
 
-        public static PropertyInfo[] FilterValidViewModelProperties(PropertyInfo[] allProperties,
-                                                                    Type binderInputValueType)
+        public static PropertyInfo[] FilterValidViewModelProperties(PropertyInfo[] allProperties, Type type)
         {
             var validProperties = allProperties.Where(p =>
             {
@@ -71,7 +70,7 @@ namespace Lukomor.MVVM.Editor
                 }
 
                 var genericArgumentType = genericArgs[0];
-                var result = binderInputValueType.IsAssignableFrom(genericArgumentType);
+                var result = type.IsAssignableFrom(genericArgumentType);
                 return result;
             }).ToArray();
 
