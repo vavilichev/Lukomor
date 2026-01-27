@@ -7,14 +7,14 @@ namespace Lukomor.MVVM.Binders
 {
     public abstract class ObservableBinder : MonoBehaviour
     {
-        [SerializeField, HideInInspector] private BindingType _bindingType = BindingType.View;
+        [SerializeField] private BindingType _bindingType = BindingType.View;
         
         // For ViewModel
-        [SerializeField, HideInInspector] private View _sourceView;
-        [SerializeField, HideInInspector] private string _viewModelPropertyName;
+        [SerializeField] private View _sourceView;
+        [SerializeField] private string _viewModelPropertyName;
         
         // For other binders
-        [SerializeField, HideInInspector] private ObservableBinder _sourceBinder;
+        [SerializeField] private ObservableBinder _sourceBinder;
         
         protected IDisposable Subscription;
         

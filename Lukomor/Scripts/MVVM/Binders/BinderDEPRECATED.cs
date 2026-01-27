@@ -30,15 +30,6 @@ namespace Lukomor.MVVM.Binders
         private void OnDestroy()
         {
             _binding?.Dispose();
-
-#if UNITY_EDITOR
-            var parentView = GetComponentInParent<View>();
-            if (parentView)
-            {
-                parentView.RemoveBinder(this);
-            }
-#endif
-
             OnDestroyed();
         }
 
@@ -69,7 +60,6 @@ namespace Lukomor.MVVM.Binders
             if (_parentView == null)
             {
                 _parentView = GetComponentInParent<View>();
-                _parentView.RegisterBinder(this);
             }
         }
 #endif
