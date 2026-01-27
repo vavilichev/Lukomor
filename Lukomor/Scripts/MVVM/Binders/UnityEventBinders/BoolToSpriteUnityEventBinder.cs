@@ -3,18 +3,20 @@ using UnityEngine.Events;
 
 namespace Lukomor.MVVM.Binders
 {
-    public class BoolToSpriteUnityEventBinderDeprecated : ObservableBinderDeprecated<bool>
+    public class BoolToSpriteUnityEventBinder : ObservableBinder<bool, Sprite>
     {
         [SerializeField] private Sprite _spriteTrue;
         [SerializeField] private Sprite _spriteFalse;
 
         [SerializeField] private UnityEvent<Sprite> _event;
 
-        protected override void OnPropertyChanged(bool newValue)
+        protected override Sprite HandleValue(bool value)
         {
-            var sprite = newValue ? _spriteTrue : _spriteFalse;
+            var sprite = value ? _spriteTrue : _spriteFalse;
             
             _event.Invoke(sprite);
+
+            return sprite;
         }
     }
 }

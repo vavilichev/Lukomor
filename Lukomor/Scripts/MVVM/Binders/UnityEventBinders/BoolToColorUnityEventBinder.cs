@@ -3,18 +3,20 @@ using UnityEngine.Events;
 
 namespace Lukomor.MVVM.Binders
 {
-    public class BoolToColorUnityEventBinderDeprecated : ObservableBinderDeprecated<bool>
+    public class BoolToColorUnityEventBinder : ObservableBinder<bool, Color>
     {
         [SerializeField] private Color _colorTrue = Color.white;
         [SerializeField] private Color _colorFalse = Color.white;
 
         [SerializeField] private UnityEvent<Color> _event;
 
-        protected override void OnPropertyChanged(bool newValue)
+        protected override Color HandleValue(bool value)
         {
-            var color = newValue ? _colorTrue : _colorFalse;
+            var color = value ? _colorTrue : _colorFalse;
             
             _event.Invoke(color);
+
+            return color;
         }
     }
 }

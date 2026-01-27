@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 namespace Lukomor.MVVM.Binders
 {
-    public class IntToSpriteUnityEventBinderDeprecated : ObservableBinderDeprecated<int>
+    public class IntToSpriteUnityEventBinder : ObservableBinder<int, Sprite>
     {
         [SerializeField] private List<IntToSpriteMapping> _mappings = new();
         [SerializeField] private Sprite _spriteByDefault;
@@ -24,14 +24,16 @@ namespace Lukomor.MVVM.Binders
             }
         }
 
-        protected override void OnPropertyChanged(int newValue)
+        protected override Sprite HandleValue(int value)
         {
-            if (_spritesMap.TryGetValue(newValue, out var sprite))
+            if (_spritesMap.TryGetValue(value, out var sprite))
             {
                 _event.Invoke(sprite);
+                return sprite;
             }
             
             _event.Invoke(_spriteByDefault);
+            return _spriteByDefault;
         }
     }
 	
