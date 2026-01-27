@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 namespace Lukomor.MVVM.Binders
 {
-    public class IntToColorUnityEventBinderDeprecated : ObservableBinderDeprecated<int>
+    public class IntToColorUnityEventBinder : ObservableBinder<int, Color>
     {
         [SerializeField] private List<IntToColorMapping> _mappings = new();
         [SerializeField] private Color _colorByDefault = Color.white;
@@ -24,14 +24,16 @@ namespace Lukomor.MVVM.Binders
             }
         }
 
-        protected override void OnPropertyChanged(int newValue)
+        protected override Color HandleValue(int value)
         {
-            if (_colorsMap.TryGetValue(newValue, out var color))
+            if (_colorsMap.TryGetValue(value, out var color))
             {
                 _event.Invoke(color);
+                return color;
             }
             
             _event.Invoke(_colorByDefault);
+            return _colorByDefault;
         }
     }
 
