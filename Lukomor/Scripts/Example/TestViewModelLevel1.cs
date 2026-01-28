@@ -13,5 +13,12 @@ namespace Lukomor.Example
         public ReactiveProperty<int> IntPropertyOne { get; } = new();
         public ReactiveProperty<int> IntPropertyTwo { get; } = new();
         public ReactiveCollection<TestViewModelLevel1> Children { get; } = new();
+        
+        public ICommand EmptyCommand1 { get; }
+        public ICommand EmptyCommand2 { get; }
+        public ICommand<int> IntCommand1 { get; }
+        public ICommand<int> IntCommand2 { get; }
+        public ICommand<bool> BoolCommand1 { get; }
+        public ICommand<bool> BoolCommand2 { get; }
     }
 }

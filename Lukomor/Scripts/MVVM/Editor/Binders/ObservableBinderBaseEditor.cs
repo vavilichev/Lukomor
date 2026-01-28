@@ -9,7 +9,7 @@ using UnityEngine;
 namespace Lukomor.MVVM.Editor.Binders
 {
     [CustomEditor(typeof(ObservableBinder), true)]
-    public class ObservableBinderEditor : UnityEditor.Editor
+    public class ObservableBinderBaseEditor : UnityEditor.Editor
     {
         private const string PROP_BINDING_TYPE = "_bindingType";
         private const string PROP_SOURCE_VIEW = "_sourceView";
