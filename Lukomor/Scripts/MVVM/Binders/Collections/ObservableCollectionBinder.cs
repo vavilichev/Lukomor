@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 using System.Reactive.Disposables;
+using Lukomor.MVVM.Editor;
 using Lukomor.Reactive;
 using UnityEngine;
 
@@ -21,6 +23,65 @@ namespace Lukomor.MVVM.Binders
         {
             Subscriptions?.Dispose();
         }
+        
+        #if UNITY_EDITOR
+        public void CheckValidation()
+        {
+            // if (_bindingType == BindingType.View)
+            // {
+            //     if (_sourceView != null)
+            //     {
+            //         var sourceViewModelType =
+            //             ViewModelsEditorUtility.ConvertViewModelType(_sourceView.ViewModelTypeFullName);
+            //         if (sourceViewModelType == null)
+            //         {
+            //             _viewModelPropertyName = null;
+            //             DrawWarningIcon();
+            //             return;
+            //         }
+            //
+            //         var allViewModelProperties = sourceViewModelType.GetProperties();
+            //         var isPropertyExist = allViewModelProperties.Any(p => p.Name == _viewModelPropertyName);
+            //
+            //         if (isPropertyExist)
+            //         {
+            //             RemoveWarningIcon();
+            //             return;
+            //         }
+            //
+            //         DrawWarningIcon();
+            //     }
+            //     else
+            //     {
+            //         // no view reference
+            //         DrawWarningIcon();
+            //     }
+            // }
+            // else
+            // {
+            //     if (_sourceBinder != null)
+            //     {
+            //         RemoveWarningIcon();
+            //     }
+            //     else
+            //     {
+            //         // no binder selected
+            //         DrawWarningIcon();
+            //     }
+            // }
+        }
+        
+        private void DrawWarningIcon()
+        {
+            WarningIconDrawer.AddWarningView(gameObject.GetInstanceID());
+        }
+
+        private void RemoveWarningIcon()
+        {
+            WarningIconDrawer.RemoveWarningView(gameObject.GetInstanceID());
+        }
+        
+        #endif
     }
 
     public abstract class ObservableCollectionBinder<TValue> : ObservableCollectionBinder

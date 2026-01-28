@@ -45,6 +45,7 @@ namespace Lukomor.MVVM.Editor.Binders
         {
             DrawCustomHeader();
             DrawInheritedProperties();
+            CheckValidation();
 
             serializedObject.ApplyModifiedProperties();
         }
@@ -185,6 +186,40 @@ namespace Lukomor.MVVM.Editor.Binders
                     continue;
 
                 EditorGUILayout.PropertyField(iterator, true);
+            }
+        }
+
+        private void CheckValidation()
+        {
+            var bindingType = (BindingType)_bindingTypeProperty.enumValueIndex;
+            if (bindingType == BindingType.View)
+            {
+                // source is view
+
+                var sourceView = _sourceViewProperty.objectReferenceValue as View;
+                if (sourceView == null)
+                {
+                    EditorGUILayout.HelpBox("No View selected", MessageType.Warning);
+                    return;
+                }
+
+                var propertyName = _viewModelPropertyNameProperty.stringValue;
+                if (string.IsNullOrEmpty(propertyName))
+                {
+                    EditorGUILayout.HelpBox("View Model Property wasn't selected", MessageType.Warning);
+                    return;
+                }
+                return;
+            }
+
+            if (bindingType == BindingType.Binder)
+            {
+                var sourceBinder = _sourceBinderProperty.objectReferenceValue as ObservableBinder;
+                if (sourceBinder == null)
+                {
+                    EditorGUILayout.HelpBox("No binder selected", MessageType.Warning);
+                }
+                return;
             }
         }
     }

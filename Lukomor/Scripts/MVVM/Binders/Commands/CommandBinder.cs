@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Lukomor.MVVM.Editor;
 using UnityEngine;
 
 namespace Lukomor.MVVM.Binders
@@ -19,6 +20,36 @@ namespace Lukomor.MVVM.Binders
         {
             ViewModelSubscription.Dispose();
         }
+        
+        #if UNITY_EDITOR
+        public void CheckValidation()
+        {
+            if (_sourceView == null)
+            {
+                DrawWarningIcon();
+                return;
+            }
+
+            if (string.IsNullOrEmpty(_viewModelCommandPropertyName))
+            {
+                DrawWarningIcon();
+                return;
+            }
+            
+            RemoveWarningIcon();
+        }
+
+        private void DrawWarningIcon()
+        {
+            WarningIconDrawer.AddWarningView(gameObject.GetInstanceID());    
+        }
+
+        private void RemoveWarningIcon()
+        {
+            WarningIconDrawer.RemoveWarningView(gameObject.GetInstanceID());    
+        }
+        
+        #endif
     }
 
     public abstract class CommandBinder : CommandBinderBase
