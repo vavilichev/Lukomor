@@ -77,11 +77,21 @@ namespace Lukomor.MVVM.Editor
             return validProperties;
         }
 
-        public static bool DoesViewModelHaveProperty(Type viewModelType, string viewModelPropertyName)
+        public static PropertyInfo[] FilterValidProperties(PropertyInfo[] allProperties, Type requiredType)
         {
-            var allPropertyNames = GetAllValidViewModelPropertyNames(viewModelType);
-            var result = allPropertyNames.Contains(viewModelPropertyName);
-            return result;
+            var validProperties = allProperties.Where(p =>
+            {
+                var propertyType = p.PropertyType;
+                if (!propertyType.IsPublic)
+                {
+                    return false;
+                }
+
+                var isRequiredType = requiredType.IsAssignableFrom(propertyType);
+                return isRequiredType;
+            }).ToArray();
+
+            return validProperties;
         }
     }
 }
