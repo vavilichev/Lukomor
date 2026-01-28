@@ -36,6 +36,7 @@ namespace Lukomor.MVVM.Editor.Binders
         {
             DrawCustomHeader();
             DrawInheritedProperties();
+            CheckValidation();
 
             serializedObject.ApplyModifiedProperties();
         }
@@ -123,6 +124,23 @@ namespace Lukomor.MVVM.Editor.Binders
                     continue;
 
                 EditorGUILayout.PropertyField(iterator, true);
+            }
+        }
+
+        private void CheckValidation()
+        {
+            var sourceView = _sourceViewProperty.objectReferenceValue as View;
+            if (sourceView == null)
+            {
+                EditorGUILayout.HelpBox("No View selected", MessageType.Warning);
+                return;
+            }
+
+            var commandName = _viewModelCommandPropertyNameProperty.stringValue;
+            if (string.IsNullOrEmpty(commandName))
+            {
+                EditorGUILayout.HelpBox("View Model Command wasn't selected", MessageType.Warning);
+                return;
             }
         }
     }

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 using System.Reactive.Subjects;
+using Lukomor.MVVM.Editor;
 using PlasticGui.Diff;
 using UnityEngine;
 
@@ -26,6 +28,65 @@ namespace Lukomor.MVVM.Binders
         public abstract Type InputType { get; }
         public abstract Type OutputType { get; }
 
+        #if UNITY_EDITOR
+        public void CheckValidation()
+        {
+            if (_bindingType == BindingType.View)
+            {
+                if (_sourceView != null)
+                {
+                    var sourceViewModelType =
+                        ViewModelsEditorUtility.ConvertViewModelType(_sourceView.ViewModelTypeFullName);
+                    if (sourceViewModelType == null)
+                    {
+                        _viewModelPropertyName = null;
+                        DrawWarningIcon();
+                        return;
+                    }
+
+                    var allViewModelProperties = sourceViewModelType.GetProperties();
+                    var isPropertyExist = allViewModelProperties.Any(p => p.Name == _viewModelPropertyName);
+
+                    if (isPropertyExist)
+                    {
+                        RemoveWarningIcon();
+                        return;
+                    }
+
+                    DrawWarningIcon();
+                }
+                else
+                {
+                    // no view reference
+                    DrawWarningIcon();
+                }
+            }
+            else
+            {
+                if (_sourceBinder != null)
+                {
+                    RemoveWarningIcon();
+                }
+                else
+                {
+                    // no binder selected
+                    DrawWarningIcon();
+                }
+            }
+        }
+
+        private void DrawWarningIcon()
+        {
+            WarningIconDrawer.AddWarningView(gameObject.GetInstanceID());
+        }
+
+        private void RemoveWarningIcon()
+        {
+            WarningIconDrawer.RemoveWarningView(gameObject.GetInstanceID());
+        }
+        
+        #endif
+        
         protected virtual void OnDestroy()
         {
             Subscription?.Dispose();
