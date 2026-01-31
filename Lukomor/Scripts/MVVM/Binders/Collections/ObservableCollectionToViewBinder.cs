@@ -3,6 +3,12 @@ using UnityEngine;
 
 namespace Lukomor.MVVM.Binders
 {
+    /// <summary>
+    /// This class observes the IReadonlyObservableCollection<IViewModel> and reacts to it's changing.
+    /// Adding new ViewModel leads to View creation. Removing ViewModel leads to View destroying.
+    /// The view selects from the mapper. The mapper is abstract and has instant prefab pulling, and async.
+    /// But exactly this class uses instant variant of the prefab creation.
+    /// </summary>
     public class ObservableCollectionToViewBinder : ObservableCollectionBinder<IViewModel>
     {
         [SerializeField] private ViewModelToViewBaseMapper _mapper;

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using Lukomor.MVVM.Editor;
 using Lukomor.Reactive;
 using UnityEngine;
 
@@ -79,13 +78,12 @@ namespace Lukomor.MVVM.Binders
             var propertyType = typeof(IReadOnlyReactiveCollection<TValue>);
             var allViewModelProperties = sourceViewModelType.GetProperties();
             var allValidViewModelProperties =
-                ViewModelsEditorUtility.FilterValidProperties(allViewModelProperties, propertyType);
+                Editor.ViewModelsEditorUtility.FilterValidProperties(allViewModelProperties, propertyType);
             var doesRequiredPropertyExist = allValidViewModelProperties.Any(p => p.Name == ViewModelPropertyName);
             var isBroken = !doesRequiredPropertyExist;
 
             return isBroken;
         }
-
 #endif
     }
 }
