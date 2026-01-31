@@ -65,7 +65,7 @@ namespace Lukomor.MVVM.Editor
                 _viewModelTypeFullName.stringValue = null;
                 _viewModelPropertyName.stringValue = null;
                 serializedObject.ApplyModifiedProperties();
-                ViewEditorOnReloadValidationHandler.ValidateAllSceneViews();
+                MVVMValidator.RequestValidation();
             }
         }
         
@@ -86,7 +86,7 @@ namespace Lukomor.MVVM.Editor
                     newViewModelTypeFullNameSelected == MVVMConstants.NONE ? null : newViewModelTypeFullNameSelected;
                 serializedObject.ApplyModifiedProperties();
 
-                ViewEditorOnReloadValidationHandler.ValidateAllSceneViews();
+                MVVMValidator.RequestValidation();
             });
                 
             EditorGUILayout.BeginHorizontal();
@@ -253,7 +253,7 @@ namespace Lukomor.MVVM.Editor
             
             serializedObject.ApplyModifiedProperties();
             
-            ViewEditorOnReloadValidationHandler.ValidateAllSceneViews();
+            MVVMValidator.RequestValidation();
         }
         
         private Type GetViewModelTypeByPropertyName(string parentViewModelTypeFullName, string viewModelPropertyName)

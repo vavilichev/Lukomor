@@ -45,9 +45,6 @@ namespace Lukomor.MVVM
         private void OnDestroy()
         {
             _subscriptions.Dispose();
-#if UNITY_EDITOR
-            Editor.WarningIconDrawer.ClearGameObject(gameObject.GetInstanceID());
-#endif
         }
 
 #if UNITY_EDITOR
@@ -57,14 +54,14 @@ namespace Lukomor.MVVM
             if (_parentView == null)
             {
                 _parentView = this.FirstOrDefaultParentView();
-                CheckValidation();
+                Editor.MVVMValidator.RequestValidation();
             }
         }
 
         public void SmartReset()
         {
-            // reset onlyt property
-            _viewModelPropertyName = null;
+            // reset only property, saving the viewModelTypeFullName
+            ResetPropertyName();
         }
 
         public void ResetPropertyName()
@@ -76,40 +73,12 @@ namespace Lukomor.MVVM
         {
             _viewModelTypeFullName = null;
         }
-
-        public void CheckValidation()
-        {
-            if (string.IsNullOrEmpty(_viewModelPropertyName) && _parentView != null)
-            {
-                Debug.LogWarning($"View setup is not valid. Missing ViewModel property name for object {gameObject.name}", gameObject);
-                ShowWarningIcon();
-                return;
-            }
-            
-            if (string.IsNullOrEmpty(_viewModelTypeFullName))
-            {
-                Debug.LogWarning($"View setup is not valid. Missing ViewModel for object {gameObject.name}", gameObject);
-                ShowWarningIcon();
-                return;
-            }
-
-            RemoveWarningIcon();
-        }
         
         private void OnTransformParentChanged()
         {
-            CheckValidation();
+            Editor.MVVMValidator.RequestValidation();
         }
 
-        private void ShowWarningIcon()
-        {
-            Editor.WarningIconDrawer.AddWarning(gameObject.GetInstanceID(), GetInstanceID());
-        }
-
-        private void RemoveWarningIcon()
-        {
-            Editor.WarningIconDrawer.RemoveWarning(gameObject.GetInstanceID(), GetInstanceID());
-        }
 #endif
     }
 }

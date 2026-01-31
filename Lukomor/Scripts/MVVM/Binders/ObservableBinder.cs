@@ -43,66 +43,12 @@ namespace Lukomor.MVVM.Binders
 
         public override void SmartReset()
         {
-            if (SourceView == null)
+            if (_bindingType == BindingType.Binder)
             {
-                _viewModelPropertyName = null;
+                return;
             }
-        }
-        
-        public void CheckValidation()
-        {
-            if (_bindingType == BindingType.View)
-            {
-                if (SourceView != null)
-                {
-                    var sourceViewModelType =
-                        ViewModelsEditorUtility.ConvertViewModelType(SourceView.ViewModelTypeFullName);
-                    if (sourceViewModelType == null)
-                    {
-                        _viewModelPropertyName = null;
-                        DrawWarningIcon();
-                        return;
-                    }
-
-                    var allViewModelProperties = sourceViewModelType.GetProperties();
-                    var isPropertyExist = allViewModelProperties.Any(p => p.Name == _viewModelPropertyName);
-
-                    if (isPropertyExist)
-                    {
-                        RemoveWarningIcon();
-                        return;
-                    }
-
-                    DrawWarningIcon();
-                }
-                else
-                {
-                    // no view reference
-                    DrawWarningIcon();
-                }
-            }
-            else
-            {
-                if (_sourceBinder != null)
-                {
-                    RemoveWarningIcon();
-                }
-                else
-                {
-                    // no binder selected
-                    DrawWarningIcon();
-                }
-            }
-        }
-
-        private void DrawWarningIcon()
-        {
-            WarningIconDrawer.AddWarning(gameObject.GetInstanceID(), GetInstanceID());
-        }
-
-        private void RemoveWarningIcon()
-        {
-            WarningIconDrawer.RemoveWarning(gameObject.GetInstanceID(), GetInstanceID());
+            
+            _viewModelPropertyName = null;
         }
         
         protected abstract bool IsBrokenViewModelProperty(Type sourceViewModelType);
@@ -184,6 +130,11 @@ namespace Lukomor.MVVM.Binders
                 ViewModelsEditorUtility.FilterValidProperties(allViewModelProperties, requiredPropertyType);
             var doesRequiredPropertyExist = allValidViewModelProperties.Any(p => p.Name == ViewModelPropertyName);
             var isBroken = !doesRequiredPropertyExist;
+
+            if (isBroken)
+            {
+                SmartReset();
+            }
 
             return isBroken;
         }

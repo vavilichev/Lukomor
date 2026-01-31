@@ -43,26 +43,30 @@ namespace Lukomor.MVVM.Editor.Binders
 
         public sealed override void OnInspectorGUI()
         {
-            DrawCustomHeader();
+            var hasHeaderDrawnCompletely = TryDrawCustomHeader();
+
+            if (!hasHeaderDrawnCompletely)
+            {
+                return;
+            }
+            
             DrawInheritedProperties();
             CheckValidation();
 
             serializedObject.ApplyModifiedProperties();
         }
 
-        private void DrawCustomHeader()
+        private bool TryDrawCustomHeader()
         {
             MVVMEditorUtils.DrawScriptTitle(_binder);
             DrawBindingTypeProperty();
             
             if (_binder.BindingType == BindingType.View)
             {
-                DrawSourceViewSetup();
+                return TryDrawSourceViewSetup();
             }
-            else
-            {
-                DrawSourceBinderProperty();
-            }
+
+            return TryDrawSourceBinderProperty();
         }
         
         private void DrawBindingTypeProperty()
@@ -85,12 +89,16 @@ namespace Lukomor.MVVM.Editor.Binders
                 _sourceViewProperty.objectReferenceValue = null;
                 _viewModelPropertyNameProperty.stringValue = null;
             }
+
+            serializedObject.ApplyModifiedProperties();
+            MVVMValidator.RequestValidation();
         }
         
-        private void DrawSourceViewSetup()
+        private bool TryDrawSourceViewSetup()
         {
             DrawSourceViewProperty();
-            DrawSourceViewPropertyNameProperty();
+            var result = TryDrawSourceViewPropertyNameProperty();
+            return result;
         }
         
         private void DrawSourceViewProperty()
@@ -99,11 +107,12 @@ namespace Lukomor.MVVM.Editor.Binders
             serializedObject.ApplyModifiedProperties();
         }
         
-        private void DrawSourceViewPropertyNameProperty()
+        private bool TryDrawSourceViewPropertyNameProperty()
         {
             if (_sourceViewProperty.objectReferenceValue == null)
             {
-                return;
+                EditorGUILayout.HelpBox("Select Source View, Please", MessageType.Warning);
+                return false;
             }
 
             var sourceView = _sourceViewProperty.objectReferenceValue as View;
@@ -111,10 +120,12 @@ namespace Lukomor.MVVM.Editor.Binders
             if (string.IsNullOrEmpty(sourceViewModelTypeFullName))
             {
                 // view model type must be selected
-                return;
+                EditorGUILayout.HelpBox("Check Source View setup. ViewModel must be selected", MessageType.Warning);
+                return false;
             }
 
             DrawSelectViewModelPropertyLine(sourceViewModelTypeFullName);
+            return true;
         }
         
         private void DrawSelectViewModelPropertyLine(string sourceViewModelTypeFullName)
@@ -143,6 +154,8 @@ namespace Lukomor.MVVM.Editor.Binders
                     _viewModelPropertyNameProperty.stringValue =
                         newPropertyNameSelected == MVVMConstants.NONE ? null : newPropertyNameSelected;
                     serializedObject.ApplyModifiedProperties();
+                    
+                    MVVMValidator.RequestValidation();
                 });
                 
                 var mousePos = Event.current.mousePosition;
@@ -153,7 +166,7 @@ namespace Lukomor.MVVM.Editor.Binders
             EditorGUILayout.EndHorizontal();
         }
         
-        private void DrawSourceBinderProperty()
+        private bool TryDrawSourceBinderProperty()
         {
             var oldSourceBinder = _sourceBinderProperty.objectReferenceValue;
 
@@ -167,6 +180,8 @@ namespace Lukomor.MVVM.Editor.Binders
                 throw new Exception(
                     $"Not valid binder source. Output type of the source binder must be {_binder.InputType} and mustn't refer to itself");
             }
+
+            return true;
         }
         
         private void DrawInheritedProperties()

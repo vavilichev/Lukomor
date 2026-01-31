@@ -37,18 +37,25 @@ namespace Lukomor.MVVM.Editor.Binders
 
         public sealed override void OnInspectorGUI()
         {
-            DrawCustomHeader();
+            var isHeaderDrawnCompletely = TryDrawCustomHeader();
+
+            if (!isHeaderDrawnCompletely)
+            {
+                return;
+            }
+            
             DrawInheritedProperties();
             CheckValidation();
 
             serializedObject.ApplyModifiedProperties();
         }
 
-        private void DrawCustomHeader()
+        private bool TryDrawCustomHeader()
         {
             MVVMEditorUtils.DrawScriptTitle(_binder);
             DrawSourceViewProperty();
-            DrawSourceViewPropertyNameProperty();
+            var result = TryDrawSourceViewPropertyNameProperty();
+            return result;
         }
         
         private void DrawSourceViewProperty()
@@ -57,11 +64,12 @@ namespace Lukomor.MVVM.Editor.Binders
             serializedObject.ApplyModifiedProperties();
         }
         
-        private void DrawSourceViewPropertyNameProperty()
+        private bool TryDrawSourceViewPropertyNameProperty()
         {
             if (_sourceViewProperty.objectReferenceValue == null)
             {
-                return;
+                EditorGUILayout.HelpBox("Please, select Source View, first, please", MessageType.Warning);
+                return false;
             }
 
             var sourceView = _sourceViewProperty.objectReferenceValue as View;
@@ -69,10 +77,13 @@ namespace Lukomor.MVVM.Editor.Binders
             if (string.IsNullOrEmpty(sourceViewModelTypeFullName))
             {
                 // view model type must be selected
-                return;
+                EditorGUILayout.HelpBox("Source View doesn't have the ViewModel selection. Check View, please.",
+                                        MessageType.Warning);
+                return false;
             }
 
             DrawSelectViewModelPropertyLine(sourceViewModelTypeFullName);
+            return true;
         }
         
         private void DrawSelectViewModelPropertyLine(string sourceViewModelTypeFullName)
@@ -100,6 +111,8 @@ namespace Lukomor.MVVM.Editor.Binders
                     _viewModelPropertyNameProperty.stringValue =
                         newPropertyNameSelected == MVVMConstants.NONE ? null : newPropertyNameSelected;
                     serializedObject.ApplyModifiedProperties();
+                    
+                    MVVMValidator.RequestValidation();
                 });
                 
                 var mousePos = Event.current.mousePosition;

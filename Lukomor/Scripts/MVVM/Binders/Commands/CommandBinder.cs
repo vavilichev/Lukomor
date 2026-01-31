@@ -35,33 +35,6 @@ namespace Lukomor.MVVM.Binders
         {
             _viewModelCommandPropertyName = null;
         }
-
-        public void CheckValidation()
-        {
-            if (SourceView == null)
-            {
-                DrawWarningIcon();
-                return;
-            }
-
-            if (string.IsNullOrEmpty(_viewModelCommandPropertyName))
-            {
-                DrawWarningIcon();
-                return;
-            }
-            
-            RemoveWarningIcon();
-        }
-
-        private void DrawWarningIcon()
-        {
-            WarningIconDrawer.AddWarning(gameObject.GetInstanceID(), GetInstanceID());    
-        }
-
-        private void RemoveWarningIcon()
-        {
-            WarningIconDrawer.RemoveWarning(gameObject.GetInstanceID(), GetInstanceID());    
-        }
         
         #endif
     }
