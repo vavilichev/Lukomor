@@ -8,9 +8,9 @@ namespace Lukomor.MVVM.Binders
     {
         [SerializeField] private CompareOperation _compareOperation;
         [SerializeField] private int _comparingValue;
-        
+
         [SerializeField] private UnityEvent<bool> _event;
-		
+
         protected override bool HandleValue(int value)
         {
             var result = _compareOperation.Compare(value, _comparingValue);
