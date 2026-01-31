@@ -10,7 +10,7 @@ namespace Lukomor.MVVM
 #endif
     public class View : MonoBehaviour
     {
-        [SerializeField] private View _parentView;
+        [SerializeField] private View _sourceView;
 
         [SerializeField] private string _viewModelTypeFullName;
         [SerializeField] private string _viewModelPropertyName;
@@ -18,7 +18,7 @@ namespace Lukomor.MVVM
         private readonly ReactiveProperty<IViewModel> _viewModel = new();
         private readonly CompositeDisposable _subscriptions = new();
         
-        public View ParentView => _parentView;
+        public View SourceView => _sourceView;
         public string ViewModelTypeFullName => _viewModelTypeFullName;
         public string ViewModelPropertyName => _viewModelPropertyName;
         public IObservable<IViewModel> ViewModel => _viewModel;
@@ -30,9 +30,9 @@ namespace Lukomor.MVVM
         
         private void Start()
         {
-            if (_parentView != null)
+            if (_sourceView != null)
             {
-                _subscriptions.Add(_parentView.ViewModel.Subscribe(viewModel => { _viewModel.Value = viewModel; }));
+                _subscriptions.Add(_sourceView.ViewModel.Subscribe(viewModel => { _viewModel.Value = viewModel; }));
             }
         }
         
@@ -51,9 +51,9 @@ namespace Lukomor.MVVM
         
         private void Reset()
         {
-            if (_parentView == null)
+            if (_sourceView == null)
             {
-                _parentView = this.FirstOrDefaultParentView();
+                _sourceView = this.FirstOrDefaultSourceView();
                 Editor.MVVMValidator.RequestValidation();
             }
         }

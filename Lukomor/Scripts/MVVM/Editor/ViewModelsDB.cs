@@ -22,7 +22,6 @@ namespace Lukomor.MVVM.Editor
             _allViewModelTypes.AddRange(TypeCache.GetTypesDerivedFrom<IViewModel>().Where(t => !t.IsAbstract && t.IsClass));
             _allViewModelTypeFullNames.Clear();
             _allViewModelTypeFullNames.AddRange(_allViewModelTypes.Select(t => t.FullName));
-            Debug.Log("UpdateViewModelsDB");
         }
         
         [MenuItem("Lukomor/Auto Recompile/Enable", false, 1)]

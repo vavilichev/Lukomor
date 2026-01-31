@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 
 namespace Lukomor.MVVM.Editor
@@ -14,11 +13,10 @@ namespace Lukomor.MVVM.Editor
         private SerializedProperty _viewModelTypeFullName;
         private SerializedProperty _viewModelPropertyName;
         private View _view;        
-        private SerializedProperty _parentView;
+        private SerializedProperty _sourceView;
         private StringListSearchProvider _searchProvider;
         
         // help 
-        private readonly List<View> _parentViews = new();
         private readonly List<string> _viewModelPropertyNames = new();
 
         private void OnEnable()
@@ -27,21 +25,21 @@ namespace Lukomor.MVVM.Editor
             _view = (View)target;
             _viewModelTypeFullName = serializedObject.FindProperty(nameof(_viewModelTypeFullName));
             _viewModelPropertyName = serializedObject.FindProperty(nameof(_viewModelPropertyName));
-            _parentView = serializedObject.FindProperty(nameof(_parentView));
+            _sourceView = serializedObject.FindProperty(nameof(_sourceView));
         }
 
         public override void OnInspectorGUI()
         {
             DrawScriptTitle();
-            DrawParentViewField();
+            DrawSourceViewField();
 
-            var isParentViewExist = _parentView.objectReferenceValue != null;
+            var isSourceViewExist = _sourceView.objectReferenceValue != null;
 
-            if (isParentViewExist)
+            if (isSourceViewExist)
             {
                 DrawViewModelPropertyNameSelector();
                 DrawViewModelLabel();
-                DrawSelectParentViewButton();
+                DrawSelectSourceViewButton();
             }
             else
             {
@@ -53,14 +51,14 @@ namespace Lukomor.MVVM.Editor
             serializedObject.ApplyModifiedProperties();
         }
         
-        protected void DrawParentViewField()
+        protected void DrawSourceViewField()
         {
-            var oldParentViewValue = _parentView.objectReferenceValue as View;
-            EditorGUILayout.PropertyField(_parentView);
+            var oldSourceViewValue = _sourceView.objectReferenceValue as View;
+            EditorGUILayout.PropertyField(_sourceView);
             serializedObject.ApplyModifiedProperties();
 
-            var newParentView = _parentView.objectReferenceValue as View;
-            if (!ReferenceEquals(newParentView, oldParentViewValue))
+            var newSourceView = _sourceView.objectReferenceValue as View;
+            if (!ReferenceEquals(newSourceView, oldSourceViewValue))
             {
                 _viewModelTypeFullName.stringValue = null;
                 _viewModelPropertyName.stringValue = null;
@@ -120,34 +118,39 @@ namespace Lukomor.MVVM.Editor
             EditorGUILayout.LabelField(displayedViewModelName);
 
             EditorGUILayout.EndHorizontal();
+
+            if (!isViewModelSelected)
+            {
+                EditorGUILayout.HelpBox("Please, select view model property from the source view", MessageType.Warning);
+            }
         }
 
         private void DrawViewModelPropertyNameSelector()
         {
-            var parentView = _parentView.objectReferenceValue as View;
-            var parentViewModelPropertyNames = GetAllViewModelPropertyNames(parentView);
+            var sourceView = _sourceView.objectReferenceValue as View;
+            var sourceViewModelPropertyNames = GetAllViewModelPropertyNames(sourceView);
             var selectedViewModelPropertyName = _viewModelPropertyName.stringValue;
             var isPropertySelected = !string.IsNullOrEmpty(selectedViewModelPropertyName);
-            if (isPropertySelected && !parentViewModelPropertyNames.Contains(selectedViewModelPropertyName))
+            if (isPropertySelected && !sourceViewModelPropertyNames.Contains(selectedViewModelPropertyName))
             {
-                Debug.LogWarning("Parent view model was changed, connected property name has been reset to None",
+                Debug.LogWarning("Source view model was changed, connected property name has been reset to None",
                     _view.gameObject);
                 _viewModelPropertyName.stringValue = null;
                 serializedObject.ApplyModifiedProperties();
             }
 
-            DrawSearchPanelForViewModelProperties(parentView.ViewModelTypeFullName,
-                parentViewModelPropertyNames);
+            DrawSearchPanelForViewModelProperties(sourceView.ViewModelTypeFullName,
+                sourceViewModelPropertyNames);
         }
 
-        private void DrawSelectParentViewButton()
+        private void DrawSelectSourceViewButton()
         {
-            var parentView = _parentView.objectReferenceValue as MonoBehaviour;
-            if (parentView != null)
+            var sourceView = _sourceView.objectReferenceValue as MonoBehaviour;
+            if (sourceView != null)
             {
-                if (GUILayout.Button($"Select Parent View"))
+                if (GUILayout.Button($"Select Source View"))
                 {
-                    Selection.activeGameObject = parentView.gameObject;
+                    Selection.activeGameObject = sourceView.gameObject;
                 }
             }
         }
@@ -183,42 +186,42 @@ namespace Lukomor.MVVM.Editor
             }
         }
         
-        private ICollection<string> GetAllViewModelPropertyNames(View parentView)
+        private ICollection<string> GetAllViewModelPropertyNames(View sourceView)
         {
             _viewModelPropertyNames.Clear();
 
-            var parentViewModelTypeFullName = parentView.ViewModelTypeFullName;
-            var parentViewModelType = ViewModelsEditorUtility.ConvertViewModelType(parentViewModelTypeFullName);
+            var sourceViewModelTypeFullName = sourceView.ViewModelTypeFullName;
+            var sourceViewModelType = ViewModelsEditorUtility.ConvertViewModelType(sourceViewModelTypeFullName);
 
-            if (parentViewModelType == null)
+            if (sourceViewModelType == null)
             {
-                var logLine = $"ViewModel for Parent View didn't selected, " +
+                var logLine = $"ViewModel for Source View didn't selected, " +
                               $"the list of properties cannot be defined. " +
-                              $"Please, check the View Model setup for parent View ({parentView.name})";
+                              $"Please, check the View Model setup for Source View ({sourceView.name})";
                 
                 EditorGUILayout.HelpBox(logLine, MessageType.Warning);
 
-                return _viewModelPropertyNames; // parent view model is not selected
+                return _viewModelPropertyNames; // source view model is not selected
             }
 
-            var allViewModelPropertyNames = ViewModelsEditorUtility.GetAllValidViewModelPropertyNames(parentViewModelType);
+            var allViewModelPropertyNames = ViewModelsEditorUtility.GetAllValidViewModelPropertyNames(sourceViewModelType);
             _viewModelPropertyNames.AddRange(allViewModelPropertyNames);
 
             return _viewModelPropertyNames;
         }
         
-        private void DrawSearchPanelForViewModelProperties(string parentViewModelTypeFullName, ICollection<string> propertyNames)
+        private void DrawSearchPanelForViewModelProperties(string sourceViewModelTypeFullName, ICollection<string> propertyNames)
         {
             var viewModelPropertiesWithSubViewModelNames = propertyNames.ToArray();
 
             _searchProvider.Init(viewModelPropertiesWithSubViewModelNames, selectedViewModelPropertyName =>
             {
-                SelectNewViewModelByParentProperty(selectedViewModelPropertyName, parentViewModelTypeFullName);
+                SelectNewViewModelBySourceProperty(selectedViewModelPropertyName, sourceViewModelTypeFullName);
             });
                 
             EditorGUILayout.BeginHorizontal();
 
-            var selectedViewModelType = GetViewModelTypeByPropertyName(parentViewModelTypeFullName, _viewModelPropertyName.stringValue);
+            var selectedViewModelType = GetViewModelTypeByPropertyName(sourceViewModelTypeFullName, _viewModelPropertyName.stringValue);
             var propertyTypeName = selectedViewModelType != null ? $" ({selectedViewModelType.Name})" : string.Empty;
             
             EditorGUILayout.LabelField($"Property Name{propertyTypeName}:");
@@ -235,12 +238,12 @@ namespace Lukomor.MVVM.Editor
             EditorGUILayout.EndHorizontal();
         }
 
-        private void SelectNewViewModelByParentProperty(string selectedViewModelPropertyName, string parentViewModelTypeFullName)
+        private void SelectNewViewModelBySourceProperty(string selectedViewModelPropertyName, string sourceViewModelTypeFullName)
         {
             if (selectedViewModelPropertyName != MVVMConstants.NONE)
             {
                 var selectedViewModelType =
-                    GetViewModelTypeByPropertyName(parentViewModelTypeFullName, selectedViewModelPropertyName);
+                    GetViewModelTypeByPropertyName(sourceViewModelTypeFullName, selectedViewModelPropertyName);
                     
                 _viewModelPropertyName.stringValue = selectedViewModelPropertyName;
                 _viewModelTypeFullName.stringValue = selectedViewModelType.FullName;
@@ -256,17 +259,17 @@ namespace Lukomor.MVVM.Editor
             MVVMValidator.RequestValidation();
         }
         
-        private Type GetViewModelTypeByPropertyName(string parentViewModelTypeFullName, string viewModelPropertyName)
+        private Type GetViewModelTypeByPropertyName(string sourceViewModelTypeFullName, string viewModelPropertyName)
         {
             if (string.IsNullOrEmpty(viewModelPropertyName))
             {
                 return null;
             }
             
-            var parentViewModelType = ViewModelsEditorUtility.ConvertViewModelType(parentViewModelTypeFullName);
-            var allParentViewModelProperties = parentViewModelType.GetProperties();
+            var sourceViewModelType = ViewModelsEditorUtility.ConvertViewModelType(sourceViewModelTypeFullName);
+            var allSourceViewModelProperties = sourceViewModelType.GetProperties();
             var selectedProperty =
-                allParentViewModelProperties.First(p => p.Name == viewModelPropertyName);
+                allSourceViewModelProperties.First(p => p.Name == viewModelPropertyName);
             var viewModelType = selectedProperty.PropertyType.GetGenericArguments().First();
             
             return viewModelType;
