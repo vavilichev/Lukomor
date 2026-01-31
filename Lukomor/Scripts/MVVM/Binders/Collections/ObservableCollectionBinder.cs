@@ -8,13 +8,13 @@ namespace Lukomor.MVVM.Binders
 {
     public abstract class ObservableCollectionBinder : BinderBase
     {
-        [SerializeField, HideInInspector] private string _viewModelPropertyName;
+        [SerializeField] private string _viewModelPropertyName;
 
         protected string ViewModelPropertyName => _viewModelPropertyName;
 
         public abstract Type InputType { get; }
-        
-        #if UNITY_EDITOR
+
+#if UNITY_EDITOR
 
         public override bool IsBroken()
         {
@@ -32,6 +32,11 @@ namespace Lukomor.MVVM.Binders
             _viewModelPropertyName = null;
         }
 
+        /// <summary>
+        /// Observable collection can have different generic type, this method allows to handle them abstractly
+        /// </summary>
+        /// <param name="sourceViewModelType"></param>
+        /// <returns></returns>
         protected abstract bool IsBrokenViewModelProperty(Type sourceViewModelType);
 
 #endif
@@ -64,11 +69,11 @@ namespace Lukomor.MVVM.Binders
             var propertyValue = (IReadOnlyReactiveCollection<TValue>)property?.GetValue(sourceViewModel);
             return propertyValue;
         }
-        
+
         protected abstract void OnValueAdded(TValue viewModel);
         protected abstract void OnValueRemoved(TValue viewModel);
-        
-        #if UNITY_EDITOR
+
+#if UNITY_EDITOR
         protected override bool IsBrokenViewModelProperty(Type sourceViewModelType)
         {
             var propertyType = typeof(IReadOnlyReactiveCollection<TValue>);
@@ -81,6 +86,6 @@ namespace Lukomor.MVVM.Binders
             return isBroken;
         }
 
-        #endif
+#endif
     }
 }
