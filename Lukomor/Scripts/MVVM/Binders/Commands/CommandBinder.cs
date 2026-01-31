@@ -5,26 +5,40 @@ using UnityEngine;
 
 namespace Lukomor.MVVM.Binders
 {
-    public abstract class CommandBinderBase : MonoBehaviour
+    public abstract class CommandBinderBase : BinderBase
     {
-        [SerializeField] private View _sourceView;
         [SerializeField] private string _viewModelCommandPropertyName;
 
-        protected View SourceView => _sourceView;
         protected string ViewModelCommandPropertyName => _viewModelCommandPropertyName;
-        protected IDisposable ViewModelSubscription;
         
         public abstract Type CommandType { get; }
 
-        private void OnDestroy()
-        {
-            ViewModelSubscription.Dispose();
-        }
-        
         #if UNITY_EDITOR
+
+        public override bool IsBroken()
+        {
+            if (IsBrokenBasic(_viewModelCommandPropertyName, out var sourceViewModelType))
+            {
+                return true;
+            }
+
+            var allViewModelProperties = sourceViewModelType.GetProperties();
+            var allValidViewModelProperties =
+                ViewModelsEditorUtility.FilterValidProperties(allViewModelProperties, CommandType);
+            var doesRequiredPropertyExist = allValidViewModelProperties.Any(p => p.Name == _viewModelCommandPropertyName);
+            var isBroken = !doesRequiredPropertyExist;
+
+            return isBroken;
+        }
+
+        public override void SmartReset()
+        {
+            _viewModelCommandPropertyName = null;
+        }
+
         public void CheckValidation()
         {
-            if (_sourceView == null)
+            if (SourceView == null)
             {
                 DrawWarningIcon();
                 return;
@@ -41,12 +55,12 @@ namespace Lukomor.MVVM.Binders
 
         private void DrawWarningIcon()
         {
-            WarningIconDrawer.AddWarningView(gameObject.GetInstanceID());    
+            WarningIconDrawer.AddWarning(gameObject.GetInstanceID(), GetInstanceID());    
         }
 
         private void RemoveWarningIcon()
         {
-            WarningIconDrawer.RemoveWarningView(gameObject.GetInstanceID());    
+            WarningIconDrawer.RemoveWarning(gameObject.GetInstanceID(), GetInstanceID());    
         }
         
         #endif
@@ -60,7 +74,7 @@ namespace Lukomor.MVVM.Binders
 
         protected virtual void Start()
         {
-            ViewModelSubscription = SourceView.ViewModel.Subscribe(viewModel =>
+            Subscriptions.Add(SourceView.ViewModel.Subscribe(viewModel =>
             {
                 if (viewModel == null)
                 {
@@ -68,7 +82,7 @@ namespace Lukomor.MVVM.Binders
                 }
 
                 _command = GetCommandFromViewModel(viewModel);
-            });
+            }));
         }
 
         public void ExecuteCommand()
@@ -111,10 +125,10 @@ namespace Lukomor.MVVM.Binders
         private ICommand<T> _command;
         
         public override Type CommandType { get; } = typeof(ICommand<T>);
-        
+
         protected virtual void Start()
         {
-            ViewModelSubscription = SourceView.ViewModel.Subscribe(viewModel =>
+            Subscriptions.Add(SourceView.ViewModel.Subscribe(viewModel =>
             {
                 if (viewModel == null)
                 {
@@ -122,9 +136,9 @@ namespace Lukomor.MVVM.Binders
                 }
 
                 _command = GetCommandFromViewModel(viewModel);
-            });
+            }));
         }
-        
+
         public void ExecuteCommand(T parameter)
         {
             if (_command == null)

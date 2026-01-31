@@ -65,7 +65,7 @@ namespace Lukomor.MVVM.Editor
                 _viewModelTypeFullName.stringValue = null;
                 _viewModelPropertyName.stringValue = null;
                 serializedObject.ApplyModifiedProperties();
-                _view.CheckValidation();
+                ViewEditorOnReloadValidationHandler.ValidateAllSceneViews();
             }
         }
         
@@ -86,7 +86,7 @@ namespace Lukomor.MVVM.Editor
                     newViewModelTypeFullNameSelected == MVVMConstants.NONE ? null : newViewModelTypeFullNameSelected;
                 serializedObject.ApplyModifiedProperties();
 
-                _view.CheckValidation();
+                ViewEditorOnReloadValidationHandler.ValidateAllSceneViews();
             });
                 
             EditorGUILayout.BeginHorizontal();
@@ -197,7 +197,6 @@ namespace Lukomor.MVVM.Editor
                               $"Please, check the View Model setup for parent View ({parentView.name})";
                 
                 EditorGUILayout.HelpBox(logLine, MessageType.Warning);
-                Debug.LogWarning(logLine, parentView.gameObject);
 
                 return _viewModelPropertyNames; // parent view model is not selected
             }
@@ -254,7 +253,7 @@ namespace Lukomor.MVVM.Editor
             
             serializedObject.ApplyModifiedProperties();
             
-            _view.CheckValidation();
+            ViewEditorOnReloadValidationHandler.ValidateAllSceneViews();
         }
         
         private Type GetViewModelTypeByPropertyName(string parentViewModelTypeFullName, string viewModelPropertyName)

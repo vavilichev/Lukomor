@@ -23,7 +23,7 @@ namespace Lukomor.MVVM.Editor
         
         [InitializeOnLoadMethod]
         [MenuItem("Lukomor/Views/Check All Scene Views Setup", false, 1)]
-        private static void ValidateAllSceneViews()
+        public static void ValidateAllSceneViews()
         {
             var allSceneViews = Object.FindObjectsByType<View>(FindObjectsInactive.Include, FindObjectsSortMode.None);
             foreach (var view in allSceneViews)
