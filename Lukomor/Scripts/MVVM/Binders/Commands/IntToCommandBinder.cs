@@ -1,6 +1,4 @@
 ﻿namespace Lukomor.MVVM.Binders
 {
-    public class IntToCommandBinder : GenericCommandBinder<int>
-    {
-    }
+    public class IntToCommandBinder : GenericCommandBinder<int> { }
 }
