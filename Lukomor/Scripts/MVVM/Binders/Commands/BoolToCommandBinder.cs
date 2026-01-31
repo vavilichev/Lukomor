@@ -1,7 +1,4 @@
 ﻿namespace Lukomor.MVVM.Binders
 {
-    public class BoolToCommandBinder : GenericCommandBinder<bool>
-    {
-        
-    }
+    public class BoolToCommandBinder : GenericCommandBinder<bool> { }
 }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using Lukomor.MVVM.Editor;
 using UnityEngine;
 
 namespace Lukomor.MVVM.Binders
@@ -22,9 +21,12 @@ namespace Lukomor.MVVM.Binders
                 return true;
             }
 
+            // The binder is broken, if the Source ViewModel doesn't have the selected property name
+            // This case may have different reasons, but the result is only one: the binder is broken
+            
             var allViewModelProperties = sourceViewModelType.GetProperties();
             var allValidViewModelProperties =
-                ViewModelsEditorUtility.FilterValidProperties(allViewModelProperties, CommandType);
+                Editor.ViewModelsEditorUtility.FilterValidProperties(allViewModelProperties, CommandType);
             var doesRequiredPropertyExist = allValidViewModelProperties.Any(p => p.Name == _viewModelCommandPropertyName);
             var isBroken = !doesRequiredPropertyExist;
 

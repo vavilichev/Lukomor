@@ -2,8 +2,5 @@
 
 namespace Lukomor.MVVM.Binders
 {
-    public class Vector2ToCommandBinder : GenericCommandBinder<Vector2>
-    {
-        
-    }
+    public class Vector2ToCommandBinder : GenericCommandBinder<Vector2> { }
 }
