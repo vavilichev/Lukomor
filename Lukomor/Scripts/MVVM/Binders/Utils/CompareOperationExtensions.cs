@@ -18,6 +18,5 @@ namespace Lukomor.MVVM.Utils
 
             return result;
         }
-		
     }
 }

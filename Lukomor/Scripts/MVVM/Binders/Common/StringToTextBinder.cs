@@ -7,12 +7,14 @@ namespace Lukomor.MVVM.Binders
     public class StringToTextBinder : ObservableBinder<string>
     {
         [SerializeField] private Text _textField;
+
         protected override string HandleValue(string value)
         {
             _textField.text = value;
             return value;
         }
 
+#if UNITY_EDITOR
         private void Reset()
         {
             if (_textField == null)
@@ -20,5 +22,6 @@ namespace Lukomor.MVVM.Binders
                 _textField = GetComponent<Text>();
             }
         }
+#endif
     }
 }
