@@ -2,26 +2,21 @@
 using System.Linq;
 using System.Reactive.Subjects;
 using Lukomor.MVVM.Editor;
-using PlasticGui.Diff;
 using UnityEngine;
 
 namespace Lukomor.MVVM.Binders
 {
-    public abstract class ObservableBinder : MonoBehaviour
+    public abstract class ObservableBinder : BinderBase
     {
         [SerializeField] private BindingType _bindingType = BindingType.View;
         
         // For ViewModel
-        [SerializeField] private View _sourceView;
         [SerializeField] private string _viewModelPropertyName;
         
         // For other binders
         [SerializeField] private ObservableBinder _sourceBinder;
         
-        protected IDisposable Subscription;
-        
-        protected View SourceView => _sourceView;
-        protected ObservableBinder SourceBinder => _sourceBinder;
+        public ObservableBinder SourceBinder => _sourceBinder;
         protected string ViewModelPropertyName => _viewModelPropertyName;
         
         public BindingType BindingType => _bindingType;
@@ -29,14 +24,39 @@ namespace Lukomor.MVVM.Binders
         public abstract Type OutputType { get; }
 
         #if UNITY_EDITOR
+        public override bool IsBroken()
+        {
+            if (_bindingType == BindingType.Binder)
+            {
+                return SourceBinder == null;
+            }
+            
+            if (IsBrokenBasic(_viewModelPropertyName, out var sourceViewModelType))
+            {
+                return true;
+            }
+            
+            var isBroken = IsBrokenViewModelProperty(sourceViewModelType);
+
+            return isBroken;
+        }
+
+        public override void SmartReset()
+        {
+            if (SourceView == null)
+            {
+                _viewModelPropertyName = null;
+            }
+        }
+        
         public void CheckValidation()
         {
             if (_bindingType == BindingType.View)
             {
-                if (_sourceView != null)
+                if (SourceView != null)
                 {
                     var sourceViewModelType =
-                        ViewModelsEditorUtility.ConvertViewModelType(_sourceView.ViewModelTypeFullName);
+                        ViewModelsEditorUtility.ConvertViewModelType(SourceView.ViewModelTypeFullName);
                     if (sourceViewModelType == null)
                     {
                         _viewModelPropertyName = null;
@@ -77,23 +97,20 @@ namespace Lukomor.MVVM.Binders
 
         private void DrawWarningIcon()
         {
-            WarningIconDrawer.AddWarningView(gameObject.GetInstanceID());
+            WarningIconDrawer.AddWarning(gameObject.GetInstanceID(), GetInstanceID());
         }
 
         private void RemoveWarningIcon()
         {
-            WarningIconDrawer.RemoveWarningView(gameObject.GetInstanceID());
+            WarningIconDrawer.RemoveWarning(gameObject.GetInstanceID(), GetInstanceID());
         }
+        
+        protected abstract bool IsBrokenViewModelProperty(Type sourceViewModelType);
         
         #endif
-        
-        protected virtual void OnDestroy()
-        {
-            Subscription?.Dispose();
-        }
     }
-    
-    public abstract class ObservableBinder<TIn, TOut> :  ObservableBinder, IObservableStream<TOut>
+
+    public abstract class ObservableBinder<TIn, TOut> : ObservableBinder, IObservableStream<TOut>
     {
         private readonly BehaviorSubject<TOut> _outputStream = new(default);
         private IDisposable _viewModelSubscription;
@@ -146,13 +163,33 @@ namespace Lukomor.MVVM.Binders
 
         private void SubscribeOnInputStream(IObservable<TIn> inputStream)
         {
-            Subscription = inputStream?.Subscribe(value => {
+            if (inputStream == null)
+            {
+                return;
+            }
+
+            Subscriptions.Add(inputStream.Subscribe(value =>
+            {
                 var result = HandleValue(value);
                 _outputStream.OnNext(result);
-            });
+            }));
         }
+
+#if UNITY_EDITOR
+        protected override bool IsBrokenViewModelProperty(Type sourceViewModelType)
+        {
+            var requiredPropertyType = typeof(IObservable<TIn>);
+            var allViewModelProperties = sourceViewModelType.GetProperties();
+            var allValidViewModelProperties =
+                ViewModelsEditorUtility.FilterValidProperties(allViewModelProperties, requiredPropertyType);
+            var doesRequiredPropertyExist = allValidViewModelProperties.Any(p => p.Name == ViewModelPropertyName);
+            var isBroken = !doesRequiredPropertyExist;
+
+            return isBroken;
+        }
+#endif
     }
-    
+
     public abstract class ObservableBinder<TInOut> : ObservableBinder<TInOut, TInOut>
     {
     }

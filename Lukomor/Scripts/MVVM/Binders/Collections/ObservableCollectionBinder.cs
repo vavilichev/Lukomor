@@ -1,87 +1,40 @@
 ﻿using System;
 using System.Linq;
-using System.Reactive.Disposables;
 using Lukomor.MVVM.Editor;
 using Lukomor.Reactive;
 using UnityEngine;
 
 namespace Lukomor.MVVM.Binders
 {
-    public abstract class ObservableCollectionBinder : MonoBehaviour
+    public abstract class ObservableCollectionBinder : BinderBase
     {
-        [SerializeField, HideInInspector] private View _sourceView;
         [SerializeField, HideInInspector] private string _viewModelPropertyName;
 
-        protected CompositeDisposable Subscriptions { get; } = new();
-
-        protected View SourceView => _sourceView;
         protected string ViewModelPropertyName => _viewModelPropertyName;
 
         public abstract Type InputType { get; }
         
-        protected virtual void OnDestroy()
-        {
-            Subscriptions?.Dispose();
-        }
-        
         #if UNITY_EDITOR
-        public void CheckValidation()
+
+        public override bool IsBroken()
         {
-            // if (_bindingType == BindingType.View)
-            // {
-            //     if (_sourceView != null)
-            //     {
-            //         var sourceViewModelType =
-            //             ViewModelsEditorUtility.ConvertViewModelType(_sourceView.ViewModelTypeFullName);
-            //         if (sourceViewModelType == null)
-            //         {
-            //             _viewModelPropertyName = null;
-            //             DrawWarningIcon();
-            //             return;
-            //         }
-            //
-            //         var allViewModelProperties = sourceViewModelType.GetProperties();
-            //         var isPropertyExist = allViewModelProperties.Any(p => p.Name == _viewModelPropertyName);
-            //
-            //         if (isPropertyExist)
-            //         {
-            //             RemoveWarningIcon();
-            //             return;
-            //         }
-            //
-            //         DrawWarningIcon();
-            //     }
-            //     else
-            //     {
-            //         // no view reference
-            //         DrawWarningIcon();
-            //     }
-            // }
-            // else
-            // {
-            //     if (_sourceBinder != null)
-            //     {
-            //         RemoveWarningIcon();
-            //     }
-            //     else
-            //     {
-            //         // no binder selected
-            //         DrawWarningIcon();
-            //     }
-            // }
-        }
-        
-        private void DrawWarningIcon()
-        {
-            WarningIconDrawer.AddWarningView(gameObject.GetInstanceID());
+            if (IsBrokenBasic(_viewModelPropertyName, out var sourceViewModelType))
+            {
+                return true;
+            }
+
+            var isBroken = IsBrokenViewModelProperty(sourceViewModelType);
+            return isBroken;
         }
 
-        private void RemoveWarningIcon()
+        public override void SmartReset()
         {
-            WarningIconDrawer.RemoveWarningView(gameObject.GetInstanceID());
+            _viewModelPropertyName = null;
         }
-        
-        #endif
+
+        protected abstract bool IsBrokenViewModelProperty(Type sourceViewModelType);
+
+#endif
     }
 
     public abstract class ObservableCollectionBinder<TValue> : ObservableCollectionBinder
@@ -114,5 +67,20 @@ namespace Lukomor.MVVM.Binders
         
         protected abstract void OnValueAdded(TValue viewModel);
         protected abstract void OnValueRemoved(TValue viewModel);
+        
+        #if UNITY_EDITOR
+        protected override bool IsBrokenViewModelProperty(Type sourceViewModelType)
+        {
+            var propertyType = typeof(IReadOnlyReactiveCollection<TValue>);
+            var allViewModelProperties = sourceViewModelType.GetProperties();
+            var allValidViewModelProperties =
+                ViewModelsEditorUtility.FilterValidProperties(allViewModelProperties, propertyType);
+            var doesRequiredPropertyExist = allValidViewModelProperties.Any(p => p.Name == ViewModelPropertyName);
+            var isBroken = !doesRequiredPropertyExist;
+
+            return isBroken;
+        }
+
+        #endif
     }
 }

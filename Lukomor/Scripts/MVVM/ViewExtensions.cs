@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Linq;
 
 namespace Lukomor.MVVM
@@ -9,11 +8,6 @@ namespace Lukomor.MVVM
         {
             var result = view.GetComponentsInParent<View>().FirstOrDefault(v => !ReferenceEquals(v, view));
             return result;
-        }
-
-        public static int GetId(this View view)
-        {
-            return view.gameObject.GetInstanceID();
         }
     }
 }
