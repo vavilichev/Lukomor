@@ -24,7 +24,11 @@ namespace Lukomor.MVVM.Editor
             EditorApplication.hierarchyChanged += OnSceneChanged;
             Undo.undoRedoPerformed += OnUndoRedo;
             PrefabUtility.prefabInstanceReverted += OnPrefabReverted;
-            
+        }
+
+        [InitializeOnLoadMethod]
+        private static void Init()
+        {
             RequestValidation();
         }
 
@@ -43,12 +47,11 @@ namespace Lukomor.MVVM.Editor
             RequestValidation();
         }
         
-        [MenuItem("Lukomor/Request Validation")]
+        [MenuItem("Lukomor/Request Scene Views And Binders Validation")]
         public static void RequestValidation()
         {
             _rebuildScheduled = true;
             _rebuildTime = EditorApplication.timeSinceStartup + DELAY_MS;
-            Debug.Log("Request Validation");
         }
         
         private static void Update()
@@ -77,7 +80,7 @@ namespace Lukomor.MVVM.Editor
         [MenuItem("Lukomor/Test Validation")]
         public static void Validate()
         {
-            Debug.Log("Validation started");
+            // Debug.Log("Validation started");
 
             _errorObjects.Clear();
             
@@ -86,7 +89,7 @@ namespace Lukomor.MVVM.Editor
             
             EditorApplication.RepaintHierarchyWindow();
             
-            Debug.Log("Validation completed");
+            // Debug.Log("Validation completed");
         }
 
         private static void ValidateViews()
@@ -120,14 +123,14 @@ namespace Lukomor.MVVM.Editor
 
         private static bool IsBrokenView(View view)
         {
-            var isRootView = view.ParentView == null;
+            var isRootView = view.SourceView == null;
             if (isRootView)
             {
                 var isViewModelSelected = !string.IsNullOrEmpty(view.ViewModelTypeFullName);
                 if (!isViewModelSelected)
                 {
                     view.ResetPropertyName();
-                    Debug.LogWarning($"View is broken ({view.gameObject.name}). View Model wasn't selected.", view.gameObject);
+                    // Debug.LogWarning($"View is broken ({view.gameObject.name}). View Model wasn't selected.", view.gameObject);
                     return true;
                 }
 
@@ -137,21 +140,21 @@ namespace Lukomor.MVVM.Editor
                     // corrupted view model
                     view.ResetPropertyName();
                     view.ResetViewModelFullTypeName();
-                    Debug.LogWarning($"View is broken ({view.gameObject.name}). Selected View Model Type is missing.", view.gameObject);
+                    // Debug.LogWarning($"View is broken ({view.gameObject.name}). Selected View Model Type is missing.", view.gameObject);
                     return true;
                 }
 
                 return false;
             }
 
-            var parentView = view.ParentView;
+            var parentView = view.SourceView;
             var parentViewModelFullTypeName = parentView.ViewModelTypeFullName;
             var parentViewModelType = ViewModelsEditorUtility.ConvertViewModelType(parentViewModelFullTypeName);
             var isParentViewModelValid = parentViewModelType != null;
             if (!isParentViewModelValid)
             {
                 // parent viewModel is not valid
-                Debug.LogWarning($"Parent view is broken ({view.gameObject.name}). Selected View Model Type is missing.", view.gameObject);
+                // Warning($"Parent view is broken ({view.gameObject.name}). Selected View Model Type is missing.", view.gameObject);
                 view.ResetPropertyName();
                 return true;
             }
@@ -161,7 +164,7 @@ namespace Lukomor.MVVM.Editor
             if (!isPropertyNameExist)
             {
                 // property is not selected
-                Debug.LogWarning($"PropertyName is not selected in ({view.gameObject.name}).", view.gameObject);
+                // Debug.LogWarning($"PropertyName is not selected in ({view.gameObject.name}).", view.gameObject);
                 return true;
             }
             
@@ -176,7 +179,7 @@ namespace Lukomor.MVVM.Editor
                 // parent view model corrupted
                 view.ResetPropertyName();
                 MarkSelf(parentView);
-                Debug.LogWarning($"PropertyName is not valid in ({view.gameObject.name}).", view.gameObject);
+                // Debug.LogWarning($"PropertyName is not valid in ({view.gameObject.name}).", view.gameObject);
                 return true;
             }
 
@@ -191,7 +194,7 @@ namespace Lukomor.MVVM.Editor
         private static void MarkSelf(MonoBehaviour monoBehaviour)
         {
             _errorObjects.Add(monoBehaviour.gameObject.GetInstanceID());
-            Debug.Log($"{monoBehaviour.gameObject.name} marked as error by itself", monoBehaviour.gameObject);
+            // Debug.Log($"{monoBehaviour.gameObject.name} marked as error by itself", monoBehaviour.gameObject);
         }
 
         private static void MarkParents(MonoBehaviour monoBehaviour)
@@ -201,20 +204,19 @@ namespace Lukomor.MVVM.Editor
             while (parentTransform != null)
             {
                 _errorObjects.Add(parentTransform.gameObject.GetInstanceID());
-                Debug.Log($"{parentTransform.gameObject.name} marked as error as a parent", parentTransform.gameObject);
-
+                // Debug.Log($"{parentTransform.gameObject.name} marked as error as a parent", parentTransform.gameObject);
                 parentTransform = parentTransform.parent;
             }
         }
 
         private static void MarkDependedViews(View sourceView, View[] allViews)
         {
-            var allDependedViews = allViews.Where(v => ReferenceEquals(v.ParentView, sourceView));
+            var allDependedViews = allViews.Where(v => ReferenceEquals(v.SourceView, sourceView));
             foreach (var dependedView in allDependedViews)
             {
                 _errorObjects.Add(dependedView.gameObject.GetInstanceID());
                 dependedView.SmartReset();
-                Debug.Log($"{dependedView.gameObject.name} marked as error as depended View", dependedView.gameObject);
+                // Debug.Log($"{dependedView.gameObject.name} marked as error as depended View", dependedView.gameObject);
             }
         }
         
@@ -225,7 +227,7 @@ namespace Lukomor.MVVM.Editor
             {
                 _errorObjects.Add(dependedBinder.gameObject.GetInstanceID());
                 dependedBinder.SmartReset();
-                Debug.Log($"{dependedBinder.gameObject.name} marked as error as depended Binder", dependedBinder.gameObject);
+                // Debug.Log($"{dependedBinder.gameObject.name} marked as error as depended Binder", dependedBinder.gameObject);
             }
         }
 
@@ -237,7 +239,7 @@ namespace Lukomor.MVVM.Editor
             {
                 _errorObjects.Add(dependedBinder.gameObject.GetInstanceID());
                 dependedBinder.SmartReset();
-                Debug.Log($"{dependedBinder.gameObject.name} marked as error as depended Binder", dependedBinder.gameObject);
+                // Debug.Log($"{dependedBinder.gameObject.name} marked as error as depended Binder", dependedBinder.gameObject);
             }
         }
         
