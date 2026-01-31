@@ -44,7 +44,7 @@ namespace Lukomor.MVVM.Editor.Binders
                 return;
             }
             
-            DrawInheritedProperties();
+            MVVMEditorLayout.DrawInheritedProperties(serializedObject, SetupFields);
             CheckValidation();
 
             serializedObject.ApplyModifiedProperties();
@@ -52,7 +52,7 @@ namespace Lukomor.MVVM.Editor.Binders
 
         private bool TryDrawCustomHeader()
         {
-            MVVMEditorUtils.DrawScriptTitle(_binder);
+            MVVMEditorLayout.DrawScriptTitle(_binder);
             DrawSourceViewProperty();
             var result = TryDrawSourceViewPropertyNameProperty();
             return result;
@@ -122,28 +122,8 @@ namespace Lukomor.MVVM.Editor.Binders
             
             EditorGUILayout.EndHorizontal();
         }
-        
-        private void DrawInheritedProperties()
-        {
-            var iterator = serializedObject.GetIterator();
-            EditorGUILayout.Space();
-            
-            var enterChildren = true;
-            while (iterator.NextVisible(enterChildren))
-            {
-                enterChildren = false;
 
-                if (iterator.name == "m_Script")
-                    continue;
-
-                if (SetupFields.Contains(iterator.name))
-                    continue;
-
-                EditorGUILayout.PropertyField(iterator, true);
-            }
-        }
-        
-        public static PropertyInfo[] FilterValidProperties(PropertyInfo[] allProperties, Type binderInputValueType)
+        private static PropertyInfo[] FilterValidProperties(PropertyInfo[] allProperties, Type binderInputValueType)
         {
             var validProperties = allProperties.Where(p =>
             {
@@ -193,10 +173,7 @@ namespace Lukomor.MVVM.Editor.Binders
             if (string.IsNullOrEmpty(propertyName))
             {
                 EditorGUILayout.HelpBox("View Model Property wasn't selected", MessageType.Warning);
-                return;
             }
-
-            return;
         }
     }
 }

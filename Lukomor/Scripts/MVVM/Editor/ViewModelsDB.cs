@@ -23,20 +23,6 @@ namespace Lukomor.MVVM.Editor
             _allViewModelTypeFullNames.Clear();
             _allViewModelTypeFullNames.AddRange(_allViewModelTypes.Select(t => t.FullName));
         }
-        
-        [MenuItem("Lukomor/Auto Recompile/Enable", false, 1)]
-        public static void EnableAutoRecompile()
-        {
-            EditorApplication.UnlockReloadAssemblies();
-            Debug.Log("Lukomor: Auto Recompilation Enabled");
-        }
-
-        [MenuItem("Lukomor/Auto Recompile/Disable", false, 2)]
-        public static void DisableAutoRecompile()
-        {
-            EditorApplication.LockReloadAssemblies();
-            Debug.Log("Lukomor: Auto Recompilation Disabled");
-        }
 
         [MenuItem("Lukomor/Auto Recompile/Force Recompile", false, 3)]
         public static void ForceRecompile()

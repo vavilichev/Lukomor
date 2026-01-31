@@ -19,7 +19,7 @@ namespace Lukomor.Reactive
             {
                 return;
             }
-                
+
             _propertyOwner.Unsubscribe(_observer);
             _propertyOwner = null;
             _observer = null;

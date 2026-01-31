@@ -50,7 +50,7 @@ namespace Lukomor.MVVM.Editor.Binders
                 return;
             }
             
-            DrawInheritedProperties();
+            MVVMEditorLayout.DrawInheritedProperties(serializedObject, SetupFields);
             CheckValidation();
 
             serializedObject.ApplyModifiedProperties();
@@ -58,7 +58,7 @@ namespace Lukomor.MVVM.Editor.Binders
 
         private bool TryDrawCustomHeader()
         {
-            MVVMEditorUtils.DrawScriptTitle(_binder);
+            MVVMEditorLayout.DrawScriptTitle(_binder);
             DrawBindingTypeProperty();
             
             if (_binder.BindingType == BindingType.View)
@@ -183,34 +183,12 @@ namespace Lukomor.MVVM.Editor.Binders
 
             return true;
         }
-        
-        private void DrawInheritedProperties()
-        {
-            var iterator = serializedObject.GetIterator();
-            EditorGUILayout.Space();
-            
-            var enterChildren = true;
-            while (iterator.NextVisible(enterChildren))
-            {
-                enterChildren = false;
-
-                if (iterator.name == "m_Script")
-                    continue;
-
-                if (SetupFields.Contains(iterator.name))
-                    continue;
-
-                EditorGUILayout.PropertyField(iterator, true);
-            }
-        }
 
         private void CheckValidation()
         {
             var bindingType = (BindingType)_bindingTypeProperty.enumValueIndex;
             if (bindingType == BindingType.View)
             {
-                // source is view
-
                 var sourceView = _sourceViewProperty.objectReferenceValue as View;
                 if (sourceView == null)
                 {
@@ -222,7 +200,6 @@ namespace Lukomor.MVVM.Editor.Binders
                 if (string.IsNullOrEmpty(propertyName))
                 {
                     EditorGUILayout.HelpBox("View Model Property wasn't selected", MessageType.Warning);
-                    return;
                 }
                 return;
             }
@@ -234,7 +211,6 @@ namespace Lukomor.MVVM.Editor.Binders
                 {
                     EditorGUILayout.HelpBox("No binder selected", MessageType.Warning);
                 }
-                return;
             }
         }
     }
