@@ -9,7 +9,7 @@ namespace Lukomor.MVVM.Binders
     {
         [SerializeField] private List<IntToColorMapping> _mappings = new();
         [SerializeField] private Color _colorByDefault = Color.white;
-        
+
         [SerializeField] private UnityEvent<Color> _event;
 
         private Dictionary<int, Color> _colorsMap;
@@ -31,7 +31,7 @@ namespace Lukomor.MVVM.Binders
                 _event.Invoke(color);
                 return color;
             }
-            
+
             _event.Invoke(_colorByDefault);
             return _colorByDefault;
         }

@@ -13,7 +13,7 @@ namespace Lukomor.MVVM.Binders
         protected override Color HandleValue(bool value)
         {
             var color = value ? _colorTrue : _colorFalse;
-            
+
             _event.Invoke(color);
 
             return color;

@@ -31,12 +31,12 @@ namespace Lukomor.MVVM.Binders
                 _event.Invoke(sprite);
                 return sprite;
             }
-            
+
             _event.Invoke(_spriteByDefault);
             return _spriteByDefault;
         }
     }
-	
+
     [Serializable]
     public class IntToSpriteMapping
     {

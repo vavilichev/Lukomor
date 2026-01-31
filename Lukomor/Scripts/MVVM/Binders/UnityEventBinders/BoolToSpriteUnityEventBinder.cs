@@ -13,7 +13,7 @@ namespace Lukomor.MVVM.Binders
         protected override Sprite HandleValue(bool value)
         {
             var sprite = value ? _spriteTrue : _spriteFalse;
-            
+
             _event.Invoke(sprite);
 
             return sprite;
