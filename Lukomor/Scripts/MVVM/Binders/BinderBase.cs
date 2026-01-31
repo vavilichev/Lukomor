@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Reactive.Disposables;
-using Lukomor.MVVM.Editor;
 using UnityEngine;
 
 namespace Lukomor.MVVM.Binders
@@ -42,7 +41,7 @@ namespace Lukomor.MVVM.Binders
                 return true;    // command property must be selected
             }
 
-            sourceViewModelType = ViewModelsEditorUtility.ConvertViewModelType(SourceView.ViewModelTypeFullName);
+            sourceViewModelType = Editor.ViewModelsEditorUtility.ConvertViewModelType(SourceView.ViewModelTypeFullName);
             
             if (sourceViewModelType == null)
             {

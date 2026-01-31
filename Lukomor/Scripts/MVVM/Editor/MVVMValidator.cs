@@ -8,18 +8,85 @@ namespace Lukomor.MVVM.Editor
 {
     public static class MVVMValidator
     {
+        private const double DELAY_MS = 0.4; 
+        
         private static readonly HashSet<int> _errorObjects = new();
+        private static bool _rebuildScheduled;
+        private static double _rebuildTime;
+        private static readonly Texture2D _warningIcon;
+        
+        static MVVMValidator()
+        {
+            _warningIcon = EditorGUIUtility.IconContent("console.warnicon.sml").image as Texture2D;
+            
+            EditorApplication.update += Update;
+            EditorApplication.hierarchyWindowItemOnGUI += DrawIcon;
+            EditorApplication.hierarchyChanged += OnSceneChanged;
+            Undo.undoRedoPerformed += OnUndoRedo;
+            PrefabUtility.prefabInstanceReverted += OnPrefabReverted;
+            
+            RequestValidation();
+        }
 
+        private static void OnUndoRedo()
+        {
+            RequestValidation();
+        }
+
+        private static void OnPrefabReverted(GameObject instance)
+        {
+            RequestValidation();
+        }
+        
+        private static void OnSceneChanged()
+        {
+            RequestValidation();
+        }
+        
+        [MenuItem("Lukomor/Request Validation")]
         public static void RequestValidation()
         {
-            
+            _rebuildScheduled = true;
+            _rebuildTime = EditorApplication.timeSinceStartup + DELAY_MS;
+            Debug.Log("Request Validation");
+        }
+        
+        private static void Update()
+        {
+            if (!_rebuildScheduled)
+                return;
+
+            if (EditorApplication.timeSinceStartup < _rebuildTime)
+                return;
+
+            _rebuildScheduled = false;
+            Validate();
+        }
+
+        private static void DrawIcon(int instanceID, Rect rect)
+        {
+            if (!_errorObjects.Contains(instanceID))
+            {
+                return;
+            }
+
+            var iconRect = new Rect(rect.xMax - 18, rect.y + 1, 16, 16 );
+            GUI.DrawTexture(iconRect, _warningIcon);
         }
 
         [MenuItem("Lukomor/Test Validation")]
         public static void Validate()
         {
+            Debug.Log("Validation started");
+
+            _errorObjects.Clear();
+            
             ValidateViews();
             ValidateBinders();
+            
+            EditorApplication.RepaintHierarchyWindow();
+            
+            Debug.Log("Validation completed");
         }
 
         private static void ValidateViews()
@@ -133,8 +200,8 @@ namespace Lukomor.MVVM.Editor
 
             while (parentTransform != null)
             {
-                _errorObjects.Add(parentTransform.GetInstanceID());
-                Debug.Log($"{monoBehaviour.gameObject.name} marked as error as a parent", parentTransform.gameObject);
+                _errorObjects.Add(parentTransform.gameObject.GetInstanceID());
+                Debug.Log($"{parentTransform.gameObject.name} marked as error as a parent", parentTransform.gameObject);
 
                 parentTransform = parentTransform.parent;
             }
@@ -173,58 +240,21 @@ namespace Lukomor.MVVM.Editor
                 Debug.Log($"{dependedBinder.gameObject.name} marked as error as depended Binder", dependedBinder.gameObject);
             }
         }
-
-        private static void UpdateAllDependedBinders(View view, BinderBase[] allBinders)
-        {
-            var allDependencies = allBinders.Where(b => ReferenceEquals(b.SourceView, view));
-
-            foreach (var dependedBinder in allDependencies)
-            {
-                if (dependedBinder.IsBroken())
-                {
-                    MarkSelf(dependedBinder);
-                    MarkParents(dependedBinder);
-                    UpdateAllDependedBinders(dependedBinder, allBinders);
-                }
-            }
-
-        }
-
-        private static void UpdateAllDependedBinders(BinderBase targetBinder, BinderBase[] allBinders)
-        {
-            var allDependencies = allBinders.Where(b =>
-            {
-                if (b is ObservableBinder ob)
-                {
-                    return ReferenceEquals(ob.SourceBinder, targetBinder);
-                }
-
-                return false;
-            });
-
-            foreach (var dependedBinder in allDependencies)
-            {
-            }
-
-        }
         
-        
-        private static bool ValidateView(View view)
-        {
-            if (string.IsNullOrEmpty(view.ViewModelTypeFullName))
-            {
-                view.ResetPropertyName();
-                _errorObjects.Add(view.gameObject.GetInstanceID());
-                return false;
-            }
-
-            return true;
-        }
-
         private static void ValidateBinders()
         {
-            
+            var allSceneBinders =
+                Object.FindObjectsByType<BinderBase>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+
+            foreach (var sceneBinder in allSceneBinders)
+            {
+                if (sceneBinder.IsBroken())
+                {
+                    MarkSelf(sceneBinder);
+                    MarkParents(sceneBinder);
+                    MarkDependedBinders(sceneBinder, allSceneBinders);
+                }
+            }
         }
-        
     }
 }

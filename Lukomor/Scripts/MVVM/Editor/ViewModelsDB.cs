@@ -8,7 +8,7 @@ namespace Lukomor.MVVM.Editor
 {
     public static class ViewModelsDB
     {
-        private static List<Type> _allViewModelTypes = new();
+        private static readonly List<Type> _allViewModelTypes = new();
         private static readonly List<string> _allViewModelTypeFullNames = new();
 
         public static IEnumerable<Type> AllViewModelTypes => _allViewModelTypes;
