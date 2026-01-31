@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 using System.Reactive.Disposables;
+using Lukomor._Lukomor.Lukomor.Scripts.MVVM.Editor;
 using Lukomor.Reactive;
 using UnityEngine;
 
@@ -53,7 +55,7 @@ namespace Lukomor.MVVM
         {
             if (_sourceView == null)
             {
-                _sourceView = this.FirstOrDefaultSourceView();
+                _sourceView = gameObject.GetComponentsInParent<View>().FirstOrDefault(v => !ReferenceEquals(v, this));
                 Editor.MVVMValidator.RequestValidation();
             }
         }

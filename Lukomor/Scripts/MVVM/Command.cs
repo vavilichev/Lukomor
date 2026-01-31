@@ -10,7 +10,7 @@ namespace Lukomor.MVVM
         {
             _action = action;
         }
-        
+
         public void Execute()
         {
             _action.Invoke();
@@ -25,7 +25,7 @@ namespace Lukomor.MVVM
         {
             _action = action;
         }
-        
+
         public void Execute(T parameter)
         {
             _action.Invoke(parameter);

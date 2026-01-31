@@ -35,7 +35,7 @@ namespace Lukomor.MVVM.Editor.Binders
         public sealed override void OnInspectorGUI()
         {
             DrawCustomHeader();
-            DrawInheritedProperties();
+            MVVMEditorLayout.DrawInheritedProperties(serializedObject, SetupFields);
             CheckValidation();
 
             serializedObject.ApplyModifiedProperties();
@@ -43,7 +43,7 @@ namespace Lukomor.MVVM.Editor.Binders
         
         private void DrawCustomHeader()
         {
-            MVVMEditorUtils.DrawScriptTitle(_binder);
+            MVVMEditorLayout.DrawScriptTitle(_binder);
             DrawSourceViewProperty();
             DrawSourceViewPropertyNameProperty();
         }
@@ -53,11 +53,12 @@ namespace Lukomor.MVVM.Editor.Binders
             EditorGUILayout.PropertyField(_sourceViewProperty);
             serializedObject.ApplyModifiedProperties();
         }
-        
+
         private void DrawSourceViewPropertyNameProperty()
         {
             if (_sourceViewProperty.objectReferenceValue == null)
             {
+                EditorGUILayout.HelpBox("No Source View", MessageType.Warning);
                 return;
             }
 
@@ -66,12 +67,13 @@ namespace Lukomor.MVVM.Editor.Binders
             if (string.IsNullOrEmpty(sourceViewModelTypeFullName))
             {
                 // view model type must be selected
+                EditorGUILayout.HelpBox("Please, select ViewModel for Source View", MessageType.Warning);
                 return;
             }
 
             DrawSelectViewModelPropertyLine(sourceViewModelTypeFullName);
         }
-        
+
         private void DrawSelectViewModelPropertyLine(string sourceViewModelTypeFullName)
         {
             EditorGUILayout.BeginHorizontal();
@@ -83,7 +85,7 @@ namespace Lukomor.MVVM.Editor.Binders
             var displayName = string.IsNullOrEmpty(_viewModelCommandPropertyNameProperty.stringValue)
                 ? MVVMConstants.NONE
                 : _viewModelCommandPropertyNameProperty.stringValue;
-            
+
             if (GUILayout.Button(displayName, EditorStyles.popup))
             {
                 var sourceViewModelProperties = sourceViewModelType.GetProperties();
@@ -91,42 +93,22 @@ namespace Lukomor.MVVM.Editor.Binders
                 var sourceViewModelValidProperties =
                     ViewModelsEditorUtility.FilterValidProperties(sourceViewModelProperties, commandType);
                 var sourceViewModelValidPropertyNames = sourceViewModelValidProperties.Select(x => x.Name).ToArray();
-                
+
                 _searchProvider.Init(sourceViewModelValidPropertyNames, newPropertyNameSelected =>
                 {
                     _viewModelCommandPropertyNameProperty.stringValue =
                         newPropertyNameSelected == MVVMConstants.NONE ? null : newPropertyNameSelected;
                     serializedObject.ApplyModifiedProperties();
                 });
-                
+
                 var mousePos = Event.current.mousePosition;
                 mousePos.Set(mousePos.x, mousePos.y);
                 SearchWindow.Open(new SearchWindowContext(GUIUtility.GUIToScreenPoint(mousePos), 250), _searchProvider);
             }
-            
+
             EditorGUILayout.EndHorizontal();
         }
         
-        private void DrawInheritedProperties()
-        {
-            var iterator = serializedObject.GetIterator();
-            EditorGUILayout.Space();
-            
-            var enterChildren = true;
-            while (iterator.NextVisible(enterChildren))
-            {
-                enterChildren = false;
-
-                if (iterator.name == "m_Script")
-                    continue;
-
-                if (SetupFields.Contains(iterator.name))
-                    continue;
-
-                EditorGUILayout.PropertyField(iterator, true);
-            }
-        }
-
         private void CheckValidation()
         {
             var sourceView = _sourceViewProperty.objectReferenceValue as View;

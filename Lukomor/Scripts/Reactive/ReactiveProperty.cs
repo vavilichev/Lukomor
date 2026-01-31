@@ -29,7 +29,7 @@ namespace Lukomor.Reactive
                 }
             }
         }
-        
+
         public bool HasValue => _hasValue;
 
         public ReactiveProperty() { }
@@ -39,14 +39,14 @@ namespace Lukomor.Reactive
             _value = valueByDefault;
             _hasValue = true;
         }
-        
+
         public IDisposable Subscribe(IObserver<T> observer)
         {
             if (!_observers.Contains(observer))
             {
                 _observers.Add(observer);
             }
-            
+
             if (_hasValue)
             {
                 observer.OnNext(_value);
@@ -54,7 +54,7 @@ namespace Lukomor.Reactive
 
             return new ReactiveSubscription<T>(this, observer);
         }
-        
+
         public void Unsubscribe(IObserver<T> observer)
         {
             if (_observers.Contains(observer))
@@ -70,14 +70,14 @@ namespace Lukomor.Reactive
         public void Set(T newValue)
         {
             _value = newValue;
-            
+
             NotifyAboutNewValue(newValue);
         }
 
         private void NotifyAboutNewValue(T newValue)
         {
             var count = _observers.Count;
-                    
+
             for (var i = 0; i < count; i++)
             {
                 _observers[i].OnNext(newValue);

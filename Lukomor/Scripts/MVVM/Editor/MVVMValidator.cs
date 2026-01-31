@@ -8,7 +8,7 @@ namespace Lukomor.MVVM.Editor
 {
     public static class MVVMValidator
     {
-        private const double DELAY_MS = 0.4; 
+        private const double DELAY_MS = 0.5; 
         
         private static readonly HashSet<int> _errorObjects = new();
         private static bool _rebuildScheduled;
@@ -31,6 +31,13 @@ namespace Lukomor.MVVM.Editor
         {
             RequestValidation();
         }
+        
+        [MenuItem("Lukomor/Request Scene Views And Binders Validation")]
+        public static void RequestValidation()
+        {
+            _rebuildScheduled = true;
+            _rebuildTime = EditorApplication.timeSinceStartup + DELAY_MS;
+        }
 
         private static void OnUndoRedo()
         {
@@ -47,20 +54,17 @@ namespace Lukomor.MVVM.Editor
             RequestValidation();
         }
         
-        [MenuItem("Lukomor/Request Scene Views And Binders Validation")]
-        public static void RequestValidation()
-        {
-            _rebuildScheduled = true;
-            _rebuildTime = EditorApplication.timeSinceStartup + DELAY_MS;
-        }
-        
         private static void Update()
         {
             if (!_rebuildScheduled)
+            {
                 return;
+            }
 
             if (EditorApplication.timeSinceStartup < _rebuildTime)
+            {
                 return;
+            }
 
             _rebuildScheduled = false;
             Validate();
@@ -77,8 +81,7 @@ namespace Lukomor.MVVM.Editor
             GUI.DrawTexture(iconRect, _warningIcon);
         }
 
-        [MenuItem("Lukomor/Test Validation")]
-        public static void Validate()
+        private static void Validate()
         {
             // Debug.Log("Validation started");
 

@@ -66,7 +66,7 @@ namespace Lukomor._Lukomor.Lukomor.Scripts.MVVM.Editor.Binders
         {
             serializedObject.Update();
             
-            MVVMEditorUtils.DrawScriptTitle(_mapper);
+            MVVMEditorLayout.DrawScriptTitle(_mapper);
             
             _list.DoLayoutList(); // отрисовываем массив
             serializedObject.ApplyModifiedProperties();
