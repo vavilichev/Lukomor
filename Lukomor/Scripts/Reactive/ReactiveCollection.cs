@@ -8,15 +8,16 @@ namespace Lukomor.Reactive
 {
     public sealed class ReactiveCollection<T> : IReadOnlyReactiveCollection<T>, ICollection<T>
     {
-        public int Count => _items.Count;
-        public bool IsReadOnly => false;
-        public IObservable<T> Added { get; }
-        public IObservable<T> Removed { get; }
+        private readonly List<T> _items = new();
         
         private Action<T> _itemAdded;
         private Action<T> _itemRemoved;
         
-        private readonly List<T> _items = new();
+        public T this[int index] => _items[index];
+        public int Count => _items.Count;
+        public bool IsReadOnly => false;
+        public IObservable<T> Added { get; }
+        public IObservable<T> Removed { get; }
         
         public ReactiveCollection()
         {
