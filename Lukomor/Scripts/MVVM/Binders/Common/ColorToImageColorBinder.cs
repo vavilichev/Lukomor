@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Lukomor.MVVM.Binders
@@ -12,5 +13,12 @@ namespace Lukomor.MVVM.Binders
             _img.color = value;
             return value;
         }
+
+#if UNITY_EDITOR
+        private void Reset()
+        {
+            _img = GetComponent<Image>();
+        }
+#endif
     }
 }
