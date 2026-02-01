@@ -236,7 +236,7 @@ namespace Lukomor.MVVM.Editor
 
         private static void MarkDependedBinders(BinderBase sourceBinder, BinderBase[] allBinders)
         {
-            var allDependedBinders = allBinders.OfType<ObservableBinder>()
+            var allDependedBinders = allBinders.OfType<ObservableBinderBase>()
                 .Where(b => b.BindingType == BindingType.Binder && ReferenceEquals(b.SourceBinder, sourceBinder));
             foreach (var dependedBinder in allDependedBinders)
             {

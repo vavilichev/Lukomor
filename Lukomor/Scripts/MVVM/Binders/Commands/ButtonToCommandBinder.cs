@@ -17,5 +17,12 @@ namespace Lukomor.MVVM.Binders
         {
             _button.onClick.RemoveListener(ExecuteCommand);
         }
+
+#if UNITY_EDITOR
+        private void Reset()
+        {
+            _button = GetComponent<Button>();
+        }
+#endif
     }
 }
