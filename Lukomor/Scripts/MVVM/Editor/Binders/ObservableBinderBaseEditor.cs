@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Lukomor.MVVM.Editor.Binders
 {
-    [CustomEditor(typeof(ObservableBinder), true)]
+    [CustomEditor(typeof(ObservableBinderBase), true)]
     public class ObservableBinderBaseEditor : UnityEditor.Editor
     {
         private const string PROP_BINDING_TYPE = "_bindingType";
@@ -25,7 +25,7 @@ namespace Lukomor.MVVM.Editor.Binders
         };
         
         private StringListSearchProvider _searchProvider;
-        private ObservableBinder _binder;
+        private ObservableBinderBase _binder;
         private SerializedProperty _bindingTypeProperty;
         private SerializedProperty _sourceViewProperty;
         private SerializedProperty _viewModelPropertyNameProperty;
@@ -34,7 +34,7 @@ namespace Lukomor.MVVM.Editor.Binders
         protected void OnEnable()
         {
             _searchProvider = CreateInstance<StringListSearchProvider>();
-            _binder = (ObservableBinder)target;
+            _binder = (ObservableBinderBase)target;
             _bindingTypeProperty = serializedObject.FindProperty(PROP_BINDING_TYPE);
             _sourceViewProperty = serializedObject.FindProperty(PROP_SOURCE_VIEW);
             _viewModelPropertyNameProperty = serializedObject.FindProperty(PROP_VIEW_MODEL_PROPERTY_NAME);
@@ -172,7 +172,7 @@ namespace Lukomor.MVVM.Editor.Binders
 
             EditorGUILayout.PropertyField(_sourceBinderProperty);
 
-            var newSourceBinder = _sourceBinderProperty.objectReferenceValue as ObservableBinder;
+            var newSourceBinder = _sourceBinderProperty.objectReferenceValue as ObservableBinderBase;
 
             if (newSourceBinder != null && (newSourceBinder.OutputType != _binder.InputType || ReferenceEquals(newSourceBinder, _binder)))
             {
@@ -206,7 +206,7 @@ namespace Lukomor.MVVM.Editor.Binders
 
             if (bindingType == BindingType.Binder)
             {
-                var sourceBinder = _sourceBinderProperty.objectReferenceValue as ObservableBinder;
+                var sourceBinder = _sourceBinderProperty.objectReferenceValue as ObservableBinderBase;
                 if (sourceBinder == null)
                 {
                     EditorGUILayout.HelpBox("No binder selected", MessageType.Warning);

@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Lukomor.MVVM.Binders
 {
-    public abstract class ObservableBinder : BinderBase
+    public abstract class ObservableBinderBase : BinderBase
     {
         [SerializeField] private BindingType _bindingType = BindingType.View;
 
@@ -13,12 +13,12 @@ namespace Lukomor.MVVM.Binders
         [SerializeField] private string _viewModelPropertyName;
 
         // For other binders
-        [SerializeField] private ObservableBinder _sourceBinder;
+        [SerializeField] private ObservableBinderBase _sourceBinder;
 
         protected string ViewModelPropertyName => _viewModelPropertyName;
 
         public BindingType BindingType => _bindingType;
-        public ObservableBinder SourceBinder => _sourceBinder;
+        public ObservableBinderBase SourceBinder => _sourceBinder;
         public abstract Type InputType { get; }
         public abstract Type OutputType { get; }
 
@@ -54,13 +54,18 @@ namespace Lukomor.MVVM.Binders
 
 #endif
     }
+    
+    public abstract class ObservableBinderBase<TOut> : ObservableBinderBase
+    {
+        public abstract IObservable<TOut> OutputStream { get; }
+    }
 
-    public abstract class ObservableBinder<TIn, TOut> : ObservableBinder, IObservableStream<TOut>
+    public abstract class ObservableBinder<TIn, TOut> : ObservableBinderBase<TOut>, IObservableStream<TOut>
     {
         private readonly BehaviorSubject<TOut> _outputStream = new(default);
         private IDisposable _viewModelSubscription;
 
-        public IObservable<TOut> OutputStream => _outputStream;
+        public override IObservable<TOut> OutputStream => _outputStream;
         public override Type InputType { get; } = typeof(TIn);
         public override Type OutputType { get; } = typeof(TOut);
 
@@ -102,9 +107,9 @@ namespace Lukomor.MVVM.Binders
             return propertyValue;
         }
 
-        private IObservable<TIn> GetPropertyFromOtherBinder(ObservableBinder otherBinder)
+        private IObservable<TIn> GetPropertyFromOtherBinder(ObservableBinderBase otherBinder)
         {
-            return ((ObservableBinder<TIn>)otherBinder).OutputStream;
+            return ((ObservableBinderBase<TIn>)otherBinder).OutputStream;
         }
 
         private void SubscribeOnInputStream(IObservable<TIn> inputStream)

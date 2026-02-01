@@ -29,15 +29,30 @@ namespace Lukomor.MVVM
         {
             _viewModel.Value = viewModel;
         }
-        
+
         private void Start()
         {
             if (_sourceView != null)
             {
-                _subscriptions.Add(_sourceView.ViewModel.Subscribe(viewModel => { _viewModel.Value = viewModel; }));
+                _subscriptions.Add(_sourceView.ViewModel.Subscribe(sourceViewModel =>
+                {
+                    var sourceViewModelType = sourceViewModel.GetType();
+                    var allProperties = sourceViewModelType.GetProperties();
+                    var requiredProperty = allProperties.FirstOrDefault(p => p.Name == _viewModelPropertyName);
+                    if (requiredProperty == null)
+                    {
+                        throw new
+                            Exception($"Property {_viewModelPropertyName} not found in view model {sourceViewModelType.Name}");
+                    }
+
+                    var requiredViewModelPropertyValue =
+                        (IObservable<IViewModel>)requiredProperty.GetValue(sourceViewModel);
+                    _subscriptions.Add(requiredViewModelPropertyValue.Subscribe(viewModel =>
+                                                                                        _viewModel.Value = viewModel));
+                }));
             }
         }
-        
+
         public void Destroy()
         {
             // TODO: make it more flexible
