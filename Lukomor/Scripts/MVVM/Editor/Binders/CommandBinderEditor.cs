@@ -99,6 +99,8 @@ namespace Lukomor.MVVM.Editor.Binders
                     _viewModelCommandPropertyNameProperty.stringValue =
                         newPropertyNameSelected == MVVMConstants.NONE ? null : newPropertyNameSelected;
                     serializedObject.ApplyModifiedProperties();
+                    
+                    MVVMValidator.RequestValidation();
                 });
 
                 var mousePos = Event.current.mousePosition;

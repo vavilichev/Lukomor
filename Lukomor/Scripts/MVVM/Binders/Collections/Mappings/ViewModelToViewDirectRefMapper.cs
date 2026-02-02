@@ -24,8 +24,8 @@ namespace Lukomor.MVVM.Binders
 
         public override View GetPrefab(IViewModel viewModel)
         {
-            var viewModelTypeFullname = viewModel.GetType().FullName;
-            return _prefabsMap[viewModelTypeFullname!];
+            var viewModelTypeFullName = viewModel.GetType().FullName;
+            return _prefabsMap[viewModelTypeFullName!];
         }
 
         public override Task<View> GetPrefabAsync(IViewModel viewModel)

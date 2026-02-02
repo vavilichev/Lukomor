@@ -30,6 +30,7 @@ namespace Lukomor.MVVM.Editor
         {
             MVVMEditorLayout.DrawScriptTitle(_view);
             DrawSourceViewField();
+            ViewModelsEditorUtility.ValidateViewModel(serializedObject, _viewModelTypeFullName);
 
             var isSourceViewExist = _sourceView.objectReferenceValue != null;
 
@@ -65,6 +66,19 @@ namespace Lukomor.MVVM.Editor
             }
         }
 
+        private void ValidateViewModel(SerializedObject serializedObject, SerializedProperty viewModelTypeFullName)
+        {
+            var viewModelFullTypeName = _viewModelTypeFullName.stringValue;
+            var viewModelType = ViewModelsEditorUtility.ConvertViewModelType(viewModelFullTypeName);
+            var isViewModelTypeInvalid = viewModelType == null;
+            
+            if (isViewModelTypeInvalid)
+            {
+                viewModelTypeFullName.stringValue = null;
+                serializedObject.ApplyModifiedProperties();
+            }
+        }
+        
         private void DrawViewModelPropertyNameSelector()
         {
             var sourceView = _sourceView.objectReferenceValue as View;
@@ -188,6 +202,16 @@ namespace Lukomor.MVVM.Editor
             var viewModelTypeFullName = _viewModelTypeFullName.stringValue;
             var isViewModelSelected = !string.IsNullOrEmpty(viewModelTypeFullName);
             var viewModelType = ViewModelsEditorUtility.ConvertViewModelType(viewModelTypeFullName);
+            var isViewModelValid = viewModelType != null;
+            if (!isViewModelValid)
+            {
+                _viewModelTypeFullName.stringValue = null;
+                _viewModelPropertyName.stringValue = null;
+                serializedObject.ApplyModifiedProperties();
+                EditorGUILayout.EndHorizontal();
+                return;
+            }
+            
             var displayedViewModelName = isViewModelSelected ? viewModelType.Name : MVVMConstants.NONE;
             EditorGUILayout.LabelField(displayedViewModelName);
 
