@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
+using UnityEditor;
 
 namespace Lukomor.MVVM.Editor
 {
@@ -78,6 +79,19 @@ namespace Lukomor.MVVM.Editor
             }).ToArray();
 
             return validProperties;
+        }
+        
+        public static void ValidateViewModel(SerializedObject serializedObject, SerializedProperty viewModelTypeFullName)
+        {
+            var viewModelFullTypeName = viewModelTypeFullName.stringValue;
+            var viewModelType = ConvertViewModelType(viewModelFullTypeName);
+            var isViewModelTypeInvalid = viewModelType == null;
+            
+            if (isViewModelTypeInvalid)
+            {
+                viewModelTypeFullName.stringValue = null;
+                serializedObject.ApplyModifiedProperties();
+            }
         }
     }
 }

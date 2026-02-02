@@ -39,6 +39,8 @@ namespace Lukomor._Lukomor.Lukomor.Scripts.MVVM.Editor.Binders
                     EditorGUI.LabelField(labelRect, "ViewModel:");
                     
                     var viewModelFullTypeName = element.FindPropertyRelative("_viewModelFullTypeName");
+                    ViewModelsEditorUtility.ValidateViewModel(element.serializedObject, viewModelFullTypeName);
+                    
                     var displayName = string.IsNullOrEmpty(viewModelFullTypeName.stringValue)
                         ? MVVMConstants.NONE
                         : ViewModelsEditorUtility.ConvertViewModelType(viewModelFullTypeName.stringValue).Name;
@@ -68,7 +70,7 @@ namespace Lukomor._Lukomor.Lukomor.Scripts.MVVM.Editor.Binders
             
             MVVMEditorLayout.DrawScriptTitle(_mapper);
             
-            _list.DoLayoutList(); // отрисовываем массив
+            _list.DoLayoutList();
             serializedObject.ApplyModifiedProperties();
         }
         
