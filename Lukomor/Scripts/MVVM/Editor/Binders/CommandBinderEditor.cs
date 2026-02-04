@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿#if UNITY_EDITOR
+using System.Collections.Generic;
 using System.Linq;
 using Lukomor.MVVM.Binders;
 using UnityEditor;
@@ -129,3 +130,4 @@ namespace Lukomor.MVVM.Editor.Binders
         }
     }
 }
+#endif

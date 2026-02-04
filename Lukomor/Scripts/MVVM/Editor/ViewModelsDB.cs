@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if UNITY_EDITOR
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
@@ -24,7 +25,7 @@ namespace Lukomor.MVVM.Editor
             _allViewModelTypeFullNames.AddRange(_allViewModelTypes.Select(t => t.FullName));
         }
 
-        [MenuItem("Lukomor/Auto Recompile/Force Recompile", false, 3)]
+        [MenuItem("Lukomor/Force Recompile Codebase", false, 3)]
         public static void ForceRecompile()
         {
             AssetDatabase.Refresh();
@@ -32,3 +33,4 @@ namespace Lukomor.MVVM.Editor
         }
     }
 }
+#endif

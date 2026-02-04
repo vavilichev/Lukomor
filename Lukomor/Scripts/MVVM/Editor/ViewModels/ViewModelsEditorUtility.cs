@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if UNITY_EDITOR
+using System;
 using System.Linq;
 using System.Reflection;
 using UnityEditor;
@@ -95,3 +96,4 @@ namespace Lukomor.MVVM.Editor
         }
     }
 }
+#endif

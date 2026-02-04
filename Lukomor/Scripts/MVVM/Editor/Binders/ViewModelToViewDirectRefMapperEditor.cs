@@ -1,11 +1,11 @@
+#if UNITY_EDITOR
 using Lukomor.MVVM.Binders;
-using Lukomor.MVVM.Editor;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEditorInternal;
 using UnityEngine;
 
-namespace Lukomor._Lukomor.Lukomor.Scripts.MVVM.Editor.Binders
+namespace Lukomor.MVVM.Editor.Binders
 {
     [CustomEditor(typeof(ViewModelToViewDirectRefMapper), true)]
     public class ViewModelToViewDirectRefMapperEditor : UnityEditor.Editor
@@ -92,3 +92,4 @@ namespace Lukomor._Lukomor.Lukomor.Scripts.MVVM.Editor.Binders
         }
     }
 }
+#endif
