@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if UNITY_EDITOR
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
@@ -63,19 +64,6 @@ namespace Lukomor.MVVM.Editor
                 _viewModelPropertyName.stringValue = null;
                 serializedObject.ApplyModifiedProperties();
                 MVVMValidator.RequestValidation();
-            }
-        }
-
-        private void ValidateViewModel(SerializedObject serializedObject, SerializedProperty viewModelTypeFullName)
-        {
-            var viewModelFullTypeName = _viewModelTypeFullName.stringValue;
-            var viewModelType = ViewModelsEditorUtility.ConvertViewModelType(viewModelFullTypeName);
-            var isViewModelTypeInvalid = viewModelType == null;
-            
-            if (isViewModelTypeInvalid)
-            {
-                viewModelTypeFullName.stringValue = null;
-                serializedObject.ApplyModifiedProperties();
             }
         }
         
@@ -298,3 +286,4 @@ namespace Lukomor.MVVM.Editor
         }
     }
 }
+#endif
