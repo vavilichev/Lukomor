@@ -20,7 +20,7 @@ Also this framework has a lightweight DI system, it's powerful and nice addition
 
 ## Short description
 
-Lukomor is an architectural framework for Unity game engine that helps you apply MVVM pattern to your project easy and convenient reducing the leaks of Model into View. This framework suits to any kind of project: small and large. The most cool part of this framework (in my opinion) is separating programmers part of work from artists. Programmers can write ViewModels for features and artists can just setup binders and get a workable feature. For more information read documentation and watch [the example](https://github.com/vavilichev/LukomorExample)
+Lukomor is an architectural framework for Unity game engine that helps you apply MVVM pattern to your project easy and convenient reducing the leaks of Model into View. This framework suits to any kind of project: small and large. The most cool part of this framework (in my opinion) is separating programmers part of work from artists. Programmers can write ViewModels for features and artists can just setup binders and get a workable feature. For more information read documentation and watch the examples inside the imported framework (Examples.unitypackage)
 
 ## Installation
 For installation, just use unity Package Manager, at the left top corner click "+" and choose "Add package from git URL..."
@@ -43,9 +43,9 @@ MVVM (Model - View - ViewModel) is a simple architectural programming pattern. Y
 ![Lukomor Architercture-MVVM drawio (1)](https://github.com/vavilichev/Lukomor/assets/22970240/a9dc5792-9a51-4dc5-99c0-e767f99b9841)
 
 ## ViewModels
-ViewModels is a non MonoBehaviour class that connects View and Model. In the Lukomor you must implement the IViewModel interface in each of your ViewModel realization. It's required because the Editor scripts works with interfaces for showing relevant information about existing ViewModels. Therefore your class can be look like this:
+ViewModels is a non MonoBehaviour class that connects View and Model. In the Lukomor you must inherit the ViewModel class in each of your *ViewModel realization. It's required because the Editor scripts works with interfaces for showing relevant information about existing ViewModels as well as ViewModel already contains Subscriptions field and IDisposables realization to dispose the subscriptions. Therefore your class can be look like this:
 ```csharp
-public class MyCoolViewModel : IViewModel 
+public class MyCoolViewModel : ViewModel 
 {
 
 }
@@ -54,47 +54,44 @@ public class MyCoolViewModel : IViewModel
 ## Views
 View is a basic MonoBehaviour component that must be attached to a GameObject that represents the visualization of some ViewModel`s work. It can be object on scene or prefab.
 
-![image](https://github.com/vavilichev/Lukomor/assets/22970240/6d7bc465-f22f-4e7c-b6df-766e518220d1)
+<img width="723" height="119" alt="image" src="https://github.com/user-attachments/assets/06c0475d-2c58-4a98-b479-27e0e070ff08" />
 
-Every View can be a parent View (root) or SubView (child). The **IsParentView** checkbox in View component shows you the state. It calculates automatically.
+Every View can be a parent View (root) or SubView (child). If SourceView field is empty, the View is root. You can attach the parent view here.
 
-![image](https://github.com/vavilichev/Lukomor/assets/22970240/6a398e83-a213-413c-8d51-34165a27ed61)
-![image](https://github.com/vavilichev/Lukomor/assets/22970240/f885f804-618f-4c26-a48c-69859e06e80e)
+<img width="726" height="127" alt="image" src="https://github.com/user-attachments/assets/5c8abf65-cc94-4b3a-bc9a-a0da5a93fe19" />
+<img width="726" height="176" alt="image" src="https://github.com/user-attachments/assets/da753e46-b478-43fe-8dec-0dfa182239d2" />
 
-Parent View and child View look simmilar but work really different. First of all, both: parent View and child View awaits binding of IViewModel.
+Parent View and child View look simmilar but work really different.
 
 #### Parent View
-Parent View awaits ViewModel that you choose in the ViewModel property in the Editor. And then sends this ViewModel to it's child views and binders that registered in this View.
+Parent View awaits ViewModel that you choose in the ViewModel property in the Editor. This ViewModel will be placed in the reactive property to notify all the subscriptions about that.
 
-![image](https://github.com/vavilichev/Lukomor/assets/22970240/be6c1240-6721-4f75-aabb-553d0b3998bf)
+<img width="723" height="133" alt="image" src="https://github.com/user-attachments/assets/1ac9191e-7db0-4b4d-abd6-22f42cb3c9b0" />
 
 #### Child View
-Child View shows you other field in the Editor - PropertyName. It's because child view awaits IViewModel that contains another ViewModel inside (SubViewModel or child ViewModel). Therefore this View gets this SubViewModel from received ViewModel (directly from **property field** with the name you picked in the Editor) and do the same work: sends it to it's child Views and Binders. You also can see that all binders and child views register automatically when you add or remove them from objects, it's for optimizing runtime work.
+After attaching the SourceView into Child View, you can see the property called PropertyName. This ChildView can see the SourceView selected ViewModel type and see it's IObservable<*ViewModel> properties, you can select it:
 
-```csharp
-public class MyCoolViewModel : IViewModel
-{
-    public SubViewModel MyCoolSubViewModel { get; }    // must be a property with public "get" for defining by Editor scripts
+<img width="732" height="174" alt="image" src="https://github.com/user-attachments/assets/53ebee3b-8d0b-4619-925f-2153b2408f17" />
 
-    public MyCoolViewModel()
-    {
-        MyCoolSubViewModel = new SubViewModel();
-    }
-}
-
-```
-
-![Parent View](https://github.com/vavilichev/Lukomor/assets/22970240/556fa715-d2f3-4aca-9e03-af28b40c295c)
-
-![Child View](https://github.com/vavilichev/Lukomor/assets/22970240/42834a0d-d684-4c14-bbd2-84fc10275c6e)
-
-> [!TIP]
-> The Search feature helps you find your ViewModels and property names really quick. 
+<br>
+<br>
 
 > [!WARNING]
-> When you are going to make a prefab with parent View, you have to place it outside of other View. Otherwise prefab View defines like **child View** and you cannot choose ViewModel, only property names of ViewModel.
+> You must use required class as a generic parameter in the IObservable<*ViewModel> property. Otherwise other child Views and Binders will not understand what viewModel is the source for binding, you just will not be able to see the property names.
 
+<br>
+<br>
 
+<img width="1017" height="333" alt="image" src="https://github.com/user-attachments/assets/74effa25-344c-4f70-92dd-eb91667860b4" />
+
+<br>
+
+Child View waits the SourceView.ViewModel reactive property. When the property is filled, child view catch this moment and set it to it's own ViewModel property for notifying it's subscriptions futher.
+
+<br>
+
+> [!TIP]
+> The Search feature helps you find your ViewModels and property names really fast. 
 
 
 ## Binders
