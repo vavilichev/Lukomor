@@ -95,29 +95,31 @@ Child View waits the SourceView.ViewModel reactive property. When the property i
 
 
 ## Binders
-Binders is the main feature of this framework. Binders help you to connect View and ViewModel: visualize data from ViewModel and send signals to the ViewModel for interacting with Model for example.
+Binders is the main feature of this framework. Binders help you to connect View and ViewModel: visualize data from ViewModel and send commands to the ViewModel for interacting with Model for example.
 
 ```csharp
-public class MyCoolViewModel : IViewModel
+public class ScreenExampleSimpleBindersViewModel : ViewModel
 {
-    public IObservable<string> SomeObservableText => _someObservableText;
-    public IObservable<string> SomeReactivePropertyText => _someReactivePropertyText;
-
-    private readonly Subject<string> _someObservableText = new();
-    private readonly ReactiveProperty<string> _someReactivePropertyText = new();
-
-    public MyCoolViewModel()
+    private readonly BehaviorSubject<bool> _booleanValue = new(false);
+    
+    public IObservable<bool> BooleanValue => _booleanValue;
+    public ICommand CmdSwitchBoolean { get; private set; }
+    
+    public ScreenExampleSimpleBindersViewModel()
     {
-        _someObservableText.OnNext("Your awesome observableText");
-        _someReactivePropertyText.Value = "Your awesome reactivePropertyText";
+        CmdSwitchBoolean = new Command(SwitchBoolean);
+        SwitchBoolean();
+    }
+    
+    private void SwitchBoolean()
+    {
+        _booleanValue.OnNext(!_booleanValue.Value);
     }
 }
 
 ```
 
-![image](https://github.com/vavilichev/Lukomor/assets/22970240/74e4d884-2028-4b7e-b16f-f0ad863b5a21)
-
-
+<img width="710" height="193" alt="image" src="https://github.com/user-attachments/assets/864501b8-44a8-486f-aa12-e81f79f9cdaf" />
 
 There are two types of binders:
 
