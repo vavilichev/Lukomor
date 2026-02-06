@@ -168,30 +168,27 @@ This type of binders uses for the imput streaming to the ViewModels layer. These
 > 
 >![image](https://github.com/vavilichev/Lukomor/assets/22970240/578216e2-1a28-465f-99be-1254673bd87e)
 
-
-
-
 ## What kind of binders you can expand
 
-### Binder
+### ObservableBinder<TInOut>
+Simple binder with the same Input data type and output data type:
+<img width="714" height="308" alt="image" src="https://github.com/user-attachments/assets/825a43b8-4116-4351-b48d-41d77dc474db" />
 
-This is an abstract base binder that automaticaly can define ViewModel for binding and register this binder to the View when you attach binder to the Game Object. Inherit from Binder class and do what you want with ViewModel. FYI: this class has BinderEditor script for drawing ViewModel property in the Editor.
-  
-### ObservableBinder\<T\>
+### ObservableBinder<TIn, TOut>
+Simple binder with different Input data type and output data type:
+<img width="708" height="335" alt="image" src="https://github.com/user-attachments/assets/22cf954c-6924-4f74-96f2-68717c23c8ff" />
 
-This is an abstract base ObservableBinder that has a PropertyName field. This binder automaticaly subscribes on **IObservable\<T\>** property from the received ViewModel. You can inherit form **ObservableBinder\<T\>** and define **T**, for example as a string (public class MyStringBinder : ObservableBinder\<string\>) and that binder automatically suggests only IObservable<string> property names for setupping this binder. Also it's required to write your implementation what to do with new value of the property (when it change) in the **OnPropertyChanged()** method.
-  
-### UnityEventBinder\<T\>
+### UnityEventBinder<T>
+<img width="608" height="342" alt="image" src="https://github.com/user-attachments/assets/a10d3a3d-ad65-490b-aa3f-082f7ea574a2" />
+<img width="623" height="55" alt="image" src="https://github.com/user-attachments/assets/f85ddfd6-c779-4ce5-adb0-6f28f0f76954" />
 
-This is an abstract base UnitEventBinder (inherited from **ObservableBinder\<T\>**)  that sugests you to invoke received updated data into **UnityEvent**. It's convenient to use it with common data and transform one type of data to another. For example transform boolean value into color (isActive {true = green, false = red). FYI: BoolToColorUnityEventBinder already exists. Inherit from **UnityEventBinder\<T\>** and define your **T**, no additional actions required. But if you want something special, you can inherid from **ObservableBinder\<T\>** and make custom UnityEventBinder with desired transformations or validations.
-  
-### ObservableCollectionBinder\<\T>
+### ObservableCollectionBinder<TValue>
+The reactions of the collection changing
+<img width="829" height="851" alt="image" src="https://github.com/user-attachments/assets/315e097e-d13a-4c80-aac2-23955e32779d" />
 
-The same as **ObservableBinder\<T\>** but works with **IReadOnlyReactiveCollection\<T\>**. And you need to implement two methods instead of one: **OnItemAdded()** and **OnItemRemoved()** in other words: what to do with the new element in the collection and what to do with removed element from collection of ViewModel (picked in the Editor)
-  
-### GenericMethodBinder\<T\>
-
-This is an abstract base binder for methods with parameters binding. This binder grabs public method with **T** parameter from ViewModel and caches it. The you run **Perform(T value)** method from anywherer you want, cached method of ViewModel will invoke. Inherit from **GenericMethodBinder\<T\>** and define **T** if you want to send custom data into ViewModel.
+### CommandBinder and CommandBinder<T>
+To broadcast user's input to the ViewModels. It can have no arguments (CommandBinder) or have one argument (CommandBinder<T>)
+<img width="602" height="420" alt="image" src="https://github.com/user-attachments/assets/18ade47e-4ba8-4a2d-9153-54fa178a5f0e" />
 
 ## DI in the Lukomor
 Lukomor also has a simple Dependency Injection implementation. It's optional and it's not integrated in the MVVM system. DI is just nice addition for the main framework.
