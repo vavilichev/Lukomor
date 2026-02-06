@@ -63,12 +63,12 @@ Every View can be a parent View (root) or SubView (child). If SourceView field i
 
 Parent View and child View look simmilar but work really different.
 
-#### Parent View
+### Parent View
 Parent View awaits ViewModel that you choose in the ViewModel property in the Editor. This ViewModel will be placed in the reactive property to notify all the subscriptions about that.
 
 <img width="723" height="133" alt="image" src="https://github.com/user-attachments/assets/1ac9191e-7db0-4b4d-abd6-22f42cb3c9b0" />
 
-#### Child View
+### Child View
 After attaching the SourceView into Child View, you can see the property called PropertyName. This ChildView can see the SourceView selected ViewModel type and see it's IObservable<*ViewModel> properties, you can select it:
 
 <img width="732" height="174" alt="image" src="https://github.com/user-attachments/assets/53ebee3b-8d0b-4619-925f-2153b2408f17" />
@@ -78,11 +78,8 @@ After attaching the SourceView into Child View, you can see the property called 
 
 > [!WARNING]
 > You must use required class as a generic parameter in the IObservable<*ViewModel> property. Otherwise other child Views and Binders will not understand what viewModel is the source for binding, you just will not be able to see the property names.
-
-<br>
-<br>
-
-<img width="1017" height="333" alt="image" src="https://github.com/user-attachments/assets/74effa25-344c-4f70-92dd-eb91667860b4" />
+> <br><br>
+> <img width="1017" height="333" alt="image" src="https://github.com/user-attachments/assets/74effa25-344c-4f70-92dd-eb91667860b4" />
 
 <br>
 
@@ -120,16 +117,18 @@ public class ScreenExampleSimpleBindersViewModel : ViewModel
 ```
 
 <img width="710" height="193" alt="image" src="https://github.com/user-attachments/assets/864501b8-44a8-486f-aa12-e81f79f9cdaf" />
-
+<br>
+<br>
 There are there are several types of binders you should know:
+<br>
 
-### Observable property binder (ObservableBinder<TInOut>, ObservableBinder<TIn, TOut>)
+### Observable property binder (ObservableBinder`<TInOut>`, ObservableBinder`<TIn, TOut>`)
 
 As I said above, each binder can be the source of data for other binders. It means that each binder has OuputStream property:
 <img width="737" height="179" alt="image" src="https://github.com/user-attachments/assets/d46ee095-2a76-44cc-a086-55a8dad4991e" />
 
 Output stream can differ from the Input data type, when we need to convert the data. It's frequent case, for example: use boolean data value and convert it to the Color type (typical case for the enabled-disabled visualization). Input data type will be boolean, output - Color.
-You can see that abstract part in the ObservableBinder<TIn, TOut> classs.
+You can see that abstract part in the ObservableBinder`<TIn, TOut>` classs.
 
 <img width="1023" height="371" alt="image" src="https://github.com/user-attachments/assets/5063214f-393f-478f-994b-c5e56d88c7f9" />
 
@@ -138,55 +137,56 @@ You can see that abstract part in the ObservableBinder<TIn, TOut> classs.
 <img width="723" height="188" alt="image" src="https://github.com/user-attachments/assets/2d300a32-9131-4077-a132-c35df9b2d126" />
 
 
-From the other hand, there are binders that have the same Input data type and output data type. The example is the DataToUnityEvent binders. These binders took the data and stream it to the UnityEvent<T> and stream the result further without changing the data type.
+From the other hand, there are binders that have the same Input data type and output data type. The example is the DataToUnityEvent binders. These binders took the data and stream it to the UnityEvent`<T>` and stream the result further without changing the data type.
 
 <img width="687" height="349" alt="image" src="https://github.com/user-attachments/assets/5011258b-bad2-42f7-8816-6bfa7913ca4f" />
 
 How to scale the binders and write your own implementation, read in the section How To Scale Binders.
 
-### Collection Binders ObservableCollectionBinder<TValue>
+### Collection Binders ObservableCollectionBinder`<TValue>`
 
-This variant of binders can be binded to the IReadonlyReactiveCollection<T> public property of ViewModel. It reacts on adding and removing values from the collection. Usually this type of binders uses for widgets lists, or some collections and stores viewModels. In the project you can find ExampleCollectionsUI scene where this case is handled.
-ObservableCollectionToViewBinder subscribes on IReadonlyReactiveCollectio<T> binder and takes the viewModels from there and creates views in the container using mapper attached. Mapper has the mappings which prefab should we use to create the View. 
+This variant of binders can be binded to the IReadonlyReactiveCollection`<T>` public property of ViewModel. It reacts on adding and removing values from the collection. Usually this type of binders uses for widgets lists, or some collections and stores viewModels. In the project you can find ExampleCollectionsUI scene where this case is handled.
+ObservableCollectionToViewBinder subscribes on IReadonlyReactiveCollectio`<T>` binder and takes the viewModels from there and creates views in the container using mapper attached. Mapper has the mappings which prefab should we use to create the View. 
 
 >[!IMPORTANT]
->There is only one implementationm of the collection binders that can create Views by IReadonlyReactiveCollection<T> property subscription. It contains direct links to the prefabs, it's not really optimized, so you can write your own variant of the binder and use addressables and so on. Or you can wait the next updates of the Lukomor framework :)
+>There is only one implementationm of the collection binders that can create Views by IReadonlyReactiveCollection`<T>` property subscription. It contains direct links to the prefabs, it's not really optimized, so you can write your own variant of the binder and use addressables and so on. Or you can wait the next updates of the Lukomor framework :)
 
 <img width="722" height="419" alt="image" src="https://github.com/user-attachments/assets/a1525190-8e98-442e-b192-87bf94e21ba5" />
 
 
 ### Command binders
 
-This type of binders uses for the imput streaming to the ViewModels layer. These binders should connect to the ICommand property inside the ViewModel. At the moment you can find the only one type of Command binders: ButtonToCommandBinder, but you can also implement your own variant of the command binders
+This type of binders uses for the input streaming to the ViewModels layer. These binders should connect to the ICommand property inside the ViewModel. At the moment you can find the only one type of Command binders: ButtonToCommandBinder, but you can also implement your own variant of the command binders
 
 <img width="891" height="314" alt="image" src="https://github.com/user-attachments/assets/8322ede9-db19-4801-8ce9-2197db722bd7" />
 
 <img width="721" height="148" alt="image" src="https://github.com/user-attachments/assets/2c2a0da6-b2fc-4385-82cf-819af4e8da5c" />
+<br><br>
 
 > [!IMPORTANT]
 > Full list of prepared binders you can see in the **Packages/Lukomor Architecture/Lukomor/Scripts/MVVM/Binders section**.
 > 
->![image](https://github.com/vavilichev/Lukomor/assets/22970240/578216e2-1a28-465f-99be-1254673bd87e)
+> ![image](https://github.com/vavilichev/Lukomor/assets/22970240/578216e2-1a28-465f-99be-1254673bd87e)
 
 ## What kind of binders you can expand
 
-### ObservableBinder<TInOut>
+### ObservableBinder`<TInOut>`
 Simple binder with the same Input data type and output data type:
 <img width="714" height="308" alt="image" src="https://github.com/user-attachments/assets/825a43b8-4116-4351-b48d-41d77dc474db" />
 
-### ObservableBinder<TIn, TOut>
+### ObservableBinder`<TIn, TOut>`
 Simple binder with different Input data type and output data type:
 <img width="708" height="335" alt="image" src="https://github.com/user-attachments/assets/22cf954c-6924-4f74-96f2-68717c23c8ff" />
 
-### UnityEventBinder<T>
+### UnityEventBinder`<T>`
 <img width="608" height="342" alt="image" src="https://github.com/user-attachments/assets/a10d3a3d-ad65-490b-aa3f-082f7ea574a2" />
 <img width="623" height="55" alt="image" src="https://github.com/user-attachments/assets/f85ddfd6-c779-4ce5-adb0-6f28f0f76954" />
 
-### ObservableCollectionBinder<TValue>
+### ObservableCollectionBinder`<TValue>`
 The reactions of the collection changing
 <img width="829" height="851" alt="image" src="https://github.com/user-attachments/assets/315e097e-d13a-4c80-aac2-23955e32779d" />
 
-### CommandBinder and CommandBinder<T>
+### CommandBinder and CommandBinder`<T>`
 To broadcast user's input to the ViewModels. It can have no arguments (CommandBinder) or have one argument (CommandBinder<T>)
 <img width="602" height="420" alt="image" src="https://github.com/user-attachments/assets/18ade47e-4ba8-4a2d-9153-54fa178a5f0e" />
 
