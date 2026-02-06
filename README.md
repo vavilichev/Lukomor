@@ -95,7 +95,7 @@ Child View waits the SourceView.ViewModel reactive property. When the property i
 
 
 ## Binders
-Binders is the main feature of this framework. Binders help you to connect View and ViewModel: visualize data from ViewModel and send commands to the ViewModel for interacting with Model for example.
+Binders is the main feature of this framework. Binders help you to connect View and ViewModel: visualize data from ViewModel and send commands to the ViewModel for interacting with Model for example. Binders can be binded to IObservable<T> public property, or IReadonlyReactiveCollection<T> public property, or ICommand public propty of the ViewModel. Also, Binder can be binded to another binder as a source of the data. You should understand that each binder can be the source of data for the other binders. It's convenient to build the sequences of data streaming and sharing. 
 
 ```csharp
 public class ScreenExampleSimpleBindersViewModel : ViewModel
@@ -121,66 +121,47 @@ public class ScreenExampleSimpleBindersViewModel : ViewModel
 
 <img width="710" height="193" alt="image" src="https://github.com/user-attachments/assets/864501b8-44a8-486f-aa12-e81f79f9cdaf" />
 
-There are two types of binders:
+There are there are several types of binders you should know:
 
-### Observable property binder (ObservableBinder<T>)
+### Observable property binder (ObservableBinder<TInOut>, ObservableBinder<TIn, TOut>)
 
-This binder subscribes on public property that implements the IObservable<T> interface. When IObservable does "next", then binder handles the changed data and changes the visual that has been setupped in the editor. 
-You can create your own binders, just inherit from ObservableBinder<T> and write your type instead of T. By the way, there are a bunch of prepared binders in the Lukomor.
+As I said above, each binder can be the source of data for other binders. It means that each binder has OuputStream property:
+<img width="737" height="179" alt="image" src="https://github.com/user-attachments/assets/d46ee095-2a76-44cc-a086-55a8dad4991e" />
 
-It's recommendet to pay attention to **UnityEventBinder<T>** type of binders. That binders use UnityEvents for handling data from ViewModel. It's very convenient for using in editor. Watch the example above. 
+Output stream can differ from the Input data type, when we need to convert the data. It's frequent case, for example: use boolean data value and convert it to the Color type (typical case for the enabled-disabled visualization). Input data type will be boolean, output - Color.
+You can see that abstract part in the ObservableBinder<TIn, TOut> classs.
 
-Also you can use implementation of **IReadonlyReactiveCollection<T>** for your binders, it's convinient for creating and destroying Views depending on collection content. For example **VMCollectionToGameObjectCreationBinder** instantiates View from picked Prefab and bind added to collection ViewModel to the created View.
+<img width="1023" height="371" alt="image" src="https://github.com/user-attachments/assets/5063214f-393f-478f-994b-c5e56d88c7f9" />
 
-```csharp
-public class MyCoolViewModel : IViewModel
-{
-    public IReadOnlyReactiveCollection<SubViewModel> SubViewModels => _subViewModels;
+<img width="741" height="351" alt="image" src="https://github.com/user-attachments/assets/18274e24-2669-46e9-a43b-2f743026deab" />
 
-    private readonly ReactiveCollection<SubViewModel> _subViewModels = new();
-
-    public MyCoolViewModel()
-    {
-        var subViewModelA = new SubViewModel();
-        var subViewModelB = new SubViewModel();
-        
-        _subViewModels.Add(subViewModelA);
-        _subViewModels.Add(subViewModelB);
-    }
-}
-```
-
-![image](https://github.com/vavilichev/Lukomor/assets/22970240/3884728f-d153-4c12-884b-471725eb5c9d)
+<img width="723" height="188" alt="image" src="https://github.com/user-attachments/assets/2d300a32-9131-4077-a132-c35df9b2d126" />
 
 
+From the other hand, there are binders that have the same Input data type and output data type. The example is the DataToUnityEvent binders. These binders took the data and stream it to the UnityEvent<T> and stream the result further without changing the data type.
 
-### MethodBinder (that named the same)
-When Binder received the ViewModel, this binder grabs the method from that ViewModel with the name you picked in the editor and caches it. When you call **Perform()** method of the Binder, this binder invokes the cached method. 
+<img width="687" height="349" alt="image" src="https://github.com/user-attachments/assets/5011258b-bad2-42f7-8816-6bfa7913ca4f" />
 
-```csharp
-public class MyCoolViewModel : IViewModel
-{
-    public void EmptyMethod()
-    {
-        
-    }
+How to scale the binders and write your own implementation, read in the section How To Scale Binders.
 
-    public void FloatArgMethod(float value)
-    {
-        
-    }
-}
-```
+### Collection Binders ObservableCollectionBinder<TValue>
 
-Next two variants are the same, but **ButtonMerhodBinder** is more convenient for using with Unity Buttons.
+This variant of binders can be binded to the IReadonlyReactiveCollection<T> public property of ViewModel. It reacts on adding and removing values from the collection. Usually this type of binders uses for widgets lists, or some collections and stores viewModels. In the project you can find ExampleCollectionsUI scene where this case is handled.
+ObservableCollectionToViewBinder subscribes on IReadonlyReactiveCollectio<T> binder and takes the viewModels from there and creates views in the container using mapper attached. Mapper has the mappings which prefab should we use to create the View. 
 
-![image](https://github.com/vavilichev/Lukomor/assets/22970240/5f741c12-b369-4e60-8569-543a642d34c3)
+>[!IMPORTANT]
+>There is only one implementationm of the collection binders that can create Views by IReadonlyReactiveCollection<T> property subscription. It contains direct links to the prefabs, it's not really optimized, so you can write your own variant of the binder and use addressables and so on. Or you can wait the next updates of the Lukomor framework :)
 
-![image](https://github.com/vavilichev/Lukomor/assets/22970240/b78251eb-a2d7-463c-bc77-95476ffd50bf)
+<img width="722" height="419" alt="image" src="https://github.com/user-attachments/assets/a1525190-8e98-442e-b192-87bf94e21ba5" />
 
-Lukomor also suppots G**enericMethodBinder<T>** that can invoke methods with arguments. You should use Perform(T value) instead of Perform(). It's convenient for cases when player does some input actions, for example moving a handle of the Slider
 
-![image](https://github.com/vavilichev/Lukomor/assets/22970240/afad3725-8bbd-427b-b4f6-a4d93d85aed0)
+### Command binders
+
+This type of binders uses for the imput streaming to the ViewModels layer. These binders should connect to the ICommand property inside the ViewModel. At the moment you can find the only one type of Command binders: ButtonToCommandBinder, but you can also implement your own variant of the command binders
+
+<img width="891" height="314" alt="image" src="https://github.com/user-attachments/assets/8322ede9-db19-4801-8ce9-2197db722bd7" />
+
+<img width="721" height="148" alt="image" src="https://github.com/user-attachments/assets/2c2a0da6-b2fc-4385-82cf-819af4e8da5c" />
 
 > [!IMPORTANT]
 > Full list of prepared binders you can see in the **Packages/Lukomor Architecture/Lukomor/Scripts/MVVM/Binders section**.
